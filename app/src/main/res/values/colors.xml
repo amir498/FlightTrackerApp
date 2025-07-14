@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="text_color_p">#2B2D2D</color>
+    <color name="text_color_s">#9E9C9E</color>
+    <color name="text_color_w">#FCFFFE</color>
+    <color name="app_background_color">#FCFFFE</color>
+    <color name="con_background_stroke_color">#EEEEEE</color>
+    <color name="con_background_color">#FFFFFF</color>
+    <color name="primary_blue">#D45B42</color>
+    <color name="acc1">#D45B42</color>
+    <color name="text_color_acc1">#D45B42</color>
+    <color name="acc1t">#30FF6B00</color>
+    <color name="surface_color">#F2F2F2</color>
+</resources>

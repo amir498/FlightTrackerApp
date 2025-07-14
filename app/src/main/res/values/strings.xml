@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Live Flight Tracker App</string>
+    <string name="googleMapApiKey" translatable="false">AIzaSyB0aEduuyPm6H--WqFw9GmC_cLSFB-QM_A</string>
+    <string name="MAP">MAP</string>
+    <string name="SEARCH">SEARCH</string>
+    <string name="PRO">PRO</string>
+    <string name="near_by">Near By</string>
+    <string name="SETTINGS">SETTINGS</string>
+    <string name="live_flight">Live Flight</string>
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="airport_search">Airport Search</string>
+    <string name="aircraft_track">Aircraft Track</string>
+    <string name="airline_track">Airline Track</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="manufacturer_build_info"><![CDATA[Manufacturer & Build Info]]></string>
+    <string name="engine_technical_spec"><![CDATA[Engine & TECHNICAL SPEC]]></string>
+</resources>
