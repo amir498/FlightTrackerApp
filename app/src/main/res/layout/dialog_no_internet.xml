@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="@dimen/_260sdp"
         android:layout_height="@dimen/_126sdp"
-        android:background="@drawable/all_full_round_white_bg"
+        android:background="@drawable/all"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -1069,6 +1069,7 @@ class MainActivity : AppCompatActivity(), FlingListener {
             binding.fragmentSearchTail.root as MyFragment<*>,
             binding.fragmentAirPortSearch.root as MyFragment<*>,
             binding.fragmentFlightDetails.root as MyFragment<*>,
+            binding.fragmentTrackedFlight.root as MyFragment<*>
         ).forEach { fragment ->
             fragment.apply {
                 setupFragment(this@MainActivity)

@@ -30,7 +30,13 @@ class AirportSearchFragment(context: Context, attr: AttributeSet) :
         binding.viewPager2.adapter = adapter
 
         setTabWithViewpager()
+        viewListener()
+    }
 
+    private fun viewListener() {
+        binding.btnBack.setOnClickListener {
+
+        }
     }
 
     private fun setTabWithViewpager() {

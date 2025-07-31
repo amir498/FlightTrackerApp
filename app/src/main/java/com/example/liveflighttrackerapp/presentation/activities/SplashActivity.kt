@@ -23,7 +23,6 @@ class SplashActivity : AppCompatActivity() {
         ActivitySplashBinding.inflate(layoutInflater)
     }
 
-
     private val handler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {

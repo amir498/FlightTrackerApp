@@ -29,10 +29,7 @@ class SearchAirportFragment(context: Context, attr: AttributeSet) :
                 start: Int,
                 count: Int,
                 after: Int
-            ) {
-
-
-            }
+            ) {}
 
             override fun onTextChanged(
                 s: CharSequence?,
