@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_180sdp"
+    android:layout_gravity="center"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:background="@drawable/all_full_round_white_bg"
+    app:cardCornerRadius="@dimen/_18sdp">
+
+    <TextView
+        android:id="@+id/depIataCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:text="@string/isb"
+        style="@style/sfb23p"
+        app:layout_constraintEnd_toStartOf="@+id/dep_to_arriv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/depCityName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:text="@string/islamabad"
+        android:textAllCaps="true"
+        android:textAlignment="center"
+        android:textColor="@color/text_color_s"
+        app:layout_constraintEnd_toEndOf="@+id/depIataCode"
+        app:layout_constraintStart_toStartOf="@+id/depIataCode"
+        app:layout_constraintTop_toBottomOf="@+id/depIataCode" />
+
+    <TextView
+        android:id="@+id/DepAirPortName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:maxLines="3"
+        android:text="@string/estimated"
+        android:textAlignment="center"
+        android:textColor="@color/text_color_s"
+        app:layout_constraintEnd_toStartOf="@+id/dep_to_arriv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/arrCityName" />
+
+    <ImageView
+        android:id="@+id/dep_to_arriv"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:src="@drawable/iv_airport_search_dep_arr"
+        app:layout_constraintEnd_toStartOf="@+id/arrivalIataCode"
+        app:layout_constraintStart_toEndOf="@+id/depIataCode"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/flightNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/iv_dep_to_arr_b_bg"
+        android:fontFamily="@font/sf_pro_display_bold"
+        android:paddingStart="@dimen/_4sdp"
+        android:paddingTop="@dimen/_5sdp"
+        android:paddingEnd="@dimen/_4sdp"
+        android:paddingBottom="@dimen/_5sdp"
+        android:text="@string/ke3043"
+        android:textAlignment="center"
+        android:textColor="@color/text_color_p"
+        style="@style/sfm10p"
+        app:layout_constraintEnd_toEndOf="@+id/dep_to_arriv"
+        app:layout_constraintStart_toStartOf="@+id/dep_to_arriv"
+        app:layout_constraintTop_toBottomOf="@+id/dep_to_arriv" />
+
+
+    <TextView
+        android:id="@+id/arrivalIataCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:text="@string/doh"
+        style="@style/sfb23p"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dep_to_arriv"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/arrCityName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="@string/doha"
+        android:textAllCaps="true"
+        android:textColor="@color/text_color_s"
+        app:layout_constraintEnd_toEndOf="@+id/arrivalIataCode"
+        app:layout_constraintStart_toStartOf="@+id/arrivalIataCode"
+        app:layout_constraintTop_toBottomOf="@+id/arrivalIataCode"
+        android:textAlignment="center"
+        />
+
+    <TextView
+        android:id="@+id/ArriAirPortName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:maxLines="3"
+        android:text="@string/estimated"
+        android:textAlignment="center"
+        android:textColor="@color/text_color_s"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dep_to_arriv"
+        app:layout_constraintTop_toBottomOf="@+id/arrCityName" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/bottomBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="DepAirPortName,flightNum,ArriAirPortName" />
+
+    <TextView
+        android:id="@+id/viewDetailsBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:background="@drawable/view_details_bg"
+        android:fontFamily="@font/sf_pro_display_bold"
+        android:gravity="center"
+        android:text="@string/view_details"
+        android:textColor="@color/acc1"
+        android:layout_marginBottom="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

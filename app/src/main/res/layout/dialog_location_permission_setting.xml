@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/_260sdp"
+        android:layout_height="@dimen/_126sdp"
+        android:background="@drawable/surface_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvSubTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:text="@string/need_location_permission"
+            android:textAlignment="center"
+            android:textColor="@color/text_color_p"
+            android:fontFamily="@font/sf_pro_display_bold"
+            android:textSize="@dimen/_12sdp"
+            android:layout_marginStart="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:layout_constraintBottom_toTopOf="@+id/tvBody"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/tvBody"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="To use this feature grant location permission from setting"
+            android:textColor="@color/text_color_s"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:fontFamily="@font/sf_pro_display_bold"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tvSubTitle"
+            app:layout_constraintTop_toBottomOf="@+id/tvSubTitle" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_30sdp"
+            android:id="@+id/negativeBtn"
+            android:text="@string/no"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:gravity="center"
+            style="@style/sfb12acc1"
+            android:background="@drawable/search_airport_uns_tab_bg"
+            android:layout_marginStart="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/positiveBtn"
+            app:layout_constraintEnd_toStartOf="@+id/positiveBtn"
+            />
+
+        <TextView
+            android:id="@+id/positiveBtn"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_33sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/search_airport_s_tab_bg"
+            android:text="@string/open_setting"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:gravity="center"
+            style="@style/sfb12primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/negativeBtn"
+            app:layout_constraintTop_toBottomOf="@+id/tvBody" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

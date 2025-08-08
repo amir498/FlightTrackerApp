@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg"
+    android:scrollbars="none"
+    tools:context=".presentation.activities.MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        android:id="@+id/subMain"
+        app:layout_constraintBottom_toTopOf="@+id/adContainerView"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/app_margin" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/iv_airplane_home"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_140sdp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/home" />
+
+            <TextView
+                android:id="@+id/live_flight"
+                style="@style/sfm13p"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-30dp"
+                android:text="@string/live_flight"
+                app:layout_constraintStart_toStartOf="@+id/glLeft"
+                app:layout_constraintTop_toBottomOf="@+id/iv_airplane_home" />
+
+            <TextView
+                android:id="@+id/tracker"
+                style="@style/sfb17p"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/_4sdp"
+                android:text="@string/tracker"
+                app:layout_constraintStart_toStartOf="@+id/glLeft"
+                app:layout_constraintTop_toBottomOf="@+id/live_flight" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/dot"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_gravity="center"
+                app:layout_constraintBottom_toBottomOf="@+id/tracker"
+                app:layout_constraintStart_toEndOf="@+id/tracker"
+                app:layout_constraintTop_toTopOf="@+id/tracker"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/dot" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:visibility="invisible"
+                android:src="@drawable/premium_icon_home"
+                app:layout_constraintEnd_toStartOf="@+id/btnSetting"
+                app:layout_constraintTop_toTopOf="@+id/btnSetting" />
+
+            <ImageView
+                android:id="@+id/btnSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/setting_icon_home"
+                app:layout_constraintBottom_toBottomOf="@+id/tracker"
+                app:layout_constraintEnd_toEndOf="@+id/glRight"
+                app:layout_constraintTop_toTopOf="@+id/tracker" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btnLiveMapFlightTracker"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_140sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/live_flight_tracker_btn_bg"
+                app:layout_constraintEnd_toEndOf="@+id/glRight"
+                app:layout_constraintStart_toStartOf="@+id/glLeft"
+                app:layout_constraintTop_toBottomOf="@+id/tracker">
+
+                <ImageView
+                    android:id="@+id/iv_globe_live_flight_tracker"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:src="@drawable/iv_globe_live_flight_tracker"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/viewMapBtn"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvLiveMap"
+                    style="@style/sfm13p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/live_map"
+                    app:layout_constraintBottom_toTopOf="@+id/tvFLightTracker"
+                    app:layout_constraintStart_toStartOf="@+id/viewMapBtn"
+                    app:layout_constraintTop_toTopOf="@+id/iv_globe_live_flight_tracker"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/tvFLightTracker"
+                    style="@style/sfb17p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/flight_tracker"
+                    app:layout_constraintBottom_toTopOf="@+id/viewMapBtn"
+                    app:layout_constraintStart_toStartOf="@+id/tvLiveMap"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLiveMap" />
+
+                <LinearLayout
+                    android:id="@+id/viewMapBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:background="@drawable/live_flight_tracker_view_map_bg"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_globe_live_flight_tracker"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/iv_globe_live_flight_tracker"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFLightTracker">
+
+                    <TextView
+                        style="@style/sfb14surface"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="@string/view_map" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/live_flight_tracker_view_map_forward_icon" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_adplaceholder"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_140sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:visibility="gone"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:layout_constraintTop_toBottomOf="@+id/btnLiveMapFlightTracker"
+                app:layout_constraintEnd_toEndOf="@+id/btnLiveMapFlightTracker"
+                app:layout_constraintStart_toStartOf="@+id/btnLiveMapFlightTracker" >
+                <include layout="@layout/native_ad_home_screen" />
+            </FrameLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btnSearchNow"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_95sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/btn_search_now_home_bg"
+                app:layout_constraintEnd_toEndOf="@+id/glRight"
+                app:layout_constraintStart_toStartOf="@+id/glLeft"
+                app:layout_constraintTop_toBottomOf="@+id/fl_adplaceholder">
+
+                <ImageView
+                    android:id="@+id/iv_search_now_home"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:src="@drawable/iv_search_now_home"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvAirports"
+                    style="@style/sfm13s"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="@string/airports_flights_more"
+                    app:layout_constraintBottom_toTopOf="@+id/tvStartSearchNow"
+                    app:layout_constraintStart_toEndOf="@+id/iv_search_now_home"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/tvStartSearchNow"
+                    style="@style/sfb17acc1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/start_search_now"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvAirports"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAirports" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btnFollowedFlight"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_95sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/btn_followed_flight_home_bg"
+                app:layout_constraintEnd_toEndOf="@+id/glRight"
+                app:layout_constraintStart_toStartOf="@+id/glLeft"
+                app:layout_constraintTop_toBottomOf="@+id/btnSearchNow">
+
+                <ImageView
+                    android:id="@+id/iv_airplane_followed_flight_home"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:src="@drawable/iv_airplane_followed_flight_home"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTrackFollowedFlights"
+                    style="@style/sfm13s"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:text="@string/track_followed_flights"
+                    app:layout_constraintBottom_toTopOf="@+id/tvFollowedFlights"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_airplane_followed_flight_home"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/tvFollowedFlights"
+                    style="@style/sfb17acc1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/followed_flights"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvTrackFollowedFlights"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTrackFollowedFlights" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btnSavedFlight"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_95sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/btn_save_flight_home_bg"
+                app:layout_constraintEnd_toEndOf="@+id/glRight"
+                app:layout_constraintStart_toStartOf="@+id/glLeft"
+                app:layout_constraintTop_toBottomOf="@+id/btnFollowedFlight">
+
+                <ImageView
+                    android:id="@+id/iv_star_saved_flight_home"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:src="@drawable/iv_star_saved_flight_home"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvViewStarredFlights"
+                    style="@style/sfm13s"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="@string/view_starred_flights"
+                    app:layout_constraintBottom_toTopOf="@+id/tvSavedFlights"
+                    app:layout_constraintStart_toEndOf="@+id/iv_star_saved_flight_home"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/tvSavedFlights"
+                    style="@style/sfb17acc1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/saved_flights"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvViewStarredFlights"
+                    app:layout_constraintTop_toBottomOf="@+id/tvViewStarredFlights" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btnScheduledFlight"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_95sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/btn_scheduled_home_bg"
+                app:layout_constraintEnd_toEndOf="@+id/glRight"
+                app:layout_constraintStart_toStartOf="@+id/glLeft"
+                app:layout_constraintTop_toBottomOf="@+id/btnSavedFlight">
+
+                <ImageView
+                    android:id="@+id/iv_scheduled_flight_home"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:src="@drawable/iv_airplane_followed_flight_home"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvViewpastandfeaturedetails"
+                    style="@style/sfm13s"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:text="@string/view_past_and_feature_details"
+                    app:layout_constraintBottom_toTopOf="@+id/tvSchedules"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_scheduled_flight_home"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/tvSchedules"
+                    style="@style/sfb17acc1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/schedules"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvViewpastandfeaturedetails"
+                    app:layout_constraintTop_toBottomOf="@+id/tvViewpastandfeaturedetails" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/btnNearbyFlight"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_95sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/btn_nearby_home_bg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/glRight"
+                app:layout_constraintStart_toStartOf="@+id/glLeft"
+                app:layout_constraintTop_toBottomOf="@+id/btnScheduledFlight">
+
+                <ImageView
+                    android:id="@+id/iv_nearby_flight_home"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:src="@drawable/iv_nearby_flight_home"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvExploreAirportsNearYou"
+                    style="@style/sfm13s"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="@string/explore_airports_near_you"
+                    app:layout_constraintBottom_toTopOf="@+id/tvNearBy"
+                    app:layout_constraintStart_toEndOf="@+id/iv_nearby_flight_home"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView
+                    android:id="@+id/tvNearBy"
+                    style="@style/sfb17acc1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nearby"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvExploreAirportsNearYou"
+                    app:layout_constraintTop_toBottomOf="@+id/tvExploreAirportsNearYou" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ProgressBar
+                android:id="@+id/pg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/_10sdp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/adContainerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/all_round_white_bg"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <include layout="@layout/layout_banner_control">
+
+        </include>
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

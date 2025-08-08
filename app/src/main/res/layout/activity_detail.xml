@@ -1,0 +1,1530 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg"
+    tools:context=".presentation.activities.DetailActivity">
+
+    <include layout="@layout/app_margin" />
+
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp"
+        android:rotation="180"
+        android:src="@drawable/live_flight_tracker_view_map_forward_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/selectedMove"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/selectedMove"
+        app:tint="@color/white" />
+
+    <ImageView
+        android:id="@+id/selectedMove"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginBottom="4dp"
+        android:src="@drawable/iv_airline"
+        app:layout_constraintStart_toEndOf="@+id/btnBack"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/callSign"
+        style="@style/sfb17p"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:maxLength="5"
+        android:text="@string/qtr_611"
+        app:layout_constraintBottom_toTopOf="@+id/airlineName"
+        app:layout_constraintStart_toEndOf="@+id/selectedMove"
+        app:layout_constraintTop_toTopOf="@+id/selectedMove" />
+
+    <TextView
+        android:id="@+id/airlineName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:fontFamily="@font/sf_pro_display_regular"
+        android:maxLength="15"
+        android:maxLines="1"
+        android:text="@string/qtr_611"
+        android:textColor="@color/text_color_s"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="@+id/selectedMove"
+        app:layout_constraintStart_toEndOf="@+id/selectedMove"
+        app:layout_constraintTop_toBottomOf="@+id/callSign" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/conBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:constraint_referenced_ids="callSign,airlineName" />
+
+    <ImageView
+        android:id="@+id/favFlightBtn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:src="@drawable/iv_fav"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/selectedMove" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:visibility="invisible"
+        android:src="@drawable/iv_details_share"
+        app:layout_constraintEnd_toStartOf="@+id/favFlightBtn"
+        app:layout_constraintTop_toTopOf="@+id/favFlightBtn" />
+
+    <TextView
+        android:id="@+id/flightNum"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:background="@drawable/details_flight_no_bg"
+        android:fontFamily="@font/sf_pro_display_medium"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingTop="@dimen/_1sdp"
+        android:paddingEnd="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_1sdp"
+        android:text="@string/qr611"
+        android:textColor="@color/text_color_p"
+        android:textSize="@dimen/_9sdp"
+        app:layout_constraintStart_toEndOf="@+id/conBarrier"
+        app:layout_constraintTop_toTopOf="@+id/callSign" />
+
+    <TextView
+        android:id="@+id/AirCraftiataNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:background="@drawable/details_aircraft_iata_bg"
+        android:fontFamily="@font/sf_pro_display_medium"
+        android:paddingStart="@dimen/_10sdp"
+        android:paddingTop="@dimen/_1sdp"
+        android:paddingEnd="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_1sdp"
+        android:text="@string/a359"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_9sdp"
+        app:layout_constraintStart_toStartOf="@+id/flightNum"
+        app:layout_constraintTop_toBottomOf="@+id/flightNum" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@null"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@+id/adContainerView"
+        app:layout_constraintEnd_toEndOf="@+id/glRight"
+        app:layout_constraintStart_toStartOf="@+id/glLeft"
+        app:layout_constraintTop_toBottomOf="@+id/AirCraftiataNumber">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/iv_home_cloud"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_180sdp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/details" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/conFlightDetails"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_190sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_home_cloud">
+
+                <TextView
+                    android:id="@+id/depIataCode"
+                    style="@style/sfb23p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="ISB"
+                    app:layout_constraintEnd_toStartOf="@+id/dep_to_arriv"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/depCityName"
+                    style="@style/sfr12s"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="ISLAMABAD"
+                    android:textAllCaps="true"
+                    app:layout_constraintEnd_toEndOf="@+id/depIataCode"
+                    app:layout_constraintStart_toStartOf="@+id/depIataCode"
+                    app:layout_constraintTop_toBottomOf="@+id/depIataCode" />
+
+                <TextView
+                    android:id="@+id/depTime"
+                    style="@style/sfb12p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:drawablePadding="@dimen/_4sdp"
+                    android:maxLength="7"
+                    android:text="5:15 AM"
+                    app:layout_constraintEnd_toEndOf="@+id/depCityName"
+                    app:layout_constraintStart_toStartOf="@+id/depCityName"
+                    app:layout_constraintTop_toBottomOf="@+id/depCityName" />
+
+                <TextView
+                    android:id="@+id/tvActual"
+                    style="@style/sfm11s"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SCHEDULED"
+                    app:layout_constraintEnd_toEndOf="@+id/depIataCode"
+                    app:layout_constraintStart_toStartOf="@+id/depIataCode"
+                    app:layout_constraintTop_toBottomOf="@+id/depTime" />
+
+                <ImageView
+                    android:id="@+id/dep_to_arriv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/iv_airport_search_dep_arr"
+                    app:layout_constraintEnd_toStartOf="@+id/arrivalIataCode"
+                    app:layout_constraintStart_toEndOf="@+id/depIataCode"
+                    app:layout_constraintTop_toTopOf="@+id/depIataCode" />
+
+                <TextView
+                    android:id="@+id/eta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:fontFamily="@font/sf_pro_display_regular"
+                    android:text="ETA"
+                    android:textColor="@color/text_color_s"
+                    app:layout_constraintEnd_toEndOf="@+id/dep_to_arriv"
+                    app:layout_constraintStart_toStartOf="@+id/dep_to_arriv"
+                    app:layout_constraintTop_toBottomOf="@+id/dep_to_arriv" />
+
+                <TextView
+                    android:id="@+id/time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:text="@string/_10_24_hrs"
+                    android:textColor="@color/text_color_p"
+                    app:layout_constraintEnd_toEndOf="@+id/dep_to_arriv"
+                    app:layout_constraintStart_toStartOf="@+id/dep_to_arriv"
+                    app:layout_constraintTop_toBottomOf="@+id/eta" />
+
+                <TextView
+                    android:id="@+id/tvActive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/text_active_bg"
+                    android:drawableLeft="@drawable/active_left_drawble"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:paddingStart="@dimen/_5sdp"
+                    android:paddingTop="@dimen/_2sdp"
+                    android:paddingEnd="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_2sdp"
+                    android:text="@string/active"
+                    android:textColor="@color/success"
+                    app:layout_constraintEnd_toEndOf="@+id/time"
+                    app:layout_constraintStart_toStartOf="@+id/time"
+                    app:layout_constraintTop_toBottomOf="@+id/time" />
+
+                <TextView
+                    android:id="@+id/arrivalIataCode"
+                    style="@style/sfb23p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="DOH"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/dep_to_arriv"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/arrCityName"
+                    style="@style/sfr12s"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="DOHA"
+                    android:textAllCaps="true"
+                    app:layout_constraintEnd_toEndOf="@+id/arrivalIataCode"
+                    app:layout_constraintStart_toStartOf="@+id/arrivalIataCode"
+                    app:layout_constraintTop_toBottomOf="@+id/arrivalIataCode" />
+
+                <TextView
+                    android:id="@+id/arriTime"
+                    style="@style/sfb12p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:drawablePadding="@dimen/_4sdp"
+                    android:maxLength="7"
+                    android:text="5:15 AM"
+                    app:layout_constraintEnd_toEndOf="@+id/arrivalIataCode"
+                    app:layout_constraintStart_toStartOf="@+id/arrivalIataCode"
+                    app:layout_constraintTop_toBottomOf="@+id/arrCityName" />
+
+                <TextView
+                    android:id="@+id/tvEstimated"
+                    style="@style/sfm11s"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SCHEDULED"
+                    app:layout_constraintEnd_toEndOf="@+id/arriTime"
+                    app:layout_constraintStart_toStartOf="@+id/arriTime"
+                    app:layout_constraintTop_toBottomOf="@+id/arriTime" />
+
+                <SeekBar
+                    android:id="@+id/discreteSeekBar"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_25sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    android:progress="50"
+                    android:progressDrawable="@drawable/seekbar_style"
+                    android:splitTrack="false"
+                    android:thumb="@drawable/seekbar_thumb"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvEstimated" />
+
+                <TextView
+                    android:id="@+id/tvDepActualTime"
+                    style="@style/sfm11s"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="ACTUAL"
+                    app:layout_constraintStart_toStartOf="@+id/discreteSeekBar"
+                    app:layout_constraintTop_toBottomOf="@+id/discreteSeekBar" />
+
+                <TextView
+                    android:id="@+id/depActualTime"
+                    style="@style/sfm14acc11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:maxLength="7"
+                    android:text="14:50"
+                    app:layout_constraintStart_toEndOf="@+id/tvDepActualTime"
+                    app:layout_constraintTop_toBottomOf="@+id/discreteSeekBar" />
+
+                <TextView
+                    android:id="@+id/tvArrEstimatedTime"
+                    style="@style/sfm11s"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:text="ESTIMATED"
+                    app:layout_constraintEnd_toStartOf="@+id/arrEstimatedTime"
+                    app:layout_constraintTop_toBottomOf="@+id/discreteSeekBar" />
+
+                <TextView
+                    android:id="@+id/arrEstimatedTime"
+                    style="@style/sfm14acc11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:maxLength="7"
+                    android:text="17:00"
+                    app:layout_constraintEnd_toEndOf="@+id/discreteSeekBar"
+                    app:layout_constraintTop_toBottomOf="@+id/discreteSeekBar" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/flightDetails"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="@+id/conFlightDetails"
+                app:layout_constraintStart_toStartOf="@+id/conFlightDetails"
+                app:layout_constraintTop_toBottomOf="@+id/conFlightDetails">
+
+                <TextView
+                    android:id="@+id/tvFlightDetails"
+                    style="@style/sfb11p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="@string/flight_details"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvAirLines"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="@string/airline"
+                    android:textColor="@color/text_color_s"
+                    app:layout_constraintStart_toStartOf="@+id/tvFlightDetails"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFlightDetails" />
+
+                <TextView
+                    android:id="@+id/tvAmericanAirlines"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:text="@string/american_airlines"
+                    android:textColor="@color/text_color_p"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvAirLines" />
+
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/iv_view_h"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAirLines" />
+
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tvCountry"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginStart="@dimen/_10sdp"-->
+                <!--                    android:layout_marginTop="@dimen/_20sdp"-->
+                <!--                    android:text="@string/country"-->
+                <!--                    android:textColor="@color/text_color_s"-->
+                <!--                    app:layout_constraintStart_toStartOf="@+id/tvFlightDetails"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/view1" />-->
+
+                <!--                <TextView-->
+                <!--                    android:id="@+id/tvCountryName"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginEnd="@dimen/_10sdp"-->
+                <!--                    android:text="United State"-->
+                <!--                    android:textColor="@color/text_color_p"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintTop_toTopOf="@+id/tvCountry" />-->
+
+                <!--                <View-->
+                <!--                    android:id="@+id/view2"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="3dp"-->
+                <!--                    android:layout_marginTop="@dimen/_10sdp"-->
+                <!--                    android:background="@drawable/iv_view_h"-->
+                <!--                    android:layout_marginStart="@dimen/_10sdp"-->
+                <!--                    android:layout_marginEnd="@dimen/_10sdp"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/tvCountry" />-->
+
+                <TextView
+                    android:id="@+id/flightIataCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="IATA"
+                    android:textColor="@color/text_color_s"
+                    app:layout_constraintStart_toStartOf="@+id/tvFlightDetails"
+                    app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+                <TextView
+                    android:id="@+id/iataCodeAirline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:text="B789"
+                    android:textColor="@color/text_color_p"
+                    app:layout_constraintEnd_toEndOf="@+id/view3"
+                    app:layout_constraintTop_toTopOf="@+id/flightIataCode" />
+
+                <View
+                    android:id="@+id/view3"
+                    android:layout_width="3dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/iv_view_v"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/view1" />
+
+                <TextView
+                    android:id="@+id/flightIacoCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="ICAO"
+                    android:textColor="@color/text_color_s"
+                    app:layout_constraintStart_toStartOf="@+id/view3"
+                    app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+                <TextView
+                    android:id="@+id/IcaoAirLine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:text="B789"
+                    android:textColor="@color/text_color_p"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/flightIataCode" />
+
+                <View
+                    android:id="@+id/view4"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/iv_view_h"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/flightIataCode" />
+
+                <TextView
+                    android:id="@+id/tvTerminal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="Terminal"
+                    android:textColor="@color/text_color_s"
+                    app:layout_constraintStart_toStartOf="@+id/tvFlightDetails"
+                    app:layout_constraintTop_toBottomOf="@+id/flightIataCode" />
+
+                <TextView
+                    android:id="@+id/terminalValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:text="B789"
+                    android:textColor="@color/text_color_p"
+                    app:layout_constraintEnd_toEndOf="@+id/view3"
+                    app:layout_constraintTop_toTopOf="@+id/tvTerminal" />
+
+                <TextView
+                    android:id="@+id/tvGate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="Gate"
+                    android:textColor="@color/text_color_s"
+                    app:layout_constraintStart_toStartOf="@+id/view3"
+                    app:layout_constraintTop_toTopOf="@+id/tvTerminal" />
+
+                <TextView
+                    android:id="@+id/GateNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:text="74"
+                    android:textColor="@color/text_color_p"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvTerminal" />
+
+
+                <View
+                    android:id="@+id/view5"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/iv_view_h"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTerminal" />
+
+
+                <TextView
+                    android:id="@+id/tvDelay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="@string/delay"
+                    android:textColor="@color/text_color_s"
+                    app:layout_constraintStart_toStartOf="@+id/tvFlightDetails"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTerminal" />
+
+                <TextView
+                    android:id="@+id/delayValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:text="@string/_44"
+                    android:textColor="@color/text_color_p"
+                    app:layout_constraintEnd_toEndOf="@+id/view3"
+                    app:layout_constraintTop_toTopOf="@+id/tvDelay" />
+
+                <TextView
+                    android:id="@+id/tvScheduled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="@string/scheduled"
+                    android:textColor="@color/text_color_s"
+                    app:layout_constraintStart_toStartOf="@+id/view3"
+                    app:layout_constraintTop_toTopOf="@+id/tvDelay" />
+
+                <TextView
+                    android:id="@+id/Scheduled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:text="@string/_17_05"
+                    android:textColor="@color/text_color_p"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvDelay" />
+
+                <View
+                    android:id="@+id/view6"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/iv_view_h"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDelay" />
+
+                <TextView
+                    android:id="@+id/tvAltitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="@string/altitude"
+                    android:textColor="@color/text_color_s"
+                    app:layout_constraintStart_toStartOf="@+id/tvFlightDetails"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDelay" />
+
+                <TextView
+                    android:id="@+id/altitudeValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:text="@string/_7609_9"
+                    android:textColor="@color/text_color_p"
+                    app:layout_constraintEnd_toEndOf="@+id/view3"
+                    app:layout_constraintTop_toTopOf="@+id/tvAltitude" />
+
+                <TextView
+                    android:id="@+id/tvDirection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="@string/direction"
+                    android:textColor="@color/text_color_s"
+                    app:layout_constraintStart_toStartOf="@+id/view3"
+                    app:layout_constraintTop_toTopOf="@+id/tvAltitude" />
+
+                <TextView
+                    android:id="@+id/Direction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:text="@string/_17_05"
+                    android:textColor="@color/text_color_p"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvAltitude" />
+
+                <View
+                    android:id="@+id/view7"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/iv_view_h"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAltitude" />
+
+                <TextView
+                    android:id="@+id/tvLatitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="@string/latitude"
+                    android:textColor="@color/text_color_s"
+                    app:layout_constraintStart_toStartOf="@+id/tvFlightDetails"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAltitude" />
+
+                <TextView
+                    android:id="@+id/latitudeValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:text="@string/_7609_9"
+                    android:textColor="@color/text_color_p"
+                    app:layout_constraintEnd_toEndOf="@+id/view3"
+                    app:layout_constraintTop_toTopOf="@+id/tvLatitude" />
+
+                <TextView
+                    android:id="@+id/tvLongitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="@string/longitude"
+                    android:textColor="@color/text_color_s"
+                    app:layout_constraintStart_toStartOf="@+id/view3"
+                    app:layout_constraintTop_toTopOf="@+id/tvLatitude" />
+
+                <TextView
+                    android:id="@+id/Longitude"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:text="@string/_17_05"
+                    android:textColor="@color/text_color_p"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvLatitude" />
+
+                <View
+                    android:id="@+id/view8"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/iv_view_h"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLatitude" />
+
+                <TextView
+                    android:id="@+id/TvHSpeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:text="@string/h_speed"
+                    android:textColor="@color/text_color_s"
+                    app:layout_constraintStart_toStartOf="@+id/tvFlightDetails"
+                    app:layout_constraintTop_toBottomOf="@+id/tvLatitude" />
+
+                <TextView
+                    android:id="@+id/HSpeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:text="@string/_880_9"
+                    android:textColor="@color/text_color_p"
+                    app:layout_constraintEnd_toEndOf="@+id/view3"
+                    app:layout_constraintTop_toTopOf="@+id/TvHSpeed" />
+
+                <TextView
+                    android:id="@+id/VSpeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="@string/v_speed"
+                    android:textColor="@color/text_color_s"
+                    app:layout_constraintStart_toStartOf="@+id/view3"
+                    app:layout_constraintTop_toTopOf="@+id/TvHSpeed" />
+
+                <TextView
+                    android:id="@+id/Speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:text="@string/_22_08"
+                    android:textColor="@color/text_color_p"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/TvHSpeed" />
+
+                <View
+                    android:id="@+id/view9"
+                    android:layout_width="0dp"
+                    android:layout_height="3dp"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/iv_view_h"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TvHSpeed" />
+
+                <TextView
+                    android:id="@+id/TvHStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:text="@string/en_route"
+                    android:textColor="@color/text_color_s"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvFlightDetails"
+                    app:layout_constraintTop_toBottomOf="@+id/Speed" />
+
+                <TextView
+                    android:id="@+id/enRoute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:text="@string/_880_9"
+                    android:textColor="@color/text_color_p"
+                    app:layout_constraintEnd_toEndOf="@+id/view3"
+                    app:layout_constraintTop_toTopOf="@+id/TvHStatus" />
+
+                <TextView
+                    android:id="@+id/VSquawk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:text="@string/squawk"
+                    android:textColor="@color/text_color_s"
+                    app:layout_constraintStart_toStartOf="@+id/view3"
+                    app:layout_constraintTop_toTopOf="@+id/TvHStatus" />
+
+                <TextView
+                    android:id="@+id/SquawkValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:fontFamily="@font/sf_pro_display_bold"
+                    android:text="@string/_1289"
+                    android:textColor="@color/text_color_p"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/TvHStatus" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/aircraftOverview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_17sdp"
+                android:background="@drawable/details_card_bg_open"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/flightDetails">
+
+                <TextView
+                    android:id="@+id/tvAircraftOverview"
+                    style="@style/sfb14p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:text="@string/aircraft_overview"
+                    app:layout_constraintBottom_toTopOf="@+id/conAirCraft"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/btnArrowUp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:rotation="180"
+                    android:src="@drawable/iv_arrow_top"
+                    android:tag="open"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvAircraftOverview" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/conAirCraft"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/btnArrowUp"
+                    app:layout_constraintStart_toStartOf="@+id/tvAircraftOverview"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAircraftOverview">
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/glAir"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <TextView
+                        android:id="@+id/modelName"
+                        style="@style/sfm12p"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/boeing_737_300"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvModelName"
+                        style="@style/sfm12s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/model_name"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/modelName" />
+
+                    <TextView
+                        android:id="@+id/modelCode"
+                        style="@style/sfm12p"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/b737_373"
+                        app:layout_constraintStart_toStartOf="@+id/glAir"
+                        app:layout_constraintTop_toTopOf="@+id/modelName" />
+
+                    <TextView
+                        android:id="@+id/tvModelCode"
+                        style="@style/sfm12s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/model_code"
+                        app:layout_constraintStart_toStartOf="@+id/modelCode"
+                        app:layout_constraintTop_toBottomOf="@+id/modelCode" />
+
+                    <TextView
+                        android:id="@+id/aircraftType"
+                        style="@style/sfm12p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:maxLines="1"
+                        android:text="@string/boeing_737"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvModelName" />
+
+                    <TextView
+                        android:id="@+id/tvaircraftType"
+                        style="@style/sfm12s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/aircraft_type"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/aircraftType" />
+
+                    <TextView
+                        android:id="@+id/regNo"
+                        style="@style/sfm12p"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/b737_373"
+                        app:layout_constraintStart_toStartOf="@+id/glAir"
+                        app:layout_constraintTop_toTopOf="@+id/aircraftType" />
+
+                    <TextView
+                        android:id="@+id/tvRegNo"
+                        style="@style/sfm12s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/registration_number"
+                        app:layout_constraintStart_toStartOf="@+id/regNo"
+                        app:layout_constraintTop_toBottomOf="@+id/regNo" />
+
+                    <TextView
+                        android:id="@+id/iataModel"
+                        style="@style/sfm12p"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="@string/b733"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvaircraftType" />
+
+                    <TextView
+                        android:id="@+id/flightIataCodeModel"
+                        style="@style/sfm12s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:text="@string/iata_model"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/iataModel" />
+
+                    <TextView
+                        android:id="@+id/ICAOHex"
+                        style="@style/sfm12p"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/b737_373"
+                        app:layout_constraintStart_toStartOf="@+id/glAir"
+                        app:layout_constraintTop_toTopOf="@+id/iataModel" />
+
+                    <TextView
+                        android:id="@+id/flightIacoCodeHex"
+                        style="@style/sfm12s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/icao_hex"
+                        app:layout_constraintStart_toStartOf="@+id/ICAOHex"
+                        app:layout_constraintTop_toBottomOf="@+id/ICAOHex" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/manifucturedOverview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_17sdp"
+                android:background="@drawable/details_card_bg_open"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/aircraftOverview">
+
+                <TextView
+                    android:id="@+id/tvManufacturingOverview"
+                    style="@style/sfb14p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="@string/manufacturer_build_info"
+                    app:layout_constraintBottom_toTopOf="@+id/conManufacture"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_goneMarginBottom="@dimen/_10sdp" />
+
+                <ImageView
+                    android:id="@+id/btnArrowUpM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:rotation="180"
+                    android:src="@drawable/iv_arrow_top"
+                    android:tag="open"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvManufacturingOverview" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/conManufacture"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/btnArrowUpM"
+                    app:layout_constraintStart_toStartOf="@+id/tvManufacturingOverview"
+                    app:layout_constraintTop_toBottomOf="@+id/tvManufacturingOverview">
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/glMan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <TextView
+                        android:id="@+id/ProductionLine"
+                        style="@style/sfm12p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="@string/boeing_737"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvProductionLine"
+                        style="@style/sfm12s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/production_line"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/ProductionLine" />
+
+                    <TextView
+                        android:id="@+id/Series"
+                        style="@style/sfm12p"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/_77"
+                        app:layout_constraintHorizontal_bias="0.6"
+                        app:layout_constraintStart_toStartOf="@+id/glMan"
+                        app:layout_constraintTop_toTopOf="@+id/ProductionLine" />
+
+                    <TextView
+                        android:id="@+id/tvSeries"
+                        style="@style/sfm12s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/series"
+                        app:layout_constraintStart_toStartOf="@+id/Series"
+                        app:layout_constraintTop_toBottomOf="@+id/Series" />
+
+                    <TextView
+                        android:id="@+id/LineNo"
+                        style="@style/sfm12p"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="@string/_1260"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvProductionLine" />
+
+                    <TextView
+                        android:id="@+id/tvLineNo"
+                        style="@style/sfm12s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:text="@string/line_no"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/LineNo"
+                        app:layout_constraintTop_toBottomOf="@+id/LineNo" />
+
+                    <TextView
+                        android:id="@+id/constructionNo"
+                        style="@style/sfm12p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:text="@string/b737_373"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/glMan"
+                        app:layout_constraintTop_toTopOf="@+id/LineNo" />
+
+                    <TextView
+                        android:id="@+id/tvconstructionNo"
+                        style="@style/sfm12s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/construction_number"
+                        app:layout_constraintStart_toStartOf="@+id/constructionNo"
+                        app:layout_constraintTop_toBottomOf="@+id/constructionNo" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/importantDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_17sdp"
+                android:background="@drawable/details_card_bg_open"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/manifucturedOverview">
+
+                <TextView
+                    android:id="@+id/tvImportantDate"
+                    style="@style/sfb14p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="@string/important_dates"
+                    app:layout_constraintBottom_toTopOf="@+id/conImportantDate"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_goneMarginBottom="@dimen/_10sdp" />
+
+                <ImageView
+                    android:id="@+id/btnArrowUpImportantDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:rotation="180"
+                    android:src="@drawable/iv_arrow_top"
+                    android:tag="open"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvImportantDate" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/conImportantDate"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/btnArrowUpImportantDate"
+                    app:layout_constraintStart_toStartOf="@+id/tvImportantDate"
+                    app:layout_constraintTop_toBottomOf="@+id/tvImportantDate">
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/glImp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+
+                    <TextView
+                        android:id="@+id/FirstFlightDate"
+                        style="@style/sfm12p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:maxLines="1"
+                        android:text="@string/august_2_1986"
+                        app:layout_constraintEnd_toEndOf="@+id/glImp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvFirstFlight"
+                        style="@style/sfm12s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/first_flight"
+                        app:layout_constraintStart_toStartOf="@+id/FirstFlightDate"
+                        app:layout_constraintTop_toBottomOf="@+id/FirstFlightDate" />
+
+                    <TextView
+                        android:id="@+id/DeliveryDate"
+                        style="@style/sfm12p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:maxLines="1"
+                        android:text="@string/_77"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/glImp"
+                        app:layout_constraintTop_toTopOf="@+id/FirstFlightDate" />
+
+                    <TextView
+                        android:id="@+id/tvDeliveryDate"
+                        style="@style/sfm12s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/delivery_date"
+                        app:layout_constraintStart_toStartOf="@+id/DeliveryDate"
+                        app:layout_constraintTop_toBottomOf="@+id/DeliveryDate" />
+
+                    <TextView
+                        android:id="@+id/RegisterationDate"
+                        style="@style/sfm12p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:maxLines="1"
+                        android:text="@string/_1260"
+                        app:layout_constraintEnd_toEndOf="@+id/glImp"
+                        app:layout_constraintStart_toStartOf="@+id/tvFirstFlight"
+                        app:layout_constraintTop_toBottomOf="@+id/tvFirstFlight" />
+
+                    <TextView
+                        android:id="@+id/tvRegisterationDate"
+                        style="@style/sfm12s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:text="@string/registration_date"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/RegisterationDate"
+                        app:layout_constraintTop_toBottomOf="@+id/RegisterationDate" />
+
+                    <TextView
+                        android:id="@+id/rolloutDate"
+                        style="@style/sfm12p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:maxLines="1"
+                        android:text="@string/b737_373"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/tvDeliveryDate"
+                        app:layout_constraintTop_toTopOf="@+id/RegisterationDate" />
+
+                    <TextView
+                        android:id="@+id/tvRolloutDate"
+                        style="@style/sfm12s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/rollout_date"
+                        app:layout_constraintStart_toStartOf="@+id/rolloutDate"
+                        app:layout_constraintTop_toBottomOf="@+id/rolloutDate" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/EngineDetails"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_17sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/details_card_bg_open"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/importantDate">
+
+                <TextView
+                    android:id="@+id/tvImportantDates"
+                    style="@style/sfb14p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="@string/engine_technical_spec"
+                    app:layout_constraintBottom_toTopOf="@+id/conEngineDetails"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_goneMarginBottom="@dimen/_10sdp" />
+
+                <ImageView
+                    android:id="@+id/btnArrowUpEngineDetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:rotation="180"
+                    android:src="@drawable/iv_arrow_top"
+                    android:tag="open"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvImportantDates" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/conEngineDetails"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/btnArrowUpEngineDetails"
+                    app:layout_constraintStart_toStartOf="@+id/tvImportantDates"
+                    app:layout_constraintTop_toBottomOf="@+id/tvImportantDates">
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/glEngine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <TextView
+                        android:id="@+id/EngineCount"
+                        style="@style/sfm12p"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/_2"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/TvEngineCount"
+                        style="@style/sfm12s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/engine_count"
+                        app:layout_constraintStart_toStartOf="@+id/EngineCount"
+                        app:layout_constraintTop_toBottomOf="@+id/EngineCount" />
+
+                    <TextView
+                        android:id="@+id/EngineType"
+                        style="@style/sfm12p"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/jet"
+                        app:layout_constraintStart_toStartOf="@+id/glEngine"
+                        app:layout_constraintTop_toTopOf="@+id/EngineCount" />
+
+                    <TextView
+                        android:id="@+id/tvEngineType"
+                        style="@style/sfm12p"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/engine_type"
+                        app:layout_constraintStart_toStartOf="@+id/EngineType"
+                        app:layout_constraintTop_toBottomOf="@+id/EngineType" />
+
+                    <TextView
+                        android:id="@+id/RegisterationDates"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/sf_pro_display_bold"
+                        android:text="@string/n_a"
+                        android:textColor="@color/text_color_p"
+                        app:layout_constraintStart_toStartOf="@+id/TvEngineCount"
+                        app:layout_constraintTop_toBottomOf="@+id/TvEngineCount" />
+
+                    <TextView
+                        android:id="@+id/tvPlaneClass"
+                        style="@style/sfm12s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:text="@string/plane_class"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/RegisterationDates"
+                        app:layout_constraintTop_toBottomOf="@+id/RegisterationDates" />
+
+                    <TextView
+                        android:id="@+id/active"
+                        style="@style/sfm12p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:maxLines="1"
+                        android:text="@string/active"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/tvEngineType"
+                        app:layout_constraintTop_toTopOf="@+id/RegisterationDates" />
+
+                    <TextView
+                        android:id="@+id/tvPlaneStatus"
+                        style="@style/sfm12s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="@string/status"
+                        app:layout_constraintStart_toStartOf="@+id/active"
+                        app:layout_constraintTop_toBottomOf="@+id/active" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/consFollow"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/btn_route_bg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/conRoute"
+                app:layout_constraintStart_toStartOf="@+id/EngineDetails"
+                app:layout_constraintTop_toBottomOf="@+id/EngineDetails">
+
+                <TextView
+                    android:id="@+id/tvFollow"
+                    style="@style/sfsb14acc1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:text="@string/follow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/iv_follow_left_d"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_follow_left_d"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/iv_follow_left_d"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tvFollow"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/conRoute"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:background="@drawable/btn_route_bg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/consFollow"
+                app:layout_constraintTop_toTopOf="@+id/consFollow">
+
+
+                <ImageView
+                    android:id="@+id/left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/iv_route_left_d"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tvDetails"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvDetails"
+                    style="@style/sfsb14acc1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:text="Route"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/left"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/adContainerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/all_round_white_bg"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <include layout="@layout/layout_banner_control">
+
+        </include>
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

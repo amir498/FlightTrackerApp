@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="app_bg_top">#1C1B1C</color>
+    <color name="app_bg_bottom">#000000</color>
+    <color name="text_color_p">#FAFAFA</color>
+    <color name="text_color_s">#9A9A9A</color>
+    <color name="surface">#1C1C1C</color>
+    <color name="acc1">#F4A62C</color>
+    <color name="primary">#1C1C1C</color>
+    <color name="error">#FF3B3B</color>
+    <color name="success">#51B366</color>
+    <color name="transparent">#00000000</color>
+    <color name="route_d">#686868</color>
+    <color name="lightTransparent">#50FFFFFF</color>
+    <color name="stockeCard">#5E58595A</color>
+</resources>

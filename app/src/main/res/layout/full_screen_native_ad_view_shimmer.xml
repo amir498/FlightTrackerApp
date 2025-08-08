@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.facebook.shimmer.ShimmerFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/shimmer_container_native"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:shimmer_auto_start="true"
+    app:shimmer_base_color="#ccc"
+    android:background="@drawable/ad_fram">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Shimmer Media Placeholder -->
+        <View
+            android:id="@+id/shimmer_ad_media"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/lightTransparent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/shimmer_constraintLayout7" />
+
+        <!-- Shimmer Bottom Layout -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/shimmer_constraintLayout7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ad_fram1"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <!-- App Icon Shimmer -->
+            <View
+                android:id="@+id/shimmer_ad_app_icon"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="2dp"
+                android:background="@color/lightTransparent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Headline Shimmer -->
+            <View
+                android:id="@+id/shimmer_ad_headline"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:background="@color/lightTransparent"
+                app:layout_constraintStart_toEndOf="@id/shimmer_ad_app_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Body Shimmer -->
+            <View
+                android:id="@+id/shimmer_ad_body"
+                android:layout_width="0dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/lightTransparent"
+                app:layout_constraintTop_toBottomOf="@id/shimmer_ad_headline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- Call to Action Button Shimmer -->
+            <View
+                android:id="@+id/shimmer_ad_call_to_action"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/lightTransparent"
+                app:layout_constraintTop_toBottomOf="@id/shimmer_ad_body"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <!-- Shimmer Label (AD) -->
+            <View
+                android:id="@+id/shimmer_ad_label"
+                android:layout_width="30dp"
+                android:layout_height="15dp"
+                android:layout_margin="6dp"
+                android:background="@color/lightTransparent"
+                app:layout_constraintTop_toTopOf="@id/shimmer_constraintLayout7"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.facebook.shimmer.ShimmerFrameLayout>

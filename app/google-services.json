@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "666709032597",
+    "project_id": "flight-tracker-18c69",
+    "storage_bucket": "flight-tracker-18c69.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:666709032597:android:13fc1e58c4385f2b0be59c",
+        "android_client_info": {
+          "package_name": "com.radar.flight.tracker.airport.info"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHVrG6L8u1u0Cmp7Jg1lJNXYqRNlfODQw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
