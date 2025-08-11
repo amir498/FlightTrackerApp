@@ -39,7 +39,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
         if (INTERSTITIAL_SEARCH){
             InterstitialAdManager.loadInterstitialAd(
                 this,
-                app.getString(R.string.INTERSTITIAL_SPLASH),
+                app.getString(R.string.INTERSTITIAL_SEARCH),
                 this,
                 {},
                 {},

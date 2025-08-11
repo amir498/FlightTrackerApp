@@ -18,7 +18,7 @@ class FlightScheduleRepositoryImpl(
             if (flightScheduleCacheDataSource.getLiveFlightFromCache().isNotEmpty()) {
                 Resource.Success(flightScheduleCacheDataSource.getLiveFlightFromCache())
             } else {
-                Resource.Success(getFromRoom())
+                Resource.Success(getFromApi())
             }
         } catch (e: Exception) {
             Resource.Error(e.message ?: "Unknown error")

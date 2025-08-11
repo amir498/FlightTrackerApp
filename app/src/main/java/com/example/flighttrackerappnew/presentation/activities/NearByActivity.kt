@@ -230,7 +230,7 @@ class NearByActivity : BaseActivity<ActivityNearByBinding>(ActivityNearByBinding
                     bannerAdManager.loadAd(
                         true,
                         this@NearByActivity,
-                        app.getString(R.string.BANNER_HOME),
+                        app.getString(R.string.BANNER_NEARBy_AIRPORT),
                         {
                             bannerAdManager.showBannerAd(
                                 binding.adContainerView,

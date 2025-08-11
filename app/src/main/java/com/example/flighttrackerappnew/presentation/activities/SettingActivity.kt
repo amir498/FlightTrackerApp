@@ -73,18 +73,14 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>(ActivitySettingBind
             }
             tvMore.setZoomClickEffect()
             tvMore.setOnClickListener {
-                finish()
+                openWebBrowser("https://play.google.com/store/apps/dev?id=7232886238187016302")
             }
             tvPrivacy.setZoomClickEffect()
             tvPrivacy.setOnClickListener {
-                this@SettingActivity.showToast("Coming Soon")
-                return@setOnClickListener
                 openWebBrowser("https://sites.google.com/view/tanydev-flight-tracker")
             }
             tvTermOfService.setZoomClickEffect()
             tvTermOfService.setOnClickListener {
-                this@SettingActivity.showToast("Coming Soon")
-                return@setOnClickListener
                 openWebBrowser("https://sites.google.com/view/term-of-service-flight-tracker")
             }
         }

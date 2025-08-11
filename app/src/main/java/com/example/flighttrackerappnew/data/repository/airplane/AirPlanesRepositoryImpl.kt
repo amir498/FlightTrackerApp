@@ -18,7 +18,7 @@ class AirPlanesRepositoryImpl(
         return if (cacheDat.isNotEmpty()) {
             Resource.Success(cacheDat)
         } else {
-            Resource.Success(getDataFromRoom())
+            Resource.Success(getDataFromRemote())
         }
     }
 

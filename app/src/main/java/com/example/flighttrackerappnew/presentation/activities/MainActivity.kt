@@ -76,7 +76,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         if (INTERSTITIAL_HOME){
             InterstitialAdManager.loadInterstitialAd(
                 this,
-                app.getString(R.string.INTERSTITIAL_SPLASH),
+                app.getString(R.string.INTERSTITIAL_HOME),
                 this,
                 {},
                 {},

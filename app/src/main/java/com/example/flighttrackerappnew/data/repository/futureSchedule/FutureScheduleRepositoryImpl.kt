@@ -15,7 +15,7 @@ class FutureScheduleRepositoryImpl(
 
     override suspend fun getFutureScheduleFlightData(): Resource<List<FutureScheduleItem>> {
         return try {
-            Resource.Success(getFromRoom())
+            Resource.Success(getFromApi())
         } catch (e: Exception) {
             Resource.Error(e.message ?: "Unknown error")
         }

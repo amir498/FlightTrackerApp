@@ -19,7 +19,7 @@ class NearByAirportsAirPortsRepositoryImpl(
             if (cached.isNotEmpty()) {
                 Resource.Success(cached)
             } else {
-                Resource.Success(getFromRoom())
+                Resource.Success(getDataFromRemote())
             }
         } catch (e: Exception) {
             Resource.Error(e.message ?: "Unknown error")

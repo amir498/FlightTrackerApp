@@ -1,6 +1,6 @@
 <resources>
     <string name="googleMapApiKey" translatable="false">AIzaSyA55ONWFBc0yBvM-s5Qa_iT_2aPrsNOt8o</string>
-    <string name="app_name">Flight Tracker App new</string>
+    <string name="app_name">Flight Tracker</string>
     <string name="live_flight_track">Live Flight Track</string>
     <string name="choose_language">Choose language</string>
     <string name="tvArabic">العربية</string>
