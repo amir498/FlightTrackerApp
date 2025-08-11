@@ -1,6 +1,7 @@
 package com.example.flighttrackerappnew.presentation.adManager
 
 import android.app.Activity
+import com.example.flighttrackerappnew.presentation.activities.beforeHome.SplashActivity
 import com.example.flighttrackerappnew.presentation.utils.isNetworkAvailable
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
@@ -20,7 +21,7 @@ object AppOpenAdManager {
     private var show = false
 
     fun loadAppOpenAd(context: Activity, adId: String) {
-        if (context.isNetworkAvailable() && appOpenAd == null && !isLoading) {
+        if (context.isNetworkAvailable() && appOpenAd == null && !isLoading && context !is SplashActivity) {
             isLoading = true
             val consentInformation = UserMessagingPlatform.getConsentInformation(context)
             val canRequestAds = consentInformation.canRequestAds()

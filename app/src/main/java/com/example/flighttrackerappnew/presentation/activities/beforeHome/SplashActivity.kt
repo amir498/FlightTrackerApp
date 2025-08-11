@@ -52,9 +52,15 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
         if (isNetworkAvailable()) {
             getAllApiCall()
-            umpConsentForm()
         } else {
             showDialog()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (isNetworkAvailable()) {
+            umpConsentForm()
         }
     }
 

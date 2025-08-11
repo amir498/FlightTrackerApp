@@ -1,0 +1,21 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Top stroke line -->
+    <item
+        android:top="0dp"
+        android:bottom="100dp">
+        <shape>
+<!--            <solid android:color="@color/con_background_stroke_color" />-->
+        </shape>
+    </item>
+
+    <!-- Main background with rounded corners -->
+    <item>
+        <shape>
+            <solid android:color="@color/app_background_color" />
+            <corners
+                android:topLeftRadius="@dimen/_12sdp"
+                android:topRightRadius="@dimen/_12sdp" />
+        </shape>
+    </item>
+</layer-list>
