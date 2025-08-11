@@ -11,7 +11,6 @@ import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.OnBoardingActivity
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
-import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.visible
 import org.koin.android.ext.android.inject
 
@@ -37,9 +36,6 @@ class OnBoarding1Fragment : Fragment() {
             RemoteConfigManager.getBoolean("NATIVE_ONB1")
         val showOB4 =
             RemoteConfigManager.getBoolean("NATIVE_ONB4")
-        val showOBFull1 =
-            RemoteConfigManager.getBoolean("NATIVE_ONB_Full1")
-
 
         val app = (requireActivity() as? BaseActivity<*>)?.app
         app?.let {
@@ -47,13 +43,6 @@ class OnBoarding1Fragment : Fragment() {
                 nativeAdController.loadOnb4NativeAd(
                     requireContext(),
                     app.getString(R.string.NATIVE_ONB4)
-                )
-            }
-
-            if (showOBFull1) {
-                nativeAdController.loadFullNativeAd1(
-                    requireContext(),
-                    app.getString(R.string.NATIVE_ONB_Full1)
                 )
             }
         }

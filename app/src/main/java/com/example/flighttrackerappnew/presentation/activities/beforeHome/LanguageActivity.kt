@@ -41,6 +41,8 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
             RemoteConfigManager.getBoolean("NATIVE2_LANGUAGESCREEN1")
         val showNative1Lang1 =
             RemoteConfigManager.getBoolean("NATIVE1_LANGUAGESCREEN1")
+        val showOBFull1 =
+            RemoteConfigManager.getBoolean("NATIVE_ONB_Full1")
 
         if (showNative2Lang1) {
             nativeAdController.apply {
@@ -49,6 +51,13 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
                     app.getString(R.string.NATIVE2_LANGUAGESCREEN1)
                 )
             }
+        }
+
+        if (showOBFull1) {
+            nativeAdController.loadFullNativeAd1(
+                this,
+                app.getString(R.string.NATIVE_ONB_Full1)
+            )
         }
 
         if (showNative1Lang1) {

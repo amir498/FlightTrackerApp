@@ -16,8 +16,6 @@ import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.google.android.gms.ads.nativead.NativeAdOptions.ADCHOICES_TOP_RIGHT
 import com.google.android.gms.ads.nativead.NativeAdView
 import java.lang.reflect.InvocationTargetException
-import kotlin.let
-import kotlin.run
 
 class NativeAd1LangScreen1 {
 

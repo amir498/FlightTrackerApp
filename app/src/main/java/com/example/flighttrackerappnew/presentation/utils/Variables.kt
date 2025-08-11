@@ -25,6 +25,7 @@ var selectedDate = ""
 var lastSelectedPlane:FlightDataItem? = null
 var lastArrivalLongLat:LatLng? = null
 var isFromDetail = false
+var selectedLiveFlightData: ArrivalDataItems? = null
 var loadAppOpen = true
 var isFromAirportOrAirline = false
 var clickCount = 0

@@ -88,7 +88,9 @@ class FlightScheduleActivity :
             getFutureScheduleFlight()
             futureScheduleFlightData.observe(this@FlightScheduleActivity) { result ->
                 when (result) {
-                    is Resource.Loading -> {}
+                    is Resource.Loading -> {
+
+                    }
 
                     is Resource.Success -> {
                         dataCollector.futureScheduleFlightData = result.data

@@ -12,11 +12,10 @@ import com.example.flighttrackerappnew.FlightApp.Companion.canRequestAd
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivitySplashBinding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
-import com.example.flighttrackerappnew.presentation.activities.MainActivity
-import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager
-import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager.showAd
 import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
+import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager
+import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager.showAd
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.ump.UMPConsentManager
@@ -45,11 +44,11 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         super.onCreate(savedInstanceState)
 
         preloadLottie()
-        val runnable1 = Runnable {
+        val runnable = Runnable {
             binding.liveFlightTrack.visible()
             binding.liveFlightTrack2.visible()
         }
-        handler.postDelayed(runnable1, 1000)
+        handler.postDelayed(runnable, 1000)
 
         if (isNetworkAvailable()) {
             getAllApiCall()
@@ -93,13 +92,13 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                             MobileAds.initialize(this@SplashActivity) {
                                 RemoteConfigManager.remoteConfig.fetchAndActivate()
                                     .addOnCompleteListener { task ->
-                                        startActivity(
-                                            Intent(
-                                                this@SplashActivity,
-                                                MainActivity::class.java
-                                            )
-                                        )
-                                        return@addOnCompleteListener
+//                                        startActivity(
+//                                            Intent(
+//                                                this@SplashActivity,
+//                                                MainActivity::class.java
+//                                            )
+//                                        )
+//                                        return@addOnCompleteListener
                                         val showInt =
                                             RemoteConfigManager.getBoolean("INTERSTITIAL_SPLASH")
                                         val showBanner =

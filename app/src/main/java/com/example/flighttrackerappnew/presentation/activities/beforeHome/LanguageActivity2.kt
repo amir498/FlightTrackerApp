@@ -11,7 +11,6 @@ import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.MainActivity
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adapter.LanguageActivityAdapter
-import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.IS_FROM_SETTING_ACTIVITY
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight

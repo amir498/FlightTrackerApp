@@ -41,6 +41,7 @@ import com.example.flighttrackerappnew.presentation.utils.isComeFromFav
 import com.example.flighttrackerappnew.presentation.utils.isComeFromTracked
 import com.example.flighttrackerappnew.presentation.utils.isFromDetail
 import com.example.flighttrackerappnew.presentation.utils.orNA
+import com.example.flighttrackerappnew.presentation.utils.selectedLiveFlightData
 import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.example.flighttrackerappnew.presentation.utils.trackData
 import com.example.flighttrackerappnew.presentation.utils.visible
@@ -121,7 +122,6 @@ class LiveMapFlightTrackerActivity :
                 )
             }, {})
         }
-
     }
 
     private fun showRewardedAd() {
@@ -231,8 +231,7 @@ class LiveMapFlightTrackerActivity :
                         airportsDataList = result.data
                     }
 
-                    is Resource.Error -> {
-                    }
+                    is Resource.Error -> {}
                 }
             }
 
@@ -256,35 +255,54 @@ class LiveMapFlightTrackerActivity :
                         getStaticAirLines()
                         getScheduleFlight()
                         liveFlight = result.data
-                        if (isFromDetail) {
-                            drawMarkersJob = lifecycleScope.launch {
-                                setAirplanesDataForSelectedPlane()
-                                delay(2000)
-                                googleMap.zoomAtSelectedPlane()
-                                binding.pg.invisible()
-                            }
-                        } else {
-                            drawMarkersJob = lifecycleScope.launch {
-                                delay(2000)
-                                setAirplanesData(coroutineContext[Job]!!)
-                                delay(2000)
+                        drawMarkersJob = lifecycleScope.launch {
+                            delay(2000)
+                            setAirplanesData(coroutineContext[Job]!!)
+                            delay(2000)
+                            if (isFromDetail) {
+                                try {
+                                    val selectedFlight =
+                                        liveFlight?.filter { selectedLiveFlightData?.flightNo == it.flight?.iataNumber }
+                                            ?.get(0)
+                                    depAirport =
+                                        airportsDataList.filter { it.codeIataAirport == selectedFlight?.departure?.iataCode } as ArrayList<AirportsDataItems>?
+                                    arvAirport =
+                                        airportsDataList.filter { it.codeIataAirport == selectedFlight?.arrival?.iataCode } as ArrayList<AirportsDataItems>?
+                                    if (selectedFlight != null) {
+                                        googleMap.setSelectedFlight(selectedFlight)
+                                        googleMap.zoomAtSelectedPlane()
+                                        googleMap.drawFlightPathIfNotExists(
+                                            selectedFlight,
+                                            depAirport?.get(0),
+                                            arvAirport?.get(0),
+                                            this@LiveMapFlightTrackerActivity,
+                                            arrMarkerIcon,
+                                            depMarkerIcon,
+                                            airplaneSelectedIcon,
+                                            airplaneDefaultIcon
+                                        )
+                                    }
+                                } catch (e: IndexOutOfBoundsException) {
+                                    e.printStackTrace()
+                                }
+                            } else {
                                 googleMap.zoomAtCurrentLocation()
                             }
+                        }
 
-                            googleMap.onCameraIdle { newVisibleBounds ->
-                                binding.pg.visible()
-                                drawMarkersJob?.cancel()
-                                drawMarkersJob = lifecycleScope.launch {
-                                    delay(1000)
-                                    setAirplanesData(coroutineContext[Job]!!)
-                                    binding.pg.invisible()
-                                }
+                        googleMap.onCameraIdle { newVisibleBounds ->
+                            binding.pg.visible()
+                            drawMarkersJob?.cancel()
+                            drawMarkersJob = lifecycleScope.launch {
+                                delay(1000)
+                                setAirplanesData(coroutineContext[Job]!!)
+                                binding.pg.invisible()
                             }
+                        }
 
-                            googleMap.setOnCameraMoveStartedListener { reason ->
-                                if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
-                                    drawMarkersJob?.cancel()
-                                }
+                        googleMap.setOnCameraMoveStartedListener { reason ->
+                            if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+                                drawMarkersJob?.cancel()
                             }
                         }
                     }
@@ -386,12 +404,6 @@ class LiveMapFlightTrackerActivity :
         }
     }
 
-    private fun setAirplanesDataForSelectedPlane() {
-        googleMap.addPlaneMarkerForSelectedPlane(
-            airplaneSelectedIcon
-        )
-    }
-
     private fun initView() {
         try {
             val mapFragment = supportFragmentManager
@@ -399,35 +411,33 @@ class LiveMapFlightTrackerActivity :
             googleMap.apply {
                 setMapUi(mapFragment)
                 listener { flightData ->
-                    if (!isFromDetail) {
-                        try {
-                            depAirport =
-                                airportsDataList.filter { it.codeIataAirport == flightData.departure?.iataCode } as ArrayList<AirportsDataItems>?
-                            arvAirport =
-                                airportsDataList.filter { it.codeIataAirport == flightData.arrival?.iataCode } as ArrayList<AirportsDataItems>?
+                    try {
+                        depAirport =
+                            airportsDataList.filter { it.codeIataAirport == flightData.departure?.iataCode } as ArrayList<AirportsDataItems>?
+                        arvAirport =
+                            airportsDataList.filter { it.codeIataAirport == flightData.arrival?.iataCode } as ArrayList<AirportsDataItems>?
 
-                            drawFlightPathIfNotExists(
-                                flightData,
-                                depAirport?.get(0),
-                                arvAirport?.get(0),
-                                this@LiveMapFlightTrackerActivity,
-                                arrMarkerIcon,
-                                depMarkerIcon,
-                                airplaneSelectedIcon,
-                                airplaneDefaultIcon
-                            )
-                            setData(
-                                flightData,
-                                depAirport?.get(0),
-                                arvAirport?.get(0),
-                                airLinesList,
-                                citiesList,
-                                scheduleFlightList,
-                                airPlanesList
-                            )
-                        } catch (e: IndexOutOfBoundsException) {
-                            e.printStackTrace()
-                        }
+                        drawFlightPathIfNotExists(
+                            flightData,
+                            depAirport?.get(0),
+                            arvAirport?.get(0),
+                            this@LiveMapFlightTrackerActivity,
+                            arrMarkerIcon,
+                            depMarkerIcon,
+                            airplaneSelectedIcon,
+                            airplaneDefaultIcon
+                        )
+                        setData(
+                            flightData,
+                            depAirport?.get(0),
+                            arvAirport?.get(0),
+                            airLinesList,
+                            citiesList,
+                            scheduleFlightList,
+                            airPlanesList
+                        )
+                    } catch (e: IndexOutOfBoundsException) {
+                        e.printStackTrace()
                     }
                 }
             }
@@ -593,7 +603,11 @@ class LiveMapFlightTrackerActivity :
         val scheduleFlight = scheduleFlightList.firstOrNull {
             it.airline?.iataCode == flightData.airline?.iataCode
         }
-
+        val progress =
+            getFlightProgressPercent(
+                binding.include.depTime.text.toString().orNA(),
+                binding.include.arriTime.text.toString().orNA()
+            )
         fullArrivalFlightDataDetails = FullDetailFlightData(
             flightNo = binding.include.flightNum.text.toString().orNA(),
             depIataCode = binding.include.depIataCode.text.toString().orNA(),
@@ -643,6 +657,7 @@ class LiveMapFlightTrackerActivity :
             airPlaneIataCode = airPlane?.codeIataPlaneLong.orNA(),
             engineCount = airPlane?.enginesCount?.toString().orNA(),
             regDate = airPlane?.registrationDate.orNA(),
+            progress = progress
         )
 
         FullDetailsFlightData = fullArrivalFlightDataDetails

@@ -185,4 +185,32 @@
     <string name="boing">بوينغ</string>
     <string name="details">تفاصيل</string>
     <string name="status">الحالة</string>
+    <string name="airline_track">تتبع شركة الطيران</string>
+    <string name="aircraft_track">تتبع الطائرة</string>
+    <string name="tv_ireland">أيرلندا</string>
+    <string name="tv_america">أمريكا</string>
+    <string name="tv_england">إنجلترا</string>
+    <string name="tv_newzeland">نيوزيلندا</string>
+    <string name="you_re_offline_please_check_your_internet_connection_and_try_again">أنت غير متصل. يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.</string>
+    <string name="open_setting">فتح الإعدادات</string>
+    <string name="retry">إعادة المحاولة</string>
+    <string name="no_internet_connection">لا يوجد اتصال بالإنترنت</string>
+    <string name="you_re_not_following_any_flights_yet">أنت لا تتابع أي رحلات حتى الآن.</string>
+    <string name="start_tracking_to_get_live_updates_on_departure_arrival_delays_and_more">ابدأ التتبع للحصول على تحديثات مباشرة عن المغادرة والوصول والتأخيرات والمزيد.</string>
+    <string name="mark_flights_to_easily_revisit_them_later">قم بتمييز الرحلات لزيارتها لاحقًا بسهولة.</string>
+    <string name="you_haven_t_starred_any_flights_yet">لم تقم بوضع نجمة لأي رحلة حتى الآن.</string>
+    <string name="no_scheduled_flight_found">لم يتم العثور على رحلة مجدولة</string>
+    <string name="no">لا!</string>
+    <string name="yes_sure">نعم، بالتأكيد</string>
+    <string name="may_contain_ad">قد تحتوي على إعلان</string>
+    <string name="no_arrival_flight_found">لم يتم العثور على رحلة وصول</string>
+    <string name="no_departure_flight_found">لم يتم العثور على رحلة مغادرة</string>
+    <string name="loading">جارٍ التحميل...</string>
+    <string name="need_location_permission">تحتاج إلى إذن الموقع</string>
+    <string name="ad_loading">جارٍ تحميل الإعلان...</string>
+    <string name="defaults">افتراضي</string>
+    <string name="satellite">قمر صناعي</string>
+    <string name="exit_app">الخروج من التطبيق</string>
+    <string name="are_your_sure_you_want_to_exit_app">هل أنت متأكد أنك تريد الخروج من التطبيق؟</string>
+
 </resources>

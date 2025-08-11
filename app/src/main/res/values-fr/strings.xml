@@ -185,4 +185,32 @@
     <string name="boing">Boeing</string>
     <string name="details">Détails</string>
     <string name="status">Statut</string>
+    <string name="airline_track">Suivi de la compagnie aérienne</string>
+    <string name="aircraft_track">Suivi de l\'avion</string>
+    <string name="tv_ireland">Irlande</string>
+    <string name="tv_america">Amérique</string>
+    <string name="tv_england">Angleterre</string>
+    <string name="tv_newzeland">Nouvelle-Zélande</string>
+    <string name="you_re_offline_please_check_your_internet_connection_and_try_again">Vous êtes hors ligne. Veuillez vérifier votre connexion Internet et réessayer.</string>
+    <string name="open_setting">Ouvrir les paramètres</string>
+    <string name="retry">Réessayer</string>
+    <string name="no_internet_connection">Pas de connexion Internet</string>
+    <string name="you_re_not_following_any_flights_yet">Vous ne suivez encore aucun vol.</string>
+    <string name="start_tracking_to_get_live_updates_on_departure_arrival_delays_and_more">Commencez le suivi pour recevoir des mises à jour en direct sur les départs, arrivées, retards et plus encore.</string>
+    <string name="mark_flights_to_easily_revisit_them_later">Marquez les vols pour y revenir facilement plus tard.</string>
+    <string name="you_haven_t_starred_any_flights_yet">Vous n\'avez encore mis aucun vol en favori.</string>
+    <string name="no_scheduled_flight_found">Aucun vol programmé trouvé</string>
+    <string name="no">Non !</string>
+    <string name="yes_sure">Oui, bien sûr</string>
+    <string name="may_contain_ad">Peut contenir une publicité</string>
+    <string name="no_arrival_flight_found">Aucun vol d\'arrivée trouvé</string>
+    <string name="no_departure_flight_found">Aucun vol de départ trouvé</string>
+    <string name="loading">Chargement…</string>
+    <string name="need_location_permission">Autorisation de localisation requise</string>
+    <string name="ad_loading">Chargement de la publicité…</string>
+    <string name="defaults">Par défaut</string>
+    <string name="satellite">Satellite</string>
+    <string name="exit_app">Quitter l\'application</string>
+    <string name="are_your_sure_you_want_to_exit_app">Êtes-vous sûr de vouloir quitter l\'application ?</string>
+
 </resources>

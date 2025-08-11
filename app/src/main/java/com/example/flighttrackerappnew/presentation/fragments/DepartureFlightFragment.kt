@@ -19,6 +19,7 @@ import com.example.flighttrackerappnew.presentation.adapter.DepartureFlightAdapt
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.FullDetailsFlightData
 import com.example.flighttrackerappnew.presentation.utils.departureFlightData
+import com.example.flighttrackerappnew.presentation.utils.getFlightProgressPercent
 import com.example.flighttrackerappnew.presentation.utils.gone
 import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isFromAirportOrAirline
@@ -177,7 +178,11 @@ class DepartureFlightFragment : Fragment() {
 
     fun getFullDepartureFlightDataDetail(departureData: ArrivalDataItems) {
         var fullArrivalFlightDataDetails: FullDetailFlightData? = null
-
+        val progress =
+            getFlightProgressPercent(
+                departureData.actualDepTime,
+                departureData.estimatedArrivalTime
+            )
         fullArrivalFlightDataDetails = FullDetailFlightData(
             flightNo = departureData.flightNo,
             depIataCode = departureData.depIataCode,
@@ -227,6 +232,7 @@ class DepartureFlightFragment : Fragment() {
             airPlaneIataCode = departureData.airPlaneIataCode,
             engineCount = departureData.engineCount,
             regDate = departureData.regDate,
+            progress = progress
         )
 
         FullDetailsFlightData = fullArrivalFlightDataDetails

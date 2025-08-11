@@ -68,7 +68,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             binding.adContainerView.visible()
             loadAd()
         }
-
     }
 
     private fun loadInterstitialAd() {

@@ -165,10 +165,11 @@ class TrackedActivity : BaseActivity<ActivityTrackedBinding>(ActivityTrackedBind
             deliveryDate = "",
             rolloutDate = "",
             engineCount = "",
-            regDate = ""
+            regDate = "",
+            progress = 0
         )
         startActivity(Intent(this, DetailActivity::class.java))
-//        showRewardedAd()
+        showRewardedAd()
     }
 
     private fun showRewardedAd() {

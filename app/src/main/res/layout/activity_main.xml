@@ -14,6 +14,7 @@
         android:layout_height="0dp"
         android:scrollbars="none"
         android:id="@+id/subMain"
+        app:layout_goneMarginBottom="@dimen/_10sdp"
         app:layout_constraintBottom_toTopOf="@+id/adContainerView"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -171,7 +172,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/btnLiveMapFlightTracker"
                 app:layout_constraintEnd_toEndOf="@+id/btnLiveMapFlightTracker"
                 app:layout_constraintStart_toStartOf="@+id/btnLiveMapFlightTracker" >
-                <include layout="@layout/native_ad_home_screen" />
+                <include layout="@layout/shimmer_native_ad_home_screen" />
             </FrameLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout

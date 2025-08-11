@@ -20,10 +20,11 @@ import com.example.flighttrackerappnew.presentation.adapter.ArrivalFlightAdapter
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.FullDetailsFlightData
 import com.example.flighttrackerappnew.presentation.utils.arrivalFlightData
-import com.example.flighttrackerappnew.presentation.utils.gone
+import com.example.flighttrackerappnew.presentation.utils.getFlightProgressPercent
 import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isFromAirportOrAirline
 import com.example.flighttrackerappnew.presentation.utils.searchedDataSubTitle
+import com.example.flighttrackerappnew.presentation.utils.selectedLiveFlightData
 import com.example.flighttrackerappnew.presentation.utils.visible
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -63,7 +64,8 @@ class ArrivalFlightFragment : Fragment() {
             app?.let {
                 nativeAdController.apply {
                     loadNativeAd(
-                        requireContext(), app.getString(R.string.NATIVE_ARRIVAL_FLIGHT_For_Airport_Or_Airline)
+                        requireContext(),
+                        app.getString(R.string.NATIVE_ARRIVAL_FLIGHT_For_Airport_Or_Airline)
                     )
                 }
             }
@@ -95,7 +97,8 @@ class ArrivalFlightFragment : Fragment() {
                         app?.let {
                             binding.flAdplaceholder.visible()
                             nativeAdController.loadNativeAd(
-                                requireContext(), it.getString(R.string.NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber)
+                                requireContext(),
+                                it.getString(R.string.NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber)
                             )
                             nativeAdController.showNativeAd(
                                 requireContext(),
@@ -112,6 +115,7 @@ class ArrivalFlightFragment : Fragment() {
                 }
                 adapter?.setList(arrData, nativeAdController)
                 adapter?.setListener { arrivalData ->
+                    selectedLiveFlightData = arrivalData
                     showRewardedAd()
                     getFullArrivalFlightDataDetail(arrivalData)
                 }
@@ -178,6 +182,9 @@ class ArrivalFlightFragment : Fragment() {
     fun getFullArrivalFlightDataDetail(arrivalData: ArrivalDataItems) {
         var fullArrivalFlightDataDetails: FullDetailFlightData? = null
 
+        val progress =
+            getFlightProgressPercent(arrivalData.actualDepTime, arrivalData.estimatedArrivalTime)
+
         fullArrivalFlightDataDetails = FullDetailFlightData(
             flightNo = arrivalData.flightNo,
             depIataCode = arrivalData.depIataCode,
@@ -227,6 +234,7 @@ class ArrivalFlightFragment : Fragment() {
             airPlaneIataCode = arrivalData.airPlaneIataCode,
             engineCount = arrivalData.engineCount,
             regDate = arrivalData.regDate,
+            progress = progress
         )
 
         FullDetailsFlightData = fullArrivalFlightDataDetails

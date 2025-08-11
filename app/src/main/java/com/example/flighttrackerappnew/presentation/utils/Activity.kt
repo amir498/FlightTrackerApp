@@ -1,16 +1,13 @@
 package com.example.flighttrackerappnew.presentation.utils
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
 import android.view.WindowManager
+import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.net.toUri
 
 fun Activity.setScreenDisplay() {
     WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false

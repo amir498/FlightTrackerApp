@@ -1,5 +1,5 @@
 <resources>
-    <string name="googleMapApiKey" translatable="false">AIzaSyB0aEduuyPm6H--WqFw9GmC_cLSFB-QM_A</string>
+    <string name="googleMapApiKey" translatable="false">AIzaSyA55ONWFBc0yBvM-s5Qa_iT_2aPrsNOt8o</string>
     <string name="app_name">Flight Tracker App new</string>
     <string name="live_flight_track">Live Flight Track</string>
     <string name="choose_language">Choose language</string>
@@ -210,4 +210,6 @@
     <string name="ad_loading">Ad Loading...</string>
     <string name="defaults">Default</string>
     <string name="satellite">Satellite</string>
+    <string name="exit_app">Exit App</string>
+    <string name="are_your_sure_you_want_to_exit_app">Are your sure, you want to exit app</string>
 </resources>

@@ -26,7 +26,6 @@ import com.example.flighttrackerappnew.presentation.utils.isComeFromFav
 import com.example.flighttrackerappnew.presentation.utils.isComeFromTracked
 import com.example.flighttrackerappnew.presentation.utils.isFromDetail
 import com.example.flighttrackerappnew.presentation.utils.lastSelectedPlane
-import com.example.flighttrackerappnew.presentation.utils.logDebug
 import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.example.flighttrackerappnew.presentation.utils.trackData
 import com.example.flighttrackerappnew.presentation.utils.visible
@@ -66,7 +65,6 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
             binding.favFlightBtn.tag = "fav"
         }
 
-
         val BANNER_DETAIL =
             RemoteConfigManager.getBoolean("BANNER_DETAIL")
         if (BANNER_DETAIL) {
@@ -77,9 +75,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
                     this@DetailActivity,
                     null
                 )
-            }, {
-
-            })
+            }, {})
         }
     }
 
@@ -121,8 +117,6 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
             }
             viewModel.followFlightData.observe(this@DetailActivity) {
                 val isTrackData = it?.any {
-                    logDebug("alk", it.flightNum.toString())
-                    logDebug("alk", FullDetailsFlightData?.flightNo.toString())
                     it.flightNum == FullDetailsFlightData?.flightNo
                 }
                 if (isTrackData == true) {
@@ -148,9 +142,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
                         }
                     }
 
-                    is Resource.Error -> {
-
-                    }
+                    is Resource.Error -> {}
                 }
             }
         }
@@ -158,7 +150,6 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
 
     override fun onResume() {
         super.onResume()
-
         isFromDetail = false
     }
 
@@ -174,7 +165,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
                     )
                 )
             }
-            binding.discreteSeekBar.setOnTouchListener { _, _ -> true }
+            discreteSeekBar.setOnTouchListener { _, _ -> true }
             btnArrowUp.setOnClickListener {
                 if (btnArrowUp.tag == "close") {
                     btnArrowUp.tag = "open"
@@ -296,8 +287,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
                     )
                 ) {
                     this@DetailActivity.showToast("Flight is not being Followed")
-                    binding.tvFollow.text =
-                        ContextCompat.getString(this@DetailActivity, R.string.follow)
+                    binding.tvFollow.text = ContextCompat.getString(this@DetailActivity, R.string.follow)
 
                     if (trackData != null) {
                         lifecycleScope.launch(Dispatchers.IO) {
@@ -314,8 +304,6 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
                             viewModel.getFollowFlightData()
                         }
                     }
-
-
                 } else {
                     this@DetailActivity.showToast("Flight is being Followed")
                     binding.tvFollow.text = ContextCompat.getString(
@@ -375,7 +363,6 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
             Speed.text = FullDetailsFlightData?.vSpeed ?: "N/A"
             enRoute.text = FullDetailsFlightData?.status ?: "N/A"
             SquawkValue.text = FullDetailsFlightData?.squawk ?: "N/A"
-
             flightNum.text = FullDetailsFlightData?.flightNo
             callSign.text = FullDetailsFlightData?.callSign
             airlineName.text = FullDetailsFlightData?.nameAirport
@@ -385,14 +372,10 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
             regNo.text = FullDetailsFlightData?.regNo ?: "N/A"
             iataModel.text = FullDetailsFlightData?.iataModel ?: "N/A"
             ICAOHex.text = FullDetailsFlightData?.icaoHex ?: "N/A"
-            FirstFlightDate.text =
-                FullDetailsFlightData?.firstFlight?.let { formatIsoDate(it) } ?: "N/A"
-            DeliveryDate.text =
-                FullDetailsFlightData?.deliveryDate?.let { formatIsoDate(it) } ?: "N/A"
-            RegisterationDate.text =
-                FullDetailsFlightData?.regDate?.let { formatIsoDate(it) } ?: "N/A"
-            rolloutDate.text =
-                FullDetailsFlightData?.rolloutDate?.let { formatIsoDate(it) } ?: "N/A"
+            FirstFlightDate.text = FullDetailsFlightData?.firstFlight?.let { formatIsoDate(it) } ?: "N/A"
+            DeliveryDate.text = FullDetailsFlightData?.deliveryDate?.let { formatIsoDate(it) } ?: "N/A"
+            RegisterationDate.text = FullDetailsFlightData?.regDate?.let { formatIsoDate(it) } ?: "N/A"
+            rolloutDate.text = FullDetailsFlightData?.rolloutDate?.let { formatIsoDate(it) } ?: "N/A"
             EngineType.text = FullDetailsFlightData?.squawk ?: "N/A"
             RegisterationDates.text = FullDetailsFlightData?.regNo ?: "N/A"
             active.text = FullDetailsFlightData?.planeStatus ?: "N/A"
@@ -404,6 +387,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
             constructionNo.text = FullDetailsFlightData?.constructionNo ?: "N/A"
             IcaoAirLine.text = FullDetailsFlightData?.flightIcaoNo ?: "N/A"
             iataCodeAirline.text = FullDetailsFlightData?.flightIataNumber ?: "N/A"
+            discreteSeekBar.progress = 50
         }
     }
 }

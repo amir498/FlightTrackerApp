@@ -19,15 +19,15 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-//    signingConfigs {
-//        create("release") {
-//            storeFile = file("D:/FindLostPhone/key/key.jks")
-//            storePassword =
-//                "FindLostPhone"
-//            keyAlias = "key0"
-//            keyPassword = "FindLostPhone"
-//        }
-//    }
+    signingConfigs {
+        create("release") {
+            storeFile = file("D:/FlightTrackerAppnew/key.jks")
+            storePassword =
+                "FlightTrackerAppnew"
+            keyAlias = "key0"
+            keyPassword = "FlightTrackerAppnew"
+        }
+    }
 
     buildTypes {
         debug {
@@ -90,21 +90,98 @@ android {
             resValue("string", "REWARDED_FAV", "ca-app-pub-3940256099942544/5224354917")
             resValue("string", "REWARDED_FOLLOW", "ca-app-pub-3940256099942544/5224354917")
             resValue("string", "REWARDED_LIVE", "ca-app-pub-3940256099942544/5224354917")
-            resValue("string", "NATIVE_FLIGHT_SCHEDULED_SEARCH", "ca-app-pub-3940256099942544/2247696110")
-            resValue("string", "NATIVE_FLIGHT_SCHEDULED_TYPE", "ca-app-pub-3940256099942544/2247696110")
+            resValue(
+                "string",
+                "NATIVE_FLIGHT_SCHEDULED_SEARCH",
+                "ca-app-pub-3940256099942544/2247696110"
+            )
+            resValue(
+                "string",
+                "NATIVE_FLIGHT_SCHEDULED_TYPE",
+                "ca-app-pub-3940256099942544/2247696110"
+            )
             resValue("string", "NATIVE_FLIGHT_SCHEDULED", "ca-app-pub-3940256099942544/2247696110")
             resValue("string", "INTERSTITIAL_HOME", "ca-app-pub-3940256099942544/1033173712")
             resValue("string", "INTERSTITIAL_SEARCH", "ca-app-pub-3940256099942544/1033173712")
         }
 
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-//            signingConfig = signingConfigs.getByName("release")
-//            resValue("string", "INTERSTITIAL_SPLASH", "ca-app-pub-3940256099942544/1033173712")
+            signingConfig = signingConfigs.getByName("release")
+            resValue("string", "INTERSTITIAL_SPLASH", "ca-app-pub-3940256099942544/1033173712")
+            resValue("string", "BANNER_SPLASH", "ca-app-pub-3940256099942544/9214589741")
+            resValue("string", "NATIVE1_LANGUAGESCREEN1", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "NATIVE2_LANGUAGESCREEN1", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "NATIVE1_LANGUAGESCREEN2", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "NATIVE2_LANGUAGESCREEN2", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "NATIVE_ONB1", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "NATIVE_ONB4", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "NATIVE_ONB_Full1", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "NATIVE_ONB_Full2", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "NATIVE_WELCOME", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "NATIVE_MAP", "ca-app-pub-3940256099942544/2247696110")
+
+            resValue("string", "BANNER_HOME", "ca-app-pub-3940256099942544/9214589741")
+            resValue("string", "NATIVE_HOME", "ca-app-pub-3940256099942544/2247696110")
+
+            resValue("string", "NATIVE_SETTING", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "BANNER_LIVE_MAP", "ca-app-pub-3940256099942544/9214589741")
+            resValue("string", "NATIVE_SEARCH_ACTIVITY", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "NATIVE_SAVED_FLIGHT", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "NATIVE_TRACKED_FLIGHT", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "BANNER_NEARBy_AIRPORT", "ca-app-pub-3940256099942544/9214589741")
+
+            resValue("string", "BANNER_SEARCH_AIRPORT", "ca-app-pub-3940256099942544/9214589741")
+            resValue("string", "BANNER_SEARCH_AIRCRAFT", "ca-app-pub-3940256099942544/9214589741")
+            resValue("string", "BANNER_SEARCH_AIRLINE", "ca-app-pub-3940256099942544/9214589741")
+            resValue("string", "BANNER_SEARCH_TAIL", "ca-app-pub-3940256099942544/9214589741")
+
+            resValue(
+                "string",
+                "NATIVE_ARRIVAL_FLIGHT_For_Airport_Or_Airline",
+                "ca-app-pub-3940256099942544/2247696110"
+            )
+            resValue(
+                "string",
+                "NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber",
+                "ca-app-pub-3940256099942544/2247696110"
+            )
+            resValue(
+                "string",
+                "NATIVE_DEPARTURE_FLIGHT_For_Airport_Or_Airline",
+                "ca-app-pub-3940256099942544/2247696110"
+            )
+            resValue(
+                "string",
+                "NATIVE_DEPARTURE_FLIGHT_For_Aircraft_Or_TailNumber",
+                "ca-app-pub-3940256099942544/2247696110"
+            )
+
+            resValue("string", "BANNER_DETAIL", "ca-app-pub-3940256099942544/9214589741")
+
+            resValue("string", "APP_OPEN", "ca-app-pub-3940256099942544/9257395921")
+            resValue("string", "REWARDED_ARRIVAL", "ca-app-pub-3940256099942544/5224354917")
+            resValue("string", "REWARDED_DEPARTURE", "ca-app-pub-3940256099942544/5224354917")
+            resValue("string", "REWARDED_FAV", "ca-app-pub-3940256099942544/5224354917")
+            resValue("string", "REWARDED_FOLLOW", "ca-app-pub-3940256099942544/5224354917")
+            resValue("string", "REWARDED_LIVE", "ca-app-pub-3940256099942544/5224354917")
+            resValue(
+                "string",
+                "NATIVE_FLIGHT_SCHEDULED_SEARCH",
+                "ca-app-pub-3940256099942544/2247696110"
+            )
+            resValue(
+                "string",
+                "NATIVE_FLIGHT_SCHEDULED_TYPE",
+                "ca-app-pub-3940256099942544/2247696110"
+            )
+            resValue("string", "NATIVE_FLIGHT_SCHEDULED", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "INTERSTITIAL_HOME", "ca-app-pub-3940256099942544/1033173712")
+            resValue("string", "INTERSTITIAL_SEARCH", "ca-app-pub-3940256099942544/1033173712")
         }
     }
     compileOptions {

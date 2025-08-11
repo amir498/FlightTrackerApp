@@ -27,6 +27,7 @@ import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isFromAirportOrAirline
 import com.example.flighttrackerappnew.presentation.utils.orNA
 import com.example.flighttrackerappnew.presentation.utils.searchedDataTitle
+import com.example.flighttrackerappnew.presentation.utils.selectedLiveFlightData
 import com.example.flighttrackerappnew.presentation.utils.toNAString
 import com.example.flighttrackerappnew.presentation.utils.visible
 import kotlinx.coroutines.Dispatchers
@@ -160,6 +161,7 @@ class SearchTailActivity :
     }
 
     fun getArrivalFlightDataFromTailNumber(tailData: AirPlaneItems): ArrayList<ArrivalDataItems> {
+
         val arrivalFlightList = liveFlight.filter {
             it.aircraft?.regNumber == tailData.numberRegistration
         }
@@ -241,7 +243,6 @@ class SearchTailActivity :
                     regDate = airPlane?.registrationDate.orNA()
                 )
             )
-
         }
 
         return arrivalFlightData

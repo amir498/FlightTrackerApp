@@ -185,4 +185,32 @@
     <string name="boing">بوئنگ</string>
     <string name="details">تفصیلات</string>
     <string name="status">حالت</string>
+    <string name="airline_track">ایئرلائن ٹریک</string>
+    <string name="aircraft_track">طیارہ ٹریک</string>
+    <string name="tv_ireland">آئرلینڈ</string>
+    <string name="tv_america">امریکہ</string>
+    <string name="tv_england">انگلینڈ</string>
+    <string name="tv_newzeland">نیوزی لینڈ</string>
+    <string name="you_re_offline_please_check_your_internet_connection_and_try_again">آپ آف لائن ہیں۔ براہ کرم اپنا انٹرنیٹ کنیکشن چیک کریں اور دوبارہ کوشش کریں۔</string>
+    <string name="open_setting">سیٹنگز کھولیں</string>
+    <string name="retry">دوبارہ کوشش کریں</string>
+    <string name="no_internet_connection">انٹرنیٹ کنیکشن موجود نہیں</string>
+    <string name="you_re_not_following_any_flights_yet">آپ ابھی تک کوئی پرواز فالو نہیں کر رہے۔</string>
+    <string name="start_tracking_to_get_live_updates_on_departure_arrival_delays_and_more">روانگی، آمد، تاخیر اور مزید کی براہِ راست اپڈیٹس حاصل کرنے کے لیے ٹریکنگ شروع کریں۔</string>
+    <string name="mark_flights_to_easily_revisit_them_later">پروازوں کو نشان زد کریں تاکہ بعد میں آسانی سے دوبارہ دیکھ سکیں۔</string>
+    <string name="you_haven_t_starred_any_flights_yet">آپ نے ابھی تک کوئی پرواز پسندیدہ میں شامل نہیں کی۔</string>
+    <string name="no_scheduled_flight_found">کوئی شیڈول شدہ پرواز نہیں ملی</string>
+    <string name="no">نہیں!</string>
+    <string name="yes_sure">جی، ضرور</string>
+    <string name="may_contain_ad">اس میں اشتہار شامل ہو سکتا ہے</string>
+    <string name="no_arrival_flight_found">کوئی آمد کی پرواز نہیں ملی</string>
+    <string name="no_departure_flight_found">کوئی روانگی کی پرواز نہیں ملی</string>
+    <string name="loading">لوڈ ہو رہا ہے...</string>
+    <string name="need_location_permission">لوکیشن کی اجازت درکار ہے</string>
+    <string name="ad_loading">اشتہار لوڈ ہو رہا ہے...</string>
+    <string name="defaults">ڈیفالٹ</string>
+    <string name="satellite">سیٹلائٹ</string>
+    <string name="exit_app">ایپ سے باہر نکلیں</string>
+    <string name="are_your_sure_you_want_to_exit_app">کیا آپ واقعی ایپ سے باہر نکلنا چاہتے ہیں؟</string>
+
 </resources>

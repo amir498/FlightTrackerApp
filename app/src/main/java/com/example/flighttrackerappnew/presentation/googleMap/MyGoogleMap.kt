@@ -11,7 +11,9 @@ import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.listener.AirPlaneClickListener
 import com.example.flighttrackerappnew.presentation.utils.lastArrivalLongLat
 import com.example.flighttrackerappnew.presentation.utils.lastSelectedPlane
+import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -27,9 +29,9 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PatternItem
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.tasks.CancellationTokenSource
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import kotlin.getValue
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.sin
@@ -272,6 +274,10 @@ class MyGoogleMap : OnMapReadyCallback, KoinComponent {
         )
     }
 
+    fun setSelectedFlight(selectedFlight: FlightDataItem){
+        this.selectedFlight = selectedFlight
+    }
+
     fun zoomAtSelectedPlane() {
         val selectedFlightLoc =
             selectedFlight?.geography?.latitude?.toDouble()?.let {
@@ -292,27 +298,47 @@ class MyGoogleMap : OnMapReadyCallback, KoinComponent {
     fun moveCameraToCurrentLocation(context: Context) {
         val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
-        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-            location?.let {
-                val currentLatLng = LatLng(it.latitude, it.longitude)
-
-                val cameraPosition = CameraPosition.Builder()
-                    .target(currentLatLng)
-                    .zoom(8f)
-                    .bearing(0f)
-                    .build()
-
-                mMap?.animateCamera(
-                    CameraUpdateFactory.newCameraPosition(cameraPosition),
-                    1400,
-                    object : GoogleMap.CancelableCallback {
-                        override fun onFinish() {}
-
-                        override fun onCancel() {}
-                    })
-            } ?: run {}
-        }.addOnFailureListener {}
+        fusedLocationClient.lastLocation.addOnSuccessListener { lastLocation: Location? ->
+            if (lastLocation != null) {
+                moveCamera(lastLocation)
+            } else {
+                fusedLocationClient.getCurrentLocation(
+                    Priority.PRIORITY_HIGH_ACCURACY,
+                    CancellationTokenSource().token
+                ).addOnSuccessListener { freshLocation: Location? ->
+                    if (freshLocation != null) {
+                        moveCamera(freshLocation)
+                    } else {
+                        context.showToast("Unable to determine location")
+                    }
+                }.addOnFailureListener {
+                    context.showToast("Failed to get current location")
+                }
+            }
+        }.addOnFailureListener {
+            context.showToast("Failed to get last known location")
+        }
     }
+
+    private fun moveCamera(location: Location) {
+        val currentLatLng = LatLng(location.latitude, location.longitude)
+        val cameraPosition = CameraPosition.Builder()
+            .target(currentLatLng)
+            .zoom(8f)
+            .bearing(0f)
+            .build()
+
+        mMap?.animateCamera(
+            CameraUpdateFactory.newCameraPosition(cameraPosition),
+            1400,
+            object : GoogleMap.CancelableCallback {
+                override fun onFinish() {}
+                override fun onCancel() {}
+            }
+        )
+    }
+
+
 
     fun getVisibleBounds(): LatLngBounds? {
         return mMap?.projection?.visibleRegion?.latLngBounds
@@ -345,12 +371,6 @@ class MyGoogleMap : OnMapReadyCallback, KoinComponent {
         }
 
         removeDefaultPlane(lastSelectedPlane)
-        addSelectedPlane(lastSelectedPlane, airplaneSelectedIcon, lastArrivalLongLat)
-    }
-
-    fun addPlaneMarkerForSelectedPlane(
-        airplaneSelectedIcon: BitmapDescriptor?
-    ) {
         addSelectedPlane(lastSelectedPlane, airplaneSelectedIcon, lastArrivalLongLat)
     }
 

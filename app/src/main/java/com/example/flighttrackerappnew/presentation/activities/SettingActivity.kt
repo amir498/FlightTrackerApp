@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivitySettingBinding
-import com.example.flighttrackerappnew.presentation.activities.FlightScheduleTypeAirportActivity
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.LanguageActivity
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager

@@ -55,4 +55,5 @@ data class FullDetailFlightData(
     val airPlaneIataCode: String,
     val engineCount: String,
     val regDate: String,
+    val progress: Int
 )
