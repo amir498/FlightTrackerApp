@@ -62,10 +62,6 @@ fun getFlightProgressPercent(dep: String, arr: String): Int {
     }
 }
 
-
-
-
-
 fun getTimeDifference(dep: String, arr: String): String {
     if (dep == "N/A" || arr == "N/A") return "N/A"
 

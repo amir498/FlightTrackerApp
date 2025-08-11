@@ -33,60 +33,18 @@
         app:layout_constraintStart_toEndOf="@+id/btnBack"
         app:layout_constraintTop_toTopOf="@+id/btnBack" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/conUpgrade"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_60sdp"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:visibility="gone"
-        android:background="@drawable/setting_pro_bg"
-        app:layout_constraintEnd_toEndOf="@+id/glRight"
-        app:layout_constraintStart_toStartOf="@+id/glLeft"
-        app:layout_constraintTop_toBottomOf="@+id/btnBack">
-
-        <TextView
-            style="@style/sfm11p"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:maxLines="1"
-            android:text="@string/go_pro_to_gain_full_access"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/btnUpgrade"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/btnUpgrade"
-            style="@style/sfm13primary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:background="@drawable/live_flight_tracker_view_map_bg"
-            android:fontFamily="@font/sf_pro_display_bold"
-            android:gravity="center"
-            android:text="@string/upgrade"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.4" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@drawable/surface_bg"
+        android:layout_marginBottom="@dimen/_10sdp"
         app:layout_constraintBottom_toTopOf="@+id/fl_adplaceholder"
-        app:layout_constraintTop_toBottomOf="@+id/conUpgrade">
+        app:layout_constraintTop_toBottomOf="@+id/btnBack">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginBottom="@dimen/_20sdp"
-            android:background="@drawable/surface_bg"
+            android:layout_marginTop="@dimen/_10sdp"
             >
 
             <ImageView
@@ -277,7 +235,6 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_15sdp"
                 android:src="@drawable/iv_privacy_policy"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/MoreAppsView" />
 
@@ -288,10 +245,56 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:text="@string/privacy_policy"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/PrivacyPolicyView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/iv_privacy_policy"
                 app:layout_constraintTop_toTopOf="@+id/iv_privacy_policy" />
+
+            <View
+                android:id="@+id/PrivacyPolicyView"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/lang_item_barrier"
+                app:layout_constraintTop_toBottomOf="@+id/iv_privacy_policy" />
+
+            <ImageView
+                android:id="@+id/iv_term_of_service"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:src="@drawable/iv_term_of_service"
+                app:layout_constraintBottom_toTopOf="@+id/termView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/PrivacyPolicyView" />
+
+            <TextView
+                android:id="@+id/tvTermOfService"
+                style="@style/sfm15p"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="@string/terms_of_service"
+                app:layout_constraintBottom_toTopOf="@+id/termView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/iv_term_of_service"
+                app:layout_constraintTop_toTopOf="@+id/iv_term_of_service" />
+
+            <View
+                android:id="@+id/termView"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:visibility="invisible"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:background="@drawable/lang_item_barrier"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_term_of_service" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -305,7 +308,6 @@
         android:layout_marginTop="6dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

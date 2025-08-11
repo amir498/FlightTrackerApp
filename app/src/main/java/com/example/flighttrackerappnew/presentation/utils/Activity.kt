@@ -41,9 +41,8 @@ fun Activity.shareApp() {
     startActivity(Intent.createChooser(shareIntent, "Share via"))
 }
 
-fun Activity.openPrivacyPolicy() {
-    val privacyUrl = "https://sites.google.com/view/privacypolicyfindmyphone/home"
-    val intent = Intent(Intent.ACTION_VIEW, privacyUrl.toUri())
+fun Activity.openWebBrowser(link: String) {
+    val intent = Intent(Intent.ACTION_VIEW, link.toUri())
     startActivity(intent)
 }
 

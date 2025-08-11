@@ -10,14 +10,13 @@ import com.example.flighttrackerappnew.presentation.adManager.controller.NativeA
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.IS_FROM_SETTING_ACTIVITY
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
-import com.example.flighttrackerappnew.presentation.utils.openPrivacyPolicy
+import com.example.flighttrackerappnew.presentation.utils.openWebBrowser
 import com.example.flighttrackerappnew.presentation.utils.rateApp
 import com.example.flighttrackerappnew.presentation.utils.setZoomClickEffect
 import com.example.flighttrackerappnew.presentation.utils.shareApp
 import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.example.flighttrackerappnew.presentation.utils.visible
 import org.koin.android.ext.android.inject
-import kotlin.getValue
 
 class SettingActivity : BaseActivity<ActivitySettingBinding>(ActivitySettingBinding::inflate) {
 
@@ -36,7 +35,7 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>(ActivitySettingBind
 
         viewListener()
 
-        if (NATIVE_SETTING){
+        if (NATIVE_SETTING) {
             binding.flAdplaceholder.visible()
             nativeAdController.apply {
                 loadNativeAd(
@@ -64,10 +63,6 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>(ActivitySettingBind
                 IS_FROM_SETTING_ACTIVITY = true
                 startActivity(Intent(this@SettingActivity, MapStyleActivity::class.java))
             }
-//            tvMeasureUnit.setZoomClickEffect()
-//            tvMeasureUnit.setOnClickListener {
-//                finish()
-//            }
             tvRateUs.setZoomClickEffect()
             tvRateUs.setOnClickListener {
                 rateApp()
@@ -84,7 +79,13 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>(ActivitySettingBind
             tvPrivacy.setOnClickListener {
                 this@SettingActivity.showToast("Coming Soon")
                 return@setOnClickListener
-                openPrivacyPolicy()
+                openWebBrowser("https://sites.google.com/view/tanydev-flight-tracker")
+            }
+            tvTermOfService.setZoomClickEffect()
+            tvTermOfService.setOnClickListener {
+                this@SettingActivity.showToast("Coming Soon")
+                return@setOnClickListener
+                openWebBrowser("https://sites.google.com/view/term-of-service-flight-tracker")
             }
         }
     }
