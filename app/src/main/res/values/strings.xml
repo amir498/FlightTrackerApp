@@ -213,4 +213,18 @@
     <string name="exit_app">Exit App</string>
     <string name="are_your_sure_you_want_to_exit_app">Are your sure, you want to exit app</string>
     <string name="terms_of_service">Terms of Service</string>
+    <string name="by_purchasing_you_agree_to_our_privacy_policy_terms_conditions"><![CDATA[By purchasing, you agree to our Privacy Policy & Terms & Conditions.]]></string>
+    <string name="unlimited_favorites_tracked_flights"><![CDATA[Unlimited Favorites & Tracked Flights]]></string>
+    <string name="your_ultimate_flying_companion_track_follow_and_explore_flights_without_limits">Your ultimate flying companion — track, follow, and explore flights without limits.</string>
+    <string name="upgrade_to_premium">Upgrade To Premium</string>
+    <string name="live_flight_tracking">Live Flight Tracking</string>
+    <string name="follow_flights_in_real_time_with_precise_up_to_the_second_map_updates">Follow flights in real time with precise, up-to-the-second map updates.</string>
+    <string name="save_as_many_flights_and_airports_as_you_want_no_restrictions">Save as many flights and airports as you want — no restrictions.</string>
+    <string name="completely_ad_free">Completely Ad-Free</string>
+    <string name="enjoy_a_seamless_distraction_free_experience_without_any_ads">Enjoy a seamless, distraction-free experience without any ads.</string>
+    <string name="free_trail_enabled">Free Trail Enabled</string>
+    <string name="weekly_plan">Weekly Plan</string>
+    <string name="yearly_plan">Yearly Plan</string>
+    <string name="cancel_anytime_no_hidden_fees">Cancel anytime. No hidden fees.</string>
+    <string name="upgrade_now">Upgrade Now</string>
 </resources>

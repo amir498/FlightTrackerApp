@@ -6,6 +6,8 @@ import com.example.flighttrackerappnew.data.repository.cities.datasource.CitiesR
 import com.example.flighttrackerappnew.data.repository.cities.datasource.CitiesRoomDataSource
 import com.example.flighttrackerappnew.domain.repository.CitiesRepository
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
+import retrofit2.HttpException
+import java.io.IOException
 
 class CitiesRepositoryImpl(
     private val citiesRemoteDataSource: CitiesRemoteDataSource,
@@ -15,10 +17,18 @@ class CitiesRepositoryImpl(
 
     override suspend fun getCitiesData(): Resource<List<CitiesDataItems>> {
         val cacheDat = citiesCacheDataSource.getCitiesCacheData()
-        return if (cacheDat.isNotEmpty()) {
-            Resource.Success(cacheDat)
-        } else {
-            Resource.Success(getDataFromRemote())
+        return try {
+            if (cacheDat.isNotEmpty()) {
+                Resource.Success(cacheDat)
+            } else {
+                Resource.Success(getDataFromRemote())
+            }
+        } catch (e: HttpException) {
+            Resource.Error("HTTP ${e.code()} ${e.message()}")
+        } catch (e: IOException) {
+            Resource.Error("Network error: ${e.localizedMessage}")
+        } catch (e: Exception) {
+            Resource.Error("Unexpected error: ${e.localizedMessage}")
         }
     }
 

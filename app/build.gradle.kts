@@ -14,15 +14,15 @@ android {
         applicationId = "com.radar.flight.tracker.airport.info"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.1"
+        versionCode = 2
+        versionName = "1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
         create("release") {
-            storeFile = file("D:/FlightTrackerAppnew/key.jks")
+            storeFile = file("D:/FlightTrackerAppnew/key/key.jks")
             storePassword =
                 "FlightTrackerAppnew"
             keyAlias = "key0"
@@ -33,6 +33,10 @@ android {
     buildTypes {
         debug {
             isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             signingConfig = signingConfigs.getByName("debug")
             resValue("string", "INTERSTITIAL_SPLASH", "ca-app-pub-3940256099942544/1033173712")
             resValue("string", "BANNER_SPLASH", "ca-app-pub-3940256099942544/9214589741")
@@ -107,7 +111,7 @@ android {
         }
 
         release {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -245,14 +249,18 @@ dependencies {
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
 
+    //koin
     implementation(libs.kotlin.reflect)
 
+    //location
     implementation(libs.play.services.location)
 
     //Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.config)
+    implementation(libs.google.firebase.analytics)
 
     //UMP SDK
     implementation(libs.user.messaging.platform)
@@ -263,9 +271,10 @@ dependencies {
     //shimmer
     implementation(libs.shimmer)
 
-    implementation(libs.firebase.config)
-    implementation(libs.google.firebase.analytics)
-
+    //lifecycle
     implementation(libs.androidx.lifecycle.process)
+
+    //gob
+    implementation(libs.billing.ktx)
 
 }

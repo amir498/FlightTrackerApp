@@ -19,6 +19,5 @@ class OnBoardingActivity :
 
         val adapter = OnBoardingPagerAdapter(this)
         binding.viewPager.adapter = adapter
-        binding.viewPager.offscreenPageLimit = 1
     }
 }

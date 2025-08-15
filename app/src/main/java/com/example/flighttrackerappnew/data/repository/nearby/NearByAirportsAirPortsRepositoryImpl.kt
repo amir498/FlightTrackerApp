@@ -6,6 +6,8 @@ import com.example.flighttrackerappnew.data.repository.nearby.datasource.NearByA
 import com.example.flighttrackerappnew.data.repository.nearby.datasource.NearByAirPortsRoomDataSource
 import com.example.flighttrackerappnew.domain.repository.NearByAirPortsRepository
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
+import retrofit2.HttpException
+import java.io.IOException
 
 class NearByAirportsAirPortsRepositoryImpl(
     private val nearByAirPortsRemoteDataSource: NearByAirPortsRemoteDataSource,
@@ -21,8 +23,12 @@ class NearByAirportsAirPortsRepositoryImpl(
             } else {
                 Resource.Success(getDataFromRemote())
             }
+        } catch (e: HttpException) {
+            Resource.Error("HTTP ${e.code()} ${e.message()}")
+        } catch (e: IOException) {
+            Resource.Error("Network error: ${e.localizedMessage}")
         } catch (e: Exception) {
-            Resource.Error(e.message ?: "Unknown error")
+            Resource.Error("Unexpected error: ${e.localizedMessage}")
         }
     }
 

@@ -12,7 +12,6 @@ var arrivalFlightData: MutableLiveData<ArrayList<ArrivalDataItems>> =
 var departureFlightData: MutableLiveData<ArrayList<ArrivalDataItems>> =
     MutableLiveData<ArrayList<ArrivalDataItems>>()
 var FullDetailsFlightData: FullDetailFlightData? = null
-var selectedLang = ""
 
 var airportCode = ""
 var flightType = "arrival"

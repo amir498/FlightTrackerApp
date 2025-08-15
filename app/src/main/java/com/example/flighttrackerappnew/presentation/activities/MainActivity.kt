@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivityMainBinding
+import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
 import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager
@@ -126,6 +127,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private fun viewListener() {
         binding.apply {
+            PremiumScreenIcon.setZoomClickEffect()
+            PremiumScreenIcon.setOnClickListener {
+                startActivity(Intent(this@MainActivity, PremiumActivity::class.java))
+            }
             viewMapBtn.setZoomClickEffect()
             viewMapBtn.setOnClickListener {
                 clickCount += 1

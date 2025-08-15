@@ -109,7 +109,6 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
                         app.getString(R.string.NATIVE1_LANGUAGESCREEN2)
                     )
                 }
-
             }
             firstClicked = false
         }

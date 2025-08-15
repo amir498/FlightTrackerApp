@@ -6,6 +6,8 @@ import com.example.flighttrackerappnew.data.repository.airLine.dataSource.Static
 import com.example.flighttrackerappnew.data.repository.airLine.dataSource.StaticAirLineRoomDataSource
 import com.example.flighttrackerappnew.domain.repository.StaticAirLineRepository
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
+import retrofit2.HttpException
+import java.io.IOException
 
 class StaticAirLineRepositoryImpl(
     private val staticAirLineRemoteDataSource: StaticAirLineRemoteDataSource,
@@ -14,10 +16,18 @@ class StaticAirLineRepositoryImpl(
 ) : StaticAirLineRepository {
     override suspend fun getStaticAirLineData(): Resource<List<StaticAirLineItems>> {
         val cacheDat = staticAirLineCacheDataSource.getStaticAirLineCacheData()
-        return if (cacheDat.isNotEmpty()) {
-            Resource.Success(cacheDat)
-        } else {
-            Resource.Success(getDataFromRemote())
+        return try {
+            if (cacheDat.isNotEmpty()) {
+                Resource.Success(cacheDat)
+            } else {
+                Resource.Success(getDataFromRemote())
+            }
+        } catch (e: HttpException) {
+            Resource.Error("HTTP ${e.code()} ${e.message()}")
+        } catch (e: IOException) {
+            Resource.Error("Network error: ${e.localizedMessage}")
+        } catch (e: Exception) {
+            Resource.Error("Unexpected error: ${e.localizedMessage}")
         }
     }
 

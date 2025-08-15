@@ -63,7 +63,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/glRight" />
 
-
     <FrameLayout
         android:id="@+id/fl_adplaceholder"
         android:layout_width="0dp"

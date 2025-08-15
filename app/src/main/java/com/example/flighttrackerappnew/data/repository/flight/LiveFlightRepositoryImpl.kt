@@ -6,6 +6,8 @@ import com.example.flighttrackerappnew.data.repository.flight.datasource.LiveFli
 import com.example.flighttrackerappnew.data.repository.flight.datasource.LiveFlightRoomDataSource
 import com.example.flighttrackerappnew.domain.repository.LiveFlightRepository
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
+import retrofit2.HttpException
+import java.io.IOException
 
 class LiveFlightRepositoryImpl(
     private val liveFlightCacheDataSource: LiveFlightCacheDataSource,
@@ -21,8 +23,12 @@ class LiveFlightRepositoryImpl(
             } else {
                 Resource.Success(getDataFromRemote())
             }
+        } catch (e: HttpException) {
+            Resource.Error("HTTP ${e.code()} ${e.message()}")
+        } catch (e: IOException) {
+            Resource.Error("Network error: ${e.localizedMessage}")
         } catch (e: Exception) {
-            Resource.Error(e.message ?: "Unknown error")
+            Resource.Error("Unexpected error: ${e.localizedMessage}")
         }
     }
 

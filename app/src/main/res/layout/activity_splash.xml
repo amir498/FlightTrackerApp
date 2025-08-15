@@ -11,13 +11,15 @@
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/iv_splash"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/_200sdp"
         app:lottie_autoPlay="true"
-        android:scaleType="centerCrop"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_bias="0.4"
+        app:layout_constraintBottom_toTopOf="@+id/live_flight_track"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:lottie_rawRes="@raw/splash"
         app:lottie_loop="true" />
 
     <TextView
@@ -26,12 +28,11 @@
         android:id="@+id/live_flight_track"
         android:text="@string/live_flight_track"
         android:visibility="invisible"
-        app:layout_constraintVertical_bias="0.5"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_splash"
+        app:layout_constraintBottom_toTopOf="@+id/live_flight_track2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="-10dp"
+        android:layout_marginTop="@dimen/_10sdp"
         style="@style/sfb23p"/>
 
     <TextView
@@ -40,6 +41,7 @@
         android:id="@+id/live_flight_track2"
         android:visibility="invisible"
         android:text="@string/live_flight_track"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/live_flight_track"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +73,6 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <include layout="@layout/layout_banner_control">
-
         </include>
     </FrameLayout>
 

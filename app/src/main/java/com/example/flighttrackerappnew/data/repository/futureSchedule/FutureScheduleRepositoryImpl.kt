@@ -6,6 +6,8 @@ import com.example.flighttrackerappnew.data.repository.futureSchedule.dataSource
 import com.example.flighttrackerappnew.data.repository.futureSchedule.dataSource.FutureScheduleRoomDataSource
 import com.example.flighttrackerappnew.domain.repository.FutureScheduleFlightRepository
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
+import retrofit2.HttpException
+import java.io.IOException
 
 class FutureScheduleRepositoryImpl(
     private val futureScheduleCacheDataSource: FutureScheduleCacheDataSource,
@@ -16,8 +18,12 @@ class FutureScheduleRepositoryImpl(
     override suspend fun getFutureScheduleFlightData(): Resource<List<FutureScheduleItem>> {
         return try {
             Resource.Success(getFromApi())
+        } catch (e: HttpException) {
+            Resource.Error("HTTP ${e.code()} ${e.message()}")
+        } catch (e: IOException) {
+            Resource.Error("Network error: ${e.localizedMessage}")
         } catch (e: Exception) {
-            Resource.Error(e.message ?: "Unknown error")
+            Resource.Error("Unexpected error: ${e.localizedMessage}")
         }
     }
 

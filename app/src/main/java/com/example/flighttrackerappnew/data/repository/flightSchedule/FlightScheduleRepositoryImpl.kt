@@ -6,6 +6,8 @@ import com.example.flighttrackerappnew.data.repository.flightSchedule.dataSource
 import com.example.flighttrackerappnew.data.repository.flightSchedule.dataSource.FlightScheduleRoomDataSource
 import com.example.flighttrackerappnew.domain.repository.FlightScheduleRepository
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
+import retrofit2.HttpException
+import java.io.IOException
 
 class FlightScheduleRepositoryImpl(
     private val flightScheduleRemoteDataSource: FlightScheduleRemoteDataSource,
@@ -20,8 +22,12 @@ class FlightScheduleRepositoryImpl(
             } else {
                 Resource.Success(getFromApi())
             }
+        } catch (e: HttpException) {
+            Resource.Error("HTTP ${e.code()} ${e.message()}")
+        } catch (e: IOException) {
+            Resource.Error("Network error: ${e.localizedMessage}")
         } catch (e: Exception) {
-            Resource.Error(e.message ?: "Unknown error")
+            Resource.Error("Unexpected error: ${e.localizedMessage}")
         }
     }
 

@@ -54,6 +54,8 @@ object ActivitiesLifeCycleObserver : LifecycleEventObserver, ActivityLifecycleCa
         val app = (activity as? BaseActivity<*>)?.app
         adId = app?.getString(R.string.APP_OPEN)
         currentActivityRef = WeakReference(activity)
+
+
     }
 
     override fun onActivityPaused(activity: Activity) {}

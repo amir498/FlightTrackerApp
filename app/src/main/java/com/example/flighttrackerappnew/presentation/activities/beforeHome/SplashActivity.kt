@@ -43,7 +43,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        preloadLottie()
         val runnable = Runnable {
             binding.liveFlightTrack.visible()
             binding.liveFlightTrack2.visible()
@@ -145,7 +144,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                                                 app.getString(R.string.INTERSTITIAL_SPLASH),
                                                 this@SplashActivity,
                                                 {
-                                                    showAd(this@SplashActivity, null)
+                                                    handler.postDelayed({
+                                                        showAd(this@SplashActivity, null)
+                                                    }, 1000)
                                                 },
                                                 {
                                                     startActivity(

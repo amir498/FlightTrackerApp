@@ -12,7 +12,6 @@ import com.example.flighttrackerappnew.databinding.LanguageSelectionItems2Bindin
 import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.listener.LanguageSelectionListener
 import com.example.flighttrackerappnew.presentation.utils.invisible
-import com.example.flighttrackerappnew.presentation.utils.selectedLang
 import com.example.flighttrackerappnew.presentation.utils.visible
 
 class LanguageActivityAdapter(private val config: Config, private val function: () -> Unit) :
@@ -76,7 +75,6 @@ class LanguageActivityAdapter(private val config: Config, private val function: 
 
     @SuppressLint("NotifyDataSetChanged")
     private fun updateSelection(data: LanguageDataList) {
-        selectedLang = data.code
         selectedLanguageName = data.name
         config.selectedLanguageCode = data.code
         notifyDataSetChanged()
