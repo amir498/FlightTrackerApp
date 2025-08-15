@@ -74,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:id="@+id/PremiumScreenIcon"
+                android:visibility="invisible"
                 android:src="@drawable/premium_icon_home"
                 app:layout_constraintEnd_toStartOf="@+id/btnSetting"
                 app:layout_constraintTop_toTopOf="@+id/btnSetting" />

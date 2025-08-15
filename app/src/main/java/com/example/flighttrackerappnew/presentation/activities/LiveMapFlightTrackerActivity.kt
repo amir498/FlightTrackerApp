@@ -124,6 +124,11 @@ class LiveMapFlightTrackerActivity :
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getFollowFlightData()
+    }
+
     private fun showRewardedAd() {
         startActivity(
             Intent(
@@ -202,6 +207,7 @@ class LiveMapFlightTrackerActivity :
                         trackData = followFlightData
                         lifecycleScope.launch(Dispatchers.IO) {
                             followLiveFlightDao.insertFollowLiveFlightData(followFlightData!!)
+                            followLiveFlightDao.getFollowLiveFlightData()
                         }
                     }
                 }
@@ -209,8 +215,12 @@ class LiveMapFlightTrackerActivity :
         }
     }
 
+    private var followedFlightList = listOf<FollowFlightData>()
     private fun observeLiveData() {
         viewModel.apply {
+            followFlightData.observe(this@LiveMapFlightTrackerActivity) { result ->
+                followedFlightList = result
+            }
             airPlanesData.observe(this@LiveMapFlightTrackerActivity) { result ->
                 when (result) {
                     is Resource.Loading -> {}
@@ -411,6 +421,17 @@ class LiveMapFlightTrackerActivity :
             googleMap.apply {
                 setMapUi(mapFragment)
                 listener { flightData ->
+                    if (followedFlightList.any { it.flightNum == flightData.flight?.iataNumber }) {
+                        binding.include.tvFollow.text = ContextCompat.getString(
+                            this@LiveMapFlightTrackerActivity,
+                            R.string.unfollow
+                        )
+                    } else {
+                        binding.include.tvFollow.text = ContextCompat.getString(
+                            this@LiveMapFlightTrackerActivity,
+                            R.string.follow
+                        )
+                    }
                     try {
                         depAirport =
                             airportsDataList.filter { it.codeIataAirport == flightData.departure?.iataCode } as ArrayList<AirportsDataItems>?
