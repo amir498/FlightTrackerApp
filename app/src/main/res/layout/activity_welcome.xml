@@ -24,155 +24,204 @@
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/welcome" />
-
-    <TextView
-        android:id="@+id/tvWelcome"
-        style="@style/sfb23p"
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:text="@string/welcome"
-        app:layout_constraintEnd_toEndOf="@+id/glRight"
+        android:layout_height="0dp"
+        android:scrollbars="none"
         app:layout_constraintStart_toStartOf="@+id/glLeft"
-        app:layout_constraintTop_toBottomOf="@+id/iv_Welcome" />
-
-    <TextView
-        android:id="@+id/tvHowToUse"
-        style="@style/sfm14p"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:maxLines="1"
-        android:text="@string/tell_us_how_will_you_use_this_app"
-        app:layout_constraintEnd_toStartOf="@+id/iv_tick_welcome"
-        app:layout_constraintStart_toStartOf="@+id/glLeft"
-        app:layout_constraintTop_toBottomOf="@+id/tvWelcome" />
-
-    <ImageView
-        android:id="@+id/iv_tick_welcome"
-        android:layout_width="@dimen/_35sdp"
-        android:layout_height="@dimen/_35sdp"
-        android:src="@drawable/iv_tick_welcome"
-        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/glRight"
-        app:layout_constraintTop_toTopOf="@+id/tvHowToUse" />
+        android:layout_marginBottom="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@+id/iv_Welcome"
+        app:layout_constraintBottom_toTopOf="@+id/fl_adplaceholder">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_145sdp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:background="@drawable/surface_bg"
-        app:layout_constraintEnd_toEndOf="@+id/glRight"
-        app:layout_constraintStart_toStartOf="@+id/glLeft"
-        app:layout_constraintTop_toBottomOf="@+id/iv_tick_welcome"
-        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvOption1"
-            style="@style/sfm13p"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:maxLines="1"
-            android:text="@string/live_flight_tracker"
-            android:textAlignment="textStart"
-            app:layout_constraintBottom_toBottomOf="@+id/tick"
-            app:layout_constraintEnd_toStartOf="@+id/tick"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tick" />
+            <TextView
+                android:id="@+id/tvWelcome"
+                style="@style/sfb23p"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="@string/welcome"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
-        <ImageView
-            android:id="@+id/tick"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:padding="@dimen/_5sdp"
-            android:src="@drawable/welcome_option_uns"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/tvHowToUse"
+                style="@style/sfm14p"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:maxLines="1"
+                android:text="@string/tell_us_how_will_you_use_this_app"
+                app:layout_constraintEnd_toStartOf="@+id/iv_tick_welcome"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/iv_tick_welcome"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_tick_welcome"
+                />
 
-        <ImageView
-            android:id="@+id/view1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/lang_item_barrier"
-            app:layout_constraintEnd_toEndOf="@+id/tick"
-            app:layout_constraintStart_toStartOf="@+id/tvOption1"
-            app:layout_constraintTop_toBottomOf="@+id/tick" />
+            <ImageView
+                android:id="@+id/iv_tick_welcome"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:src="@drawable/iv_tick_welcome"
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvWelcome"
+                />
 
-        <TextView
-            android:id="@+id/tvOption2"
-            style="@style/sfm13p"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:maxLines="1"
-            android:text="@string/follow_flights"
-            android:textAlignment="textStart"
-            app:layout_constraintBottom_toBottomOf="@+id/tick2"
-            app:layout_constraintEnd_toStartOf="@+id/tick"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tick2" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/conLive"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_55sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/welcome_features_bg"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_tick_welcome">
 
-        <ImageView
-            android:id="@+id/tick2"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:padding="@dimen/_5sdp"
-            android:src="@drawable/welcome_option_uns"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view1" />
+                <ImageView
+                    android:id="@+id/iv_welcome_live"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:src="@drawable/iv_welcome_live"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvOption1" />
 
-        <ImageView
-            android:id="@+id/view2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/lang_item_barrier"
-            app:layout_constraintEnd_toEndOf="@+id/tick"
-            app:layout_constraintStart_toStartOf="@+id/tvOption1"
-            app:layout_constraintTop_toBottomOf="@+id/tick2" />
+                <TextView
+                    android:id="@+id/tvOption1"
+                    style="@style/sfm13p"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="10dp"
+                    android:maxLines="1"
+                    android:text="@string/live_flight_tracker"
+                    android:textAlignment="textStart"
+                    app:layout_constraintBottom_toBottomOf="@+id/tick"
+                    app:layout_constraintEnd_toStartOf="@+id/tick"
+                    app:layout_constraintStart_toEndOf="@+id/iv_welcome_live"
+                    app:layout_constraintTop_toTopOf="@+id/tick" />
 
-        <TextView
-            android:id="@+id/tvOption3"
-            style="@style/sfm13p"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:maxLines="1"
-            android:text="@string/view_flight_schedules"
-            android:textAlignment="textStart"
-            app:layout_constraintBottom_toBottomOf="@+id/tick3"
-            app:layout_constraintEnd_toStartOf="@+id/tick"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tick3" />
+                <ImageView
+                    android:id="@+id/tick"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/welcome_option_uns"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
-            android:id="@+id/tick3"
-            android:layout_width="@dimen/_25sdp"
-            android:layout_height="@dimen/_25sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:padding="@dimen/_5sdp"
-            android:src="@drawable/welcome_option_uns"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view2"
-            />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/conFollow"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_55sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/welcome_features_bg"
+                app:layout_constraintEnd_toEndOf="@+id/conLive"
+                app:layout_constraintStart_toStartOf="@+id/conLive"
+                app:layout_constraintTop_toBottomOf="@+id/conLive">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/iv_welcome_follow_flight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:src="@drawable/iv_welcome_follow_flight"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvOption2" />
+
+                <TextView
+                    android:id="@+id/tvOption2"
+                    style="@style/sfm13p"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="10dp"
+                    android:maxLines="1"
+                    android:text="@string/follow_flights"
+                    android:textAlignment="textStart"
+                    app:layout_constraintBottom_toBottomOf="@+id/tick2"
+                    app:layout_constraintEnd_toStartOf="@+id/tick2"
+                    app:layout_constraintStart_toEndOf="@+id/iv_welcome_follow_flight"
+                    app:layout_constraintTop_toTopOf="@+id/tick2" />
+
+                <ImageView
+                    android:id="@+id/tick2"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/welcome_option_uns"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/conFlightScheduled"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_55sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@drawable/welcome_features_bg"
+                app:layout_constraintEnd_toEndOf="@+id/conLive"
+                app:layout_constraintStart_toStartOf="@+id/conLive"
+                app:layout_constraintTop_toBottomOf="@+id/conFollow">
+
+                <ImageView
+                    android:id="@+id/iv_welcome_scheduled_flight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:src="@drawable/iv_welcome_scheduled_flight"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tvOption3" />
+
+                <TextView
+                    android:id="@+id/tvOption3"
+                    style="@style/sfm13p"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginEnd="10dp"
+                    android:maxLines="1"
+                    android:text="@string/view_flight_schedules"
+                    android:textAlignment="textStart"
+                    app:layout_constraintBottom_toBottomOf="@+id/tick3"
+                    app:layout_constraintEnd_toStartOf="@+id/tick3"
+                    app:layout_constraintStart_toEndOf="@+id/iv_welcome_scheduled_flight"
+                    app:layout_constraintTop_toTopOf="@+id/tick3" />
+
+                <ImageView
+                    android:id="@+id/tick3"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:src="@drawable/welcome_option_uns"
+                    android:visibility="visible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 
     <FrameLayout
         android:id="@+id/fl_adplaceholder"
@@ -181,8 +230,8 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="5dp"
-        android:visibility="gone"
         android:layout_marginBottom="@dimen/_10sdp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

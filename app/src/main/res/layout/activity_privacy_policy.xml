@@ -1,0 +1,1181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg"
+    tools:context=".presentation.activities.PrivacyPolicyActivity">
+
+
+    <ImageView
+        android:id="@+id/iv_privacy_policy_screen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:src="@drawable/iv_privacy_policy_screen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvLiveFlight"
+        style="@style/sfb18p"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/live_flight_tracker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_privacy_policy_screen" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_20sdp"
+        app:layout_constraintBottom_toTopOf="@+id/conBottomPrivacyPolicy"
+        app:layout_constraintTop_toBottomOf="@+id/tvLiveFlight">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/app_margin" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@+id/glRight"
+                app:layout_constraintStart_toStartOf="@+id/glLeft"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/Title"
+                    style="@style/sfb14p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/privacy_policy"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/subTitle"
+                    style="@style/sfr11p"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="@string/please_review_our_privacy_policy_to_understand_how_we_collect_use_and_protect_your_personal_information"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/Title" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_30sdp"
+                    app:layout_constraintTop_toBottomOf="@+id/subTitle">
+
+                    <TextView
+                        android:id="@+id/Information_we_collect"
+                        style="@style/sfm13p"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1. Information We Collect"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/subtitle"
+                        style="@style/sfm11p"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="a. Location Information"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/Information_we_collect" />
+
+                    <TextView
+                        android:id="@+id/subTitleText"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="We collect your device’s location only when the app is in use to:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/subtitle" />
+
+                    <TextView
+                        android:id="@+id/Body1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="Show nearby airports."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/subTitleText" />
+
+                    <TextView
+                        android:id="@+id/Body2"
+                        style="@style/sfr10p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="Enhance the accuracy of flight and airport data relative to your location."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/Body1" />
+
+
+                    <TextView
+                        android:id="@+id/subtitle2"
+                        style="@style/sfm11p"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="b. Internet Usage"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/Body2" />
+
+                    <TextView
+                        android:id="@+id/subTitleText2"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="We require an internet connection to fetch real-time flight data and airport details via external APIs."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/subtitle2" />
+
+                    <TextView
+                        android:id="@+id/subTitleTextB1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="c.Permission Used:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/subTitleText2" />
+
+
+                    <TextView
+                        android:id="@+id/CBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="INTERNET"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/subTitleTextB1" />
+
+                    <TextView
+                        android:id="@+id/CBody2"
+                        style="@style/sfr10p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="We do not access or store any other personal data via the internet connection."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/CBody1" />
+
+
+                    <TextView
+                        android:id="@+id/DsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="d.Personal Information:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/CBody2" />
+
+                    <TextView
+                        android:id="@+id/DBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="Device Information: Model, manufacturer, operating system version, device identifiers (such as Google Advertising ID)"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/DsubTitle" />
+
+                    <TextView
+                        android:id="@+id/DBody2"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="IP Address: For security and analytics purposes"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/DBody1" />
+
+                    <TextView
+                        android:id="@+id/DBody3"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="Location Information: ACCESS_COARSE_LOCATION ACCESS_FINE_LOCATION"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/DBody2" />
+
+                    <TextView
+                        android:id="@+id/DBody4"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="Usage Data: App interaction and crash reports"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/DBody3" />
+
+                    <TextView
+                        android:id="@+id/DBody5"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="Advertising Data: Ad interactions, ad viewing history"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/DBody4" />
+
+                    <TextView
+                        android:id="@+id/DBody6"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:text="Advertising Data: Ad interactions, ad viewing history"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/DBody5" />
+
+                    <TextView
+                        android:id="@+id/DBody7"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="You can disable location access at any time through your device settings, but some features may not function properly without it."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/DBody6" />
+
+                    <TextView
+                        android:id="@+id/EsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="e.How We Use Your Information:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/DBody7" />
+
+
+                    <TextView
+                        android:id="@+id/EBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="To operate and maintain the App"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/EsubTitle" />
+
+                    <TextView
+                        android:id="@+id/EBody2"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="To personalize your experience"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/EBody1" />
+
+                    <TextView
+                        android:id="@+id/EBody3"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="To serve advertisements via third-party ad networks"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/EBody2" />
+
+
+                    <TextView
+                        android:id="@+id/EBody4"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="To ensure security and detect fraudulent activities"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/EBody3" />
+
+
+                    <TextView
+                        android:id="@+id/EBody5"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="To comply with legal obligations"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/EBody4" />
+
+                    <TextView
+                        android:id="@+id/FsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="f.Sharing of Your Information:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/EBody5" />
+
+                    <TextView
+                        android:id="@+id/FBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="We may share your data with trusted third-party service providers:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/FsubTitle" />
+
+                    <TextView
+                        android:id="@+id/GsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="g.Third-Party Services and Sharing:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/FBody1" />
+
+                    <TextView
+                        android:id="@+id/GBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="We work with the following third-party partners:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/GsubTitle" />
+
+                    <TextView
+                        android:id="@+id/GBody2"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="Google AdMob — to display advertisements"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/GBody1" />
+
+                    <TextView
+                        android:id="@+id/GBody3"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="Meta Audience Network — for advertisement delivery"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/GBody2" />
+
+                    <TextView
+                        android:id="@+id/GBody4"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="Firebase (Google) — for app analytics, crash reporting, push notifications"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/GBody3" />
+
+                    <TextView
+                        android:id="@+id/GBody5"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="These partners may collect data about your device and usage to personalize ads and measure performance, subject to their own privacy policies."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/GBody4" />
+
+                    <TextView
+                        android:id="@+id/HsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="h.User Rights:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/GBody5" />
+
+                    <TextView
+                        android:id="@+id/HBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="Depending on your location, you have rights under GDPR, CCPA, and LGPD, including:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/HsubTitle" />
+
+                    <TextView
+                        android:id="@+id/HBody2"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="Right to access your personal data"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/HBody1" />
+
+                    <TextView
+                        android:id="@+id/HBody3"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="Right to correct inaccurate data"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/HBody2" />
+
+                    <TextView
+                        android:id="@+id/HBody4"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="Right to delete your personal data"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/HBody3" />
+
+                    <TextView
+                        android:id="@+id/HBody5"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="Right to object to or restrict processing"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/HBody4" />
+
+                    <TextView
+                        android:id="@+id/HBody6"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="Right to data portability"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/HBody5" />
+
+                    <TextView
+                        android:id="@+id/HBody7"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="Right to withdraw consent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/HBody6" />
+
+                    <TextView
+                        android:id="@+id/HBody8"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="Right to opt-out of sale of personal data (CCPA users)"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/HBody7" />
+
+                    <TextView
+                        android:id="@+id/HBody9"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="To exercise your rights, contact us at: tanybrodev@gmail.com. We respond to all valid requests within 30 days.:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/HBody8" />
+
+                    <TextView
+                        android:id="@+id/IsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="h. California Consumer Privacy Act (CCPA) Specifics:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/HBody9" />
+
+                    <TextView
+                        android:id="@+id/IBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="If you are a California resident:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/IsubTitle" />
+
+                    <TextView
+                        android:id="@+id/IBody2"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="We do not sell your personal data for monetary gain."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/IBody1" />
+
+                    <TextView
+                        android:id="@+id/IBody3"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="You can request a copy of your data or ask for deletion at any time."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/IBody2" />
+
+                    <TextView
+                        android:id="@+id/IBody4"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="California users can opt out of personalized advertising by adjusting consent settings within the App or contacting us directly."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/IBody3" />
+
+                    <TextView
+                        android:id="@+id/JsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="j. Brazil Lei Geral de Proteção de Dados (LGPD) Specifics:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/IBody4" />
+
+                    <TextView
+                        android:id="@+id/JBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="If you are a resident of Brazil:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/JsubTitle" />
+
+                    <TextView
+                        android:id="@+id/JBody2"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="You have the right to confirm the existence of data processing."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/JBody1" />
+
+                    <TextView
+                        android:id="@+id/JBody3"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="You can request anonymization, blocking, or elimination of unnecessary or excessive data."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/JBody2" />
+
+                    <TextView
+                        android:id="@+id/JBody4"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="We process your data based on your consent and legitimate interest, as permitted by LGPD."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/JBody3" />
+
+                    <TextView
+                        android:id="@+id/KsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="k. Data Sources"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/JBody4" />
+
+                    <TextView
+                        android:id="@+id/KBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="All flight and airport data is sourced from Aviation Edge, a publicly available aviation data provider."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/KsubTitle" />
+
+                    <TextView
+                        android:id="@+id/KBody4"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="We do not collect, store, or share personal flight data. All flight information is generalized and publicly available."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/KBody1" />
+
+
+                    <TextView
+                        android:id="@+id/LsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="L. Data Retention"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/KBody4" />
+
+                    <TextView
+                        android:id="@+id/LBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="We retain your data for as long as needed for the purposes described in this Privacy Policy, unless a longer retention period is required by law. When no longer needed, data is securely deleted or anonymized."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/LsubTitle" />
+
+                    <TextView
+                        android:id="@+id/MsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="m. How We Use Your Information:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/LBody1" />
+
+                    <TextView
+                        android:id="@+id/MBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="We use the information solely to:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/MsubTitle" />
+
+                    <TextView
+                        android:id="@+id/MBody2"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="Display real-time flight and airport data."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/MBody1" />
+
+                    <TextView
+                        android:id="@+id/MBody3"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="Show location-based nearby airports or flights."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/MBody2" />
+
+                    <TextView
+                        android:id="@+id/MBody4"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_40sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:drawableLeft="@drawable/iv_list_dot"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:text="Improve app functionality and user experience."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/MBody3" />
+
+                    <TextView
+                        android:id="@+id/NsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="n. Data Sharing:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/MBody4" />
+
+                    <TextView
+                        android:id="@+id/NBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="We do not sell, trade, or rent your personal data to third parties."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/NsubTitle" />
+
+                    <TextView
+                        android:id="@+id/NBody2"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="Your location data is processed on-device or used only to fetch relevant flight data. It is never shared externally."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/NBody1" />
+
+                    <TextView
+                        android:id="@+id/OsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="0. Log Data:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/NBody2" />
+
+                    <TextView
+                        android:id="@+id/OBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="We want to inform you that whenever you use our Service, in case of an error in the app we collect data and information (through Play Services) on your phone called Log Data. This Log Data may include information such as your devices's Internet Protocol address, device name, operating system version, configuration of the app when utilising our Service, the time and date of your use of the Service, and other statistics."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/OsubTitle" />
+
+                    <TextView
+                        android:id="@+id/PsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="P. EU General Data Protection Regulation (GDPR):"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/OBody1" />
+
+                    <TextView
+                        android:id="@+id/PBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="Personal data are only collected by Google Play Services and Admob. The service is compliant to GDPR. So in Europe users will be requested to answer if they prefer personalized ads or non personalized ads. At any time the user can change the preference heading to the 'Settings' menu option."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/PsubTitle" />
+
+                    <TextView
+                        android:id="@+id/QsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="Q. California Consumer Privacy Act (CCPA):"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/PBody1" />
+
+                    <TextView
+                        android:id="@+id/QBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="Personal data are only collected by Google Play Services and Admob. The service is compliant to CCPA. We use AdMob's support leveraging Restricted data processing (Google's RDP). At any time the user can change the preference heading to the 'Settings' menu option."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/QsubTitle" />
+
+                    <TextView
+                        android:id="@+id/RsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="R. Security:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/QBody1" />
+
+                    <TextView
+                        android:id="@+id/RBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="We implement appropriate technical and organizational measures to protect your personal information against accidental or unlawful destruction, loss, alteration, unauthorized disclosure, or access."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/RsubTitle" />
+
+                    <TextView
+                        android:id="@+id/RBody2"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="However, no method of transmission over the Internet is 100% secure, and we cannot guarantee absolute security."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/RBody1" />
+
+                    <TextView
+                        android:id="@+id/SsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="S. Children’s Privacy:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/RBody2" />
+
+                    <TextView
+                        android:id="@+id/SBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="This app is not intended for children under the age of 13. We do not knowingly collect personal information from children."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/SsubTitle" />
+
+                    <TextView
+                        android:id="@+id/TsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="T. Changes to this Privacy Policy:"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/SBody1" />
+
+                    <TextView
+                        android:id="@+id/TBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="We may update this Privacy Policy from time to time. We will notify users of significant changes by updating the date at the top of this policy."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/TsubTitle" />
+
+                    <TextView
+                        android:id="@+id/UsubTitle"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:text="Contact Us"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/TBody1" />
+
+                    <TextView
+                        android:id="@+id/UBody1"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="If you have questions or concerns, please contact us at:."
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintTop_toBottomOf="@+id/UsubTitle" />
+
+                    <TextView
+                        android:id="@+id/UBody2"
+                        style="@style/sfm11p"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="Email: [tanybrodev@gmail.com]"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/Information_we_collect"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        app:layout_constraintTop_toBottomOf="@+id/UBody1" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/conBottomPrivacyPolicy"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_105sdp"
+        android:background="@drawable/privacy_policy_bottom_bg"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_privacy_check"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:contentDescription="no"
+            android:padding="@dimen/_5sdp"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:src="@drawable/iv_privacy_check"
+            app:layout_constraintEnd_toStartOf="@+id/tvv2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/tvv2"
+            app:layout_constraintTop_toTopOf="@+id/tvv2" />
+
+        <TextView
+            android:id="@+id/tvv2"
+            style="@style/sfm10p"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:text="I have read and agree to the Privacy Policy"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/DeclineBtn"
+            app:layout_constraintStart_toEndOf="@+id/iv_privacy_check"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_default="wrap" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/DeclineBtn"
+            style="@style/sfsb14acc1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:background="@drawable/iv_privacy_policy_decline_btn"
+            android:text="Decline"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/AcceptBtn"
+            app:layout_constraintTop_toBottomOf="@+id/tvv2" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/AcceptBtn"
+            style="@style/sfsb14primary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:background="@drawable/iv_privacy_policy_accept_btn"
+            android:text="Accept"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:textAllCaps="false"
+            app:layout_constraintStart_toEndOf="@+id/DeclineBtn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvv2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

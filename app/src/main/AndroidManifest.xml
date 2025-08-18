@@ -18,6 +18,9 @@
         android:theme="@style/Theme.FlightTrackerAppNew"
         tools:targetApi="35">
         <activity
+            android:name=".presentation.activities.PrivacyPolicyActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.activities.premium.PremiumActivity"
             android:exported="false" />
 

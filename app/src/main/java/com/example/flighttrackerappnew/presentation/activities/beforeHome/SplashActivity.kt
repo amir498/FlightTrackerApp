@@ -12,11 +12,13 @@ import com.example.flighttrackerappnew.FlightApp.Companion.canRequestAd
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivitySplashBinding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
+import com.example.flighttrackerappnew.presentation.activities.PrivacyPolicyActivity
 import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager
 import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager.showAd
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
+import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.ump.UMPConsentManager
 import com.example.flighttrackerappnew.presentation.utils.allApiCallCompleted
@@ -31,6 +33,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
+import org.koin.core.component.inject
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
@@ -54,6 +57,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         } else {
             showDialog()
         }
+
     }
 
     override fun onResume() {
@@ -149,43 +153,79 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                                                     }, 1000)
                                                 },
                                                 {
-                                                    startActivity(
-                                                        Intent(
-                                                            this@SplashActivity,
-                                                            LanguageActivity::class.java
+                                                    if (config.isPrivacyPolicyAccepted) {
+                                                        startActivity(
+                                                            Intent(
+                                                                this@SplashActivity,
+                                                                LanguageActivity::class.java
+                                                            )
                                                         )
-                                                    )
+                                                    } else {
+                                                        startActivity(
+                                                            Intent(
+                                                                this@SplashActivity,
+                                                                PrivacyPolicyActivity::class.java
+                                                            )
+                                                        )
+                                                    }
                                                     finish()
                                                 },
                                                 {
-                                                    startActivity(
-                                                        Intent(
-                                                            this@SplashActivity,
-                                                            LanguageActivity::class.java
+                                                    if (config.isPrivacyPolicyAccepted) {
+                                                        startActivity(
+                                                            Intent(
+                                                                this@SplashActivity,
+                                                                LanguageActivity::class.java
+                                                            )
                                                         )
-                                                    )
+                                                    } else {
+                                                        startActivity(
+                                                            Intent(
+                                                                this@SplashActivity,
+                                                                PrivacyPolicyActivity::class.java
+                                                            )
+                                                        )
+                                                    }
                                                     finish()
                                                 }
                                             )
                                         } else {
-                                            startActivity(
-                                                Intent(
-                                                    this@SplashActivity,
-                                                    LanguageActivity::class.java
+                                            if (config.isPrivacyPolicyAccepted) {
+                                                startActivity(
+                                                    Intent(
+                                                        this@SplashActivity,
+                                                        LanguageActivity::class.java
+                                                    )
                                                 )
-                                            )
+                                            } else {
+                                                startActivity(
+                                                    Intent(
+                                                        this@SplashActivity,
+                                                        PrivacyPolicyActivity::class.java
+                                                    )
+                                                )
+                                            }
                                             finish()
                                         }
                                     }
                             }
                         }
                     } else {
-                        startActivity(
-                            Intent(
-                                this@SplashActivity,
-                                LanguageActivity::class.java
+                        if (config.isPrivacyPolicyAccepted) {
+                            startActivity(
+                                Intent(
+                                    this@SplashActivity,
+                                    LanguageActivity::class.java
+                                )
                             )
-                        )
+                        } else {
+                            startActivity(
+                                Intent(
+                                    this@SplashActivity,
+                                    PrivacyPolicyActivity::class.java
+                                )
+                            )
+                        }
                         finish()
                     }
                 }

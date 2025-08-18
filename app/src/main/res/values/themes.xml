@@ -92,6 +92,12 @@
         <item name="android:fontFamily">@font/sf_pro_display_semibold</item>
     </style>
 
+    <style name="sfsb14primary">
+        <item name="android:textSize">@dimen/_14ssp</item>
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:fontFamily">@font/sf_pro_display_semibold</item>
+    </style>
+
     <style name="sfb12p">
         <item name="android:textSize">@dimen/_12ssp</item>
         <item name="android:textColor">@color/text_color_p</item>
@@ -235,6 +241,12 @@
 
     <style name="sfr11p">
         <item name="android:textSize">@dimen/_11ssp</item>
+        <item name="android:textColor">@color/text_color_p</item>
+        <item name="android:fontFamily">@font/sf_pro_display_regular</item>
+    </style>
+
+    <style name="sfr10p">
+        <item name="android:textSize">@dimen/_10ssp</item>
         <item name="android:textColor">@color/text_color_p</item>
         <item name="android:fontFamily">@font/sf_pro_display_regular</item>
     </style>
