@@ -274,4 +274,7 @@ dependencies {
     //lifecycle
     implementation(libs.androidx.lifecycle.process)
 
+    //gob
+    implementation(libs.billing.ktx)
+
 }

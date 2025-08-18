@@ -20,9 +20,6 @@
         <activity
             android:name=".presentation.activities.PrivacyPolicyActivity"
             android:exported="false" />
-        <activity
-            android:name=".presentation.activities.premium.PremiumActivity"
-            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.gms.ads.flag.NATIVE_AD_DEBUGGER_ENABLED"

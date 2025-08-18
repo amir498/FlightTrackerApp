@@ -34,3 +34,4 @@ var favData: FullDetailFlightData? = null
 
 var isComeFromTracked: Boolean = true
 var trackData: FollowFlightData? = null
+var NotPremiumUser: Boolean = false

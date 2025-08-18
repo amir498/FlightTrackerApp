@@ -18,7 +18,6 @@ import com.example.flighttrackerappnew.presentation.adManager.controller.NativeA
 import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager
 import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager.showAd
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
-import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.ump.UMPConsentManager
 import com.example.flighttrackerappnew.presentation.utils.allApiCallCompleted
@@ -33,7 +32,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import org.koin.core.component.inject
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {

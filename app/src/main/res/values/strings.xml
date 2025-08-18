@@ -1,4 +1,5 @@
 <resources>
+    <string name="base_64_key" translatable="false">"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtOKkUByYeNMTtbzvBu67tyhwmTC2T4l1ziQlyRCNFmthdLmG7AXXYBemAwT2bl3tMFiXKcrMOO+WOO1khMsGMsUWQ9o8+92nahWckBhf4PvKSsdxryC1bvmdFR1b5hFnf5T6y35uYTygr+0EJoUUc67BZ4Q+3ZPNcGL26bplTkIia85lgQU9xlS3ohN9AcvlOtgKcdd9OWDRD62Bq1v62IyT3ux4I4ZLnyOdF9gjMm276ttLCLC4842VGn8lJI/DpxpUOp7Wrp7R3R6vZYtWoktx/6Huh+TE4Jr0qzQEJmWvDqipOOo9ojnqtLQhBFVD57V1nsIv2/nHdQeIUdh96QIDAQAB"</string>
     <string name="googleMapApiKey" translatable="false">AIzaSyA55ONWFBc0yBvM-s5Qa_iT_2aPrsNOt8o</string>
     <string name="app_name">Flight Tracker</string>
     <string name="live_flight_track">Live Flight Track</string>
