@@ -8,6 +8,7 @@ import com.example.flighttrackerappnew.presentation.di.appModule
 import com.example.flighttrackerappnew.presentation.lifecycle_observer.ActivitiesLifeCycleObserver
 import com.example.flighttrackerappnew.presentation.lifecycle_observer.BillingLifecycleObserver
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
+import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -16,6 +17,8 @@ class FlightApp : Application() {
     companion object {
         var canRequestAd = false
     }
+
+    private val billingUseCase: BillingUseCase by inject()
 
     override fun onCreate() {
         super.onCreate()
@@ -30,9 +33,6 @@ class FlightApp : Application() {
             modules(appModule)
         }
         RemoteConfigManager.init()
-
-        val billingRepo = BillingRepository(applicationContext)
-        val billingUseCase = BillingUseCase(billingRepo)
 
         registerActivityLifecycleCallbacks(
             BillingLifecycleObserver(billingUseCase)

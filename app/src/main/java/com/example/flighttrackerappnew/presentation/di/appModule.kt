@@ -32,6 +32,7 @@ import com.example.flighttrackerappnew.data.repository.airports.datasource.AirPo
 import com.example.flighttrackerappnew.data.repository.airports.datasourceImpl.AirPortsCacheDataSourceImpl
 import com.example.flighttrackerappnew.data.repository.airports.datasourceImpl.AirPortsRemoteDataSourceImpl
 import com.example.flighttrackerappnew.data.repository.airports.datasourceImpl.AirPortsRoomDataSourceImpl
+import com.example.flighttrackerappnew.data.repository.billing.BillingRepository
 import com.example.flighttrackerappnew.data.repository.cities.CitiesRepositoryImpl
 import com.example.flighttrackerappnew.data.repository.cities.datasource.CitiesCacheDataSource
 import com.example.flighttrackerappnew.data.repository.cities.datasource.CitiesRemoteDataSource
@@ -75,6 +76,7 @@ import com.example.flighttrackerappnew.domain.repository.FutureScheduleFlightRep
 import com.example.flighttrackerappnew.domain.repository.LiveFlightRepository
 import com.example.flighttrackerappnew.domain.repository.NearByAirPortsRepository
 import com.example.flighttrackerappnew.domain.repository.StaticAirLineRepository
+import com.example.flighttrackerappnew.domain.usecase.BillingUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetAirPlanesUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetAirPortsUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetCitiesUseCase
@@ -124,6 +126,8 @@ val appModule = module {
     }
 
     single { DataCollector() }
+    single { BillingRepository(get()) }
+    single { BillingUseCase(get()) }
     single { get<AppDatabase>().liveFlightDao() }
     single { get<AppDatabase>().staticAirLineDao() }
     single { get<AppDatabase>().schedulesFlightDao() }
