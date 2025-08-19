@@ -212,5 +212,21 @@
     <string name="satellite">Satelit</string>
     <string name="exit_app">Keluar Aplikasi</string>
     <string name="are_your_sure_you_want_to_exit_app">Apakah Anda yakin ingin keluar dari aplikasi?</string>
+    <string name="terms_of_service">Ketentuan Layanan</string>
+    <string name="by_purchasing_you_agree_to_our_privacy_policy_terms_conditions"><![CDATA[Dengan membeli, Anda menyetujui Kebijakan Privasi & Syarat & Ketentuan kami.]]></string>
+    <string name="unlimited_favorites_tracked_flights"><![CDATA[Favorit & Penerbangan Terpantau Tak Terbatas]]></string>
+    <string name="your_ultimate_flying_companion_track_follow_and_explore_flights_without_limits">Pendamping terbang terbaik Anda — lacak, ikuti, dan jelajahi penerbangan tanpa batas.</string>
+    <string name="upgrade_to_premium">Tingkatkan ke Premium</string>
+    <string name="live_flight_tracking">Pelacakan Penerbangan Langsung</string>
+    <string name="follow_flights_in_real_time_with_precise_up_to_the_second_map_updates">Ikuti penerbangan secara real-time dengan pembaruan peta yang presisi hingga detik.</string>
+    <string name="save_as_many_flights_and_airports_as_you_want_no_restrictions">Simpan sebanyak mungkin penerbangan dan bandara yang Anda mau — tanpa batasan.</string>
+    <string name="completely_ad_free">Bebas Iklan Sepenuhnya</string>
+    <string name="enjoy_a_seamless_distraction_free_experience_without_any_ads">Nikmati pengalaman mulus tanpa gangguan, tanpa iklan apa pun.</string>
+    <string name="free_trail_enabled">Uji Coba Gratis Aktif</string>
+    <string name="weekly_plan">Paket Mingguan</string>
+    <string name="yearly_plan">Paket Tahunan</string>
+    <string name="cancel_anytime_no_hidden_fees">Batalkan kapan saja. Tanpa biaya tersembunyi.</string>
+    <string name="upgrade_now">Tingkatkan Sekarang</string>
+    <string name="please_review_our_privacy_policy_to_understand_how_we_collect_use_and_protect_your_personal_information">Harap tinjau Kebijakan Privasi kami untuk memahami bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda.</string>
 
 </resources>

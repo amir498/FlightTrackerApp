@@ -458,7 +458,7 @@ class LiveMapFlightTrackerActivity :
                             airPlanesList
                         )
                     } catch (e: IndexOutOfBoundsException) {
-                        e.printStackTrace()
+                        this@LiveMapFlightTrackerActivity.showToast("No Flight Data Found")
                     }
                 }
             }

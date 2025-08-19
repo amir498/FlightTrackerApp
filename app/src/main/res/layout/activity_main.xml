@@ -125,9 +125,10 @@
                 <TextView
                     android:id="@+id/tvFLightTracker"
                     style="@style/sfb17p"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/flight_tracker"
+                    android:maxLength="15"
                     app:layout_constraintBottom_toTopOf="@+id/viewMapBtn"
                     app:layout_constraintStart_toStartOf="@+id/tvLiveMap"
                     app:layout_constraintTop_toBottomOf="@+id/tvLiveMap" />
@@ -151,6 +152,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:maxLength="8"
                         android:gravity="end"
                         android:text="@string/view_map" />
 

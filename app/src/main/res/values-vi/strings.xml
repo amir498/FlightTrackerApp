@@ -212,4 +212,21 @@
     <string name="satellite">Vệ tinh</string>
     <string name="exit_app">Thoát ứng dụng</string>
     <string name="are_your_sure_you_want_to_exit_app">Bạn có chắc muốn thoát ứng dụng không?</string>
+    <string name="terms_of_service">Điều khoản dịch vụ</string>
+    <string name="by_purchasing_you_agree_to_our_privacy_policy_terms_conditions"><![CDATA[Bằng việc mua, bạn đồng ý với Chính sách quyền riêng tư & Điều khoản & Điều kiện của chúng tôi.]]></string>
+    <string name="unlimited_favorites_tracked_flights"><![CDATA[Yêu thích & Theo dõi chuyến bay không giới hạn]]></string>
+    <string name="your_ultimate_flying_companion_track_follow_and_explore_flights_without_limits">Người bạn đồng hành bay tuyệt vời — theo dõi, theo dõi và khám phá chuyến bay không giới hạn.</string>
+    <string name="upgrade_to_premium">Nâng cấp lên Premium</string>
+    <string name="live_flight_tracking">Theo dõi chuyến bay trực tiếp</string>
+    <string name="follow_flights_in_real_time_with_precise_up_to_the_second_map_updates">Theo dõi chuyến bay theo thời gian thực với cập nhật bản đồ chính xác từng giây.</string>
+    <string name="save_as_many_flights_and_airports_as_you_want_no_restrictions">Lưu bao nhiêu chuyến bay và sân bay tùy thích — không giới hạn.</string>
+    <string name="completely_ad_free">Hoàn toàn không có quảng cáo</string>
+    <string name="enjoy_a_seamless_distraction_free_experience_without_any_ads">Tận hưởng trải nghiệm liền mạch, không bị làm phiền bởi quảng cáo.</string>
+    <string name="free_trail_enabled">Dùng thử miễn phí đã kích hoạt</string>
+    <string name="weekly_plan">Gói hàng tuần</string>
+    <string name="yearly_plan">Gói hàng năm</string>
+    <string name="cancel_anytime_no_hidden_fees">Hủy bất cứ lúc nào. Không phí ẩn.</string>
+    <string name="upgrade_now">Nâng cấp ngay</string>
+    <string name="please_review_our_privacy_policy_to_understand_how_we_collect_use_and_protect_your_personal_information">Vui lòng xem lại Chính sách quyền riêng tư của chúng tôi để hiểu cách chúng tôi thu thập, sử dụng và bảo vệ thông tin cá nhân của bạn.</string>
+
 </resources>

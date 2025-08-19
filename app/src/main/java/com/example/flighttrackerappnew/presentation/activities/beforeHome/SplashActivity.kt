@@ -55,7 +55,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         } else {
             showDialog()
         }
-
     }
 
     override fun onResume() {

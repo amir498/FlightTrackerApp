@@ -212,4 +212,21 @@
     <string name="satellite">卫星</string>
     <string name="exit_app">退出应用</string>
     <string name="are_your_sure_you_want_to_exit_app">您确定要退出应用吗？</string>
+    <string name="terms_of_service">服务条款</string>
+    <string name="by_purchasing_you_agree_to_our_privacy_policy_terms_conditions"><![CDATA[购买即表示您同意我们的隐私政策和条款与条件。]]></string>
+    <string name="unlimited_favorites_tracked_flights"><![CDATA[无限收藏和航班追踪]]></string>
+    <string name="your_ultimate_flying_companion_track_follow_and_explore_flights_without_limits">您的终极飞行伴侣 —— 无限制地跟踪、关注和探索航班。</string>
+    <string name="upgrade_to_premium">升级至高级版</string>
+    <string name="live_flight_tracking">实时航班追踪</string>
+    <string name="follow_flights_in_real_time_with_precise_up_to_the_second_map_updates">实时跟踪航班，享受精确到秒的地图更新。</string>
+    <string name="save_as_many_flights_and_airports_as_you_want_no_restrictions">保存任意数量的航班和机场 —— 没有限制。</string>
+    <string name="completely_ad_free">完全无广告</string>
+    <string name="enjoy_a_seamless_distraction_free_experience_without_any_ads">享受无缝、无干扰的无广告体验。</string>
+    <string name="free_trail_enabled">已启用免费试用</string>
+    <string name="weekly_plan">每周计划</string>
+    <string name="yearly_plan">年度计划</string>
+    <string name="cancel_anytime_no_hidden_fees">随时取消，无隐藏费用。</string>
+    <string name="upgrade_now">立即升级</string>
+    <string name="please_review_our_privacy_policy_to_understand_how_we_collect_use_and_protect_your_personal_information">请查看我们的隐私政策，以了解我们如何收集、使用和保护您的个人信息。</string>
+
 </resources>

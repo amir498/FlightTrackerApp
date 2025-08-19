@@ -3,6 +3,8 @@ package com.example.flighttrackerappnew.presentation.googleMap
 import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
+import android.os.Handler
+import android.os.Looper
 import androidx.core.content.ContextCompat
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.airport.AirportsDataItems
@@ -112,34 +114,37 @@ class MyGoogleMap : OnMapReadyCallback, KoinComponent {
                 .pattern(dashPattern)
         )
 
-        val departureMarker = mMap?.addMarker(
-            MarkerOptions()
-                .position(departureLatLng)
-                .icon(depMarkerIcon)
-                .anchor(0.5f, 0.5f)
-                .title("Departure: ${departure.nameAirport ?: "Unknown"}")
-        )
+        withMapOnMain { map ->
+            val departureMarker = mMap?.addMarker(
+                MarkerOptions()
+                    .position(departureLatLng)
+                    .icon(depMarkerIcon)
+                    .anchor(0.5f, 0.5f)
+                    .title("Departure: ${departure.nameAirport ?: "Unknown"}")
+            )
 
-        val arrivalMarker = mMap?.addMarker(
-            MarkerOptions()
-                .position(arrivalLatLng)
-                .icon(arrMarkerIcon)
-                .anchor(0.5f, 0.5f)
-                .title("Arrival: ${arrival.nameAirport ?: "Unknown"}")
-        )
+            val arrivalMarker = mMap?.addMarker(
+                MarkerOptions()
+                    .position(arrivalLatLng)
+                    .icon(arrMarkerIcon)
+                    .anchor(0.5f, 0.5f)
+                    .title("Arrival: ${arrival.nameAirport ?: "Unknown"}")
+            )
 
-        departureMarker?.let { drawnMarkers.add(it) }
-        arrivalMarker?.let { drawnMarkers.add(it) }
+            departureMarker?.let { drawnMarkers.add(it) }
+            arrivalMarker?.let { drawnMarkers.add(it) }
 
-        if (line1 != null && line2 != null) {
-            drawnFlightPaths[flightId.toString()] = line1
-            drawnFlightPaths["${flightId}_2"] = line2
+            if (line1 != null && line2 != null) {
+                drawnFlightPaths[flightId.toString()] = line1
+                drawnFlightPaths["${flightId}_2"] = line2
+            }
+
+            removeLastSelected()
+            addLastSelectedPlane(airplaneDefaultIcon)
+            removeDefaultPlane(flightData)
+            addSelectedPlane(flightData, airplaneSelectedIcon, arrivalLatLng)
         }
 
-        removeLastSelected()
-        addLastSelectedPlane(airplaneDefaultIcon)
-        removeDefaultPlane(flightData)
-        addSelectedPlane(flightData, airplaneSelectedIcon, arrivalLatLng)
     }
 
     private fun removeLastSelected() {
@@ -156,21 +161,24 @@ class MyGoogleMap : OnMapReadyCallback, KoinComponent {
             lastSelectedPlane?.geography?.latitude ?: return,
             lastSelectedPlane?.geography?.longitude ?: return
         )
-        val marker = mMap?.addMarker(
-            MarkerOptions()
-                .position(currentFlightLocation)
-                .icon(airplaneSelectedIcon)
-                .rotation((lastSelectedPlane?.geography?.direction ?: 0.0).toFloat())
-                .anchor(0.5f, 0.5f)
-                .flat(true)
-                .title("Plane")
-        )
+        withMapOnMain { map ->
+            val marker = mMap?.addMarker(
+                MarkerOptions()
+                    .position(currentFlightLocation)
+                    .icon(airplaneSelectedIcon)
+                    .rotation((lastSelectedPlane?.geography?.direction ?: 0.0).toFloat())
+                    .anchor(0.5f, 0.5f)
+                    .flat(true)
+                    .title("Plane")
+            )
 
-        marker?.tag = lastSelectedPlane
+            marker?.tag = lastSelectedPlane
 
-        if (marker != null) {
-            planeMarker[lastSelectedPlane?.flight?.iataNumber.toString()] = marker
+            if (marker != null) {
+                planeMarker[lastSelectedPlane?.flight?.iataNumber.toString()] = marker
+            }
         }
+
     }
 
     private fun addSelectedPlane(
@@ -186,22 +194,33 @@ class MyGoogleMap : OnMapReadyCallback, KoinComponent {
 
         val bearing = currentFlightLocation.bearingTo(arrivalLatLng)
 
-        val marker = mMap?.addMarker(
-            MarkerOptions()
-                .position(currentFlightLocation)
-                .icon(airplaneSelectedIcon)
-                .rotation(bearing)
-                .anchor(0.5f, 0.5f)
-                .flat(true)
-                .title("Plane")
-        )
 
-        marker?.tag = flightData
-        lastSelectedPlane = flightData
-        lastArrivalLongLat = arrivalLatLng
+        withMapOnMain { map ->
+            val marker = mMap?.addMarker(
+                MarkerOptions()
+                    .position(currentFlightLocation)
+                    .icon(airplaneSelectedIcon)
+                    .rotation(bearing)
+                    .anchor(0.5f, 0.5f)
+                    .flat(true)
+                    .title("Plane")
+            )
+            marker?.tag = flightData
+            lastSelectedPlane = flightData
+            lastArrivalLongLat = arrivalLatLng
 
-        if (marker != null) {
-            planeMarker[flightData.flight?.iataNumber.toString()] = marker
+            if (marker != null) {
+                planeMarker[flightData.flight?.iataNumber.toString()] = marker
+            }
+        }
+    }
+
+    private fun withMapOnMain(block: (GoogleMap) -> Unit) {
+        val map = mMap ?: return
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            block(map)
+        } else {
+            Handler(Looper.getMainLooper()).post { block(map) }
         }
     }
 
@@ -274,7 +293,7 @@ class MyGoogleMap : OnMapReadyCallback, KoinComponent {
         )
     }
 
-    fun setSelectedFlight(selectedFlight: FlightDataItem){
+    fun setSelectedFlight(selectedFlight: FlightDataItem) {
         this.selectedFlight = selectedFlight
     }
 
@@ -339,7 +358,6 @@ class MyGoogleMap : OnMapReadyCallback, KoinComponent {
     }
 
 
-
     fun getVisibleBounds(): LatLngBounds? {
         return mMap?.projection?.visibleRegion?.latLngBounds
     }
@@ -355,23 +373,26 @@ class MyGoogleMap : OnMapReadyCallback, KoinComponent {
         val id = flightData?.flight?.iataNumber ?: return
         val planePosition = LatLng(latitude, longitude)
 
-        val marker = mMap?.addMarker(
-            MarkerOptions()
-                .position(planePosition)
-                .icon(markerIcon)
-                .rotation(direction?.toFloat() ?: 0f)
-                .anchor(0.5f, 0.5f)
-                .flat(true)
-                .title("Plane")
-        )
+        withMapOnMain { map ->
+            val marker = mMap?.addMarker(
+                MarkerOptions()
+                    .position(planePosition)
+                    .icon(markerIcon)
+                    .rotation(direction?.toFloat() ?: 0f)
+                    .anchor(0.5f, 0.5f)
+                    .flat(true)
+                    .title("Plane")
+            )
 
-        marker?.tag = flightData
-        if (marker != null) {
-            planeMarker[id] = marker
+            marker?.tag = flightData
+            if (marker != null) {
+                planeMarker[id] = marker
+            }
+
+            removeDefaultPlane(lastSelectedPlane)
+            addSelectedPlane(lastSelectedPlane, airplaneSelectedIcon, lastArrivalLongLat)
         }
 
-        removeDefaultPlane(lastSelectedPlane)
-        addSelectedPlane(lastSelectedPlane, airplaneSelectedIcon, lastArrivalLongLat)
     }
 
     private val planeMarker = mutableMapOf<String, Marker>()

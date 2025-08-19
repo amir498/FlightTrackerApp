@@ -14,6 +14,7 @@ import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivityPrivacyPolicyBinding
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.LanguageActivity
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
+import com.example.flighttrackerappnew.presentation.utils.loadAppOpen
 import com.example.flighttrackerappnew.presentation.utils.openWebBrowser
 import com.example.flighttrackerappnew.presentation.utils.showToast
 
@@ -87,6 +88,7 @@ class PrivacyPolicyActivity :
                 }
             }
             DeclineBtn.setOnClickListener {
+                loadAppOpen = false
                 config.isPrivacyPolicyAccepted = false
                 finish()
             }

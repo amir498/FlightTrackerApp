@@ -212,5 +212,21 @@
     <string name="satellite">قمر صناعي</string>
     <string name="exit_app">الخروج من التطبيق</string>
     <string name="are_your_sure_you_want_to_exit_app">هل أنت متأكد أنك تريد الخروج من التطبيق؟</string>
+        <string name="terms_of_service">شروط الخدمة</string>
+        <string name="by_purchasing_you_agree_to_our_privacy_policy_terms_conditions"><![CDATA[من خلال الشراء، فإنك توافق على سياسة الخصوصية وشروط وأحكام الاستخدام.]]></string>
+        <string name="unlimited_favorites_tracked_flights"><![CDATA[مفضلات غير محدودة ورحلات متابعة غير محدودة]]></string>
+        <string name="your_ultimate_flying_companion_track_follow_and_explore_flights_without_limits">رفيقك المثالي في الطيران — تتبّع، تابع، واستكشف الرحلات بلا حدود.</string>
+        <string name="upgrade_to_premium">الترقية إلى بريميوم</string>
+        <string name="live_flight_tracking">تتبّع الرحلات المباشر</string>
+        <string name="follow_flights_in_real_time_with_precise_up_to_the_second_map_updates">تابع الرحلات في الوقت الحقيقي مع تحديثات دقيقة لحظة بلحظة على الخريطة.</string>
+        <string name="save_as_many_flights_and_airports_as_you_want_no_restrictions">احفظ ما تشاء من الرحلات والمطارات — بدون قيود.</string>
+        <string name="completely_ad_free">خالي تمامًا من الإعلانات</string>
+        <string name="enjoy_a_seamless_distraction_free_experience_without_any_ads">استمتع بتجربة سلسة وخالية من أي إعلانات.</string>
+        <string name="free_trail_enabled">تجربة مجانية مفعّلة</string>
+        <string name="weekly_plan">الخطة الأسبوعية</string>
+        <string name="yearly_plan">الخطة السنوية</string>
+        <string name="cancel_anytime_no_hidden_fees">يمكنك الإلغاء في أي وقت. بدون رسوم خفية.</string>
+        <string name="upgrade_now">قم بالترقية الآن</string>
+        <string name="please_review_our_privacy_policy_to_understand_how_we_collect_use_and_protect_your_personal_information">يرجى مراجعة سياسة الخصوصية لفهم كيفية جمع واستخدام وحماية معلوماتك الشخصية.</string>
 
 </resources>

@@ -212,5 +212,21 @@
     <string name="satellite">Satellite</string>
     <string name="exit_app">Quitter l\'application</string>
     <string name="are_your_sure_you_want_to_exit_app">Êtes-vous sûr de vouloir quitter l\'application ?</string>
+        <string name="terms_of_service">Conditions d’utilisation</string>
+        <string name="by_purchasing_you_agree_to_our_privacy_policy_terms_conditions"><![CDATA[En achetant, vous acceptez notre Politique de confidentialité et nos Conditions générales.]]></string>
+        <string name="unlimited_favorites_tracked_flights"><![CDATA[Favoris et vols suivis illimités]]></string>
+        <string name="your_ultimate_flying_companion_track_follow_and_explore_flights_without_limits">Votre compagnon de vol ultime — suivez, surveillez et explorez les vols sans limites.</string>
+        <string name="upgrade_to_premium">Passer à Premium</string>
+        <string name="live_flight_tracking">Suivi des vols en direct</string>
+        <string name="follow_flights_in_real_time_with_precise_up_to_the_second_map_updates">Suivez les vols en temps réel avec des mises à jour précises à la seconde près.</string>
+        <string name="save_as_many_flights_and_airports_as_you_want_no_restrictions">Enregistrez autant de vols et d’aéroports que vous le souhaitez — sans restrictions.</string>
+        <string name="completely_ad_free">Sans publicité</string>
+        <string name="enjoy_a_seamless_distraction_free_experience_without_any_ads">Profitez d’une expérience fluide et sans distractions, sans aucune publicité.</string>
+        <string name="free_trail_enabled">Essai gratuit activé</string>
+        <string name="weekly_plan">Forfait hebdomadaire</string>
+        <string name="yearly_plan">Forfait annuel</string>
+        <string name="cancel_anytime_no_hidden_fees">Annulez à tout moment. Aucun frais caché.</string>
+        <string name="upgrade_now">Mettre à niveau maintenant</string>
+        <string name="please_review_our_privacy_policy_to_understand_how_we_collect_use_and_protect_your_personal_information">Veuillez consulter notre Politique de confidentialité pour comprendre comment nous collectons, utilisons et protégeons vos informations personnelles.</string>
 
 </resources>

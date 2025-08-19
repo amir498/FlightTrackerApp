@@ -212,5 +212,20 @@
     <string name="satellite">سیٹلائٹ</string>
     <string name="exit_app">ایپ سے باہر نکلیں</string>
     <string name="are_your_sure_you_want_to_exit_app">کیا آپ واقعی ایپ سے باہر نکلنا چاہتے ہیں؟</string>
-
+    <string name="terms_of_service">سروس کی شرائط</string>
+    <string name="by_purchasing_you_agree_to_our_privacy_policy_terms_conditions"><![CDATA[خریداری کے ذریعے، آپ ہماری پرائیویسی پالیسی اور شرائط و ضوابط سے اتفاق کرتے ہیں۔]]></string>
+    <string name="unlimited_favorites_tracked_flights"><![CDATA[لامحدود پسندیدہ اور ٹریک کی گئی پروازیں]]></string>
+    <string name="your_ultimate_flying_companion_track_follow_and_explore_flights_without_limits">آپ کا بہترین فضائی ساتھی — پروازوں کو ٹریک کریں، فالو کریں اور بغیر کسی حد کے دریافت کریں۔</string>
+    <string name="upgrade_to_premium">پریمیم پر اپ گریڈ کریں</string>
+    <string name="live_flight_tracking">براہِ راست پرواز کی ٹریکنگ</string>
+    <string name="follow_flights_in_real_time_with_precise_up_to_the_second_map_updates">پروازوں کو حقیقی وقت میں فالو کریں، نقشے کی سیکنڈ بہ سیکنڈ اپ ڈیٹس کے ساتھ۔</string>
+    <string name="save_as_many_flights_and_airports_as_you_want_no_restrictions">جتنی چاہیں پروازیں اور ہوائی اڈے محفوظ کریں — کوئی پابندی نہیں۔</string>
+    <string name="completely_ad_free">مکمل طور پر اشتہارات سے پاک</string>
+    <string name="enjoy_a_seamless_distraction_free_experience_without_any_ads">ایک ہموار اور توجہ سے بھرپور تجربہ حاصل کریں — بغیر کسی اشتہار کے۔</string>
+    <string name="free_trail_enabled">مفت آزمائشی مدت فعال</string>
+    <string name="weekly_plan">ہفتہ وار پلان</string>
+    <string name="yearly_plan">سالانہ پلان</string>
+    <string name="cancel_anytime_no_hidden_fees">کبھی بھی منسوخ کریں۔ کوئی خفیہ چارجز نہیں۔</string>
+    <string name="upgrade_now">ابھی اپ گریڈ کریں</string>
+    <string name="please_review_our_privacy_policy_to_understand_how_we_collect_use_and_protect_your_personal_information">براہ کرم ہماری پرائیویسی پالیسی کا جائزہ لیں تاکہ سمجھ سکیں کہ ہم آپ کی ذاتی معلومات کو کس طرح جمع، استعمال اور محفوظ کرتے ہیں۔</string>
 </resources>

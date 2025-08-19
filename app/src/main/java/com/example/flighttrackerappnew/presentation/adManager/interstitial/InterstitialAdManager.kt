@@ -93,9 +93,9 @@ object InterstitialAdManager {
             override fun onAdClicked() {}
 
             override fun onAdDismissedFullScreenContent() {
+                onAdDismissed?.invoke()
                 mInterstitialAd = null
                 loadAppOpen = true
-                onAdDismissed?.invoke()
             }
 
             override fun onAdFailedToShowFullScreenContent(adError: AdError) {
