@@ -9,7 +9,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
-import com.example.flighttrackerappnew.presentation.activities.beforeHome.SplashActivity
 import com.example.flighttrackerappnew.presentation.adManager.AppOpenAdManager
 import com.example.flighttrackerappnew.presentation.utils.loadAppOpen
 import java.lang.ref.WeakReference

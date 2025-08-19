@@ -44,11 +44,13 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val runnable = Runnable {
-            binding.liveFlightTrack.visible()
-            binding.liveFlightTrack2.visible()
+        binding.apply {
+            val runnable = Runnable {
+                liveFlightTrack.visible()
+                liveFlightTrack2.visible()
+            }
+            handler.postDelayed(runnable, 1000)
         }
-        handler.postDelayed(runnable, 1000)
 
         if (isNetworkAvailable()) {
             getAllApiCall()

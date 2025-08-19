@@ -32,7 +32,6 @@ import com.example.flighttrackerappnew.data.repository.airports.datasource.AirPo
 import com.example.flighttrackerappnew.data.repository.airports.datasourceImpl.AirPortsCacheDataSourceImpl
 import com.example.flighttrackerappnew.data.repository.airports.datasourceImpl.AirPortsRemoteDataSourceImpl
 import com.example.flighttrackerappnew.data.repository.airports.datasourceImpl.AirPortsRoomDataSourceImpl
-import com.example.flighttrackerappnew.data.repository.billing.BillingRepository
 import com.example.flighttrackerappnew.data.repository.cities.CitiesRepositoryImpl
 import com.example.flighttrackerappnew.data.repository.cities.datasource.CitiesCacheDataSource
 import com.example.flighttrackerappnew.data.repository.cities.datasource.CitiesRemoteDataSource
@@ -76,7 +75,6 @@ import com.example.flighttrackerappnew.domain.repository.FutureScheduleFlightRep
 import com.example.flighttrackerappnew.domain.repository.LiveFlightRepository
 import com.example.flighttrackerappnew.domain.repository.NearByAirPortsRepository
 import com.example.flighttrackerappnew.domain.repository.StaticAirLineRepository
-import com.example.flighttrackerappnew.domain.usecase.BillingUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetAirPlanesUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetAirPortsUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetCitiesUseCase
@@ -85,13 +83,11 @@ import com.example.flighttrackerappnew.domain.usecase.GetFutureScheduleFlightUse
 import com.example.flighttrackerappnew.domain.usecase.GetLiveFlightUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetNearByAirPortsUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetStaticAirLineUseCase
-import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
 import com.example.flighttrackerappnew.presentation.adManager.NativeAd1LangScreen1
 import com.example.flighttrackerappnew.presentation.adManager.NativeAd1LangScreen2
 import com.example.flighttrackerappnew.presentation.adManager.NativeAd2LangScreen1
 import com.example.flighttrackerappnew.presentation.adManager.NativeAd2LangScreen2
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdHome
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdMapStyle
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdOnb1
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdOnb4
@@ -99,6 +95,8 @@ import com.example.flighttrackerappnew.presentation.adManager.NativeAdOther
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdWelcomeScreen
 import com.example.flighttrackerappnew.presentation.adManager.OnBoardingFullNativeAd1
 import com.example.flighttrackerappnew.presentation.adManager.OnBoardingFullNativeAd2
+import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
+import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
 import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
 import com.example.flighttrackerappnew.presentation.googleMap.MyGoogleMap
@@ -126,8 +124,6 @@ val appModule = module {
     }
 
     single { DataCollector() }
-    single { BillingRepository(get()) }
-    single { BillingUseCase(get()) }
     single { get<AppDatabase>().liveFlightDao() }
     single { get<AppDatabase>().staticAirLineDao() }
     single { get<AppDatabase>().schedulesFlightDao() }
@@ -179,8 +175,6 @@ val appModule = module {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-
-
 
     single<LiveFlightRepository> {
         LiveFlightRepositoryImpl(

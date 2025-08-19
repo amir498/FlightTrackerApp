@@ -274,6 +274,4 @@ dependencies {
     //lifecycle
     implementation(libs.androidx.lifecycle.process)
 
-    //gpb
-    implementation(libs.billing.ktx)
 }
