@@ -276,5 +276,4 @@ dependencies {
 
     //gpb
     implementation(libs.billing.ktx)
-
 }

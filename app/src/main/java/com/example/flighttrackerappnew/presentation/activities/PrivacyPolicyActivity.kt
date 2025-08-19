@@ -56,10 +56,11 @@ class PrivacyPolicyActivity :
 
         spannable.setSpan(clickableSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
-        binding.tvv2.text = spannable
-        binding.tvv2.movementMethod = LinkMovementMethod.getInstance()
-        binding.tvv2.highlightColor = Color.TRANSPARENT
-
+        binding.apply {
+            tvv2.text = spannable
+            tvv2.movementMethod = LinkMovementMethod.getInstance()
+            tvv2.highlightColor = Color.TRANSPARENT
+        }
     }
 
     private fun viewListener() {
