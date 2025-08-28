@@ -1,23 +1,23 @@
 package com.example.flighttrackerappnew.presentation.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.flighttrackerappnew.R
-import com.example.flighttrackerappnew.databinding.FragmentOnBoarding2Binding
+import androidx.fragment.app.Fragment
 import com.example.flighttrackerappnew.databinding.FragmentOnBoarding3Binding
-import com.example.flighttrackerappnew.databinding.FragmentOnBoarding4Binding
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.OnBoardingActivity
-import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
+import com.example.flighttrackerappnew.presentation.helper.Config
+import com.example.flighttrackerappnew.presentation.utils.invisible
+import com.example.flighttrackerappnew.presentation.utils.visible
+import org.koin.android.ext.android.inject
 
 
 class OnBoarding3Fragment : Fragment() {
     private val binding: FragmentOnBoarding3Binding by lazy {
         FragmentOnBoarding3Binding.inflate(layoutInflater)
     }
+    private val config: Config by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,10 +29,20 @@ class OnBoarding3Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnNext.setOnClickListener {
-            (activity as? OnBoardingActivity)?.let { onboardingActivity ->
-                val nextItem = onboardingActivity.binding.viewPager.currentItem + 1
-                onboardingActivity.binding.viewPager.setCurrentItem(nextItem, true)
+        binding.apply {
+            btnNext.setOnClickListener {
+                (activity as? OnBoardingActivity)?.gotToNextPage()
+            }
+            conNext.setOnClickListener {
+                (activity as? OnBoardingActivity)?.gotToNextPage()
+            }
+        }
+
+        if (config.isPremiumUser) {
+            binding.apply {
+                navTop.visible()
+                navBottom.invisible()
+                lottie.invisible()
             }
         }
     }

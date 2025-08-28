@@ -1,28 +1,27 @@
 package com.example.flighttrackerappnew.presentation.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import com.example.flighttrackerappnew.R
-import com.example.flighttrackerappnew.databinding.FragmentOnBoarding1Binding
 import com.example.flighttrackerappnew.databinding.FragmentOnBoarding2Binding
-import com.example.flighttrackerappnew.databinding.FragmentOnBoarding3Binding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.OnBoardingActivity
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
+import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
-import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
+import com.example.flighttrackerappnew.presentation.utils.invisible
+import com.example.flighttrackerappnew.presentation.utils.visible
 import org.koin.android.ext.android.inject
-import kotlin.getValue
 
 
 class OnBoarding2Fragment : Fragment() {
     private val binding: FragmentOnBoarding2Binding by lazy {
         FragmentOnBoarding2Binding.inflate(layoutInflater)
     }
+    private val config: Config by inject()
 
     private val nativeAdController: NativeAdController by inject()
 
@@ -39,19 +38,54 @@ class OnBoarding2Fragment : Fragment() {
         val showOBFull2 =
             RemoteConfigManager.getBoolean("NATIVE_ONB_Full2")
 
-        binding.btnNext.setOnClickListener {
-            (activity as? OnBoardingActivity)?.let { onboardingActivity ->
-                val nextItem = onboardingActivity.binding.viewPager.currentItem + 1
-                onboardingActivity.binding.viewPager.setCurrentItem(nextItem, true)
-            }
+        val showOBFull1 =
+            RemoteConfigManager.getBoolean("NATIVE_ONB_Full1")
+
+        val showOB2 =
+            RemoteConfigManager.getBoolean("NATIVE_ONB2")
+
+        binding.conNext.setOnClickListener {
+            (activity as? OnBoardingActivity)?.gotToNextPage()
         }
-        if (showOBFull2) {
+
+        binding.btnNext.setOnClickListener {
+            (activity as? OnBoardingActivity)?.gotToNextPage()
+        }
+        if (showOBFull2 && !config.isPremiumUser) {
             val app = (requireActivity() as? BaseActivity<*>)?.app
             app?.let {
                 nativeAdController.loadFullNativeAd2(
                     requireContext(),
                     app.getString(R.string.NATIVE_ONB_Full2)
                 )
+            }
+        } else {
+            binding.lottie.invisible()
+        }
+
+        binding.apply {
+            if (showOB2 && !config.isPremiumUser) {
+                navTop.invisible()
+                navBottom.visible()
+                flAdplaceholder.visible()
+                binding.lottie.invisible()
+                nativeAdController.showOnb2NativeAd(
+                    requireContext(),
+                    flAdplaceholder
+                )
+            } else if (config.isPremiumUser) {
+                navTop.visible()
+                navBottom.invisible()
+                binding.lottie.invisible()
+                flAdplaceholder.invisible()
+            } else if (showOBFull1) {
+                navTop.invisible()
+                navBottom.visible()
+                flAdplaceholder.invisible()
+            } else {
+                lottie.invisible()
+                navBottom.invisible()
+                navTop.visible()
             }
         }
     }

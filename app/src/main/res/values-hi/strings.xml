@@ -226,6 +226,14 @@
     <string name="weekly_plan">साप्ताहिक योजना</string>
     <string name="yearly_plan">वार्षिक योजना</string>
     <string name="cancel_anytime_no_hidden_fees">कभी भी रद्द करें। कोई छिपी हुई शुल्क नहीं।</string>
-    <string name="upgrade_now">अभी अपग्रेड करें</string>
     <string name="please_review_our_privacy_policy_to_understand_how_we_collect_use_and_protect_your_personal_information">कृपया यह समझने के लिए हमारी गोपनीयता नीति देखें कि हम आपकी व्यक्तिगत जानकारी कैसे एकत्रित, उपयोग और सुरक्षित करते हैं।</string>
+    <string name="to_use_this_feature">इस सुविधा का उपयोग करने के लिए सेटिंग से लोकेशन अनुमति दें</string>
+    <string name="to_use_this_feature_buy_premium_first">इस सुविधा का उपयोग करने के लिए पहले प्रीमियम खरीदें</string>
+    <string name="buy_premium">प्रीमियम खरीदें</string>
+    <string name="premium">प्रीमियम</string>
+    <string name="watch_ad_to_unlock">अनलॉक करने के लिए विज्ञापन देखें</string>
+    <string name="start_free_trail">3-दिन का मुफ्त ट्रायल शुरू करें</string>
+    <string name="unlock_feature">फ़ीचर अनलॉक करें</string>
+    <string name="feature_locked">फ़ीचर लॉक है</string>
+
 </resources>

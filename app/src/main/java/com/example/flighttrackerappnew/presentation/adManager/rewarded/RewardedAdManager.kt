@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.Dialog
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.utils.isNetworkAvailable
@@ -19,10 +18,7 @@ import com.google.android.ump.UserMessagingPlatform
 
 class RewardedAdManager {
 
-    private var rewardedAd: RewardedAd? = null
-    private val TAG = "RewardedAdManager"
-
-    fun showDialogForAd(activity: Activity): Dialog {
+    private fun showDialogForAd(activity: Activity): Dialog {
         return CustomDialogBuilder(activity)
             .setLayout(R.layout.dialog_ad_loading)
             .setCancelable(true)
@@ -39,24 +35,20 @@ class RewardedAdManager {
         onAdFailed: () -> Unit
     ) {
         if (!activity.isNetworkAvailable()) {
-            Log.d(TAG, "No internet connection.")
             return
         }
 
         val consentInfo = UserMessagingPlatform.getConsentInformation(activity)
         if (!consentInfo.canRequestAds()) {
-            Log.d(TAG, "Cannot request ads due to consent.")
             return
         }
 
         val dialog = showDialogForAd(activity)
         Handler(Looper.getMainLooper()).postDelayed({
-            showRewardAd(activity, adUnitId, onRewardEarned, onAdFailed){
+            showRewardAd(activity, adUnitId, onRewardEarned, onAdFailed) {
                 dialog.dismiss()
             }
         }, 1000)
-
-
     }
 
     private fun showRewardAd(
@@ -69,13 +61,11 @@ class RewardedAdManager {
         val adRequest = AdRequest.Builder().build()
         RewardedAd.load(activity, adUnitId, adRequest, object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
-                Log.e(TAG, "Ad failed to load: ${adError.message}")
+                function.invoke()
                 onAdFailed()
-                rewardedAd = null
             }
 
             override fun onAdLoaded(ad: RewardedAd) {
-                rewardedAd = ad
 
                 ad.fullScreenContentCallback = object : FullScreenContentCallback() {
                     override fun onAdDismissedFullScreenContent() {
@@ -83,28 +73,22 @@ class RewardedAdManager {
                             onRewardEarned()
                             rewardEarned = false
                         }
-                        rewardedAd = null
                     }
 
                     override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                         rewardEarned = false
-                        Log.e(TAG, "Ad failed to show: ${adError.message}")
-                        rewardedAd = null
                         function.invoke()
                     }
 
                     override fun onAdShowedFullScreenContent() {
-                        Log.d(TAG, "Ad showed fullscreen.")
-                        function.invoke()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            function.invoke()
+                        }, 1000)
                     }
 
-                    override fun onAdClicked() {
-                        Log.d(TAG, "Ad clicked.")
-                    }
+                    override fun onAdClicked() {}
 
-                    override fun onAdImpression() {
-                        Log.d(TAG, "Ad impression logged.")
-                    }
+                    override fun onAdImpression() {}
                 }
 
                 ad.show(activity) {

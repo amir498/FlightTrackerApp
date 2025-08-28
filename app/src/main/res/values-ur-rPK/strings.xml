@@ -226,6 +226,14 @@
     <string name="weekly_plan">ہفتہ وار پلان</string>
     <string name="yearly_plan">سالانہ پلان</string>
     <string name="cancel_anytime_no_hidden_fees">کبھی بھی منسوخ کریں۔ کوئی خفیہ چارجز نہیں۔</string>
-    <string name="upgrade_now">ابھی اپ گریڈ کریں</string>
     <string name="please_review_our_privacy_policy_to_understand_how_we_collect_use_and_protect_your_personal_information">براہ کرم ہماری پرائیویسی پالیسی کا جائزہ لیں تاکہ سمجھ سکیں کہ ہم آپ کی ذاتی معلومات کو کس طرح جمع، استعمال اور محفوظ کرتے ہیں۔</string>
+    <string name="to_use_this_feature">اس فیچر کو استعمال کرنے کے لیے سیٹنگ سے لوکیشن کی اجازت دیں</string>
+    <string name="to_use_this_feature_buy_premium_first">اس فیچر کو استعمال کرنے کے لیے پہلے پریمیم خریدیں</string>
+    <string name="buy_premium">پریمیم خریدیں</string>
+    <string name="premium">پریمیم</string>
+    <string name="watch_ad_to_unlock">ان لاک کرنے کے لئے اشتہار دیکھیں</string>
+    <string name="start_free_trail">3 دن کا مفت ٹرائل شروع کریں</string>
+    <string name="unlock_feature">فیچر ان لاک کریں</string>
+    <string name="feature_locked">فیچر مقفل ہے</string>
+
 </resources>

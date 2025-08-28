@@ -10,6 +10,8 @@ import com.example.flighttrackerappnew.data.api.FlightSchedulesService
 import com.example.flighttrackerappnew.data.api.FutureScheduleFlightService
 import com.example.flighttrackerappnew.data.api.NearbyService
 import com.example.flighttrackerappnew.data.api.StaticAirLineService
+import com.example.flighttrackerappnew.BuildConfig
+import com.example.flighttrackerappnew.data.api.IpService
 import com.example.flighttrackerappnew.data.db.AppDatabase
 import com.example.flighttrackerappnew.data.repository.airLine.StaticAirLineRepositoryImpl
 import com.example.flighttrackerappnew.data.repository.airLine.dataSource.StaticAirLineCacheDataSource
@@ -32,6 +34,7 @@ import com.example.flighttrackerappnew.data.repository.airports.datasource.AirPo
 import com.example.flighttrackerappnew.data.repository.airports.datasourceImpl.AirPortsCacheDataSourceImpl
 import com.example.flighttrackerappnew.data.repository.airports.datasourceImpl.AirPortsRemoteDataSourceImpl
 import com.example.flighttrackerappnew.data.repository.airports.datasourceImpl.AirPortsRoomDataSourceImpl
+import com.example.flighttrackerappnew.data.repository.billing.BillingRepository
 import com.example.flighttrackerappnew.data.repository.cities.CitiesRepositoryImpl
 import com.example.flighttrackerappnew.data.repository.cities.datasource.CitiesCacheDataSource
 import com.example.flighttrackerappnew.data.repository.cities.datasource.CitiesRemoteDataSource
@@ -75,6 +78,7 @@ import com.example.flighttrackerappnew.domain.repository.FutureScheduleFlightRep
 import com.example.flighttrackerappnew.domain.repository.LiveFlightRepository
 import com.example.flighttrackerappnew.domain.repository.NearByAirPortsRepository
 import com.example.flighttrackerappnew.domain.repository.StaticAirLineRepository
+import com.example.flighttrackerappnew.domain.usecase.BillingUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetAirPlanesUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetAirPortsUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetCitiesUseCase
@@ -83,20 +87,21 @@ import com.example.flighttrackerappnew.domain.usecase.GetFutureScheduleFlightUse
 import com.example.flighttrackerappnew.domain.usecase.GetLiveFlightUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetNearByAirPortsUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetStaticAirLineUseCase
+import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
 import com.example.flighttrackerappnew.presentation.adManager.NativeAd1LangScreen1
 import com.example.flighttrackerappnew.presentation.adManager.NativeAd1LangScreen2
 import com.example.flighttrackerappnew.presentation.adManager.NativeAd2LangScreen1
 import com.example.flighttrackerappnew.presentation.adManager.NativeAd2LangScreen2
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdHome
+import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdMapStyle
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdOnb1
+import com.example.flighttrackerappnew.presentation.adManager.NativeAdOnb2
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdOnb4
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdOther
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdWelcomeScreen
 import com.example.flighttrackerappnew.presentation.adManager.OnBoardingFullNativeAd1
 import com.example.flighttrackerappnew.presentation.adManager.OnBoardingFullNativeAd2
-import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
 import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
 import com.example.flighttrackerappnew.presentation.googleMap.MyGoogleMap
@@ -106,6 +111,7 @@ import com.example.flighttrackerappnew.presentation.helper.BaseConfig
 import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
 import okhttp3.OkHttpClient
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -124,6 +130,8 @@ val appModule = module {
     }
 
     single { DataCollector() }
+    single { BillingRepository(get(), get()) }
+    single { BillingUseCase(get()) }
     single { get<AppDatabase>().liveFlightDao() }
     single { get<AppDatabase>().staticAirLineDao() }
     single { get<AppDatabase>().schedulesFlightDao() }
@@ -140,14 +148,14 @@ val appModule = module {
     single<LiveFlightCacheDataSource> { LiveFlightCacheDataSourceImpl() }
     single<LiveFlightRemoteDataSource> { LiveFlightRemoteDataSourceImpl(get()) }
 
-    single { get<Retrofit>().create(FlightApiService::class.java) }
-    single { get<Retrofit>().create(StaticAirLineService::class.java) }
-    single { get<Retrofit>().create(FlightSchedulesService::class.java) }
-    single { get<Retrofit>().create(AirportsService::class.java) }
-    single { get<Retrofit>().create(NearbyService::class.java) }
-    single { get<Retrofit>().create(CitiesService::class.java) }
-    single { get<Retrofit>().create(AirPlanesService::class.java) }
-    single { get<Retrofit>().create(FutureScheduleFlightService::class.java) }
+    single { get<Retrofit>(named("aviationRetrofit")).create(FlightApiService::class.java) }
+    single { get<Retrofit>(named("aviationRetrofit")).create(StaticAirLineService::class.java) }
+    single { get<Retrofit>(named("aviationRetrofit")).create(FlightSchedulesService::class.java) }
+    single { get<Retrofit>(named("aviationRetrofit")).create(AirportsService::class.java) }
+    single { get<Retrofit>(named("aviationRetrofit")).create(NearbyService::class.java) }
+    single { get<Retrofit>(named("aviationRetrofit")).create(CitiesService::class.java) }
+    single { get<Retrofit>(named("aviationRetrofit")).create(AirPlanesService::class.java) }
+    single { get<Retrofit>(named("aviationRetrofit")).create(FutureScheduleFlightService::class.java) }
 
     single {
         OkHttpClient.Builder()
@@ -156,7 +164,7 @@ val appModule = module {
                 val originalUrl = original.url
 
                 val newUrl = originalUrl.newBuilder()
-                    .addQueryParameter("key", "2eb823-ea25c3")
+                    .addQueryParameter("key", BuildConfig.API_KEY)
                     .build()
 
                 val newRequest = original.newBuilder().url(newUrl).build()
@@ -168,13 +176,25 @@ val appModule = module {
             .build()
     }
 
-    single {
+    single(named("aviationRetrofit")) {
         Retrofit.Builder()
             .baseUrl("https://aviation-edge.com/v2/public/")
             .client(get())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
+// For IP-API (separate client, no interceptor needed)
+//    single(named("ipRetrofit")) {
+//        Retrofit.Builder()
+//            .baseUrl("http://ip-api.com/") // no interceptor needed
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//    }
+
+// IP Service
+//    single { get<Retrofit>(named("ipRetrofit")).create(IpService::class.java) }
+
 
     single<LiveFlightRepository> {
         LiveFlightRepositoryImpl(
@@ -198,6 +218,7 @@ val appModule = module {
     single { NativeAd2LangScreen1() }
     single { NativeAd1LangScreen2() }
     single { NativeAd2LangScreen2() }
+    single { NativeAdOnb2() }
     single { NativeAdOnb1() }
     single { NativeAdOnb4() }
     single { NativeAdWelcomeScreen() }
@@ -209,6 +230,7 @@ val appModule = module {
     factory { RewardedAdManager() }
     single {
         NativeAdController(
+            get(),
             get(),
             get(),
             get(),

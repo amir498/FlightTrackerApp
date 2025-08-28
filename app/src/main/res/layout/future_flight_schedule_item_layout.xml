@@ -116,6 +116,7 @@
         android:src="@drawable/iv_drop_down"
         android:id="@+id/dropDown"
         android:paddingStart="@dimen/_8sdp"
+        android:paddingEnd="@dimen/_10sdp"
         android:paddingTop="@dimen/_8sdp"
         android:paddingBottom="@dimen/_8sdp"
         android:layout_marginTop="@dimen/_10sdp"

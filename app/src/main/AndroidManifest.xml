@@ -3,12 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".FlightApp"
-        android:allowBackup="true"
+        android:allowBackup="false"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -18,7 +17,13 @@
         android:theme="@style/Theme.FlightTrackerAppNew"
         tools:targetApi="35">
         <activity
-            android:name=".presentation.activities.PrivacyPolicyActivity"
+            android:name=".presentation.activities.LiveMapFlightTrackerLockedActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.activities.premium.PremiumActivity"
+            android:exported="true" />
+        <activity
+            android:name=".presentation.activities.beforeHome.PrivacyPolicyActivity"
             android:exported="false" />
 
         <meta-data
@@ -53,7 +58,7 @@
             android:name=".presentation.activities.MapStyleActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.activities.WelcomeActivity"
+            android:name=".presentation.activities.beforeHome.WelcomeActivity"
             android:exported="true" />
         <activity
             android:name=".presentation.activities.SearchTailActivity"

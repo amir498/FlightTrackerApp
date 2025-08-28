@@ -24,7 +24,7 @@ class MapStyleActivity : BaseActivity<ActivityMapStyleBinding>(ActivityMapStyleB
         val NATIVE_MAP =
             RemoteConfigManager.getBoolean("NATIVE_MAP")
 
-        if (NATIVE_MAP) {
+        if (NATIVE_MAP && !config.isPremiumUser) {
             nativeAdController.showMapStyleNativeAd(this, binding.flAdplaceholder)
             binding.flAdplaceholder.visible()
         }

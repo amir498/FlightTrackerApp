@@ -27,19 +27,8 @@ class FutureScheduleRepositoryImpl(
         }
     }
 
-    private suspend fun getFromRoom(): List<FutureScheduleItem> {
-        if (futureScheduleRoomDataSource.getFutureFlightFromRoom().isNotEmpty()) {
-            futureScheduleCacheDataSource.saveFutureFlightToCache(futureScheduleRoomDataSource.getFutureFlightFromRoom())
-            return futureScheduleRoomDataSource.getFutureFlightFromRoom()
-        } else {
-            return getFromApi()
-        }
-    }
-
     private suspend fun getFromApi(): List<FutureScheduleItem> {
         val flightData = futureScheduleRemoteDataSource.getFutureFlightData()
-        futureScheduleRoomDataSource.saveFutureFlightToRoom(flightData)
-        futureScheduleCacheDataSource.saveFutureFlightToCache(flightData)
         return flightData
     }
 }

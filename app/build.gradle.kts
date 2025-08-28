@@ -14,10 +14,12 @@ android {
         applicationId = "com.radar.flight.tracker.airport.info"
         minSdk = 24
         targetSdk = 35
-        versionCode = 5
-        versionName = "1.5"
+        versionCode = 9
+        versionName = "1.9"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "API_KEY", "\"${project.findProperty("MY_API_KEY") ?: ""}\"")
+        buildConfigField("String", "BASE_64_KEY", "\"${project.findProperty("BASE64_KEY") ?: ""}\"")
     }
 
     signingConfigs {
@@ -198,6 +200,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 

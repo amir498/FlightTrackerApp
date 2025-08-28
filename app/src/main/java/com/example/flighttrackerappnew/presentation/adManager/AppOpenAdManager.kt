@@ -13,7 +13,7 @@ import com.google.android.ump.UserMessagingPlatform
 
 object AppOpenAdManager {
 
-    private var appOpenAd: AppOpenAd? = null
+    var appOpenAd: AppOpenAd? = null
     var isLoading: Boolean = false
 
     private lateinit var onAdLaded: () -> Unit

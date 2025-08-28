@@ -31,7 +31,8 @@ var clickCount = 0
 var rewardEarned = false
 var isComeFromFav: Boolean = true
 var favData: FullDetailFlightData? = null
+var lat: Double? = null
+var lon: Double? = null
 
 var isComeFromTracked: Boolean = true
 var trackData: FollowFlightData? = null
-var NotPremiumUser: Boolean = false

@@ -5,6 +5,6 @@ import com.example.flighttrackerappnew.domain.repository.LiveFlightRepository
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 
 class GetLiveFlightUseCase(private val liveFlightRepository: LiveFlightRepository) {
-        suspend fun execute(): Resource<List<FlightDataItem>> =
-            liveFlightRepository.getLiveFlightData()
+        suspend fun execute(latitude: Double, longitude: Double, distance: Int): Resource<List<FlightDataItem>> =
+            liveFlightRepository.getLiveFlightData(latitude,longitude,distance)
 }

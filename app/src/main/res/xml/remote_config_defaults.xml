@@ -13,6 +13,10 @@
         <value>true</value>
     </entry>
     <entry>
+        <key>distance</key>
+        <value>1000</value>
+    </entry>
+    <entry>
         <key>NATIVE2_LANGUAGESCREEN1</key>
         <value>true</value>
     </entry>
@@ -26,6 +30,10 @@
     </entry>
     <entry>
         <key>NATIVE_ONB1</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>NATIVE_ONB2</key>
         <value>true</value>
     </entry>
     <entry>

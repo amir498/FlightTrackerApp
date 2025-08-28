@@ -13,7 +13,9 @@ import com.example.flighttrackerappnew.data.model.FollowFlightData
 import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 import com.example.flighttrackerappnew.databinding.ActivityDetailBinding
+import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
 import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
+import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import com.example.flighttrackerappnew.presentation.utils.FullDetailsFlightData
@@ -67,7 +69,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
 
         val BANNER_DETAIL =
             RemoteConfigManager.getBoolean("BANNER_DETAIL")
-        if (BANNER_DETAIL) {
+        if (BANNER_DETAIL && !config.isPremiumUser) {
             binding.adContainerView.visible()
             bannerAdManager.loadAd(true, this, app.getString(R.string.BANNER_DETAIL), {
                 bannerAdManager.showBannerAd(
@@ -153,17 +155,37 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
         isFromDetail = false
     }
 
+    private fun showDialogPremium() {
+        CustomDialogBuilder(this)
+            .setLayout(R.layout.dialog_premium_without_ads)
+            .setCancelable(true)
+            .setPositiveClickListener {
+                val intent = Intent(this, PremiumActivity::class.java)
+                intent.putExtra("from_detail", true)
+                startActivity(intent)
+                it.dismiss()
+                isFromDetail = true
+            }.setCrossBtnListener {
+                it.dismiss()
+            }
+            .show()
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     private fun viewListener() {
         binding.apply {
             conRoute.setOnClickListener {
-                isFromDetail = true
-                startActivity(
-                    Intent(
-                        this@DetailActivity,
-                        LiveMapFlightTrackerActivity::class.java
+                if (config.isPremiumUser) {
+                    isFromDetail = true
+                    startActivity(
+                        Intent(
+                            this@DetailActivity,
+                            LiveMapFlightTrackerActivity::class.java
+                        )
                     )
-                )
+                } else {
+                    showDialogPremium()
+                }
             }
             discreteSeekBar.setOnTouchListener { _, _ -> true }
             btnArrowUp.setOnClickListener {
@@ -287,7 +309,8 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
                     )
                 ) {
                     this@DetailActivity.showToast("Flight is not being Followed")
-                    binding.tvFollow.text = ContextCompat.getString(this@DetailActivity, R.string.follow)
+                    binding.tvFollow.text =
+                        ContextCompat.getString(this@DetailActivity, R.string.follow)
 
                     if (trackData != null) {
                         lifecycleScope.launch(Dispatchers.IO) {
@@ -372,10 +395,14 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
             regNo.text = FullDetailsFlightData?.regNo ?: "N/A"
             iataModel.text = FullDetailsFlightData?.iataModel ?: "N/A"
             ICAOHex.text = FullDetailsFlightData?.icaoHex ?: "N/A"
-            FirstFlightDate.text = FullDetailsFlightData?.firstFlight?.let { formatIsoDate(it) } ?: "N/A"
-            DeliveryDate.text = FullDetailsFlightData?.deliveryDate?.let { formatIsoDate(it) } ?: "N/A"
-            RegisterationDate.text = FullDetailsFlightData?.regDate?.let { formatIsoDate(it) } ?: "N/A"
-            rolloutDate.text = FullDetailsFlightData?.rolloutDate?.let { formatIsoDate(it) } ?: "N/A"
+            FirstFlightDate.text =
+                FullDetailsFlightData?.firstFlight?.let { formatIsoDate(it) } ?: "N/A"
+            DeliveryDate.text =
+                FullDetailsFlightData?.deliveryDate?.let { formatIsoDate(it) } ?: "N/A"
+            RegisterationDate.text =
+                FullDetailsFlightData?.regDate?.let { formatIsoDate(it) } ?: "N/A"
+            rolloutDate.text =
+                FullDetailsFlightData?.rolloutDate?.let { formatIsoDate(it) } ?: "N/A"
             EngineType.text = FullDetailsFlightData?.squawk ?: "N/A"
             RegisterationDates.text = FullDetailsFlightData?.regNo ?: "N/A"
             active.text = FullDetailsFlightData?.planeStatus ?: "N/A"

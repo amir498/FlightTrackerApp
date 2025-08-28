@@ -8,14 +8,18 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.airport.AirportsDataItems
 import com.example.flighttrackerappnew.databinding.ActivityFlightScheduleSearchAirportBinding
+import com.example.flighttrackerappnew.presentation.activities.MainActivity
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adapter.SearchAirportAdapter
 import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
+import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import com.example.flighttrackerappnew.presentation.utils.airportCode
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.invisible
+import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.example.flighttrackerappnew.presentation.utils.visible
+import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
 import org.koin.android.ext.android.inject
 
 class FlightScheduleSearchAirportActivity :
@@ -35,11 +39,34 @@ class FlightScheduleSearchAirportActivity :
         params.topMargin = getStatusBarHeight
         binding.btnBack.layoutParams = params
 
-        setData()
+        observerData()
         viewListener()
         adapter.setListener {
             airportCode = it.codeIataAirport.toString()
             startActivity(Intent(this, FlightScheduleTypeAirportActivity::class.java))
+        }
+    }
+
+    private val viewModel: FlightAppViewModel by inject()
+
+    private fun observerData() {
+        viewModel.airPortsData.observe(this@FlightScheduleSearchAirportActivity) { result ->
+            when (result) {
+                is Resource.Loading -> {
+                    binding.pg.visible()
+                }
+
+                is Resource.Success -> {
+                    binding.pg.invisible()
+                    dataCollector.airports = result.data
+                    setData()
+                }
+
+                is Resource.Error -> {
+                    binding.pg.invisible()
+                    showToast("No Airport Data found")
+                }
+            }
         }
     }
 
@@ -50,12 +77,12 @@ class FlightScheduleSearchAirportActivity :
         if (airportsList.isNotEmpty()) {
             val NATIVE_FLIGHT_SCHEDULED_SEARCH =
                 RemoteConfigManager.getBoolean("NATIVE_FLIGHT_SCHEDULED_SEARCH")
-            if (NATIVE_FLIGHT_SCHEDULED_SEARCH) {
+            if (NATIVE_FLIGHT_SCHEDULED_SEARCH && !config.isPremiumUser) {
                 binding.flAdplaceholder.visible()
                 nativeAdController.apply {
                     loadNativeAd(
                         this@FlightScheduleSearchAirportActivity,
-                        app.getString(R.string.NATIVE_FLIGHT_SCHEDULED_SEARCH)
+                        app.getString(R.string.NATIVE_FLIGHT_SCHEDULED_SEARCH),
                     )
                     showNativeAd(this@FlightScheduleSearchAirportActivity, binding.flAdplaceholder)
                 }

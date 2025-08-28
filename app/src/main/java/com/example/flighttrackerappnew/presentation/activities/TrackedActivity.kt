@@ -9,6 +9,7 @@ import com.example.flighttrackerappnew.data.db.FollowLiveFlightDao
 import com.example.flighttrackerappnew.data.model.FollowFlightData
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 import com.example.flighttrackerappnew.databinding.ActivityTrackedBinding
+import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
 import com.example.flighttrackerappnew.presentation.adapter.FollowFlightAdapter
@@ -55,17 +56,16 @@ class TrackedActivity : BaseActivity<ActivityTrackedBinding>(ActivityTrackedBind
                 binding.conPlaceholder.visible()
                 binding.flAdplaceholder.invisible()
             } else {
-                binding.flAdplaceholder.visible()
                 val NATIVE_TRACKED_FLIGHT =
                     RemoteConfigManager.getBoolean("NATIVE_TRACKED_FLIGHT")
-                if (NATIVE_TRACKED_FLIGHT) {
+                if (NATIVE_TRACKED_FLIGHT && !config.isPremiumUser) {
                     binding.flAdplaceholder.visible()
                     nativeAdController.loadNativeAd(
                         this@TrackedActivity,
                         app.getString(R.string.NATIVE_TRACKED_FLIGHT)
                     )
+                    nativeAdController.showNativeAd(this@TrackedActivity, binding.flAdplaceholder)
                 }
-                nativeAdController.showNativeAd(this@TrackedActivity, binding.flAdplaceholder)
                 binding.conPlaceholder.invisible()
             }
         }
@@ -168,8 +168,26 @@ class TrackedActivity : BaseActivity<ActivityTrackedBinding>(ActivityTrackedBind
             regDate = "",
             progress = 0
         )
-        startActivity(Intent(this, DetailActivity::class.java))
-        showRewardedAd()
+        if (config.isPremiumUser) {
+            startActivity(Intent(this, DetailActivity::class.java))
+        } else {
+            showDialogPremium()
+        }
+    }
+
+    private fun showDialogPremium() {
+        CustomDialogBuilder(this)
+            .setLayout(R.layout.dialog_premium)
+            .setCancelable(false)
+            .setPositiveClickListener {
+                val intent = Intent(this, PremiumActivity::class.java)
+                intent.putExtra("from_arrival", true)
+                startActivity(intent)
+                it.dismiss()
+            }.setNegativeClickListener {
+                showRewardedAd()
+                it.dismiss()
+            }.show()
     }
 
     private fun showRewardedAd() {

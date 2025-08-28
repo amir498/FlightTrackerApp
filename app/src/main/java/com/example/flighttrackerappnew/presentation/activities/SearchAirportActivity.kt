@@ -22,6 +22,7 @@ import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigMan
 import com.example.flighttrackerappnew.presentation.utils.arrivalFlightData
 import com.example.flighttrackerappnew.presentation.utils.departureFlightData
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
+import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isFromAirportOrAirline
 import com.example.flighttrackerappnew.presentation.utils.logDebug
 import com.example.flighttrackerappnew.presentation.utils.orNA
@@ -88,7 +89,8 @@ class SearchAirportActivity :
                     val adapter = binding.recyclerView.adapter as SearchAirportAdapter
                     val filterList: List<AirportsDataItems> = airportsList
                         .filter {
-                            it.nameAirport?.lowercase()?.startsWith(text.lowercase()) == true }
+                            it.nameAirport?.lowercase()?.startsWith(text.lowercase()) == true
+                        }
 
                     adapter.setList(filterList)
                 }
@@ -106,7 +108,7 @@ class SearchAirportActivity :
         if (matchedAirports.isNotEmpty()) {
             val BANNER_SEARCH_AIRPORT =
                 RemoteConfigManager.getBoolean("BANNER_SEARCH_AIRPORT")
-            if (BANNER_SEARCH_AIRPORT){
+            if (BANNER_SEARCH_AIRPORT && !config.isPremiumUser) {
                 binding.adContainerView.visible()
                 bannerAdManager.loadAd(true, this, app.getString(R.string.BANNER_SEARCH_AIRPORT), {
                     bannerAdManager.showBannerAd(
@@ -118,6 +120,10 @@ class SearchAirportActivity :
 
                 })
             }
+        } else {
+            binding.recyclerView.invisible()
+            binding.ivSearchFlightSchedule.visible()
+            binding.findHistory.visible()
         }
         searchAirportAdapter = SearchAirportAdapter()
         binding.recyclerView.adapter = searchAirportAdapter

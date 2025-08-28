@@ -226,7 +226,14 @@
     <string name="weekly_plan">每周计划</string>
     <string name="yearly_plan">年度计划</string>
     <string name="cancel_anytime_no_hidden_fees">随时取消，无隐藏费用。</string>
-    <string name="upgrade_now">立即升级</string>
     <string name="please_review_our_privacy_policy_to_understand_how_we_collect_use_and_protect_your_personal_information">请查看我们的隐私政策，以了解我们如何收集、使用和保护您的个人信息。</string>
+    <string name="to_use_this_feature">要使用此功能，请在设置中授予位置权限</string>
+    <string name="to_use_this_feature_buy_premium_first">要使用此功能，请先购买高级版</string>
+    <string name="buy_premium">购买高级版</string>
+    <string name="premium">高级版</string>
+    <string name="watch_ad_to_unlock">观看广告以解锁</string>
+    <string name="start_free_trail">开始3天免费试用</string>
+    <string name="unlock_feature">解锁功能</string>
+    <string name="feature_locked">功能已锁定</string>
 
 </resources>

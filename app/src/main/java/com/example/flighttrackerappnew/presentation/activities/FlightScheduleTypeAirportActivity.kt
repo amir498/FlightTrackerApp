@@ -7,17 +7,17 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivityFlightScheduleTypeAirportBinding
-import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
+import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.clickCount
 import com.example.flighttrackerappnew.presentation.utils.flightType
-import com.example.flighttrackerappnew.presentation.utils.formatToPrettyDate
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.selectedDate
 import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.example.flighttrackerappnew.presentation.utils.startDate
 import com.example.flighttrackerappnew.presentation.utils.visible
+import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
 import org.koin.android.ext.android.inject
 import java.util.Calendar
 
@@ -37,12 +37,12 @@ class FlightScheduleTypeAirportActivity :
 
         val NATIVE_FLIGHT_SCHEDULED_TYPE =
             RemoteConfigManager.getBoolean("NATIVE_FLIGHT_SCHEDULED_TYPE")
-        if (NATIVE_FLIGHT_SCHEDULED_TYPE){
+        if (NATIVE_FLIGHT_SCHEDULED_TYPE && !config.isPremiumUser){
             binding.flAdplaceholder.visible()
             nativeAdController.apply {
                 loadNativeAd(
                     this@FlightScheduleTypeAirportActivity,
-                    app.getString(R.string.NATIVE_FLIGHT_SCHEDULED_TYPE)
+                    app.getString(R.string.NATIVE_FLIGHT_SCHEDULED_TYPE),
                 )
                 showNativeAd(this@FlightScheduleTypeAirportActivity, binding.flAdplaceholder)
             }
@@ -128,6 +128,7 @@ class FlightScheduleTypeAirportActivity :
                     clickCount += 1
                     InterstitialAdManager.mInterstitialAd?.let {
                         InterstitialAdManager.showAd(this@FlightScheduleTypeAirportActivity) {
+                            viewModel.getFutureScheduleFlight()
                             startActivity(
                                 Intent(
                                     this@FlightScheduleTypeAirportActivity,
@@ -136,6 +137,7 @@ class FlightScheduleTypeAirportActivity :
                             )
                         }
                     } ?: run {
+                        viewModel.getFutureScheduleFlight()
                         startActivity(
                             Intent(
                                 this@FlightScheduleTypeAirportActivity,
@@ -147,6 +149,7 @@ class FlightScheduleTypeAirportActivity :
             }
         }
     }
+    private val viewModel: FlightAppViewModel by inject()
 
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
@@ -160,7 +163,7 @@ class FlightScheduleTypeAirportActivity :
                 val formatted =
                     "%04d-%02d-%02d".format(selectedYear, selectedMonth + 1, selectedDay)
                 binding.tvDate.text = formatted
-                selectedDate = formatToPrettyDate(formatted)
+                selectedDate = formatted
                 startDate = formatted
             },
             year, month, day

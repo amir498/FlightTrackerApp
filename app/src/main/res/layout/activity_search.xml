@@ -71,6 +71,7 @@
         app:layout_constraintEnd_toEndOf="@+id/glRight"
         app:layout_constraintStart_toStartOf="@+id/glLeft"
         android:layout_marginTop="-40dp"
+        android:layout_marginBottom="@dimen/_10sdp"
         app:layout_constraintTop_toBottomOf="@+id/iv_airplane_home">
 
         <androidx.constraintlayout.widget.ConstraintLayout

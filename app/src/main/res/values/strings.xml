@@ -1,5 +1,4 @@
 <resources>
-    <string name="base_64_key" translatable="false">"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtOKkUByYeNMTtbzvBu67tyhwmTC2T4l1ziQlyRCNFmthdLmG7AXXYBemAwT2bl3tMFiXKcrMOO+WOO1khMsGMsUWQ9o8+92nahWckBhf4PvKSsdxryC1bvmdFR1b5hFnf5T6y35uYTygr+0EJoUUc67BZ4Q+3ZPNcGL26bplTkIia85lgQU9xlS3ohN9AcvlOtgKcdd9OWDRD62Bq1v62IyT3ux4I4ZLnyOdF9gjMm276ttLCLC4842VGn8lJI/DpxpUOp7Wrp7R3R6vZYtWoktx/6Huh+TE4Jr0qzQEJmWvDqipOOo9ojnqtLQhBFVD57V1nsIv2/nHdQeIUdh96QIDAQAB"</string>
     <string name="googleMapApiKey" translatable="false">AIzaSyA55ONWFBc0yBvM-s5Qa_iT_2aPrsNOt8o</string>
     <string name="app_name">Flight Tracker</string>
     <string name="live_flight_track">Live Flight Track</string>
@@ -224,9 +223,29 @@
     <string name="completely_ad_free">Completely Ad-Free</string>
     <string name="enjoy_a_seamless_distraction_free_experience_without_any_ads">Enjoy a seamless, distraction-free experience without any ads.</string>
     <string name="free_trail_enabled">Free Trail Enabled</string>
-    <string name="weekly_plan">Weekly Plan</string>
-    <string name="yearly_plan">Yearly Plan</string>
+    <string name="weekly_plan">Weekly Subscription</string>
+    <string name="yearly_plan">Annual Subscription</string>
     <string name="cancel_anytime_no_hidden_fees">Cancel anytime. No hidden fees.</string>
-    <string name="upgrade_now">Upgrade Now</string>
     <string name="please_review_our_privacy_policy_to_understand_how_we_collect_use_and_protect_your_personal_information">please_review_our_privacy_policy_to_understand_how_we_collect_use_and_protect_your_personal_information</string>
+    <string name="to_use_this_feature">To use this feature grant location permission from setting</string>
+    <string name="to_use_this_feature_buy_premium_first">To use this feature Buy Premium First</string>
+    <string name="buy_premium">Buy Premium</string>
+    <string name="premium">Premium</string>
+    <string name="watch_ad_to_unlock">Watch Ad to Unlock</string>
+    <string name="start_free_trail">Start 3-Day Free Trial</string>
+    <string name="unlock_feature">Unlock Feature</string>
+    <string name="feature_locked">Feature Locked</string>
+    <string name="track_flights_in_real_time_anywhere_in_the_world_follow_aircraft_live_on_an_interactive_map_stay_updated_with_accurate_flight_movements">Track flights in real time, anywhere in the world. Follow aircraft live on an interactive map. Stay updated with accurate flight movements.</string>
+    <string name="next">Next</string>
+    <string name="check_live_airport_arrivals_and_departures_see_schedules_with_real_time_updates_never_miss_a_flight_with_instant_information">Check live airport arrivals and departures. See schedules with real-time updates. Never miss a flight with instant information.</string>
+    <string name="start">Start</string>
+    <string name="see_every_detail_in_real_time_exact_position_altitude_speed_and_live_route_updates">Buy Premium To See every detail in real time — exact position, altitude, speed, and live route updates.</string>
+    <string name="subscribe_now">Subscribe Now</string>
+    <string name="privacy"><u>Privacy Policy</u></string>
+    <string name="terms"><u>Terms &amp; Conditions</u></string>
+    <string name="restore"><u>Restore</u></string>
+    <string name="view_complete_flight_schedules_and_routes_check_aircraft_type_airline_and_timings_everything_you_need_in_one_clear_overview">View complete flight schedules and routes. Check aircraft type, airline, and timings. Everything you need in one clear overview.</string>
+    <string name="find_flights_airports_and_airlines_instantly_search_by_number_route_or_destination_fast_simple_and_reliable_results_every_time">Find flights, airports, and airlines instantly. Search by number, route, or destination. Fast, simple, and reliable results every time.</string>
+    <string name="no_data_found">No Data Found</string>
+
 </resources>

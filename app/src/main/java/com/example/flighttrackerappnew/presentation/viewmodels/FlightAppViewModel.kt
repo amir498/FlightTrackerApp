@@ -42,27 +42,38 @@ class FlightAppViewModel(
     private val getAirPlanesUseCase: GetAirPlanesUseCase,
     private val getFutureScheduleFlightUseCase: GetFutureScheduleFlightUseCase,
     private val favFlightDao: FavFlightDao,
-    private val followFlightDao: FollowLiveFlightDao,
+    private val followFlightDao: FollowLiveFlightDao
 ) : ViewModel() {
 
     private val _liveFlightData = MutableLiveData<Resource<List<FlightDataItem>>>()
     val liveFlightData: LiveData<Resource<List<FlightDataItem>>> get() = _liveFlightData
 
-    fun getLiveFlight() {
+    fun getLiveFlight(latitude: Double, longitude: Double, distance: Int) {
         viewModelScope.launch {
             _liveFlightData.postValue(Resource.Loading)
-            val result = getLiveFlightUseCase.execute()
+            val result = getLiveFlightUseCase.execute(latitude, longitude, distance)
             _liveFlightData.postValue(result)
+            if (result is Resource.Success) {
+                async(Dispatchers.IO) {
+                    getAirPorts()
+                }
+                async(Dispatchers.IO) {
+                    getStaticAirLines()
+                }
+                async(Dispatchers.IO) {
+                    getScheduleFlight()
+                }
+            }
         }
     }
 
-    fun getAllData(onAllComplete: () -> Unit = {}) {
+    fun getAllData(lat: Double, long: Double, distance: Int, onAllComplete: () -> Unit = {}) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                getLiveFlight()
+                getLiveFlight(lat, long, distance)
             }
             coroutineScope {
-                val nearbyJob = async(Dispatchers.IO) { getNearBy() }
+                val nearbyJob = async(Dispatchers.IO) { getNearBy(lat, long, distance) }
                 val citiesJob = async(Dispatchers.IO) { getCities() }
                 val planesJob = async(Dispatchers.IO) { getAirPlanes() }
                 async(Dispatchers.IO) { getFavFlightData() }
@@ -74,6 +85,16 @@ class FlightAppViewModel(
             onAllComplete()
         }
     }
+
+//    private val _location = MutableLiveData<Resource<IpLocationResponse>>()
+//    val location: LiveData<Resource<IpLocationResponse>> get() = _location
+//    fun getLocation() {
+//        viewModelScope.launch {
+//            _location.postValue(Resource.Loading)
+//            val result = Resource.Success(ipService.getLocation())
+//            _location.postValue(result)
+//        }
+//    }
 
     private val _staticAirLineData = MutableLiveData<Resource<List<StaticAirLineItems>>>()
     val staticAirLineData: LiveData<Resource<List<StaticAirLineItems>>> get() = _staticAirLineData
@@ -110,10 +131,10 @@ class FlightAppViewModel(
     private val _nearByData = MutableLiveData<Resource<List<NearByAirportsDataItems>>>()
     val nearByData: LiveData<Resource<List<NearByAirportsDataItems>>> get() = _nearByData
 
-    fun getNearBy() {
+    fun getNearBy(lat: Double, long: Double, distance: Int) {
         viewModelScope.launch {
             _nearByData.postValue(Resource.Loading)
-            val result = getNearByAirPortsUseCase.execute()
+            val result = getNearByAirPortsUseCase.execute(lat, long, distance)
             _nearByData.postValue(result)
         }
     }
@@ -148,6 +169,10 @@ class FlightAppViewModel(
             val result = getFutureScheduleFlightUseCase.execute()
             _futureScheduleFlightData.postValue(result)
         }
+    }
+
+    fun clearFutureFlightData() {
+        _futureScheduleFlightData.postValue(Resource.Success(emptyList()))
     }
 
     private val _favFlightData = MutableLiveData<List<FullDetailFlightData>>()

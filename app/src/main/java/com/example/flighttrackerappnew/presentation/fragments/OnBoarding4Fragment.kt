@@ -9,9 +9,11 @@ import androidx.fragment.app.Fragment
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.FragmentOnBoarding4Binding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
-import com.example.flighttrackerappnew.presentation.activities.WelcomeActivity
+import com.example.flighttrackerappnew.presentation.activities.beforeHome.WelcomeActivity
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
+import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
+import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.visible
 import org.koin.android.ext.android.inject
 import kotlin.getValue
@@ -20,6 +22,7 @@ class OnBoarding4Fragment : Fragment() {
     private val binding: FragmentOnBoarding4Binding by lazy {
         FragmentOnBoarding4Binding.inflate(layoutInflater)
     }
+    private val config: Config by inject()
 
     private val nativeAdController: NativeAdController by inject()
 
@@ -38,11 +41,17 @@ class OnBoarding4Fragment : Fragment() {
         val showWelcome =
             RemoteConfigManager.getBoolean("NATIVE_WELCOME")
 
-        binding.btnNext.setOnClickListener {
-            startActivity(Intent(this@OnBoarding4Fragment.context, WelcomeActivity::class.java))
+        binding.apply {
+            btnNext.setOnClickListener {
+                startActivity(Intent(this@OnBoarding4Fragment.context, WelcomeActivity::class.java))
+            }
+
+            conNext.setOnClickListener {
+                startActivity(Intent(this@OnBoarding4Fragment.context, WelcomeActivity::class.java))
+            }
         }
 
-        if (showWelcome){
+        if (showWelcome && !config.isPremiumUser) {
             val app = (requireActivity() as? BaseActivity<*>)?.app
             app?.let {
                 nativeAdController.loadWelcomeScreenNativeAd(
@@ -51,13 +60,19 @@ class OnBoarding4Fragment : Fragment() {
                 )
             }
         }
-        if (showOB4) {
-            binding.flAdplaceholder.visible()
-            nativeAdController.showOnb4NativeAd(
-                requireContext(),
-                binding.flAdplaceholder
-            )
+        binding.apply {
+            if (showOB4 && !config.isPremiumUser) {
+                binding.flAdplaceholder.visible()
+                navTop.invisible()
+                navBottom.visible()
+                nativeAdController.showOnb4NativeAd(
+                    requireContext(),
+                    binding.flAdplaceholder
+                )
+            } else {
+                navTop.visible()
+                navBottom.invisible()
+            }
         }
-
     }
 }

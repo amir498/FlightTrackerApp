@@ -59,7 +59,6 @@ class BannerAdManager {
             adContainerView.addView(adView)
         } else {
             adContainerView.gone()
-            bannerAdLoadingView?.gone()
         }
     }
 

@@ -12,6 +12,9 @@ import android.os.Looper
 import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
+import com.example.flighttrackerappnew.data.model.Country
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 val Context.windowManager: WindowManager get() = getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
@@ -35,6 +38,12 @@ val Context.realScreenSize: Point
         windowManager.defaultDisplay.getRealSize(size)
         return size
     }
+
+fun Context.loadCountries(): List<Country> {
+    val json = assets.open("countries.json").bufferedReader().use { it.readText() }
+    val type = object : TypeToken<List<Country>>() {}.type
+    return Gson().fromJson(json, type)
+}
 
 
 val Context.getStatusBarHeight: Int

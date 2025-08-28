@@ -44,7 +44,7 @@ class LanguageActivity2 :
             RemoteConfigManager.getBoolean("NATIVE1_LANGUAGESCREEN2")
 
         nativeAdController.apply {
-            if (showNative2Lang2) {
+            if (showNative2Lang2 && !config.isPremiumUser) {
                 loadLanguageScreen2NativeAd2(
                     this@LanguageActivity2,
                     app.getString(R.string.NATIVE2_LANGUAGESCREEN2)
@@ -53,13 +53,15 @@ class LanguageActivity2 :
         }
 
         if (showNative1Lang2) {
-            nativeAdController.showLanguageScreen2NativeAd1(
-                this@LanguageActivity2,
-                binding.flAdplaceholder
-            )
+            if (!config.isPremiumUser) {
+                nativeAdController.showLanguageScreen2NativeAd1(
+                    this@LanguageActivity2,
+                    binding.flAdplaceholder
+                )
+            }
         }
 
-        if (showNative1Lang2 || showNative2Lang2) {
+        if ((showNative1Lang2 || showNative2Lang2) && !config.isPremiumUser) {
             binding.flAdplaceholder.visible()
         } else {
             binding.flAdplaceholder.gone()
@@ -86,11 +88,16 @@ class LanguageActivity2 :
         adapter.setDataList(getLanguageData())
         adapter.setListener {
             if (firstClicked) {
-                nativeAdController.showLanguageScreen2NativeAd2(this, binding.flAdplaceholder)
-                val showOB1 =
-                    RemoteConfigManager.getBoolean("NATIVE_ONB1")
-                if (showOB1) {
-                    nativeAdController.loadOnb1NativeAd(this, app.getString(R.string.NATIVE_ONB1))
+                if (!config.isPremiumUser) {
+                    nativeAdController.showLanguageScreen2NativeAd2(this, binding.flAdplaceholder)
+                    val showOB1 =
+                        RemoteConfigManager.getBoolean("NATIVE_ONB1")
+                    if (showOB1) {
+                        nativeAdController.loadOnb1NativeAd(
+                            this,
+                            app.getString(R.string.NATIVE_ONB1)
+                        )
+                    }
                 }
             }
             firstClicked = false

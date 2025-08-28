@@ -73,6 +73,31 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <ImageView
+        android:id="@+id/iv_search_flight_schedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_80sdp"
+        android:elevation="@dimen/_10sdp"
+        android:visibility="invisible"
+        android:src="@drawable/iv_search_flight_schedule"
+        app:layout_constraintEnd_toEndOf="@+id/conAirports"
+        app:layout_constraintStart_toStartOf="@+id/conAirports"
+        app:layout_constraintTop_toBottomOf="@+id/conAirports" />
+
+    <TextView
+        android:id="@+id/findHistory"
+        style="@style/sfm14s"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="@string/no_data_found"
+        android:elevation="@dimen/_10sdp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_search_flight_schedule" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"

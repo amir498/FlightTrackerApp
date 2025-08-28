@@ -112,7 +112,7 @@ class LiveMapFlightTrackerActivity :
 
         val BANNER_LIVE_MAP =
             RemoteConfigManager.getBoolean("BANNER_LIVE_MAP")
-        if (BANNER_LIVE_MAP) {
+        if (BANNER_LIVE_MAP && !config.isPremiumUser) {
             binding.adContainerView.visible()
             bannerAdManager.loadAd(true, this, app.getString(R.string.BANNER_LIVE_MAP), {
                 bannerAdManager.showBannerAd(
@@ -168,11 +168,7 @@ class LiveMapFlightTrackerActivity :
     private fun viewListener() {
         binding.apply {
             currentLocationBtn.setOnClickListener {
-                if (isLocationPermissionGranted()) {
-                    googleMap.moveCameraToCurrentLocation(this@LiveMapFlightTrackerActivity)
-                } else {
-                    requestLocationPermission()
-                }
+                googleMap.moveCamera()
             }
             backBtn.setOnClickListener {
                 this@LiveMapFlightTrackerActivity.finish()
@@ -318,6 +314,7 @@ class LiveMapFlightTrackerActivity :
                     }
 
                     is Resource.Error -> {
+                        binding.pg.invisible()
                         Log.d("error", "Error:${result.message} ")
                         this@LiveMapFlightTrackerActivity.showToast("Error: ${result.message}")
                     }
@@ -480,7 +477,11 @@ class LiveMapFlightTrackerActivity :
                     }
 
                     BottomSheetBehavior.STATE_HIDDEN -> {
-                        binding.adContainerView.visible()
+                        val BANNER_LIVE_MAP =
+                            RemoteConfigManager.getBoolean("BANNER_LIVE_MAP")
+                        if (BANNER_LIVE_MAP && !config.isPremiumUser) {
+                            binding.adContainerView.visible()
+                        }
                     }
 
                     BottomSheetBehavior.STATE_DRAGGING -> {}

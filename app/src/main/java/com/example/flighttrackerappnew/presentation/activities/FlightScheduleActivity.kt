@@ -18,7 +18,6 @@ import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigMan
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.invisible
-import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.example.flighttrackerappnew.presentation.utils.visible
 import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
 import kotlinx.coroutines.Dispatchers
@@ -66,11 +65,11 @@ class FlightScheduleActivity :
     private fun loadAd() {
         val NATIVE_FLIGHT_SCHEDULED =
             RemoteConfigManager.getBoolean("NATIVE_FLIGHT_SCHEDULED")
-        if (NATIVE_FLIGHT_SCHEDULED){
+        if (NATIVE_FLIGHT_SCHEDULED) {
             nativeAdController.apply {
                 loadNativeAd(
                     this@FlightScheduleActivity,
-                    app.getString(R.string.NATIVE_FLIGHT_SCHEDULED)
+                    app.getString(R.string.NATIVE_FLIGHT_SCHEDULED),
                 )
             }
         }
@@ -85,11 +84,11 @@ class FlightScheduleActivity :
 
     private fun observeLiveData() {
         viewModel.apply {
-            getFutureScheduleFlight()
             futureScheduleFlightData.observe(this@FlightScheduleActivity) { result ->
                 when (result) {
                     is Resource.Loading -> {
-
+                        binding.pg.visible()
+                        binding.conPlaceholder.invisible()
                     }
 
                     is Resource.Success -> {
@@ -101,13 +100,14 @@ class FlightScheduleActivity :
                                 if (customData.isNotEmpty()) {
                                     binding.conPlaceholder.invisible()
                                     binding.recyclerView.visible()
+                                    binding.pg.invisible()
                                     adapter.setList(customData, nativeAdController)
+
                                 } else {
-                                    this@FlightScheduleActivity.showToast("no flight found at selected date")
                                     binding.recyclerView.invisible()
                                     binding.conPlaceholder.visible()
+                                    binding.pg.invisible()
                                 }
-                                binding.pg.invisible()
                             }
                         }
                     }
@@ -118,8 +118,6 @@ class FlightScheduleActivity :
                             pg.invisible()
                             conPlaceholder.visible()
                         }
-
-                        this@FlightScheduleActivity.showToast("no flight found at selected date")
                     }
                 }
             }
@@ -167,7 +165,7 @@ class FlightScheduleActivity :
 
             val NATIVE_FLIGHT_SCHEDULED =
                 RemoteConfigManager.getBoolean("NATIVE_FLIGHT_SCHEDULED")
-            if (NATIVE_FLIGHT_SCHEDULED){
+            if (NATIVE_FLIGHT_SCHEDULED && !config.isPremiumUser) {
                 if (index == 1) {
                     customFutureScheduleList.add(
                         CustomFutureSchedule(
@@ -219,5 +217,10 @@ class FlightScheduleActivity :
             )
         }
         return customFutureScheduleList
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clearFutureFlightData()
     }
 }

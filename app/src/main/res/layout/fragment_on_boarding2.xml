@@ -10,30 +10,155 @@
 
     <include layout="@layout/app_margin" />
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/ivob1"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_300sdp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/_10sdp"
-        app:layout_constraintBottom_toTopOf="@+id/Title"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="0dp"
+        android:id="@+id/ivob1Scroll"
+        app:layout_constraintHeight_default="wrap"
+        app:layout_constraintVertical_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/fl_adplaceholder"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/ob2json" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/fl_adplaceholder"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/ivob1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_290sdp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/_10sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/ob2json" />
+
+            <TextView
+                style="@style/sfb19p"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:text="@string/flight_details_overview"
+                app:layout_constraintBottom_toBottomOf="@+id/ivob1"
+                app:layout_constraintEnd_toEndOf="@+id/ivob1"
+                app:layout_constraintStart_toStartOf="@+id/ivob1"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/onb2_dots_t"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:src="@drawable/onb2_dots"
+        app:layout_constraintEnd_toEndOf="@+id/ivob1Scroll"
+        app:layout_constraintStart_toStartOf="@+id/ivob1Scroll"
+        app:layout_constraintTop_toBottomOf="@+id/ivob1Scroll" />
 
     <TextView
-        style="@style/sfb19p"
+        android:id="@+id/tvvv"
+        style="@style/sfr13p"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_6sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_6sdp"
+        android:text="@string/view_complete_flight_schedules_and_routes_check_aircraft_type_airline_and_timings_everything_you_need_in_one_clear_overview"
         android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/onb2_dots_t" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/conNext"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/onb_next_btn_bg"
+        app:layout_constraintEnd_toEndOf="@+id/tvvv"
+        app:layout_constraintStart_toStartOf="@+id/tvvv"
+        app:layout_constraintTop_toBottomOf="@+id/tvvv">
+
+        <TextView
+            android:id="@+id/tvNext"
+            style="@style/sfb12primary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_2sdp"
+            android:text="@string/next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/next_f_onb"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/next_f_onb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_2sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:src="@drawable/next_f_onb"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/tvNext"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/navTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:constraint_referenced_ids="conNext,tvvv,onb2_dots_t" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/navBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="tv_onb1_dots,onb2_dots,btnNext" />
+
+    <FrameLayout
+        android:id="@+id/fl_adplaceholder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="@dimen/_10sdp"
-        android:text="@string/flight_details_overview"
-        app:layout_constraintBottom_toBottomOf="@+id/ivob1"
-        app:layout_constraintEnd_toEndOf="@+id/glRight"
-        app:layout_constraintStart_toStartOf="@+id/glLeft" />
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/btnNext"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <include layout="@layout/shimmer_native_with_large_media" />
+    </FrameLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie"
+        android:layout_width="250dp"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivob1Scroll"
+        app:layout_constraintBottom_toTopOf="@+id/btnNext"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/ob_swipe_anim" />
 
     <TextView
         android:id="@+id/tv_onb1_dots"
@@ -52,6 +177,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_7sdp"
         android:src="@drawable/onb2_dots"
+        android:id="@+id/onb2_dots"
         app:layout_constraintStart_toStartOf="@+id/glLeft"
         app:layout_constraintTop_toBottomOf="@+id/tv_onb1_dots" />
 
@@ -63,19 +189,5 @@
         android:src="@drawable/onb_next_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/glRight" />
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottie"
-        android:layout_width="250dp"
-        android:layout_height="180dp"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/btnNext"
-        app:layout_constraintTop_toTopOf="@+id/view"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/ob_swipe_anim" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

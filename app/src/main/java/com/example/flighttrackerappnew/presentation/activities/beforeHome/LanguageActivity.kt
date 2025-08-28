@@ -44,7 +44,7 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
         val showOBFull1 =
             RemoteConfigManager.getBoolean("NATIVE_ONB_Full1")
 
-        if (showNative2Lang1) {
+        if (showNative2Lang1 && !config.isPremiumUser) {
             nativeAdController.apply {
                 loadLanguageScreen1NativeAd2(
                     this@LanguageActivity,
@@ -53,14 +53,14 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
             }
         }
 
-        if (showOBFull1) {
+        if (showOBFull1 && !config.isPremiumUser) {
             nativeAdController.loadFullNativeAd1(
                 this,
                 app.getString(R.string.NATIVE_ONB_Full1)
             )
         }
 
-        if (showNative1Lang1) {
+        if (showNative1Lang1 && !config.isPremiumUser) {
             binding.flAdplaceholder.visible()
             nativeAdController.showLanguageScreen1NativeAd1(
                 this@LanguageActivity,
@@ -68,7 +68,7 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
             )
         }
 
-        if (showNative1Lang1 || showNative2Lang1) {
+        if ((showNative1Lang1 || showNative2Lang1) && !config.isPremiumUser) {
             binding.flAdplaceholder.visible()
         } else {
             binding.flAdplaceholder.gone()
@@ -100,14 +100,16 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
         adapter.setDataList(getLanguageData())
         adapter.setListener {
             if (firstClicked) {
-                nativeAdController.showLanguageScreen1NativeAd2(this, binding.flAdplaceholder)
-                val showNative1Lang2 =
-                    RemoteConfigManager.getBoolean("NATIVE1_LANGUAGESCREEN2")
-                if (showNative1Lang2) {
-                    nativeAdController.loadLanguageScreen2NativeAd1(
-                        this,
-                        app.getString(R.string.NATIVE1_LANGUAGESCREEN2)
-                    )
+                if (!config.isPremiumUser){
+                    nativeAdController.showLanguageScreen1NativeAd2(this, binding.flAdplaceholder)
+                    val showNative1Lang2 =
+                        RemoteConfigManager.getBoolean("NATIVE1_LANGUAGESCREEN2")
+                    if (showNative1Lang2) {
+                        nativeAdController.loadLanguageScreen2NativeAd1(
+                            this,
+                            app.getString(R.string.NATIVE1_LANGUAGESCREEN2)
+                        )
+                    }
                 }
             }
             firstClicked = false
@@ -142,14 +144,6 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
             )
             add(
                 LanguageDataList(
-                    R.drawable.iv_eng,
-                    ContextCompat.getString(this@LanguageActivity, R.string.tvEnglish),
-                    "en",
-                    type = 1
-                )
-            )
-            add(
-                LanguageDataList(
                     R.drawable.iv_french,
                     ContextCompat.getString(this@LanguageActivity, R.string.tvFrench),
                     "fr",
@@ -177,6 +171,14 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
                     R.drawable.iv_saudi_arabia,
                     ContextCompat.getString(this@LanguageActivity, R.string.tvArabic),
                     "ar",
+                    type = 1
+                )
+            )
+            add(
+                LanguageDataList(
+                    R.drawable.iv_eng,
+                    ContextCompat.getString(this@LanguageActivity, R.string.tvEnglish),
+                    "en",
                     type = 1
                 )
             )

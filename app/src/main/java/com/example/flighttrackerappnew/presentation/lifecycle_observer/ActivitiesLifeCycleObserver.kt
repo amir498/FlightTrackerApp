@@ -9,7 +9,11 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
+import com.example.flighttrackerappnew.presentation.activities.beforeHome.PrivacyPolicyActivity
+import com.example.flighttrackerappnew.presentation.activities.beforeHome.SplashActivity
+import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
 import com.example.flighttrackerappnew.presentation.adManager.AppOpenAdManager
+import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager.config
 import com.example.flighttrackerappnew.presentation.utils.loadAppOpen
 import java.lang.ref.WeakReference
 
@@ -30,7 +34,8 @@ object ActivitiesLifeCycleObserver : LifecycleEventObserver, ActivityLifecycleCa
 
             Lifecycle.Event.ON_STOP -> {
                 val activity = currentActivityRef?.get()
-                if (activity != null && adId != null && loadAppOpen) {
+                if (activity is SplashActivity || activity is PrivacyPolicyActivity || activity is PremiumActivity) return
+                if (activity != null && adId != null && loadAppOpen && !config.isPremiumUser) {
                     AppOpenAdManager.loadAppOpenAd(activity, adId!!)
                 } else {
                     Log.w("MY--TAG", "Activity is null. Cannot load app open ad.")
@@ -53,8 +58,6 @@ object ActivitiesLifeCycleObserver : LifecycleEventObserver, ActivityLifecycleCa
         val app = (activity as? BaseActivity<*>)?.app
         adId = app?.getString(R.string.APP_OPEN)
         currentActivityRef = WeakReference(activity)
-
-
     }
 
     override fun onActivityPaused(activity: Activity) {}
@@ -64,6 +67,5 @@ object ActivitiesLifeCycleObserver : LifecycleEventObserver, ActivityLifecycleCa
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
 
     override fun onActivityDestroyed(activity: Activity) {
-
     }
 }

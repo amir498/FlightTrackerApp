@@ -94,7 +94,8 @@ class SearchTailActivity :
                     val adapter = binding.recyclerView.adapter as SearchTailAdapter
                     val filterList = dataCollector.matchingAirplanes
                         .filter {
-                            it.numberRegistration?.lowercase()?.startsWith(text.lowercase()) == true }
+                            it.numberRegistration?.lowercase()?.startsWith(text.lowercase()) == true
+                        }
 
                     adapter.setList(filterList)
                 }
@@ -109,6 +110,9 @@ class SearchTailActivity :
         lifecycleScope.launch(Dispatchers.IO) {
             delay(1000)
             if (dataCollector.matchingAirplanes.isEmpty()) {
+                binding.recyclerView.invisible()
+                binding.ivSearchFlightSchedule.visible()
+                binding.findHistory.visible()
                 withContext(Dispatchers.Main) {
                     binding.pg.invisible()
                 }
@@ -116,7 +120,7 @@ class SearchTailActivity :
                 withContext(Dispatchers.Main) {
                     val BANNER_SEARCH_TAIL =
                         RemoteConfigManager.getBoolean("BANNER_SEARCH_TAIL")
-                    if (BANNER_SEARCH_TAIL){
+                    if (BANNER_SEARCH_TAIL && !config.isPremiumUser) {
                         binding.adContainerView.visible()
                         bannerAdManager.loadAd(
                             true,

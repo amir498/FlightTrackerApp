@@ -105,7 +105,6 @@ class FutureScheduleFlightAdapter :
                     depTime.text = flightData[position].departureTime
                     arrTime.text = flightData[position].arrivalTime
                     FlightTime.text = flightData[position].flightTime
-                    date.text = flightData[position].flightTime
                     date.text = selectedDate
                 }
             }
@@ -113,8 +112,10 @@ class FutureScheduleFlightAdapter :
             fun listener() {
                 binding.dropDown.setOnClickListener {
                     binding.conFlightDetails.visibility = if (binding.conFlightDetails.isVisible) {
+                        binding.dropDown.rotation = 180f
                         ViewGroup.GONE
                     } else {
+                        binding.dropDown.rotation = 0f
                         ViewGroup.VISIBLE
                     }
                 }

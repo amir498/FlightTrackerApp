@@ -15,6 +15,7 @@ class CustomDialogBuilder(private val context: Context) {
     private var isCancelable: Boolean = true
     private var onPositiveClick: ((dialog: Dialog) -> Unit)? = null
     private var onNegativeClick: ((dialog: Dialog) -> Unit)? = null
+    private var onCrossClick: ((dialog: Dialog) -> Unit)? = null
 
     fun setLayout(@LayoutRes layout: Int): CustomDialogBuilder {
         this.layoutResId = layout
@@ -33,6 +34,11 @@ class CustomDialogBuilder(private val context: Context) {
 
     fun setNegativeClickListener(listener: (dialog: Dialog) -> Unit): CustomDialogBuilder {
         this.onNegativeClick = listener
+        return this
+    }
+
+    fun setCrossBtnListener(listener: (dialog: Dialog) -> Unit): CustomDialogBuilder {
+        this.onCrossClick = listener
         return this
     }
 

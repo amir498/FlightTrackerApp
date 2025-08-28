@@ -1,20 +1,35 @@
 package com.example.flighttrackerappnew.presentation.utils
 
 import android.animation.TimeInterpolator
+import android.os.Looper
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 
-fun View.visible(){
-    visibility = View.VISIBLE
+fun View.visible() {
+    if (Looper.myLooper() == Looper.getMainLooper()) {
+        visibility = View.VISIBLE
+    } else {
+        post { visibility = View.VISIBLE }
+    }
 }
 
-fun View.invisible(){
-    visibility = View.INVISIBLE
+fun View.invisible() {
+    if (Looper.myLooper() == Looper.getMainLooper()) {
+        visibility = View.INVISIBLE
+    } else {
+        post { visibility = View.INVISIBLE }
+    }
 }
 
-fun View.gone(){
-    visibility = View.GONE
+fun View.gone() {
+    if (Looper.myLooper() == Looper.getMainLooper()) {
+        visibility = View.GONE
+    } else {
+        post { visibility = View.GONE }
+    }
 }
 
 fun View.setZoomClickEffect(scaleFactor: Float = 1.02f, duration: Long = 100) {
@@ -29,6 +44,7 @@ fun View.setZoomClickEffect(scaleFactor: Float = 1.02f, duration: Long = 100) {
                     .setInterpolator(interpolator)
                     .start()
             }
+
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                 v.animate()
                     .scaleX(1f)
@@ -43,4 +59,14 @@ fun View.setZoomClickEffect(scaleFactor: Float = 1.02f, duration: Long = 100) {
         }
         true
     }
+}
+
+fun View.getStatusBarHeight(): Int {
+    val insets = ViewCompat.getRootWindowInsets(this)
+    return insets?.getInsets(WindowInsetsCompat.Type.statusBars())?.top ?: 0
+}
+
+fun View.getNavigationBarHeight(): Int {
+    val insets = ViewCompat.getRootWindowInsets(this)
+    return insets?.getInsets(WindowInsetsCompat.Type.navigationBars())?.bottom ?: 0
 }

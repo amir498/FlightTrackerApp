@@ -22,6 +22,7 @@ import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigMan
 import com.example.flighttrackerappnew.presentation.utils.arrivalFlightData
 import com.example.flighttrackerappnew.presentation.utils.departureFlightData
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
+import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isFromAirportOrAirline
 import com.example.flighttrackerappnew.presentation.utils.orNA
 import com.example.flighttrackerappnew.presentation.utils.searchedDataTitle
@@ -104,7 +105,7 @@ class SearchAircraftActivity :
             if (liveFlight.isNotEmpty()) {
                 val BANNER_SEARCH_AIRCRAFT =
                     RemoteConfigManager.getBoolean("BANNER_SEARCH_AIRCRAFT")
-                if (BANNER_SEARCH_AIRCRAFT) {
+                if (BANNER_SEARCH_AIRCRAFT && !config.isPremiumUser) {
                     binding.adContainerView.visible()
                     bannerAdManager.loadAd(
                         true,
@@ -117,10 +118,12 @@ class SearchAircraftActivity :
                                 null
                             )
                         },
-                        {
-
-                        })
+                        {})
                 }
+            } else {
+                binding.recyclerView.invisible()
+                binding.ivSearchFlightSchedule.visible()
+                binding.findHistory.visible()
             }
             it.setList(liveFlight)
             it.setListener { arrivalFlight ->
@@ -137,7 +140,6 @@ class SearchAircraftActivity :
                 lifecycleScope.launch(Dispatchers.IO) {
                     arrivalFlightData.postValue(getArrivalFlightDataFromAircraft(arrivalFlight))
                     departureFlightData.postValue(getDepartureFlightDataFromAircraft(arrivalFlight))
-
                 }
             }
         }

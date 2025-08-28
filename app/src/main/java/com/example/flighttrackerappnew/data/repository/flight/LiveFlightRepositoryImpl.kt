@@ -15,13 +15,13 @@ class LiveFlightRepositoryImpl(
     private val liveFlightRoomDataSource: LiveFlightRoomDataSource,
 ) : LiveFlightRepository {
 
-    override suspend fun getLiveFlightData(): Resource<List<FlightDataItem>> {
+    override suspend fun getLiveFlightData(latitude: Double, longitude: Double, distance: Int): Resource<List<FlightDataItem>> {
         return try {
             val cached = liveFlightCacheDataSource.getLiveFlightFromCache()
             if (cached.isNotEmpty()) {
                 Resource.Success(cached)
             } else {
-                Resource.Success(getDataFromRemote())
+                Resource.Success(getDataFromRemote(latitude,longitude,distance))
             }
         } catch (e: HttpException) {
             Resource.Error("HTTP ${e.code()} ${e.message()}")
@@ -32,18 +32,18 @@ class LiveFlightRepositoryImpl(
         }
     }
 
-    private suspend fun getFromRoom(): List<FlightDataItem> {
-        val dataFromRoom = liveFlightRoomDataSource.getLiveFlightFromRoom()
-        return if (dataFromRoom.isNotEmpty()) {
-            liveFlightCacheDataSource.saveLiveFlightToCache(dataFromRoom)
-            dataFromRoom
-        } else {
-            getDataFromRemote()
-        }
-    }
+//    private suspend fun getFromRoom(): List<FlightDataItem> {
+//        val dataFromRoom = liveFlightRoomDataSource.getLiveFlightFromRoom()
+//        return if (dataFromRoom.isNotEmpty()) {
+//            liveFlightCacheDataSource.saveLiveFlightToCache(dataFromRoom)
+//            dataFromRoom
+//        } else {
+//            getDataFromRemote()
+//        }
+//    }
 
-    private suspend fun getDataFromRemote(): List<FlightDataItem> {
-        val remote = liveFlightRemoteDataSource.getLiveFlightData()
+    private suspend fun getDataFromRemote(latitude: Double, longitude: Double, distance: Int): List<FlightDataItem> {
+        val remote = liveFlightRemoteDataSource.getLiveFlightData(latitude, longitude, distance)
         liveFlightCacheDataSource.saveLiveFlightToCache(remote)
         liveFlightRoomDataSource.saveLiveFlightToRoom(remote)
         return remote

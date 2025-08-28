@@ -5,6 +5,6 @@ import com.example.flighttrackerappnew.domain.repository.NearByAirPortsRepositor
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 
 class GetNearByAirPortsUseCase(private val nearByAirPortsRepository: NearByAirPortsRepository) {
-        suspend fun execute(): Resource<List<NearByAirportsDataItems>> =
-            nearByAirPortsRepository.getNearbyData()
+        suspend fun execute(lat: Double,long: Double,distance: Int): Resource<List<NearByAirportsDataItems>> =
+            nearByAirPortsRepository.getNearbyData(lat,long,distance)
 }

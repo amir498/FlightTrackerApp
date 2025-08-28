@@ -78,11 +78,7 @@ class NearByActivity : BaseActivity<ActivityNearByBinding>(ActivityNearByBinding
                 this@NearByActivity.finish()
             }
             currentLocationBtn.setOnClickListener {
-                if (isLocationPermissionGranted()) {
-                    googleMap.moveCameraToCurrentLocation(this@NearByActivity)
-                } else {
-                    requestLocationPermission()
-                }
+                googleMap.moveCamera()
             }
         }
     }
@@ -148,6 +144,27 @@ class NearByActivity : BaseActivity<ActivityNearByBinding>(ActivityNearByBinding
 
                 is Resource.Success -> {
                     nearbyAirports = result.data as ArrayList<NearByAirportsDataItems>
+                    if (nearbyAirports.isNotEmpty()) {
+                        val BANNER_NEARBy_AIRPORT =
+                            RemoteConfigManager.getBoolean("BANNER_NEARBy_AIRPORT")
+                        if (BANNER_NEARBy_AIRPORT && !config.isPremiumUser) {
+                            binding.adContainerView.visible()
+                            bannerAdManager.loadAd(
+                                true,
+                                this@NearByActivity,
+                                app.getString(R.string.BANNER_NEARBy_AIRPORT),
+                                {
+                                    bannerAdManager.showBannerAd(
+                                        binding.adContainerView,
+                                        this@NearByActivity,
+                                        null
+                                    )
+                                },
+                                {
+
+                                })
+                        }
+                    }
                     drawMarkersJob = lifecycleScope.launch {
                         delay(3000)
                         setAirportsData(coroutineContext[Job]!!)
@@ -171,7 +188,7 @@ class NearByActivity : BaseActivity<ActivityNearByBinding>(ActivityNearByBinding
 
                 is Resource.Error -> {
                     binding.pg.invisible()
-                    this.showToast("No Data Found")
+                    this.showToast(result.message)
                 }
             }
         }
@@ -219,28 +236,6 @@ class NearByActivity : BaseActivity<ActivityNearByBinding>(ActivityNearByBinding
                 if (iataCode !in visibleAirportIds) {
                     marker.remove()
                     iterator.remove()
-                }
-            }
-
-            if (visibleAirports.isNotEmpty()) {
-                val BANNER_NEARBy_AIRPORT =
-                    RemoteConfigManager.getBoolean("BANNER_NEARBy_AIRPORT")
-                if (BANNER_NEARBy_AIRPORT) {
-                    binding.adContainerView.visible()
-                    bannerAdManager.loadAd(
-                        true,
-                        this@NearByActivity,
-                        app.getString(R.string.BANNER_NEARBy_AIRPORT),
-                        {
-                            bannerAdManager.showBannerAd(
-                                binding.adContainerView,
-                                this@NearByActivity,
-                                null
-                            )
-                        },
-                        {
-
-                        })
                 }
             }
             visibleAirports.forEach { airport ->

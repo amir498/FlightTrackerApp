@@ -226,7 +226,14 @@
     <string name="weekly_plan">Gói hàng tuần</string>
     <string name="yearly_plan">Gói hàng năm</string>
     <string name="cancel_anytime_no_hidden_fees">Hủy bất cứ lúc nào. Không phí ẩn.</string>
-    <string name="upgrade_now">Nâng cấp ngay</string>
     <string name="please_review_our_privacy_policy_to_understand_how_we_collect_use_and_protect_your_personal_information">Vui lòng xem lại Chính sách quyền riêng tư của chúng tôi để hiểu cách chúng tôi thu thập, sử dụng và bảo vệ thông tin cá nhân của bạn.</string>
+    <string name="to_use_this_feature">Để sử dụng tính năng này, hãy cấp quyền vị trí trong cài đặt</string>
+    <string name="to_use_this_feature_buy_premium_first">Để sử dụng tính năng này, hãy mua Premium trước</string>
+    <string name="buy_premium">Mua Premium</string>
+    <string name="premium">Premium</string>
+    <string name="watch_ad_to_unlock">Xem quảng cáo để mở khóa</string>
+    <string name="start_free_trail">Bắt đầu dùng thử miễn phí 3 ngày</string>
+    <string name="unlock_feature">Mở khóa tính năng</string>
+    <string name="feature_locked">Tính năng bị khóa</string>
 
 </resources>

@@ -18,7 +18,7 @@
         app:lottie_rawRes="@raw/ad_loading" />
 
     <TextView
-        style="@style/sfb14primary"
+        style="@style/sfr14primary"
         android:layout_width="wrap_content"
         android:id="@+id/tv"
         android:layout_height="wrap_content"

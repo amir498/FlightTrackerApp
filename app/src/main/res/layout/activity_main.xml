@@ -9,14 +9,25 @@
     android:scrollbars="none"
     tools:context=".presentation.activities.MainActivity">
 
+    <ProgressBar
+        android:id="@+id/pg"
+        android:elevation="@dimen/_10sdp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ScrollView
+        android:id="@+id/subMain"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbars="none"
-        android:id="@+id/subMain"
-        app:layout_goneMarginBottom="@dimen/_10sdp"
         app:layout_constraintBottom_toTopOf="@+id/adContainerView"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_goneMarginBottom="@dimen/_10sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -70,12 +81,12 @@
                 app:lottie_rawRes="@raw/dot" />
 
             <ImageView
+                android:id="@+id/PremiumScreenIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_10sdp"
-                android:id="@+id/PremiumScreenIcon"
-                android:visibility="invisible"
                 android:src="@drawable/premium_icon_home"
+                android:visibility="visible"
                 app:layout_constraintEnd_toStartOf="@+id/btnSetting"
                 app:layout_constraintTop_toTopOf="@+id/btnSetting" />
 
@@ -127,8 +138,8 @@
                     style="@style/sfb17p"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/flight_tracker"
                     android:maxLength="15"
+                    android:text="@string/flight_tracker"
                     app:layout_constraintBottom_toTopOf="@+id/viewMapBtn"
                     app:layout_constraintStart_toStartOf="@+id/tvLiveMap"
                     app:layout_constraintTop_toBottomOf="@+id/tvLiveMap" />
@@ -152,8 +163,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:maxLength="8"
                         android:gravity="end"
+                        android:maxLength="8"
                         android:text="@string/view_map" />
 
                     <ImageView
@@ -170,11 +181,12 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_140sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:visibility="gone"
                 android:layout_marginBottom="@dimen/_10sdp"
-                app:layout_constraintTop_toBottomOf="@+id/btnLiveMapFlightTracker"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/btnLiveMapFlightTracker"
-                app:layout_constraintStart_toStartOf="@+id/btnLiveMapFlightTracker" >
+                app:layout_constraintStart_toStartOf="@+id/btnLiveMapFlightTracker"
+                app:layout_constraintTop_toBottomOf="@+id/btnLiveMapFlightTracker">
+
                 <include layout="@layout/shimmer_native_ad_home_screen" />
             </FrameLayout>
 
@@ -400,16 +412,16 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ProgressBar
-                android:id="@+id/pg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:elevation="@dimen/_10sdp"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <!--            <ProgressBar-->
+            <!--                android:id="@+id/pg"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:elevation="@dimen/_10sdp"-->
+            <!--                android:visibility="invisible"-->
+            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -419,9 +431,9 @@
         android:id="@+id/adContainerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/all_round_white_bg"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <include layout="@layout/layout_banner_control">

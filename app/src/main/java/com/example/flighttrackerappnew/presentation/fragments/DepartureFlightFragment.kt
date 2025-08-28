@@ -13,9 +13,12 @@ import com.example.flighttrackerappnew.databinding.FragmentDepartureFlightBindin
 import com.example.flighttrackerappnew.presentation.activities.AirportSearchActivity
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.DetailActivity
+import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
 import com.example.flighttrackerappnew.presentation.adapter.DepartureFlightAdapter
+import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
+import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.FullDetailsFlightData
 import com.example.flighttrackerappnew.presentation.utils.departureFlightData
@@ -109,7 +112,7 @@ class DepartureFlightFragment : Fragment() {
                 }
             }
             this.departureData = departureData
-            var arrData = if (isFromAirportOrAirline) {
+            var arrData = if (isFromAirportOrAirline && !config.isPremiumUser) {
                 addAdToDepartureData()
             } else {
                 departureData
@@ -117,7 +120,7 @@ class DepartureFlightFragment : Fragment() {
             adapter?.setList(arrData, nativeAdController)
             adapter?.setListener { arrivalData ->
                 getFullDepartureFlightDataDetail(arrivalData)
-                showRewardedAd()
+                showDialogPremium()
             }
             binding.pg.invisible()
             try {
@@ -127,6 +130,25 @@ class DepartureFlightFragment : Fragment() {
             }
             (activity as AirportSearchActivity).setAirportName()
         }
+    }
+
+    private val config:Config by inject()
+    private fun showDialogPremium() {
+        CustomDialogBuilder(requireContext())
+            .setLayout(R.layout.dialog_premium)
+            .setCancelable(false)
+            .setPositiveClickListener {
+                val intent = Intent(requireContext(), PremiumActivity::class.java)
+                intent.putExtra("from_arrival", true)
+                startActivity(intent)
+                it.dismiss()
+            }.setNegativeClickListener {
+                showRewardedAd()
+                it.dismiss()
+            }.setCrossBtnListener {
+                it.dismiss()
+            }
+            .show()
     }
 
     private fun showRewardedAd() {
@@ -148,7 +170,6 @@ class DepartureFlightFragment : Fragment() {
         } else {
             startActivity(Intent(requireContext(), DetailActivity::class.java))
         }
-
     }
 
     private fun addAdToDepartureData(): ArrayList<ArrivalDataItems> {

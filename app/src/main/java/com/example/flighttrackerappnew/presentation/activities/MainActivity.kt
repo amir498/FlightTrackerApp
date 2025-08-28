@@ -4,8 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivityMainBinding
+import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
+import com.example.flighttrackerappnew.presentation.adManager.AppOpenAdManager
 import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager
@@ -13,13 +16,15 @@ import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBu
 import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
-import com.example.flighttrackerappnew.presentation.utils.allApiCallCompleted
 import com.example.flighttrackerappnew.presentation.utils.clickCount
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
+import com.example.flighttrackerappnew.presentation.utils.gone
 import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isFromDetail
 import com.example.flighttrackerappnew.presentation.utils.lastSelectedPlane
+import com.example.flighttrackerappnew.presentation.utils.loadAppOpen
 import com.example.flighttrackerappnew.presentation.utils.setZoomClickEffect
+import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.example.flighttrackerappnew.presentation.utils.visible
 import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -32,14 +37,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private val bannerAdManager: BannerAdManager by inject()
     private val nativeAdController: NativeAdController by inject()
+    private val viewModel: FlightAppViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val BANNER_HOME =
+        val bannerHome =
             RemoteConfigManager.getBoolean("BANNER_HOME")
 
-        val NATIVE_HOME =
+        val nativeHome =
             RemoteConfigManager.getBoolean("NATIVE_HOME")
 
         binding.subMain.setPadding(
@@ -53,7 +59,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         observeLiveData()
         onBackPress()
 
-        if (BANNER_HOME) {
+        if (nativeHome && !config.isPremiumUser) {
             binding.flAdplaceholder.visible()
             bannerAdManager.loadAd(true, this, app.getString(R.string.BANNER_HOME), {
                 bannerAdManager.showBannerAd(
@@ -63,23 +69,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 )
             }, {})
         }
-        if (NATIVE_HOME) {
+        if (bannerHome && !config.isPremiumUser) {
             binding.adContainerView.visible()
             loadAd()
         }
     }
 
     private fun loadInterstitialAd() {
-        val INTERSTITIAL_HOME =
-            RemoteConfigManager.getBoolean("INTERSTITIAL_HOME")
-        if (INTERSTITIAL_HOME){
-            InterstitialAdManager.loadInterstitialAd(
-                this,
-                app.getString(R.string.INTERSTITIAL_HOME),
-                this,
-                {},
-                {},
-                {})
+        if (!config.isPremiumUser) {
+            val interstitialHome =
+                RemoteConfigManager.getBoolean("INTERSTITIAL_HOME")
+            if (interstitialHome) {
+                InterstitialAdManager.loadInterstitialAd(
+                    this,
+                    app.getString(R.string.INTERSTITIAL_HOME),
+                    this,
+                    {},
+                    {},
+                    {})
+            }
         }
     }
 
@@ -100,6 +108,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         loadInterstitialAd()
         lastSelectedPlane = null
         isFromDetail = false
+        if (config.isPremiumUser) {
+            binding.PremiumScreenIcon.invisible()
+            binding.flAdplaceholder.gone()
+            binding.adContainerView.gone()
+        } else {
+            binding.PremiumScreenIcon.visible()
+        }
     }
 
     private fun onBackPress() {
@@ -115,6 +130,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             .setLayout(R.layout.dialog_exit_app)
             .setCancelable(false)
             .setPositiveClickListener {
+                AppOpenAdManager.appOpenAd = null
+                loadAppOpen = false
                 it.dismiss()
                 job?.cancel()
                 finish()
@@ -123,31 +140,41 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             }.show()
     }
 
+    private fun checkTrue(): Boolean {
+        return binding.pg.isVisible
+    }
+
     private fun viewListener() {
         binding.apply {
             viewMapBtn.setZoomClickEffect()
             viewMapBtn.setOnClickListener {
-                clickCount += 1
-                InterstitialAdManager.mInterstitialAd?.let {
-                    InterstitialAdManager.showAd(this@MainActivity) {
-                        startActivity(
-                            Intent(
-                                this@MainActivity,
-                                LiveMapFlightTrackerActivity::class.java
-                            )
-                        )
-                    }
-                } ?: run {
+                if (checkTrue()) {
+                    this@MainActivity.showToast("Wait!!")
+                    return@setOnClickListener
+                }
+                if (config.isPremiumUser) {
                     startActivity(
                         Intent(
                             this@MainActivity,
                             LiveMapFlightTrackerActivity::class.java
                         )
                     )
+                } else {
+                    startActivity(
+                        Intent(
+                            this@MainActivity,
+                            LiveMapFlightTrackerLockedActivity::class.java
+                        )
+                    )
                 }
             }
+
             btnSetting.setZoomClickEffect()
             btnSetting.setOnClickListener {
+                if (checkTrue()) {
+                    this@MainActivity.showToast("Wait!!")
+                    return@setOnClickListener
+                }
                 clickCount += 1
                 InterstitialAdManager.mInterstitialAd?.let {
                     InterstitialAdManager.showAd(this@MainActivity) {
@@ -157,8 +184,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     startActivity(Intent(this@MainActivity, SettingActivity::class.java))
                 }
             }
+
             btnSearchNow.setZoomClickEffect()
             btnSearchNow.setOnClickListener {
+                if (checkTrue()) {
+                    this@MainActivity.showToast("Wait!!")
+                    return@setOnClickListener
+                }
                 clickCount += 1
                 InterstitialAdManager.mInterstitialAd?.let {
                     InterstitialAdManager.showAd(this@MainActivity) {
@@ -168,8 +200,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     startActivity(Intent(this@MainActivity, SearchActivity::class.java))
                 }
             }
+
             btnNearbyFlight.setZoomClickEffect()
             btnNearbyFlight.setOnClickListener {
+                if (checkTrue()) {
+                    this@MainActivity.showToast("Wait!!")
+                    return@setOnClickListener
+                }
                 clickCount += 1
                 InterstitialAdManager.mInterstitialAd?.let {
                     InterstitialAdManager.showAd(this@MainActivity) {
@@ -179,8 +216,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     startActivity(Intent(this@MainActivity, NearByActivity::class.java))
                 }
             }
+
             btnFollowedFlight.setZoomClickEffect()
             btnFollowedFlight.setOnClickListener {
+                if (checkTrue()) {
+                    this@MainActivity.showToast("Wait!!")
+                    return@setOnClickListener
+                }
                 clickCount += 1
                 InterstitialAdManager.mInterstitialAd?.let {
                     InterstitialAdManager.showAd(this@MainActivity) {
@@ -190,8 +232,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     startActivity(Intent(this@MainActivity, TrackedActivity::class.java))
                 }
             }
+
             btnScheduledFlight.setZoomClickEffect()
             btnScheduledFlight.setOnClickListener {
+                if (checkTrue()) {
+                    this@MainActivity.showToast("Wait!!")
+                    return@setOnClickListener
+                }
                 clickCount += 1
                 InterstitialAdManager.mInterstitialAd?.let {
                     InterstitialAdManager.showAd(this@MainActivity) {
@@ -211,8 +258,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     )
                 }
             }
+
+            PremiumScreenIcon.setZoomClickEffect()
+            PremiumScreenIcon.setOnClickListener {
+                if (checkTrue()) {
+                    this@MainActivity.showToast("Wait!!")
+                    return@setOnClickListener
+                }
+                startActivity(Intent(this@MainActivity, PremiumActivity::class.java))
+            }
+
             btnSavedFlight.setZoomClickEffect()
             btnSavedFlight.setOnClickListener {
+                if (checkTrue()) {
+                    this@MainActivity.showToast("Wait!!")
+                    return@setOnClickListener
+                }
                 clickCount += 1
                 InterstitialAdManager.mInterstitialAd?.let {
                     InterstitialAdManager.showAd(this@MainActivity) {
@@ -235,19 +296,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    private val viewModel: FlightAppViewModel by inject()
-
     private fun observeLiveData() {
         viewModel.getFollowFlightData()
-        binding.pg.visible()
         viewModel.apply {
-            allApiCallCompleted.observe(this@MainActivity) {
-                if (it) {
-                    binding.pg.invisible()
-                } else {
-                    binding.pg.visible()
-                }
-            }
             airPlanesData.observe(this@MainActivity) { result ->
                 when (result) {
                     is Resource.Loading -> {}
@@ -271,18 +322,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     }
 
                     is Resource.Error -> {
+                        showToast("No Airplane Data found")
                     }
                 }
             }
             airPortsData.observe(this@MainActivity) { result ->
                 when (result) {
-                    is Resource.Loading -> {}
+                    is Resource.Loading -> {
+                        binding.pg.visible()
+                    }
 
                     is Resource.Success -> {
+                        binding.pg.invisible()
                         dataCollector.airports = result.data
                     }
 
-                    is Resource.Error -> {}
+                    is Resource.Error -> {
+                        binding.pg.invisible()
+                        showToast("No Airport Data found")
+                    }
                 }
             }
 
@@ -294,22 +352,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         dataCollector.staticAirlines = response.data
                     }
 
-                    is Resource.Error -> {}
+                    is Resource.Error -> {
+                        showToast("No Airlines Data found")
+                    }
                 }
             }
 
             liveFlightData.observe(this@MainActivity) { result ->
                 when (result) {
-                    is Resource.Loading -> {}
+                    is Resource.Loading -> {
+                        binding.pg.visible()
+                    }
 
                     is Resource.Success -> {
-                        getAirPorts()
-                        getStaticAirLines()
-                        getScheduleFlight()
+//                        getAirPorts()
+//                        getStaticAirLines()
+//                        getScheduleFlight()
                         dataCollector.flights = result.data
                     }
 
-                    is Resource.Error -> {}
+                    is Resource.Error -> {
+                        binding.pg.invisible()
+                        showToast("No LiveFlight Data found")
+                    }
                 }
             }
 
@@ -322,7 +387,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         dataCollector.schedules = result.data
                     }
 
-                    is Resource.Error -> {}
+                    is Resource.Error -> {
+                        showToast("No scheduleFlightData found")
+                    }
                 }
             }
 
@@ -334,7 +401,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         dataCollector.cities = result.data
                     }
 
-                    is Resource.Error -> {}
+                    is Resource.Error -> {
+                        showToast("No citiesData found")
+                    }
                 }
             }
         }

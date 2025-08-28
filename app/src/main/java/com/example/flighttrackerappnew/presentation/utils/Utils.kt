@@ -2,11 +2,11 @@ package com.example.flighttrackerappnew.presentation.utils
 
 import android.content.Context
 import android.content.Intent
+import android.telephony.TelephonyManager
 import android.util.Log
 import androidx.core.net.toUri
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
@@ -24,124 +24,151 @@ fun formatTo12HourTime(input: String): String {
     }
 }
 
+    fun getNetworkCountryIso(context: Context): String? {
+        val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        return tm.networkCountryIso?.uppercase(Locale.ROOT)
+    }
 
-fun getFlightProgressPercent(dep: String, arr: String): Int {
-    if (dep == "N/A" || arr == "N/A") return 0
+    fun getSimCountryIso(context: Context): String? {
+        val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        return tm.simCountryIso?.uppercase(Locale.ROOT)
+    }
 
-    val baseDate = "01/01/1970"
-    val fullFormat = SimpleDateFormat("MM/dd/yyyy hh:mm a", Locale.getDefault())
-    fullFormat.isLenient = false
+    /**
+     * Returns device's current country lat/lon from your JSON.
+     */
+    fun getCurrentCountryLatLon(context: Context): Pair<Double, Double>? {
+        val countries = context.loadCountries()
 
-    return try {
-        val depTime = fullFormat.parse("$baseDate $dep") ?: return 0
-        var arrTime = fullFormat.parse("$baseDate $arr") ?: return 0
-        val now = Date()
+        val countryIso = getNetworkCountryIso(context)
+            ?: getSimCountryIso(context)
+            ?: Locale.getDefault().country.uppercase(Locale.ROOT)
 
-        // Handle overnight arrival
-        if (arrTime.before(depTime)) {
-            val calendar = Calendar.getInstance()
-            calendar.time = arrTime
-            calendar.add(Calendar.DAY_OF_MONTH, 1)
-            arrTime = calendar.time
+        val country = countries.find { it.iso2.equals(countryIso, ignoreCase = true) }
+
+        return country?.let {
+            Pair(it.latitude.toDouble(), it.longitude.toDouble())
         }
-
-        // If current time is equal to or after arrival time, progress is 100
-        if (now.time >= arrTime.time) return 100
-
-        val totalDuration = arrTime.time - depTime.time
-        val elapsed = now.time - depTime.time
-
-        if (totalDuration <= 0) return 0
-        if (elapsed <= 0) return 0
-
-        val progress = (elapsed.toDouble() / totalDuration) * 100
-        progress.coerceIn(0.0, 100.0).toInt()
-
-    } catch (e: Exception) {
-        0
     }
-}
 
-fun getTimeDifference(dep: String, arr: String): String {
-    if (dep == "N/A" || arr == "N/A") return "N/A"
 
-    val format = SimpleDateFormat("hh:mm a", Locale.getDefault())
-    format.isLenient = false
+    fun getFlightProgressPercent(dep: String, arr: String): Int {
+        if (dep == "N/A" || arr == "N/A") return 0
 
-    return try {
-        val depTime = format.parse(dep)
-        val arrTime = format.parse(arr)
+        val baseDate = "01/01/1970"
+        val fullFormat = SimpleDateFormat("MM/dd/yyyy hh:mm a", Locale.getDefault())
+        fullFormat.isLenient = false
 
-        if (depTime == null || arrTime == null) return "N/A"
+        return try {
+            val depTime = fullFormat.parse("$baseDate $dep") ?: return 0
+            var arrTime = fullFormat.parse("$baseDate $arr") ?: return 0
+            val now = Date()
 
-        var diff = arrTime.time - depTime.time
+            // Handle overnight arrival
+            if (arrTime.before(depTime)) {
+                val calendar = Calendar.getInstance()
+                calendar.time = arrTime
+                calendar.add(Calendar.DAY_OF_MONTH, 1)
+                arrTime = calendar.time
+            }
 
-        if (diff < 0) diff += TimeUnit.DAYS.toMillis(1)
+            // If current time is equal to or after arrival time, progress is 100
+            if (now.time >= arrTime.time) return 100
 
-        val hours = TimeUnit.MILLISECONDS.toHours(diff)
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(diff) % 60
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(diff) % 60
+            val totalDuration = arrTime.time - depTime.time
+            val elapsed = now.time - depTime.time
 
-        when {
-            hours > 0 && minutes > 0 -> "$hours hrs $minutes mins"
-            hours > 0 -> "$hours hrs"
-            minutes > 0 -> "$minutes mins"
-            else -> "$seconds secs"
+            if (totalDuration <= 0) return 0
+            if (elapsed <= 0) return 0
+
+            val progress = (elapsed.toDouble() / totalDuration) * 100
+            progress.coerceIn(0.0, 100.0).toInt()
+
+        } catch (e: Exception) {
+            0
         }
-
-    } catch (e: Exception) {
-        "N/A"
     }
-}
 
-fun formatIsoDate(input: String): String {
-    try {
-        Log.d("MY--TAG", "formatIsoDate:$input")
-        val isoFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
-        isoFormat.timeZone = TimeZone.getTimeZone("UTC")
+    fun getTimeDifference(dep: String, arr: String): String {
+        if (dep == "N/A" || arr == "N/A") return "N/A"
 
-        val date: Date = isoFormat.parse(input)!!
+        val format = SimpleDateFormat("hh:mm a", Locale.getDefault())
+        format.isLenient = false
 
-        val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-        return outputFormat.format(date)
-    } catch (_: RuntimeException) {
-        return "N/A"
-    }catch (_:ParseException){
-        return "N/A"
-    }
-}
+        return try {
+            val depTime = format.parse(dep)
+            val arrTime = format.parse(arr)
 
-fun formatToPrettyDate(dateString: String): String {
-    val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    val outputFormat = SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault())
+            if (depTime == null || arrTime == null) return "N/A"
 
-    return try {
-        val date = inputFormat.parse(dateString)
-        outputFormat.format(date ?: Date())
-    } catch (e: Exception) {
-        dateString // fallback if parsing fails
-    }
-}
+            var diff = arrTime.time - depTime.time
 
+            if (diff < 0) diff += TimeUnit.DAYS.toMillis(1)
 
-fun openGoogleMap(lat: String, long: String, context: Context) {
-    try {
-        val latitude = lat.toDouble()
-        val longitude = long.toDouble()
+            val hours = TimeUnit.MILLISECONDS.toHours(diff)
+            val minutes = TimeUnit.MILLISECONDS.toMinutes(diff) % 60
+            val seconds = TimeUnit.MILLISECONDS.toSeconds(diff) % 60
 
-        val label = "Saved Location"
-        val uri = "http://maps.google.com/maps?q=loc:$latitude,$longitude($label)".toUri()
+            when {
+                hours > 0 && minutes > 0 -> "$hours hrs $minutes mins"
+                hours > 0 -> "$hours hrs"
+                minutes > 0 -> "$minutes mins"
+                else -> "$seconds secs"
+            }
 
-        val intent = Intent(Intent.ACTION_VIEW, uri)
-        intent.setPackage("com.google.android.apps.maps")
-
-        if (intent.resolveActivity(context.packageManager) != null) {
-            context.startActivity(intent)
-        } else {
-            context.showToast("Google Maps not found")
+        } catch (e: Exception) {
+            "N/A"
         }
-    } catch (e: NumberFormatException) {
-        context.showToast("N/A")
     }
-}
+
+    fun formatIsoDate(input: String): String {
+        try {
+            Log.d("MY--TAG", "formatIsoDate:$input")
+            val isoFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
+            isoFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+            val date: Date = isoFormat.parse(input)!!
+
+            val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            return outputFormat.format(date)
+        } catch (_: RuntimeException) {
+            return "N/A"
+        } catch (_: ParseException) {
+            return "N/A"
+        }
+    }
+
+    fun formatToPrettyDate(dateString: String): String {
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault())
+
+        return try {
+            val date = inputFormat.parse(dateString)
+            outputFormat.format(date ?: Date())
+        } catch (e: Exception) {
+            dateString // fallback if parsing fails
+        }
+    }
+
+
+    fun openGoogleMap(lat: String, long: String, context: Context) {
+        try {
+            val latitude = lat.toDouble()
+            val longitude = long.toDouble()
+
+            val label = "Saved Location"
+            val uri = "http://maps.google.com/maps?q=loc:$latitude,$longitude($label)".toUri()
+
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            intent.setPackage("com.google.android.apps.maps")
+
+            if (intent.resolveActivity(context.packageManager) != null) {
+                context.startActivity(intent)
+            } else {
+                context.showToast("Google Maps not found")
+            }
+        } catch (e: NumberFormatException) {
+            context.showToast("N/A")
+        }
+    }
 

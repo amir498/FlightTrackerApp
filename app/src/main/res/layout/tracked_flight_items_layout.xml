@@ -16,37 +16,35 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_10sdp"
         android:src="@drawable/iv_tracked_flight_date_icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvDate"
         app:layout_constraintBottom_toBottomOf="@+id/tvDate"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvDate" />
 
     <TextView
         android:id="@+id/tvDate"
+        style="@style/sfm12p"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_10sdp"
-        android:text="@string/today"
-        style="@style/sfm12p"
         android:layout_marginTop="@dimen/_10sdp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/today"
         app:layout_constraintStart_toEndOf="@+id/iv_tracked_flight_date_icon"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/active"
+        style="@style/sfm10p"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/_17sdp"
         android:layout_marginEnd="@dimen/_10sdp"
+        android:background="@drawable/text_active_bg"
         android:drawableLeft="@drawable/active_left_drawble"
         android:drawablePadding="@dimen/_4sdp"
         android:gravity="center"
-        android:background="@drawable/text_active_bg"
-        android:text="@string/active"
-        android:textColor="#51B366"
         android:paddingStart="@dimen/_6sdp"
         android:paddingEnd="@dimen/_6sdp"
-        style="@style/sfm10p"
+        android:text="@string/active"
+        android:textColor="#51B366"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tvDate" />
 
@@ -63,21 +61,21 @@
 
     <TextView
         android:id="@+id/callSign"
+        style="@style/sfb15p"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_10sdp"
         android:text="@string/qtr_611"
-        style="@style/sfb15p"
         app:layout_constraintStart_toEndOf="@+id/selectedMove"
         app:layout_constraintTop_toTopOf="@+id/selectedMove" />
 
     <TextView
         android:id="@+id/sea"
+        style="@style/sfm11p"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_10sdp"
         android:text="@string/sea"
-        style="@style/sfm11p"
         app:layout_constraintStart_toEndOf="@+id/selectedMove"
         app:layout_constraintTop_toBottomOf="@+id/callSign" />
 
@@ -93,11 +91,11 @@
 
     <TextView
         android:id="@+id/alt"
+        style="@style/sfm11p"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_5sdp"
         android:text="@string/alt"
-        style="@style/sfm11p"
         app:layout_constraintStart_toEndOf="@+id/iv_airplane"
         app:layout_constraintTop_toBottomOf="@+id/callSign" />
 
@@ -141,8 +139,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AirCraftiataNumber"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/AirCraftiataNumber">
 
         <TextView
             android:id="@+id/depIataCode"
@@ -169,26 +166,25 @@
 
 
         <ImageView
+            android:id="@+id/iv_dep_w"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/iv_dep_w"
-            android:id="@+id/iv_dep_w"
             android:layout_marginTop="@dimen/_20sdp"
-            app:layout_constraintTop_toBottomOf="@+id/depCityName"
+            android:src="@drawable/iv_dep_w"
             app:layout_constraintEnd_toEndOf="@+id/depCityName"
-            app:layout_constraintStart_toStartOf="@+id/depCityName"/>
+            app:layout_constraintStart_toStartOf="@+id/depCityName"
+            app:layout_constraintTop_toBottomOf="@+id/depCityName" />
 
         <TextView
             android:id="@+id/depTime"
             style="@style/sfb12p"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/_4sdp"
             android:text="5:15 AM"
             app:layout_constraintEnd_toEndOf="@+id/depCityName"
             app:layout_constraintStart_toStartOf="@+id/depCityName"
-            app:layout_constraintTop_toBottomOf="@+id/iv_dep_w"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/iv_dep_w" />
 
         <TextView
             android:id="@+id/tvActual"
@@ -275,27 +271,25 @@
             app:layout_constraintTop_toBottomOf="@+id/arrivalIataCode" />
 
         <ImageView
+            android:id="@+id/iv_arrival_w"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/iv_arrival_w"
-            android:id="@+id/iv_arrival_w"
             android:layout_marginTop="@dimen/_20sdp"
+            android:src="@drawable/iv_arrival_w"
             app:layout_constraintEnd_toEndOf="@+id/arrivalIataCode"
             app:layout_constraintStart_toStartOf="@+id/arrivalIataCode"
-            app:layout_constraintTop_toBottomOf="@+id/arrCityName"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/arrCityName" />
 
         <TextView
             android:id="@+id/arriTime"
             style="@style/sfb12p"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/_4sdp"
             android:text="5:15 AM"
             app:layout_constraintEnd_toEndOf="@+id/arrivalIataCode"
             app:layout_constraintStart_toStartOf="@+id/arrivalIataCode"
-            app:layout_constraintTop_toBottomOf="@+id/iv_arrival_w"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/iv_arrival_w" />
 
         <TextView
             android:id="@+id/tvEstimated"
@@ -314,8 +308,8 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_25sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:progress="60"
             android:max="100"
+            android:progress="60"
             android:progressDrawable="@drawable/seekbar_style"
             android:splitTrack="false"
             android:thumb="@drawable/seekbar_thumb"
@@ -340,7 +334,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:text="14:50"
+            android:maxLength="8"
+            android:text="14:00"
+            app:layout_constraintHorizontal_bias="0"
+
+            app:layout_constraintEnd_toStartOf="@+id/tvArrEstimatedTime"
             app:layout_constraintStart_toEndOf="@+id/tvDepActualTime"
             app:layout_constraintTop_toBottomOf="@+id/discreteSeekBar" />
 
@@ -352,7 +350,7 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:text="ESTIMATED"
+            android:text="@string/estimated"
             app:layout_constraintEnd_toStartOf="@+id/arrEstimatedTime"
             app:layout_constraintTop_toBottomOf="@+id/discreteSeekBar" />
 
@@ -363,7 +361,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:maxLength="8"
             android:text="17:00"
+            android:textAlignment="textStart"
             app:layout_constraintEnd_toEndOf="@+id/discreteSeekBar"
             app:layout_constraintTop_toBottomOf="@+id/discreteSeekBar" />
 
@@ -397,9 +397,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/sf_pro_display_bold"
+        android:padding="@dimen/_5sdp"
         android:text="@string/unfollow"
         android:textColor="@color/acc1"
-        android:padding="@dimen/_5sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/view3"
         app:layout_constraintStart_toStartOf="parent"
@@ -410,12 +410,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/sf_pro_display_bold"
-        android:text="@string/view_details"
         android:padding="@dimen/_5sdp"
+        android:text="@string/view_details"
         android:textColor="@color/text_color_p"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/view3"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/view3"
         app:layout_constraintTop_toBottomOf="@+id/view1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

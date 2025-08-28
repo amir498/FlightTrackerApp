@@ -55,9 +55,6 @@ class UMPConsentManager(private val activity: Activity) {
         )
     }
 
-    /**
-     * Load and display the consent form if available
-     */
     private fun loadAndShowConsentForm(onConsentResult: (Boolean) -> Unit) {
         UserMessagingPlatform.loadConsentForm(
             activity,

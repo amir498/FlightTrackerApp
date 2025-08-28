@@ -16,7 +16,6 @@ import com.example.flighttrackerappnew.data.model.cities.CitiesDataItems
 import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
 import com.example.flighttrackerappnew.data.model.schedulesFlight.FlightSchedulesItems
 import com.example.flighttrackerappnew.databinding.ActivitySearchAirLinesBinding
-import com.example.flighttrackerappnew.presentation.activities.SearchAirportActivity
 import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
 import com.example.flighttrackerappnew.presentation.adapter.SearchAirLinesAdapter
 import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
@@ -24,6 +23,7 @@ import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigMan
 import com.example.flighttrackerappnew.presentation.utils.arrivalFlightData
 import com.example.flighttrackerappnew.presentation.utils.departureFlightData
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
+import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isFromAirportOrAirline
 import com.example.flighttrackerappnew.presentation.utils.orNA
 import com.example.flighttrackerappnew.presentation.utils.searchedDataTitle
@@ -102,7 +102,7 @@ class SearchAirLinesActivity :
         if (airLines.isNotEmpty()) {
             val BANNER_SEARCH_AIRLINE =
                 RemoteConfigManager.getBoolean("BANNER_SEARCH_AIRLINE")
-            if (BANNER_SEARCH_AIRLINE){
+            if (BANNER_SEARCH_AIRLINE && !config.isPremiumUser){
                 binding.adContainerView.visible()
                 bannerAdManager.loadAd(true, this, app.getString(R.string.BANNER_SEARCH_AIRLINE), {
                     bannerAdManager.showBannerAd(
@@ -114,6 +114,10 @@ class SearchAirLinesActivity :
 
                 })
             }
+        }else{
+            binding.recyclerView.invisible()
+            binding.ivSearchFlightSchedule.visible()
+            binding.findHistory.visible()
         }
         airlinesSearchAirLinesAdapter = SearchAirLinesAdapter()
         binding.recyclerView.adapter = airlinesSearchAirLinesAdapter

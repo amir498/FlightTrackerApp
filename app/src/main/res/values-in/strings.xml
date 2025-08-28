@@ -226,7 +226,14 @@
     <string name="weekly_plan">Paket Mingguan</string>
     <string name="yearly_plan">Paket Tahunan</string>
     <string name="cancel_anytime_no_hidden_fees">Batalkan kapan saja. Tanpa biaya tersembunyi.</string>
-    <string name="upgrade_now">Tingkatkan Sekarang</string>
     <string name="please_review_our_privacy_policy_to_understand_how_we_collect_use_and_protect_your_personal_information">Harap tinjau Kebijakan Privasi kami untuk memahami bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda.</string>
+    <string name="to_use_this_feature">Untuk menggunakan fitur ini, berikan izin lokasi dari pengaturan</string>
+    <string name="to_use_this_feature_buy_premium_first">Untuk menggunakan fitur ini, beli Premium terlebih dahulu</string>
+    <string name="buy_premium">Beli Premium</string>
+    <string name="premium">Premium</string>
+    <string name="watch_ad_to_unlock">Tonton iklan untuk membuka</string>
+    <string name="start_free_trail">Mulai Uji Coba Gratis 3 Hari</string>
+    <string name="unlock_feature">Buka Fitur</string>
+    <string name="feature_locked">Fitur Terkunci</string>
 
 </resources>

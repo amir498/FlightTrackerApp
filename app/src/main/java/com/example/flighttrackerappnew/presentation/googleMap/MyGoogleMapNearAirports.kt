@@ -1,12 +1,10 @@
 package com.example.flighttrackerappnew.presentation.googleMap
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.location.Location
 import com.example.flighttrackerappnew.data.model.nearby.NearByAirportsDataItems
 import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.listener.AirPortClickListener
-import com.google.android.gms.location.LocationServices
+import com.example.flighttrackerappnew.presentation.utils.lat
+import com.example.flighttrackerappnew.presentation.utils.lon
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -19,7 +17,6 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import kotlin.getValue
 
 class MyGoogleMapNearAirports : OnMapReadyCallback, KoinComponent {
     private var mMap: GoogleMap? = null
@@ -72,31 +69,23 @@ class MyGoogleMapNearAirports : OnMapReadyCallback, KoinComponent {
         }
     }
 
-    @SuppressLint("MissingPermission")
-    fun moveCameraToCurrentLocation(context: Context) {
-        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+    fun moveCamera() {
+        if (lat == null || lon == null) return
+        val currentLatLng = LatLng(lat!!,lon!!)
+        val cameraPosition = CameraPosition.Builder()
+            .target(currentLatLng)
+            .zoom(8f)
+            .bearing(0f)
+            .build()
 
-        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-            location?.let {
-                val currentLatLng = LatLng(it.latitude, it.longitude)
-
-                val cameraPosition = CameraPosition.Builder()
-                    .target(currentLatLng)
-                    .zoom(4.5f)
-                    .bearing(0f)
-                    .tilt(45f)
-                    .build()
-
-                mMap?.animateCamera(
-                    CameraUpdateFactory.newCameraPosition(cameraPosition),
-                    1400,
-                    object : GoogleMap.CancelableCallback {
-                        override fun onFinish() {}
-
-                        override fun onCancel() {}
-                    })
-            } ?: run {}
-        }.addOnFailureListener {}
+        mMap?.animateCamera(
+            CameraUpdateFactory.newCameraPosition(cameraPosition),
+            1400,
+            object : GoogleMap.CancelableCallback {
+                override fun onFinish() {}
+                override fun onCancel() {}
+            }
+        )
     }
 
     fun getVisibleBounds(): LatLngBounds? {

@@ -1,18 +1,18 @@
 package com.example.flighttrackerappnew.presentation.google_play_billing
 
-enum class BillingEvent {
-    BILLING_CONNECTED,
-    BILLING_CONNECTION_FAILED,
-    BILLING_DISCONNECTED,
-    QUERY_PRODUCT_DETAILS_COMPLETE,
-    QUERY_PRODUCT_DETAILS_FAILED,
-    QUERY_OWNED_PURCHASES_COMPLETE,
-    QUERY_OWNED_PURCHASES_FAILED,
-    PURCHASE_COMPLETE,
-    PURCHASE_FAILED,
-    PURCHASE_CANCELLED,
-    PURCHASE_ACKNOWLEDGE_SUCCESS,
-    PURCHASE_ACKNOWLEDGE_FAILED,
-    CONSUME_PURCHASE_SUCCESS,
-    CONSUME_PURCHASE_FAILED
+import com.android.billingclient.api.Purchase
+
+sealed class BillingEvent {
+    data class PurchaseSuccess(val purchase: Purchase) : BillingEvent()
+    data class PurchaseAcknowledged(val purchaseToken: String) : BillingEvent()
+    data class ProductDetailsLoaded(val loaded: Boolean) : BillingEvent()
+    data class Error(val message: String) : BillingEvent()
+    data class BillingUnavailable(val message: String) : BillingEvent()
+    data class NetworkError(val message: String) : BillingEvent()
+    data class UserCancelled(val message: String) : BillingEvent()
+    data class FeatureNotSupported(val message: String) : BillingEvent()
+    data class AlreadyOwned(val isAlreadyOwned: Boolean) : BillingEvent()
+    data class IsProductFound(val isProductFound: Boolean) : BillingEvent()
+    data class QueryPurchaseResult(val purchaseList: MutableList<Purchase>) : BillingEvent()
+    data class RestorePurchaseResult(val purchaseList: MutableList<Purchase>) : BillingEvent()
 }

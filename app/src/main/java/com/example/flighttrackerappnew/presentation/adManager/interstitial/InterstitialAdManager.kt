@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
+import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.utils.clickCount
 import com.example.flighttrackerappnew.presentation.utils.isNetworkAvailable
 import com.example.flighttrackerappnew.presentation.utils.loadAppOpen
@@ -17,9 +18,15 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.ump.UserMessagingPlatform
+import org.koin.core.Koin
 
 object InterstitialAdManager {
     var mInterstitialAd: InterstitialAd? = null
+    lateinit var config: Config
+
+    fun init(koin: Koin) {
+        config = koin.get()
+    }
 
     private var onAdDismissed: (() -> Unit)? = null
     fun loadInterstitialAd(
@@ -31,7 +38,7 @@ object InterstitialAdManager {
         onAdDismissed: (() -> Unit)?,
     ) {
         this.onAdDismissed = onAdDismissed
-        if (requireContext.isNetworkAvailable() && clickCount % 2 == 0 && mInterstitialAd == null) {
+        if (requireContext.isNetworkAvailable() && clickCount % 2 == 0 && mInterstitialAd == null && !config.isPremiumUser) {
             val consentInformation = UserMessagingPlatform.getConsentInformation(requireContext)
             val canRequestAds = consentInformation.canRequestAds()
             if (canRequestAds) {

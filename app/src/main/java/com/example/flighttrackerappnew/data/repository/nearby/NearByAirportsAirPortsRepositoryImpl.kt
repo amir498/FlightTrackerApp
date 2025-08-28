@@ -15,13 +15,17 @@ class NearByAirportsAirPortsRepositoryImpl(
     private val nearByAirPortsCacheDataSource: NearByAirPortsCacheDataSource
 ) : NearByAirPortsRepository {
 
-    override suspend fun getNearbyData(): Resource<List<NearByAirportsDataItems>> {
+    override suspend fun getNearbyData(
+        lat: Double,
+        long: Double,
+        distance: Int
+    ): Resource<List<NearByAirportsDataItems>> {
         return try {
             val cached = nearByAirPortsCacheDataSource.getNearByFromCache()
             if (cached.isNotEmpty()) {
                 Resource.Success(cached)
             } else {
-                Resource.Success(getDataFromRemote())
+                Resource.Success(getDataFromRemote(lat, long, distance))
             }
         } catch (e: HttpException) {
             Resource.Error("HTTP ${e.code()} ${e.message()}")
@@ -32,18 +36,26 @@ class NearByAirportsAirPortsRepositoryImpl(
         }
     }
 
-    private suspend fun getFromRoom(): List<NearByAirportsDataItems> {
+    private suspend fun getFromRoom(
+        lat: Double,
+        long: Double,
+        distance: Int
+    ): List<NearByAirportsDataItems> {
         val dataFromRoom = nearByAirPortsRoomDataSource.getNearByFromRoom()
         return if (dataFromRoom.isNotEmpty()) {
             nearByAirPortsCacheDataSource.saveNearByToCache(dataFromRoom)
             dataFromRoom
         } else {
-            getDataFromRemote()
+            getDataFromRemote(lat, long, distance)
         }
     }
 
-    private suspend fun getDataFromRemote(): List<NearByAirportsDataItems> {
-        val remote = nearByAirPortsRemoteDataSource.getNearByData()
+    private suspend fun getDataFromRemote(
+        lat: Double,
+        long: Double,
+        distance: Int
+    ): List<NearByAirportsDataItems> {
+        val remote = nearByAirPortsRemoteDataSource.getNearByData(lat, long, distance)
         nearByAirPortsCacheDataSource.saveNearByToCache(remote)
         nearByAirPortsRoomDataSource.saveNearBYToRoom(remote)
         return remote

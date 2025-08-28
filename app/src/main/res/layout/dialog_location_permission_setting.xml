@@ -35,7 +35,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
-            android:text="To use this feature grant location permission from setting"
+            android:text="@string/to_use_this_feature"
             android:textColor="@color/text_color_s"
             android:layout_marginEnd="@dimen/_10sdp"
             android:fontFamily="@font/sf_pro_display_bold"

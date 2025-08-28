@@ -77,7 +77,7 @@
 
     <TextView
         android:id="@+id/distance"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_2sdp"
         android:background="@drawable/details_aircraft_iata_bg"
@@ -85,6 +85,7 @@
         android:paddingStart="@dimen/_10sdp"
         android:paddingTop="@dimen/_2sdp"
         android:paddingEnd="@dimen/_10sdp"
+        android:maxLength="7"
         android:paddingBottom="@dimen/_2sdp"
         android:text="@string/_13_km"
         android:textColor="@color/white"

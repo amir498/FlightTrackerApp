@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_bg"
-    tools:context=".presentation.activities.WelcomeActivity">
+    tools:context=".presentation.activities.beforeHome.WelcomeActivity">
 
 
     <include layout="@layout/app_margin" />
@@ -32,7 +32,8 @@
         app:layout_constraintEnd_toEndOf="@+id/glRight"
         android:layout_marginBottom="@dimen/_10sdp"
         app:layout_constraintTop_toBottomOf="@+id/iv_Welcome"
-        app:layout_constraintBottom_toTopOf="@+id/fl_adplaceholder">
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -122,6 +123,21 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <FrameLayout
+                android:id="@+id/fl_adplaceholder"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/conLive"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <include layout="@layout/shimmer_native_with_large_media" />
+            </FrameLayout>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/conFollow"
                 android:layout_width="0dp"
@@ -130,7 +146,7 @@
                 android:background="@drawable/welcome_features_bg"
                 app:layout_constraintEnd_toEndOf="@+id/conLive"
                 app:layout_constraintStart_toStartOf="@+id/conLive"
-                app:layout_constraintTop_toBottomOf="@+id/conLive">
+                app:layout_constraintTop_toBottomOf="@+id/fl_adplaceholder">
 
                 <ImageView
                     android:id="@+id/iv_welcome_follow_flight"
@@ -222,21 +238,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-
-    <FrameLayout
-        android:id="@+id/fl_adplaceholder"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <include layout="@layout/shimmer_native_with_large_media" />
-    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

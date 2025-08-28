@@ -8,6 +8,7 @@ import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.db.FavFlightDao
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 import com.example.flighttrackerappnew.databinding.ActivityFavouriteFlightBinding
+import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
 import com.example.flighttrackerappnew.presentation.adapter.FavFlightAdapter
@@ -22,7 +23,6 @@ import com.example.flighttrackerappnew.presentation.utils.visible
 import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 
 class FavouriteFlightActivity :
@@ -57,10 +57,9 @@ class FavouriteFlightActivity :
                     binding.flAdplaceholder.invisible()
                 } else {
                     binding.conFav.invisible()
-                    binding.flAdplaceholder.visible()
                     val NATIVE_SAVED_FLIGHT =
                         RemoteConfigManager.getBoolean("NATIVE_SAVED_FLIGHT")
-                    if (NATIVE_SAVED_FLIGHT) {
+                    if (NATIVE_SAVED_FLIGHT && !config.isPremiumUser) {
                         binding.flAdplaceholder.visible()
                         nativeAdController.apply {
                             loadNativeAd(
@@ -73,7 +72,6 @@ class FavouriteFlightActivity :
                             )
                         }
                     }
-
                 }
             }
         }
@@ -121,9 +119,33 @@ class FavouriteFlightActivity :
     }
 
     override fun onViewDetailedClicked(data: FullDetailFlightData) {
-        favData = data
-        isComeFromFav = true
-        showRewardedAd()
+        if (config.isPremiumUser) {
+            startActivity(Intent(this, DetailActivity::class.java))
+        } else {
+            showDialogPremium(data)
+        }
+    }
+
+    private fun showDialogPremium(data: FullDetailFlightData) {
+        CustomDialogBuilder(this)
+            .setLayout(R.layout.dialog_premium)
+            .setCancelable(false)
+            .setPositiveClickListener {
+                val intent = Intent(this, PremiumActivity::class.java)
+                intent.putExtra("from_arrival", true)
+                startActivity(intent)
+                it.dismiss()
+                favData = data
+                isComeFromFav = true
+            }.setNegativeClickListener {
+                showRewardedAd()
+                it.dismiss()
+                favData = data
+                isComeFromFav = true
+            }.setCrossBtnListener {
+                it.dismiss()
+            }
+            .show()
     }
 
     private val rewardedAd: RewardedAdManager by inject()

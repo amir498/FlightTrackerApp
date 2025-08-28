@@ -13,6 +13,8 @@ import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.listener.AirPlaneClickListener
 import com.example.flighttrackerappnew.presentation.utils.lastArrivalLongLat
 import com.example.flighttrackerappnew.presentation.utils.lastSelectedPlane
+import com.example.flighttrackerappnew.presentation.utils.lat
+import com.example.flighttrackerappnew.presentation.utils.lon
 import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
@@ -284,8 +286,9 @@ class MyGoogleMap : OnMapReadyCallback, KoinComponent {
     }
 
     fun zoomAtCurrentLocation() {
-        val pakistanCenter = LatLng(30.3753, 69.3451)
-        val zoomLevel = 8f
+        if (lat == null || lon == null) return
+        val pakistanCenter = LatLng(lat!!, lon!!)
+        val zoomLevel = 5f
         mMap?.animateCamera(
             CameraUpdateFactory.newLatLngZoom(pakistanCenter, zoomLevel),
             1500,
@@ -313,34 +316,9 @@ class MyGoogleMap : OnMapReadyCallback, KoinComponent {
         }
     }
 
-    @SuppressLint("MissingPermission")
-    fun moveCameraToCurrentLocation(context: Context) {
-        val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-
-        fusedLocationClient.lastLocation.addOnSuccessListener { lastLocation: Location? ->
-            if (lastLocation != null) {
-                moveCamera(lastLocation)
-            } else {
-                fusedLocationClient.getCurrentLocation(
-                    Priority.PRIORITY_HIGH_ACCURACY,
-                    CancellationTokenSource().token
-                ).addOnSuccessListener { freshLocation: Location? ->
-                    if (freshLocation != null) {
-                        moveCamera(freshLocation)
-                    } else {
-                        context.showToast("Unable to determine location")
-                    }
-                }.addOnFailureListener {
-                    context.showToast("Failed to get current location")
-                }
-            }
-        }.addOnFailureListener {
-            context.showToast("Failed to get last known location")
-        }
-    }
-
-    private fun moveCamera(location: Location) {
-        val currentLatLng = LatLng(location.latitude, location.longitude)
+    fun moveCamera() {
+        if (lat == null || lon == null) return
+        val currentLatLng = LatLng(lat!!,lon!!)
         val cameraPosition = CameraPosition.Builder()
             .target(currentLatLng)
             .zoom(8f)
@@ -356,7 +334,6 @@ class MyGoogleMap : OnMapReadyCallback, KoinComponent {
             }
         )
     }
-
 
     fun getVisibleBounds(): LatLngBounds? {
         return mMap?.projection?.visibleRegion?.latLngBounds

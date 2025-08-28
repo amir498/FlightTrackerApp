@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivitySearchBinding
-import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
+import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.clickCount
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
@@ -36,7 +36,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
     private fun loadInterstitialAd() {
         val INTERSTITIAL_SEARCH =
             RemoteConfigManager.getBoolean("INTERSTITIAL_SEARCH")
-        if (INTERSTITIAL_SEARCH){
+        if (INTERSTITIAL_SEARCH) {
             InterstitialAdManager.loadInterstitialAd(
                 this,
                 app.getString(R.string.INTERSTITIAL_SEARCH),
@@ -48,20 +48,21 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
     }
 
     private fun loadAd() {
-        val NATIVE_SEARCH_ACTIVITY =
-            RemoteConfigManager.getBoolean("NATIVE_SEARCH_ACTIVITY")
-        if (NATIVE_SEARCH_ACTIVITY){
-            binding.flAdplaceholder.visible()
-            app.let {
-                nativeAdController.apply {
-                    loadNativeAd(
-                        this@SearchActivity, app.getString(R.string.NATIVE_SEARCH_ACTIVITY)
-                    )
-                    showNativeAd(this@SearchActivity, binding.flAdplaceholder)
+        if (!config.isPremiumUser) {
+            val NATIVE_SEARCH_ACTIVITY =
+                RemoteConfigManager.getBoolean("NATIVE_SEARCH_ACTIVITY")
+            if (NATIVE_SEARCH_ACTIVITY) {
+                binding.flAdplaceholder.visible()
+                app.let {
+                    nativeAdController.apply {
+                        loadNativeAd(
+                            this@SearchActivity, app.getString(R.string.NATIVE_SEARCH_ACTIVITY)
+                        )
+                        showNativeAd(this@SearchActivity, binding.flAdplaceholder)
+                    }
                 }
             }
         }
-
     }
 
     private fun viewListeners() {
@@ -71,7 +72,12 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
                 clickCount += 1
                 InterstitialAdManager.mInterstitialAd?.let {
                     InterstitialAdManager.showAd(this@SearchActivity) {
-                        startActivity(Intent(this@SearchActivity, SearchAirportActivity::class.java))
+                        startActivity(
+                            Intent(
+                                this@SearchActivity,
+                                SearchAirportActivity::class.java
+                            )
+                        )
                     }
                 } ?: run {
                     startActivity(Intent(this@SearchActivity, SearchAirportActivity::class.java))
@@ -83,7 +89,12 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
                 clickCount += 1
                 InterstitialAdManager.mInterstitialAd?.let {
                     InterstitialAdManager.showAd(this@SearchActivity) {
-                        startActivity(Intent(this@SearchActivity, SearchAirLinesActivity::class.java))
+                        startActivity(
+                            Intent(
+                                this@SearchActivity,
+                                SearchAirLinesActivity::class.java
+                            )
+                        )
 
                     }
                 } ?: run {
@@ -96,7 +107,12 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
                 clickCount += 1
                 InterstitialAdManager.mInterstitialAd?.let {
                     InterstitialAdManager.showAd(this@SearchActivity) {
-                        startActivity(Intent(this@SearchActivity, SearchAircraftActivity::class.java))
+                        startActivity(
+                            Intent(
+                                this@SearchActivity,
+                                SearchAircraftActivity::class.java
+                            )
+                        )
 
                     }
                 } ?: run {

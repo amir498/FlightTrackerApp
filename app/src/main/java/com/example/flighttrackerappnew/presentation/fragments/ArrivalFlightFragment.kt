@@ -14,9 +14,12 @@ import com.example.flighttrackerappnew.databinding.FragmentArrivalFlightBinding
 import com.example.flighttrackerappnew.presentation.activities.AirportSearchActivity
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.DetailActivity
+import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
 import com.example.flighttrackerappnew.presentation.adapter.ArrivalFlightAdapter
+import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
+import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.FullDetailsFlightData
 import com.example.flighttrackerappnew.presentation.utils.arrivalFlightData
@@ -51,7 +54,7 @@ class ArrivalFlightFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         observeData()
-        if (isFromAirportOrAirline) {
+        if (isFromAirportOrAirline && !config.isPremiumUser) {
             loadAd()
         }
     }
@@ -70,7 +73,6 @@ class ArrivalFlightFragment : Fragment() {
                 }
             }
         }
-
     }
 
     fun checkData() {
@@ -81,6 +83,8 @@ class ArrivalFlightFragment : Fragment() {
         }
     }
 
+    private val config: Config by inject()
+
     private fun observeData() {
         binding.recyclerView.adapter = adapter
         arrivalFlightData.observe(viewLifecycleOwner) { arrivalData ->
@@ -88,7 +92,7 @@ class ArrivalFlightFragment : Fragment() {
                 binding.conPlaceholder.visible()
                 (activity as AirportSearchActivity).binding.AirportName.invisible()
             } else {
-                if (!isFromAirportOrAirline) {
+                if (!isFromAirportOrAirline && !config.isPremiumUser) {
                     val NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber =
                         RemoteConfigManager.getBoolean("NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber")
                     if (NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber) {
@@ -108,7 +112,7 @@ class ArrivalFlightFragment : Fragment() {
                     }
                 }
                 this.arrivalData = arrivalData
-                var arrData = if (isFromAirportOrAirline) {
+                var arrData = if (isFromAirportOrAirline && !config.isPremiumUser) {
                     addAdToArrivalData()
                 } else {
                     arrivalData
@@ -116,7 +120,11 @@ class ArrivalFlightFragment : Fragment() {
                 adapter?.setList(arrData, nativeAdController)
                 adapter?.setListener { arrivalData ->
                     selectedLiveFlightData = arrivalData
-                    showRewardedAd()
+                    if ((requireActivity() as BaseActivity<*>).config.isPremiumUser) {
+                        startActivity(Intent(requireContext(), DetailActivity::class.java))
+                    } else {
+                        showDialogPremium()
+                    }
                     getFullArrivalFlightDataDetail(arrivalData)
                 }
             }
@@ -131,6 +139,23 @@ class ArrivalFlightFragment : Fragment() {
                 (activity as AirportSearchActivity).setAirportName()
             }
         }
+    }
+
+    private fun showDialogPremium() {
+        CustomDialogBuilder(requireContext())
+            .setLayout(R.layout.dialog_premium)
+            .setCancelable(false)
+            .setPositiveClickListener {
+                val intent = Intent(requireContext(), PremiumActivity::class.java)
+                intent.putExtra("from_arrival", true)
+                startActivity(intent)
+                it.dismiss()
+            }.setNegativeClickListener {
+                showRewardedAd()
+                it.dismiss()
+            }.setCrossBtnListener {
+                it.dismiss()
+            }.show()
     }
 
     private fun showRewardedAd() {

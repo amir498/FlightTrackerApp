@@ -9,6 +9,7 @@ import com.example.flighttrackerappnew.presentation.adManager.NativeAd2LangScree
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdHome
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdMapStyle
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdOnb1
+import com.example.flighttrackerappnew.presentation.adManager.NativeAdOnb2
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdOnb4
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdOther
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdWelcomeScreen
@@ -23,6 +24,7 @@ class NativeAdController(
     private val nativeAd1LangScreen2: NativeAd1LangScreen2,
     private val nativeAd2LangScreen2: NativeAd2LangScreen2,
     private val nativeAdOnb1: NativeAdOnb1,
+    private val nativeAdOnb2: NativeAdOnb2,
     private val nativeAdOnb4: NativeAdOnb4,
     private val nativeAdWelcomeScreen: NativeAdWelcomeScreen,
     private val nativeAdMapStyle: NativeAdMapStyle,
@@ -164,6 +166,28 @@ class NativeAdController(
         }
     }
 
+    fun loadOnb2NativeAd(context: Context, adId: String) {
+        val consentInformation = UserMessagingPlatform.getConsentInformation(context)
+        val canRequestAds = consentInformation.canRequestAds()
+        if (canRequestAds) {
+            nativeAdOnb2.loadCall(context, adId)
+        }
+    }
+
+    fun showOnb2NativeAd(
+        context: Context,
+        frameLayout: FrameLayout
+    ) {
+        val consentInformation = UserMessagingPlatform.getConsentInformation(context)
+        val canRequestAds = consentInformation.canRequestAds()
+        if (canRequestAds) {
+            nativeAdOnb2.showCall(
+                context,
+                frameLayout,
+            )
+        }
+    }
+
     fun loadWelcomeScreenNativeAd(context: Context, adId: String) {
         val consentInformation = UserMessagingPlatform.getConsentInformation(context)
         val canRequestAds = consentInformation.canRequestAds()
@@ -261,11 +285,11 @@ class NativeAdController(
     }
 
     fun loadNativeAd(context: Context, adId: String) {
-        val consentInformation = UserMessagingPlatform.getConsentInformation(context)
-        val canRequestAds = consentInformation.canRequestAds()
-        if (canRequestAds) {
-            nativeAdOther.loadCall(context, adId)
-        }
+            val consentInformation = UserMessagingPlatform.getConsentInformation(context)
+            val canRequestAds = consentInformation.canRequestAds()
+            if (canRequestAds) {
+                nativeAdOther.loadCall(context, adId)
+            }
     }
 
     fun showNativeAd(
