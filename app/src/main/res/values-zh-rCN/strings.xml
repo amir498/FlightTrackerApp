@@ -235,5 +235,23 @@
     <string name="start_free_trail">开始3天免费试用</string>
     <string name="unlock_feature">解锁功能</string>
     <string name="feature_locked">功能已锁定</string>
+    <string name="track_flights_in_real_time_anywhere_in_the_world_follow_aircraft_live_on_an_interactive_map_stay_updated_with_accurate_flight_movements">实时跟踪全球航班。在交互式地图上实时查看飞机。随时掌握准确的航班动态。</string>
+    <string name="next">下一步</string>
+    <string name="check_live_airport_arrivals_and_departures_see_schedules_with_real_time_updates_never_miss_a_flight_with_instant_information">查看机场实时到达和出发。获取带有实时更新的航班时刻表。即时信息，让您不错过任何航班。</string>
+    <string name="start">开始</string>
+    <string name="see_every_detail_in_real_time_exact_position_altitude_speed_and_live_route_updates">购买高级版以实时查看所有细节——精确位置、高度、速度和实时航线更新。</string>
+    <string name="subscribe_now">立即订阅</string>
+    <string name="privacy"><u>隐私政策</u></string>
+    <string name="terms"><u>条款与条件</u></string>
+    <string name="restore"><u>恢复</u></string>
+    <string name="view_complete_flight_schedules_and_routes_check_aircraft_type_airline_and_timings_everything_you_need_in_one_clear_overview">查看完整的航班时刻表和航线。检查机型、航空公司和时间。一目了然，尽在掌握。</string>
+    <string name="find_flights_airports_and_airlines_instantly_search_by_number_route_or_destination_fast_simple_and_reliable_results_every_time">快速查找航班、机场和航空公司。可通过航班号、航线或目的地搜索。每次都能获得快速、简洁、可靠的结果。</string>
+    <string name="no_data_found">未找到数据</string>
+    <string name="loading_data">正在加载数据...</string>
+    <string name="cancel">取消</string>
+    <string name="something_went_wrong_while_loading_live_flight_information_tap_retry_to_refresh_and_try_again">加载实时航班信息时出错。点击“重试”以刷新并再次尝试。</string>
+    <string name="flight_data_unavailable">航班数据不可用</string>
+    <string name="most_popular_plan">最受欢迎的方案</string>
+    <string name="save">节省</string>
 
 </resources>

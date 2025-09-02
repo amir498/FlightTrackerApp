@@ -32,7 +32,6 @@ object InterstitialAdManager {
     fun loadInterstitialAd(
         requireContext: Context,
         adUnitId: String,
-        activity: Activity,
         onAdLoaded: (() -> Unit)?,
         onAdFailed: (() -> Unit)?,
         onAdDismissed: (() -> Unit)?,
@@ -91,7 +90,6 @@ object InterstitialAdManager {
             .setCancelable(true)
             .setPositiveClickListener {
             }.setNegativeClickListener {
-
             }.show(true)
     }
 

@@ -23,7 +23,6 @@ import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigMan
 import com.example.flighttrackerappnew.presentation.utils.FullDetailsFlightData
 import com.example.flighttrackerappnew.presentation.utils.departureFlightData
 import com.example.flighttrackerappnew.presentation.utils.getFlightProgressPercent
-import com.example.flighttrackerappnew.presentation.utils.gone
 import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isFromAirportOrAirline
 import com.example.flighttrackerappnew.presentation.utils.searchedDataSubTitle
@@ -51,8 +50,7 @@ class DepartureFlightFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        observeData()
-        if (isFromAirportOrAirline) {
+        if (isFromAirportOrAirline && !config.isPremiumUser) {
             loadAd()
         }
     }
@@ -87,10 +85,11 @@ class DepartureFlightFragment : Fragment() {
         departureFlightData.observe(viewLifecycleOwner) { departureData ->
             if (departureData.isEmpty()) {
                 binding.conPlaceholder.visible()
+                binding.pg.invisible()
                 (activity as AirportSearchActivity).binding.AirportName.invisible()
                 binding.recyclerView.invisible()
             } else {
-                if (!isFromAirportOrAirline) {
+                if (!isFromAirportOrAirline && !config.isPremiumUser) {
                     val app = (requireActivity() as? BaseActivity<*>)?.app
                     app?.let {
                         val NATIVE_DEPARTURE_FLIGHT_For_Aircraft_Or_TailNumber =
@@ -107,32 +106,35 @@ class DepartureFlightFragment : Fragment() {
                             )
                         }
                     }
-                } else {
-                    binding.flAdplaceholder.gone()
                 }
+                this.departureData = departureData
+                var arrData = if (isFromAirportOrAirline && !config.isPremiumUser) {
+                    addAdToDepartureData()
+                } else {
+                    departureData
+                }
+                adapter?.setList(arrData, nativeAdController)
+                adapter?.setListener { arrivalData ->
+                    if ((requireActivity() as BaseActivity<*>).config.isPremiumUser) {
+                        startActivity(Intent(requireContext(), DetailActivity::class.java))
+                    } else {
+                        showDialogPremium()
+                    }
+                    getFullDepartureFlightDataDetail(arrivalData)
+                }
+                binding.pg.invisible()
+                binding.conPlaceholder.invisible()
+                try {
+                    searchedDataSubTitle = departureData?.getOrNull(0)?.airlineName ?: "N/A"
+                } catch (e: IndexOutOfBoundsException) {
+                    e.printStackTrace()
+                }
+                (activity as AirportSearchActivity).setAirportName()
             }
-            this.departureData = departureData
-            var arrData = if (isFromAirportOrAirline && !config.isPremiumUser) {
-                addAdToDepartureData()
-            } else {
-                departureData
-            }
-            adapter?.setList(arrData, nativeAdController)
-            adapter?.setListener { arrivalData ->
-                getFullDepartureFlightDataDetail(arrivalData)
-                showDialogPremium()
-            }
-            binding.pg.invisible()
-            try {
-                searchedDataSubTitle = departureData?.getOrNull(0)?.airlineName ?: "N/A"
-            } catch (e: IndexOutOfBoundsException) {
-                e.printStackTrace()
-            }
-            (activity as AirportSearchActivity).setAirportName()
         }
     }
 
-    private val config:Config by inject()
+    private val config: Config by inject()
     private fun showDialogPremium() {
         CustomDialogBuilder(requireContext())
             .setLayout(R.layout.dialog_premium)
@@ -193,6 +195,8 @@ class DepartureFlightFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+        observeData()
         searchedDataSubTitle = departureData.getOrNull(0)?.airlineName ?: "N/A"
         (activity as AirportSearchActivity).setAirportName()
     }

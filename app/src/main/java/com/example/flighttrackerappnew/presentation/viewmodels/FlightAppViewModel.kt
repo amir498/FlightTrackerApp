@@ -1,5 +1,6 @@
 package com.example.flighttrackerappnew.presentation.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -53,6 +54,8 @@ class FlightAppViewModel(
             _liveFlightData.postValue(Resource.Loading)
             val result = getLiveFlightUseCase.execute(latitude, longitude, distance)
             _liveFlightData.postValue(result)
+            Log.d("MY----TAG", "_liveFlightData result receive")
+
             if (result is Resource.Success) {
                 async(Dispatchers.IO) {
                     getAirPorts()

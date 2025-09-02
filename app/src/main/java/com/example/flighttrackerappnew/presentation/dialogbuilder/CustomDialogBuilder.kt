@@ -64,6 +64,10 @@ class CustomDialogBuilder(private val context: Context) {
             onNegativeClick?.invoke(dialog)
         }
 
+        view.findViewById<View?>(R.id.btnCross)?.setOnClickListener {
+            onCrossClick?.invoke(dialog)
+        }
+
         dialog.show()
         return dialog
     }

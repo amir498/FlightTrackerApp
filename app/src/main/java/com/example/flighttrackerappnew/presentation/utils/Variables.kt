@@ -36,3 +36,4 @@ var lon: Double? = null
 
 var isComeFromTracked: Boolean = true
 var trackData: FollowFlightData? = null
+var isFirstPremiumFlow = false

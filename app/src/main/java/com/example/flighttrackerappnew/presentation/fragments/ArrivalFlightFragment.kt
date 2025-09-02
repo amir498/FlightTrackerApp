@@ -38,6 +38,7 @@ class ArrivalFlightFragment : Fragment() {
         FragmentArrivalFlightBinding.inflate(layoutInflater)
     }
 
+    private val config: Config by inject()
     private var adapter: ArrivalFlightAdapter? = null
     private var arrivalData = ArrayList<ArrivalDataItems>()
     private val nativeAdController: NativeAdController by inject()
@@ -83,13 +84,12 @@ class ArrivalFlightFragment : Fragment() {
         }
     }
 
-    private val config: Config by inject()
-
     private fun observeData() {
         binding.recyclerView.adapter = adapter
         arrivalFlightData.observe(viewLifecycleOwner) { arrivalData ->
             if (arrivalData.isEmpty()) {
                 binding.conPlaceholder.visible()
+                binding.pg.invisible()
                 (activity as AirportSearchActivity).binding.AirportName.invisible()
             } else {
                 if (!isFromAirportOrAirline && !config.isPremiumUser) {
@@ -131,6 +131,7 @@ class ArrivalFlightFragment : Fragment() {
 
             lifecycleScope.launch(Dispatchers.Main) {
                 binding.pg.invisible()
+                binding.conPlaceholder.invisible()
                 try {
                     searchedDataSubTitle = arrivalData.getOrNull(0)?.airlineName ?: "N/A"
                 } catch (e: IndexOutOfBoundsException) {

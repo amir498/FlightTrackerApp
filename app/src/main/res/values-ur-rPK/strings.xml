@@ -235,5 +235,23 @@
     <string name="start_free_trail">3 دن کا مفت ٹرائل شروع کریں</string>
     <string name="unlock_feature">فیچر ان لاک کریں</string>
     <string name="feature_locked">فیچر مقفل ہے</string>
+    <string name="track_flights_in_real_time_anywhere_in_the_world_follow_aircraft_live_on_an_interactive_map_stay_updated_with_accurate_flight_movements">دنیا میں کہیں بھی پروازوں کو ریئل ٹائم میں ٹریک کریں۔ طیاروں کو براہِ راست انٹرایکٹو نقشے پر فالو کریں۔ درست پرواز کی حرکات سے باخبر رہیں۔</string>
+    <string name="next">اگلا</string>
+    <string name="check_live_airport_arrivals_and_departures_see_schedules_with_real_time_updates_never_miss_a_flight_with_instant_information">ایئرپورٹ کی آمد اور روانگی براہِ راست دیکھیں۔ شیڈول ریئل ٹائم اپڈیٹس کے ساتھ دیکھیں۔ فوری معلومات کے ساتھ کبھی پرواز نہ چھوڑیں۔</string>
+    <string name="start">شروع کریں</string>
+    <string name="see_every_detail_in_real_time_exact_position_altitude_speed_and_live_route_updates">پریمیم خریدیں اور ہر تفصیل ریئل ٹائم میں دیکھیں — درست مقام، اونچائی، رفتار اور راستے کی تازہ ترین اپڈیٹس۔</string>
+    <string name="subscribe_now">ابھی سبسکرائب کریں</string>
+    <string name="privacy"><u>پرائیویسی پالیسی</u></string>
+    <string name="terms"><u>شرائط و ضوابط</u></string>
+    <string name="restore"><u>بحال کریں</u></string>
+    <string name="view_complete_flight_schedules_and_routes_check_aircraft_type_airline_and_timings_everything_you_need_in_one_clear_overview">مکمل پروازوں کے شیڈول اور راستے دیکھیں۔ جہاز کی قسم، ایئرلائن اور وقت چیک کریں۔ سب کچھ ایک واضح جائزے میں۔</string>
+    <string name="find_flights_airports_and_airlines_instantly_search_by_number_route_or_destination_fast_simple_and_reliable_results_every_time">پروازیں، ایئرپورٹس اور ایئرلائنز فوری تلاش کریں۔ نمبر، راستے یا منزل کے ذریعے تلاش کریں۔ ہر بار تیز، آسان اور قابلِ اعتماد نتائج۔</string>
+    <string name="no_data_found">کوئی ڈیٹا نہیں ملا</string>
+    <string name="loading_data">ڈیٹا لوڈ ہو رہا ہے...</string>
+    <string name="cancel">منسوخ کریں</string>
+    <string name="something_went_wrong_while_loading_live_flight_information_tap_retry_to_refresh_and_try_again">لائیو پرواز کی معلومات لوڈ کرتے وقت کوئی خرابی پیش آئی۔ ریفریش کرنے اور دوبارہ کوشش کرنے کے لیے دوبارہ کوشش دبائیں۔</string>
+    <string name="flight_data_unavailable">پرواز کا ڈیٹا دستیاب نہیں</string>
+    <string name="most_popular_plan">سب سے مقبول منصوبہ</string>
+    <string name="save">بچت</string>
 
 </resources>

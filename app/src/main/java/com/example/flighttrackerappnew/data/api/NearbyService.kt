@@ -9,7 +9,8 @@ interface NearbyService {
     suspend fun getNearby(
         @Query("lat") latitude: Double,
         @Query("lng") longitude: Double,
-        @Query("distance") distance: Int
+        @Query("distance") distance: Int,
+        @Query("key") apiKey: String
     ): List<NearByAirportsDataItems>
 }
 

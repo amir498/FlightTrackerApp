@@ -14,8 +14,8 @@ android {
         applicationId = "com.radar.flight.tracker.airport.info"
         minSdk = 24
         targetSdk = 35
-        versionCode = 9
-        versionName = "1.9"
+        versionCode = 12
+        versionName = "2.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "API_KEY", "\"${project.findProperty("MY_API_KEY") ?: ""}\"")
@@ -211,6 +211,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.billing.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

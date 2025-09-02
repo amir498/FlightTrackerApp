@@ -19,6 +19,7 @@ import com.example.flighttrackerappnew.presentation.utils.PRIVACY_POLICY
 import com.example.flighttrackerappnew.presentation.utils.TERM_OF_SERVICE
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.gone
+import com.example.flighttrackerappnew.presentation.utils.isFirstPremiumFlow
 import com.example.flighttrackerappnew.presentation.utils.isFromDetail
 import com.example.flighttrackerappnew.presentation.utils.loadAppOpen
 import com.example.flighttrackerappnew.presentation.utils.openWebBrowser
@@ -108,6 +109,7 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>(ActivityPremiumBind
                             )
                             finish()
                         } else if (intent.getBooleanExtra("from_splash", false)) {
+                            isFirstPremiumFlow = true
                             startActivity(
                                 Intent(
                                     this@PremiumActivity,

@@ -10,8 +10,6 @@ import com.example.flighttrackerappnew.data.api.FlightSchedulesService
 import com.example.flighttrackerappnew.data.api.FutureScheduleFlightService
 import com.example.flighttrackerappnew.data.api.NearbyService
 import com.example.flighttrackerappnew.data.api.StaticAirLineService
-import com.example.flighttrackerappnew.BuildConfig
-import com.example.flighttrackerappnew.data.api.IpService
 import com.example.flighttrackerappnew.data.db.AppDatabase
 import com.example.flighttrackerappnew.data.repository.airLine.StaticAirLineRepositoryImpl
 import com.example.flighttrackerappnew.data.repository.airLine.dataSource.StaticAirLineCacheDataSource
@@ -87,13 +85,11 @@ import com.example.flighttrackerappnew.domain.usecase.GetFutureScheduleFlightUse
 import com.example.flighttrackerappnew.domain.usecase.GetLiveFlightUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetNearByAirPortsUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetStaticAirLineUseCase
-import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
 import com.example.flighttrackerappnew.presentation.adManager.NativeAd1LangScreen1
 import com.example.flighttrackerappnew.presentation.adManager.NativeAd1LangScreen2
 import com.example.flighttrackerappnew.presentation.adManager.NativeAd2LangScreen1
 import com.example.flighttrackerappnew.presentation.adManager.NativeAd2LangScreen2
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdHome
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdMapStyle
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdOnb1
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdOnb2
@@ -102,6 +98,8 @@ import com.example.flighttrackerappnew.presentation.adManager.NativeAdOther
 import com.example.flighttrackerappnew.presentation.adManager.NativeAdWelcomeScreen
 import com.example.flighttrackerappnew.presentation.adManager.OnBoardingFullNativeAd1
 import com.example.flighttrackerappnew.presentation.adManager.OnBoardingFullNativeAd2
+import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
+import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
 import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
 import com.example.flighttrackerappnew.presentation.googleMap.MyGoogleMap
@@ -157,19 +155,21 @@ val appModule = module {
     single { get<Retrofit>(named("aviationRetrofit")).create(AirPlanesService::class.java) }
     single { get<Retrofit>(named("aviationRetrofit")).create(FutureScheduleFlightService::class.java) }
 
+//    val apiKey = RemoteConfigManager.getString("api_key")
+
     single {
         OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                val original = chain.request()
-                val originalUrl = original.url
-
-                val newUrl = originalUrl.newBuilder()
-                    .addQueryParameter("key", BuildConfig.API_KEY)
-                    .build()
-
-                val newRequest = original.newBuilder().url(newUrl).build()
-                chain.proceed(newRequest)
-            }
+//            .addInterceptor { chain ->
+//                val original = chain.request()
+//                val originalUrl = original.url
+//
+//                val newUrl = originalUrl.newBuilder()
+//                    .addQueryParameter("key", BuildConfig.API_KEY)
+//                    .build()
+//
+//                val newRequest = original.newBuilder().url(newUrl).build()
+//                chain.proceed(newRequest)
+//            }
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)

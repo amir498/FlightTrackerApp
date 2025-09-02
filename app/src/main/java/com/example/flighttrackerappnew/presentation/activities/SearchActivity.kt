@@ -40,7 +40,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
             InterstitialAdManager.loadInterstitialAd(
                 this,
                 app.getString(R.string.INTERSTITIAL_SEARCH),
-                this,
                 {},
                 {},
                 {})

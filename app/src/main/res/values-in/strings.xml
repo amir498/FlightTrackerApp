@@ -235,5 +235,23 @@
     <string name="start_free_trail">Mulai Uji Coba Gratis 3 Hari</string>
     <string name="unlock_feature">Buka Fitur</string>
     <string name="feature_locked">Fitur Terkunci</string>
+    <string name="track_flights_in_real_time_anywhere_in_the_world_follow_aircraft_live_on_an_interactive_map_stay_updated_with_accurate_flight_movements">Lacak penerbangan secara real-time di seluruh dunia. Ikuti pesawat langsung di peta interaktif. Tetap diperbarui dengan pergerakan penerbangan yang akurat.</string>
+    <string name="next">Berikutnya</string>
+    <string name="check_live_airport_arrivals_and_departures_see_schedules_with_real_time_updates_never_miss_a_flight_with_instant_information">Periksa kedatangan dan keberangkatan bandara secara langsung. Lihat jadwal dengan pembaruan real-time. Jangan pernah ketinggalan penerbangan dengan informasi instan.</string>
+    <string name="start">Mulai</string>
+    <string name="see_every_detail_in_real_time_exact_position_altitude_speed_and_live_route_updates">Beli Premium untuk melihat setiap detail secara real-time — posisi tepat, ketinggian, kecepatan, dan pembaruan rute langsung.</string>
+    <string name="subscribe_now">Berlangganan Sekarang</string>
+    <string name="privacy"><u>Kebijakan Privasi</u></string>
+    <string name="terms"><u>Syarat &amp; Ketentuan</u></string>
+    <string name="restore"><u>Pulihkan</u></string>
+    <string name="view_complete_flight_schedules_and_routes_check_aircraft_type_airline_and_timings_everything_you_need_in_one_clear_overview">Lihat jadwal dan rute penerbangan lengkap. Periksa jenis pesawat, maskapai, dan waktu. Semua yang Anda butuhkan dalam satu tampilan jelas.</string>
+    <string name="find_flights_airports_and_airlines_instantly_search_by_number_route_or_destination_fast_simple_and_reliable_results_every_time">Temukan penerbangan, bandara, dan maskapai dengan cepat. Cari berdasarkan nomor, rute, atau tujuan. Hasil cepat, sederhana, dan andal setiap saat.</string>
+    <string name="no_data_found">Data Tidak Ditemukan</string>
+    <string name="loading_data">Memuat Data...</string>
+    <string name="cancel">Batal</string>
+    <string name="something_went_wrong_while_loading_live_flight_information_tap_retry_to_refresh_and_try_again">Terjadi kesalahan saat memuat informasi penerbangan langsung. Ketuk Coba Lagi untuk menyegarkan dan mencoba kembali.</string>
+    <string name="flight_data_unavailable">Data Penerbangan Tidak Tersedia</string>
+    <string name="most_popular_plan">Paket Terpopuler</string>
+    <string name="save">Hemat</string>
 
 </resources>

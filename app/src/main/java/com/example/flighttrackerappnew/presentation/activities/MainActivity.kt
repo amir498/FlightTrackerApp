@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
+import com.airbnb.lottie.RenderMode
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivityMainBinding
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
@@ -17,12 +18,15 @@ import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import com.example.flighttrackerappnew.presentation.utils.clickCount
+import com.example.flighttrackerappnew.presentation.utils.getCurrentCountryLatLon
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.gone
 import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isFromDetail
 import com.example.flighttrackerappnew.presentation.utils.lastSelectedPlane
+import com.example.flighttrackerappnew.presentation.utils.lat
 import com.example.flighttrackerappnew.presentation.utils.loadAppOpen
+import com.example.flighttrackerappnew.presentation.utils.lon
 import com.example.flighttrackerappnew.presentation.utils.setZoomClickEffect
 import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.example.flighttrackerappnew.presentation.utils.visible
@@ -73,6 +77,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             binding.adContainerView.visible()
             loadAd()
         }
+
+        binding.ivAirplaneHome.renderMode = RenderMode.HARDWARE
     }
 
     private fun loadInterstitialAd() {
@@ -83,11 +89,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 InterstitialAdManager.loadInterstitialAd(
                     this,
                     app.getString(R.string.INTERSTITIAL_HOME),
-                    this,
                     {},
                     {},
                     {})
             }
+        } else {
+            InterstitialAdManager.mInterstitialAd = null
         }
     }
 
@@ -301,7 +308,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         viewModel.apply {
             airPlanesData.observe(this@MainActivity) { result ->
                 when (result) {
-                    is Resource.Loading -> {}
+                    is Resource.Loading -> {
+                        Log.d("MY----TAG", "observeLiveData:airPlanesData Loading")
+                    }
 
                     is Resource.Success -> {
                         dataCollector.planes = result.data
@@ -322,31 +331,37 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     }
 
                     is Resource.Error -> {
+                        Log.d("MY----TAG", "observeLiveData:No Airplane Data found ")
                         showToast("No Airplane Data found")
+
                     }
                 }
             }
             airPortsData.observe(this@MainActivity) { result ->
                 when (result) {
                     is Resource.Loading -> {
-                        binding.pg.visible()
+                        Log.d("MY----TAG", "observeLiveData:airPortsData Loading")
+                        showLoading()
                     }
 
                     is Resource.Success -> {
-                        binding.pg.invisible()
+                        hideLoading()
                         dataCollector.airports = result.data
                     }
 
                     is Resource.Error -> {
-                        binding.pg.invisible()
+                        hideLoading()
                         showToast("No Airport Data found")
+                        Log.d("MY----TAG", "observeLiveData:No Airport Data found")
                     }
                 }
             }
 
             staticAirLineData.observe(this@MainActivity) { response ->
                 when (response) {
-                    is Resource.Loading -> {}
+                    is Resource.Loading -> {
+                        Log.d("MY----TAG", "observeLiveData:staticAirLineData Loading")
+                    }
 
                     is Resource.Success -> {
                         dataCollector.staticAirlines = response.data
@@ -354,6 +369,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
                     is Resource.Error -> {
                         showToast("No Airlines Data found")
+                        Log.d("MY----TAG", "observeLiveData:No Airlines Data found")
                     }
                 }
             }
@@ -361,19 +377,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             liveFlightData.observe(this@MainActivity) { result ->
                 when (result) {
                     is Resource.Loading -> {
-                        binding.pg.visible()
+                        Log.d("MY----TAG", "observeLiveData:liveFlightData Loading")
+                        showLoading()
                     }
 
                     is Resource.Success -> {
-//                        getAirPorts()
-//                        getStaticAirLines()
-//                        getScheduleFlight()
+                        hideLoading()
                         dataCollector.flights = result.data
                     }
 
                     is Resource.Error -> {
-                        binding.pg.invisible()
+                        hideLoading()
                         showToast("No LiveFlight Data found")
+                        Log.d("MY----TAG", "observeLiveData:No LiveFlight Data found")
+                        showDialog()
                     }
                 }
             }
@@ -381,6 +398,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             scheduleFlightData.observe(this@MainActivity) { result ->
                 when (result) {
                     is Resource.Loading -> {
+                        Log.d("MY----TAG", "observeLiveData:scheduleFlightData Loading")
                     }
 
                     is Resource.Success -> {
@@ -389,13 +407,17 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
                     is Resource.Error -> {
                         showToast("No scheduleFlightData found")
+                        Log.d("MY----TAG", "observeLiveData:No scheduleFlightData found")
                     }
                 }
             }
 
             citiesData.observe(this@MainActivity) { result ->
                 when (result) {
-                    is Resource.Loading -> {}
+                    is Resource.Loading -> {
+                        Log.d("MY----TAG", "observeLiveData:citiesData Loading")
+
+                    }
 
                     is Resource.Success -> {
                         dataCollector.cities = result.data
@@ -403,10 +425,50 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
                     is Resource.Error -> {
                         showToast("No citiesData found")
+                        Log.d("MY----TAG", "observeLiveData:No citiesData found")
                     }
                 }
             }
         }
+    }
+
+    private fun showLoading(){
+        binding.pg.visible()
+        binding.pgText.visible()
+        binding.ivTransparent.visible()
+    }
+
+    private fun hideLoading(){
+        binding.pg.invisible()
+        binding.pgText.invisible()
+        binding.ivTransparent.invisible()
+    }
+
+    private fun getLongLatFirst() {
+        val pair = getCurrentCountryLatLon(this)
+        lat = pair?.first
+        lon = pair?.second
+        lat?.let { lon?.let { it1 -> getAllApiCall(it, it1) } }
+    }
+
+    fun getAllApiCall(lat: Double, lon: Double) {
+        val distance =
+            RemoteConfigManager.getString("distance")
+        viewModel.getAllData(lat, lon, distance.toInt()) {
+        }
+    }
+
+    private fun showDialog() {
+        CustomDialogBuilder(this)
+            .setLayout(R.layout.dialog_retry)
+            .setCancelable(false)
+            .setPositiveClickListener {
+                showLoading()
+                it.dismiss()
+                getLongLatFirst()
+            }.setNegativeClickListener {
+                it.dismiss()
+            }.show()
     }
 
     private var job: Job? = null

@@ -9,6 +9,7 @@ interface FutureScheduleFlightService {
     suspend fun getSchedulesFlight(
         @Query("type") type: String,
         @Query("iataCode") iataCode: String,
-        @Query("date") date: String
+        @Query("date") date: String,
+        @Query("key") apiKey: String
     ): List<FutureScheduleItem>
 }

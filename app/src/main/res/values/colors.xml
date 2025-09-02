@@ -16,4 +16,5 @@
     <color name="route_d">#686868</color>
     <color name="lightTransparent">#50FFFFFF</color>
     <color name="stockeCard">#5E58595A</color>
+    <color name="black_t">#99000000</color>
 </resources>

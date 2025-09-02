@@ -37,9 +37,6 @@ class MapStyleActivity : BaseActivity<ActivityMapStyleBinding>(ActivityMapStyleB
 
     private fun viewListeners() {
         binding.apply {
-//            btnBack.setOnClickListener {
-//                finish()
-//            }
             selectBtn.setOnClickListener {
                 if (IS_FROM_SETTING_ACTIVITY) {
                     IS_FROM_SETTING_ACTIVITY = false

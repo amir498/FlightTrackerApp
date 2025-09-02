@@ -77,13 +77,23 @@ class PrivacyPolicyActivity :
             AcceptBtn.setOnClickListener {
                 if (ivPrivacyCheck.contentDescription == "yes") {
                     config.isPrivacyPolicyAccepted = true
-                    val intent = Intent(
-                        this@PrivacyPolicyActivity,
-                        PremiumActivity::class.java
-                    )
-                    intent.putExtra("from_splash", true)
-                    startActivity(intent)
-                    finish()
+                    if (!config.isPremiumUser) {
+                        val intent = Intent(
+                            this@PrivacyPolicyActivity,
+                            PremiumActivity::class.java
+                        )
+                        intent.putExtra("from_splash", true)
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        startActivity(
+                            Intent(
+                                this@PrivacyPolicyActivity,
+                                LanguageActivity::class.java
+                            )
+                        )
+                        finish()
+                    }
                 } else {
                     this@PrivacyPolicyActivity.showToast("Please agree to the Privacy Policy before continuing")
                 }

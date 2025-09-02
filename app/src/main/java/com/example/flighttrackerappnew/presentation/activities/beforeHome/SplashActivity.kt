@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
 import com.example.flighttrackerappnew.FlightApp.Companion.canRequestAd
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivitySplashBinding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
+import com.example.flighttrackerappnew.presentation.activities.MainActivity
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
 import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
@@ -59,9 +61,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         }
         handler.postDelayed(runnable, 1000)
 
-        if (isNetworkAvailable()) {
-            getLongLatFirst()
-        } else {
+        if (!isNetworkAvailable()) {
+            adLoaded = true
             showDialog()
         }
 
@@ -78,7 +79,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     private fun navigateNext() {
         if (config.isPrivacyPolicyAccepted) {
             if (config.isPremiumUser) {
-                startActivity(Intent(this, LanguageActivity::class.java))
+                startActivity(Intent(this, MainActivity::class.java))
             } else {
                 val intent = Intent(this, PremiumActivity::class.java)
                 intent.putExtra("from_splash", true)
@@ -92,12 +93,14 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
     override fun onResume() {
         super.onResume()
-        if (isNetworkAvailable()) {
+        if (isNetworkAvailable() && !config.isPremiumUser) {
+            getLongLatFirst()
             umpConsentForm()
         }
     }
 
     fun getAllApiCall(lat: Double, lon: Double) {
+        Log.d("MY----TAG", "getAllApiCall")
         val distance =
             RemoteConfigManager.getString("distance")
         viewModel.getAllData(lat, lon, distance.toInt()) {
@@ -160,7 +163,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                                             InterstitialAdManager.loadInterstitialAd(
                                                 this@SplashActivity,
                                                 app.getString(R.string.INTERSTITIAL_SPLASH),
-                                                this@SplashActivity,
                                                 {
                                                     adLoaded = true
                                                     if (runAd) {
@@ -177,7 +179,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                                                                 startActivity(
                                                                     Intent(
                                                                         this@SplashActivity,
-                                                                        LanguageActivity::class.java
+                                                                        MainActivity::class.java
                                                                     )
                                                                 )
                                                             } else {
@@ -209,7 +211,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                                                                 startActivity(
                                                                     Intent(
                                                                         this@SplashActivity,
-                                                                        LanguageActivity::class.java
+                                                                        MainActivity::class.java
                                                                     )
                                                                 )
                                                             } else {
@@ -234,45 +236,49 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                                                 }
                                             )
                                         } else {
-                                            adLoaded = true
-                                            if (config.isPrivacyPolicyAccepted) {
-                                                startActivity(
-                                                    Intent(
-                                                        this@SplashActivity,
-                                                        LanguageActivity::class.java
+                                            if (runAd) {
+                                                adLoaded = true
+                                                if (config.isPrivacyPolicyAccepted) {
+                                                    startActivity(
+                                                        Intent(
+                                                            this@SplashActivity,
+                                                            LanguageActivity::class.java
+                                                        )
                                                     )
-                                                )
-                                            } else {
-                                                startActivity(
-                                                    Intent(
-                                                        this@SplashActivity,
-                                                        PrivacyPolicyActivity::class.java
+                                                } else {
+                                                    startActivity(
+                                                        Intent(
+                                                            this@SplashActivity,
+                                                            PrivacyPolicyActivity::class.java
+                                                        )
                                                     )
-                                                )
+                                                }
+                                                finish()
                                             }
-                                            finish()
                                         }
                                     }
                             }
                         }
                     } else {
-                        adLoaded = true
-                        if (config.isPrivacyPolicyAccepted) {
-                            startActivity(
-                                Intent(
-                                    this@SplashActivity,
-                                    LanguageActivity::class.java
+                        if (runAd) {
+                            adLoaded = true
+                            if (config.isPrivacyPolicyAccepted) {
+                                startActivity(
+                                    Intent(
+                                        this@SplashActivity,
+                                        LanguageActivity::class.java
+                                    )
                                 )
-                            )
-                        } else {
-                            startActivity(
-                                Intent(
-                                    this@SplashActivity,
-                                    PrivacyPolicyActivity::class.java
+                            } else {
+                                startActivity(
+                                    Intent(
+                                        this@SplashActivity,
+                                        PrivacyPolicyActivity::class.java
+                                    )
                                 )
-                            )
+                            }
+                            finish()
                         }
-                        finish()
                     }
                 }
             }
@@ -282,7 +288,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     private fun checkInternetConnection() {
         if (isNetworkAvailable()) {
             getLongLatFirst()
-            umpConsentForm()
+            if (!config.isPremiumUser) {
+                umpConsentForm()
+            }
         } else {
             showDialog()
         }

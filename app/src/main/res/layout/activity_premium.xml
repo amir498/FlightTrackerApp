@@ -207,6 +207,7 @@
         <TextView
             style="@style/sfb10primary"
             android:id="@+id/savePercentage"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/premium_popular_bg"
@@ -215,7 +216,7 @@
             android:paddingTop="@dimen/_2sdp"
             android:paddingEnd="@dimen/_4sdp"
             android:paddingBottom="@dimen/_2sdp"
-            android:text="Save %66"
+            android:text="Save 66%"
             app:layout_constraintBottom_toTopOf="@+id/con_yearly_plan"
             app:layout_constraintEnd_toEndOf="@+id/con_yearly_plan"
             app:layout_constraintHorizontal_bias="0.9"
@@ -249,7 +250,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Most Popular Plan"
+                android:text="@string/most_popular_plan"
                 android:textColor="#FFC947"
                 android:id="@+id/tvvYearly"
                 app:layout_constraintTop_toBottomOf="@+id/tvYearly"

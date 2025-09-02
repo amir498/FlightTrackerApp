@@ -15,6 +15,7 @@ import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 import com.android.billingclient.api.QueryPurchasesParams
 import com.example.flighttrackerappnew.BuildConfig
+import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.presentation.google_play_billing.BillingEvent
 import com.example.flighttrackerappnew.presentation.google_play_billing.Security
 import com.example.flighttrackerappnew.presentation.helper.Config
@@ -280,7 +281,7 @@ class BillingRepository(
                 val estimatedYearly = weeklyPriceValue * 48
                 val savingPercent =
                     ((estimatedYearly - yearlyPriceValue) / estimatedYearly) * 100
-                savePercent = "Save ${savingPercent.toInt()}%"
+                savePercent = "${context.getString(R.string.save)} ${savingPercent.toInt()}%"
             } else {
                 savePercent = ""
             }

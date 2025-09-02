@@ -59,7 +59,6 @@ class FlightScheduleTypeAirportActivity :
         InterstitialAdManager.loadInterstitialAd(
             this,
             app.getString(R.string.INTERSTITIAL_SEARCH),
-            this,
             {},
             {},
             {})
@@ -170,5 +169,10 @@ class FlightScheduleTypeAirportActivity :
         )
 
         datePickerDialog.show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        startDate = ""
     }
 }

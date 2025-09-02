@@ -235,5 +235,23 @@
     <string name="start_free_trail">ابدأ فترة تجريبية مجانية لمدة 3 أيام</string>
     <string name="unlock_feature">افتح الميزة</string>
     <string name="feature_locked">الميزة مقفلة</string>
+    <string name="track_flights_in_real_time_anywhere_in_the_world_follow_aircraft_live_on_an_interactive_map_stay_updated_with_accurate_flight_movements">تتبع الرحلات الجوية في الوقت الفعلي، في أي مكان في العالم. تابع الطائرات مباشرة على خريطة تفاعلية. ابقَ على اطلاع مع تحركات دقيقة للرحلات.</string>
+    <string name="next">التالي</string>
+    <string name="check_live_airport_arrivals_and_departures_see_schedules_with_real_time_updates_never_miss_a_flight_with_instant_information">تحقق من وصول ومغادرة الرحلات الحية في المطارات. شاهد الجداول مع تحديثات فورية. لن تفوتك أي رحلة مع المعلومات المباشرة.</string>
+    <string name="start">ابدأ</string>
+    <string name="see_every_detail_in_real_time_exact_position_altitude_speed_and_live_route_updates">اشترك في الباقة المميزة لرؤية كل التفاصيل في الوقت الفعلي — الموقع الدقيق، الارتفاع، السرعة، وتحديثات المسار الحية.</string>
+    <string name="subscribe_now">اشترك الآن</string>
+    <string name="privacy"><u>سياسة الخصوصية</u></string>
+    <string name="terms"><u>الأحكام والشروط</u></string>
+    <string name="restore"><u>استعادة</u></string>
+    <string name="view_complete_flight_schedules_and_routes_check_aircraft_type_airline_and_timings_everything_you_need_in_one_clear_overview">اعرض الجداول والمسارات الكاملة للرحلات. تحقق من نوع الطائرة، شركة الطيران، والمواعيد. كل ما تحتاجه في نظرة واضحة واحدة.</string>
+    <string name="find_flights_airports_and_airlines_instantly_search_by_number_route_or_destination_fast_simple_and_reliable_results_every_time">ابحث عن الرحلات، المطارات، وشركات الطيران فورًا. ابحث برقم الرحلة، المسار أو الوجهة. نتائج سريعة، بسيطة وموثوقة في كل مرة.</string>
+    <string name="no_data_found">لم يتم العثور على بيانات</string>
+    <string name="loading_data">جارٍ تحميل البيانات...</string>
+    <string name="cancel">إلغاء</string>
+    <string name="something_went_wrong_while_loading_live_flight_information_tap_retry_to_refresh_and_try_again">حدث خطأ أثناء تحميل معلومات الرحلات الحية. اضغط على إعادة المحاولة للتحديث والمحاولة مرة أخرى.</string>
+    <string name="flight_data_unavailable">بيانات الرحلة غير متوفرة</string>
+    <string name="most_popular_plan">الخطة الأكثر شيوعًا</string>
+    <string name="save">توفير</string>
 
 </resources>

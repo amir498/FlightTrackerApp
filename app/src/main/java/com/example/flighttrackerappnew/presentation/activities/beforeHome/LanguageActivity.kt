@@ -15,6 +15,7 @@ import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigMan
 import com.example.flighttrackerappnew.presentation.utils.IS_FROM_SETTING_ACTIVITY
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.gone
+import com.example.flighttrackerappnew.presentation.utils.isFirstPremiumFlow
 import com.example.flighttrackerappnew.presentation.utils.setZoomClickEffect
 import com.example.flighttrackerappnew.presentation.utils.visible
 import org.koin.android.ext.android.inject
@@ -79,15 +80,36 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
         binding.apply {
             btnSelect.setZoomClickEffect()
             btnSelect.setOnClickListener {
-                if (config.selectedLanguageCode == "en") {
-                    startActivity(Intent(this@LanguageActivity, LanguageActivity2::class.java))
+                if (!config.isPremiumUser) {
+                    if (config.selectedLanguageCode == "en") {
+                        startActivity(Intent(this@LanguageActivity, LanguageActivity2::class.java))
+                    } else {
+                        if (IS_FROM_SETTING_ACTIVITY) {
+                            IS_FROM_SETTING_ACTIVITY = false
+                            startActivity(Intent(this@LanguageActivity, MainActivity::class.java))
+                            finishAffinity()
+                        } else {
+                            startActivity(
+                                Intent(
+                                    this@LanguageActivity,
+                                    OnBoardingActivity::class.java
+                                )
+                            )
+                        }
+                    }
                 } else {
-                    if (IS_FROM_SETTING_ACTIVITY) {
+                    if (isFirstPremiumFlow) {
+                        isFirstPremiumFlow = false
+                        startActivity(
+                            Intent(
+                                this@LanguageActivity,
+                                OnBoardingActivity::class.java
+                            )
+                        )
+                    } else {
                         IS_FROM_SETTING_ACTIVITY = false
                         startActivity(Intent(this@LanguageActivity, MainActivity::class.java))
                         finishAffinity()
-                    } else {
-                        startActivity(Intent(this@LanguageActivity, OnBoardingActivity::class.java))
                     }
                 }
             }
@@ -100,7 +122,7 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
         adapter.setDataList(getLanguageData())
         adapter.setListener {
             if (firstClicked) {
-                if (!config.isPremiumUser){
+                if (!config.isPremiumUser) {
                     nativeAdController.showLanguageScreen1NativeAd2(this, binding.flAdplaceholder)
                     val showNative1Lang2 =
                         RemoteConfigManager.getBoolean("NATIVE1_LANGUAGESCREEN2")

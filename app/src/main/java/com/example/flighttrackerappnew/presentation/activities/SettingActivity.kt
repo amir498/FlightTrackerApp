@@ -13,10 +13,8 @@ import com.example.flighttrackerappnew.presentation.utils.MORE_APPS
 import com.example.flighttrackerappnew.presentation.utils.PRIVACY_POLICY
 import com.example.flighttrackerappnew.presentation.utils.TERM_OF_SERVICE
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
-import com.example.flighttrackerappnew.presentation.utils.gone
 import com.example.flighttrackerappnew.presentation.utils.openWebBrowser
 import com.example.flighttrackerappnew.presentation.utils.rateApp
-import com.example.flighttrackerappnew.presentation.utils.setZoomClickEffect
 import com.example.flighttrackerappnew.presentation.utils.shareApp
 import com.example.flighttrackerappnew.presentation.utils.visible
 import org.koin.android.ext.android.inject
@@ -51,37 +49,29 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>(ActivitySettingBind
 
     private fun viewListener() {
         binding.apply {
-            btnBack.setZoomClickEffect()
             btnBack.setOnClickListener {
                 finish()
             }
-            tvSelectLanguage.setZoomClickEffect()
             tvSelectLanguage.setOnClickListener {
                 IS_FROM_SETTING_ACTIVITY = true
                 startActivity(Intent(this@SettingActivity, LanguageActivity::class.java))
             }
-            tvMapStyle.setZoomClickEffect()
             tvMapStyle.setOnClickListener {
                 IS_FROM_SETTING_ACTIVITY = true
                 startActivity(Intent(this@SettingActivity, MapStyleActivity::class.java))
             }
-            tvRateUs.setZoomClickEffect()
             tvRateUs.setOnClickListener {
                 rateApp()
             }
-            tvShare.setZoomClickEffect()
             tvShare.setOnClickListener {
                 shareApp()
             }
-            tvMore.setZoomClickEffect()
             tvMore.setOnClickListener {
                 openWebBrowser(MORE_APPS)
             }
-            tvPrivacy.setZoomClickEffect()
             tvPrivacy.setOnClickListener {
                 openWebBrowser(PRIVACY_POLICY)
             }
-            tvTermOfService.setZoomClickEffect()
             tvTermOfService.setOnClickListener {
                 openWebBrowser(TERM_OF_SERVICE)
             }

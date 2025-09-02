@@ -235,5 +235,23 @@
     <string name="start_free_trail">Commencez l’essai gratuit de 3 jours</string>
     <string name="unlock_feature">Déverrouiller la fonctionnalité</string>
     <string name="feature_locked">Fonctionnalité verrouillée</string>
+    <string name="track_flights_in_real_time_anywhere_in_the_world_follow_aircraft_live_on_an_interactive_map_stay_updated_with_accurate_flight_movements">Suivez les vols en temps réel, partout dans le monde. Suivez les avions en direct sur une carte interactive. Restez informé grâce aux mouvements de vol précis.</string>
+    <string name="next">Suivant</string>
+    <string name="check_live_airport_arrivals_and_departures_see_schedules_with_real_time_updates_never_miss_a_flight_with_instant_information">Consultez les arrivées et départs en direct des aéroports. Voyez les horaires avec des mises à jour en temps réel. Ne manquez jamais un vol grâce aux informations instantanées.</string>
+    <string name="start">Commencer</string>
+    <string name="see_every_detail_in_real_time_exact_position_altitude_speed_and_live_route_updates">Achetez Premium pour voir chaque détail en temps réel — position exacte, altitude, vitesse et mises à jour de l’itinéraire en direct.</string>
+    <string name="subscribe_now">S’abonner maintenant</string>
+    <string name="privacy"><u>Politique de confidentialité</u></string>
+    <string name="terms"><u>Conditions générales</u></string>
+    <string name="restore"><u>Restaurer</u></string>
+    <string name="view_complete_flight_schedules_and_routes_check_aircraft_type_airline_and_timings_everything_you_need_in_one_clear_overview">Consultez les horaires et itinéraires complets des vols. Vérifiez le type d’appareil, la compagnie aérienne et les horaires. Tout ce dont vous avez besoin en un seul aperçu clair.</string>
+    <string name="find_flights_airports_and_airlines_instantly_search_by_number_route_or_destination_fast_simple_and_reliable_results_every_time">Trouvez instantanément des vols, aéroports et compagnies aériennes. Recherchez par numéro, itinéraire ou destination. Des résultats rapides, simples et fiables à chaque fois.</string>
+    <string name="no_data_found">Aucune donnée trouvée</string>
+    <string name="loading_data">Chargement des données...</string>
+    <string name="cancel">Annuler</string>
+    <string name="something_went_wrong_while_loading_live_flight_information_tap_retry_to_refresh_and_try_again">Une erreur est survenue lors du chargement des informations de vol en direct. Appuyez sur Réessayer pour actualiser et réessayer.</string>
+    <string name="flight_data_unavailable">Données de vol indisponibles</string>
+    <string name="most_popular_plan">Forfait le plus populaire</string>
+    <string name="save">Économiser</string>
 
 </resources>

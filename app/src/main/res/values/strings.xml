@@ -247,5 +247,11 @@
     <string name="view_complete_flight_schedules_and_routes_check_aircraft_type_airline_and_timings_everything_you_need_in_one_clear_overview">View complete flight schedules and routes. Check aircraft type, airline, and timings. Everything you need in one clear overview.</string>
     <string name="find_flights_airports_and_airlines_instantly_search_by_number_route_or_destination_fast_simple_and_reliable_results_every_time">Find flights, airports, and airlines instantly. Search by number, route, or destination. Fast, simple, and reliable results every time.</string>
     <string name="no_data_found">No Data Found</string>
+    <string name="loading_data">Loading Data...</string>
+    <string name="cancel">Cancel</string>
+    <string name="something_went_wrong_while_loading_live_flight_information_tap_retry_to_refresh_and_try_again">Something went wrong while loading live flight information. Tap Retry to refresh and try again.</string>
+    <string name="flight_data_unavailable">Flight Data Unavailable</string>
+    <string name="most_popular_plan">Most Popular Plan</string>
+    <string name="save">Save</string>
 
 </resources>

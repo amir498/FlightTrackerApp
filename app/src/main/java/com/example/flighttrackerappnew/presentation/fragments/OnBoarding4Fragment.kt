@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.FragmentOnBoarding4Binding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
+import com.example.flighttrackerappnew.presentation.activities.MapStyleActivity
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.WelcomeActivity
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.helper.Config
@@ -42,13 +43,44 @@ class OnBoarding4Fragment : Fragment() {
             RemoteConfigManager.getBoolean("NATIVE_WELCOME")
 
         binding.apply {
-            btnNext.setOnClickListener {
-                startActivity(Intent(this@OnBoarding4Fragment.context, WelcomeActivity::class.java))
+            if (config.isPremiumUser) {
+                btnNext.setOnClickListener {
+                    startActivity(
+                        Intent(
+                            this@OnBoarding4Fragment.context,
+                            MapStyleActivity::class.java
+                        )
+                    )
+                }
+
+                conNext.setOnClickListener {
+                    startActivity(
+                        Intent(
+                            this@OnBoarding4Fragment.context,
+                            MapStyleActivity::class.java
+                        )
+                    )
+                }
+            } else {
+                btnNext.setOnClickListener {
+                    startActivity(
+                        Intent(
+                            this@OnBoarding4Fragment.context,
+                            WelcomeActivity::class.java
+                        )
+                    )
+                }
+
+                conNext.setOnClickListener {
+                    startActivity(
+                        Intent(
+                            this@OnBoarding4Fragment.context,
+                            WelcomeActivity::class.java
+                        )
+                    )
+                }
             }
 
-            conNext.setOnClickListener {
-                startActivity(Intent(this@OnBoarding4Fragment.context, WelcomeActivity::class.java))
-            }
         }
 
         if (showWelcome && !config.isPremiumUser) {

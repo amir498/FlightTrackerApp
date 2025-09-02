@@ -51,7 +51,6 @@ fun formatTo12HourTime(input: String): String {
         }
     }
 
-
     fun getFlightProgressPercent(dep: String, arr: String): Int {
         if (dep == "N/A" || arr == "N/A") return 0
 

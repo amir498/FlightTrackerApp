@@ -235,5 +235,23 @@
     <string name="start_free_trail">Bắt đầu dùng thử miễn phí 3 ngày</string>
     <string name="unlock_feature">Mở khóa tính năng</string>
     <string name="feature_locked">Tính năng bị khóa</string>
+    <string name="track_flights_in_real_time_anywhere_in_the_world_follow_aircraft_live_on_an_interactive_map_stay_updated_with_accurate_flight_movements">Theo dõi chuyến bay theo thời gian thực ở bất kỳ đâu trên thế giới. Xem máy bay trực tiếp trên bản đồ tương tác. Luôn được cập nhật với thông tin chuyến bay chính xác.</string>
+    <string name="next">Tiếp</string>
+    <string name="check_live_airport_arrivals_and_departures_see_schedules_with_real_time_updates_never_miss_a_flight_with_instant_information">Kiểm tra giờ đến và đi của sân bay theo thời gian thực. Xem lịch trình với cập nhật trực tiếp. Đừng bao giờ bỏ lỡ chuyến bay với thông tin tức thì.</string>
+    <string name="start">Bắt đầu</string>
+    <string name="see_every_detail_in_real_time_exact_position_altitude_speed_and_live_route_updates">Mua Premium để xem mọi chi tiết theo thời gian thực — vị trí chính xác, độ cao, tốc độ và cập nhật lộ trình trực tiếp.</string>
+    <string name="subscribe_now">Đăng ký ngay</string>
+    <string name="privacy"><u>Chính sách quyền riêng tư</u></string>
+    <string name="terms"><u>Điều khoản &amp; Điều kiện</u></string>
+    <string name="restore"><u>Khôi phục</u></string>
+    <string name="view_complete_flight_schedules_and_routes_check_aircraft_type_airline_and_timings_everything_you_need_in_one_clear_overview">Xem lịch trình và tuyến bay đầy đủ. Kiểm tra loại máy bay, hãng hàng không và thời gian. Mọi thứ bạn cần trong một cái nhìn rõ ràng.</string>
+    <string name="find_flights_airports_and_airlines_instantly_search_by_number_route_or_destination_fast_simple_and_reliable_results_every_time">Tìm chuyến bay, sân bay và hãng hàng không ngay lập tức. Tìm theo số hiệu, tuyến hoặc điểm đến. Kết quả nhanh, đơn giản và đáng tin cậy mỗi lần.</string>
+    <string name="no_data_found">Không tìm thấy dữ liệu</string>
+    <string name="loading_data">Đang tải dữ liệu...</string>
+    <string name="cancel">Hủy</string>
+    <string name="something_went_wrong_while_loading_live_flight_information_tap_retry_to_refresh_and_try_again">Đã xảy ra lỗi khi tải thông tin chuyến bay trực tiếp. Nhấn Thử lại để làm mới và thử lại.</string>
+    <string name="flight_data_unavailable">Dữ liệu chuyến bay không khả dụng</string>
+    <string name="most_popular_plan">Gói phổ biến nhất</string>
+    <string name="save">Tiết kiệm</string>
 
 </resources>

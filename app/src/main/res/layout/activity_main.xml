@@ -9,16 +9,51 @@
     android:scrollbars="none"
     tools:context=".presentation.activities.MainActivity">
 
-    <ProgressBar
+    <!--    <ProgressBar-->
+    <!--        android:id="@+id/pg"-->
+    <!--        android:elevation="@dimen/_10sdp"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:visibility="invisible"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        />-->
+
+    <ImageView
+        android:id="@+id/ivTransparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_t"
+        android:elevation="@dimen/_10sdp" />
+
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/pg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
         android:elevation="@dimen/_10sdp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.4"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/data_loading" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pgText"
+        android:text="@string/loading_data"
+        style="@style/sfr14p"
+        android:elevation="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@+id/pg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <ScrollView
         android:id="@+id/subMain"

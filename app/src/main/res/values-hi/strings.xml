@@ -235,5 +235,23 @@
     <string name="start_free_trail">3-दिन का मुफ्त ट्रायल शुरू करें</string>
     <string name="unlock_feature">फ़ीचर अनलॉक करें</string>
     <string name="feature_locked">फ़ीचर लॉक है</string>
+    <string name="track_flights_in_real_time_anywhere_in_the_world_follow_aircraft_live_on_an_interactive_map_stay_updated_with_accurate_flight_movements">दुनिया में कहीं भी उड़ानों को रीयल टाइम में ट्रैक करें। इंटरएक्टिव मानचित्र पर विमान को लाइव फ़ॉलो करें। सटीक उड़ान गतियों के साथ अपडेट रहें।</string>
+    <string name="next">अगला</string>
+    <string name="check_live_airport_arrivals_and_departures_see_schedules_with_real_time_updates_never_miss_a_flight_with_instant_information">लाइव हवाई अड्डे के आगमन और प्रस्थान देखें। रीयल टाइम अपडेट के साथ समय सारणी देखें। त्वरित जानकारी के साथ कभी भी उड़ान न चूकें।</string>
+    <string name="start">प्रारंभ करें</string>
+    <string name="see_every_detail_in_real_time_exact_position_altitude_speed_and_live_route_updates">प्रीमियम खरीदें और हर विवरण रीयल टाइम में देखें — सटीक स्थान, ऊँचाई, गति और लाइव रूट अपडेट।</string>
+    <string name="subscribe_now">अभी सदस्यता लें</string>
+    <string name="privacy"><u>गोपनीयता नीति</u></string>
+    <string name="terms"><u>नियम और शर्तें</u></string>
+    <string name="restore"><u>पुनर्स्थापित करें</u></string>
+    <string name="view_complete_flight_schedules_and_routes_check_aircraft_type_airline_and_timings_everything_you_need_in_one_clear_overview">पूर्ण उड़ान समय-सारणी और मार्ग देखें। विमान का प्रकार, एयरलाइन और समय जांचें। एक स्पष्ट अवलोकन में सब कुछ।</string>
+    <string name="find_flights_airports_and_airlines_instantly_search_by_number_route_or_destination_fast_simple_and_reliable_results_every_time">उड़ानें, हवाई अड्डे और एयरलाइंस तुरंत खोजें। संख्या, मार्ग या गंतव्य से खोजें। हर बार तेज़, सरल और भरोसेमंद परिणाम।</string>
+    <string name="no_data_found">कोई डेटा नहीं मिला</string>
+    <string name="loading_data">डेटा लोड हो रहा है...</string>
+    <string name="cancel">रद्द करें</string>
+    <string name="something_went_wrong_while_loading_live_flight_information_tap_retry_to_refresh_and_try_again">लाइव उड़ान जानकारी लोड करते समय कुछ गलत हो गया। रीफ़्रेश करने और पुनः प्रयास करने के लिए पुनः प्रयास दबाएँ।</string>
+    <string name="flight_data_unavailable">उड़ान डेटा उपलब्ध नहीं है</string>
+    <string name="most_popular_plan">सबसे लोकप्रिय योजना</string>
+    <string name="save">बचत</string>
 
 </resources>
