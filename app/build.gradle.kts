@@ -14,8 +14,8 @@ android {
         applicationId = "com.radar.flight.tracker.airport.info"
         minSdk = 24
         targetSdk = 35
-        versionCode = 12
-        versionName = "2.2"
+        versionCode = 13
+        versionName = "2.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "API_KEY", "\"${project.findProperty("MY_API_KEY") ?: ""}\"")
@@ -202,6 +202,11 @@ android {
         viewBinding = true
         buildConfig = true
     }
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
 }
 
 dependencies {
@@ -211,7 +216,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.billing.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -230,6 +234,9 @@ dependencies {
     implementation(platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
+
+    //koin
+    implementation(libs.kotlin.reflect)
 
     //Glide
     api(libs.glide)
@@ -253,9 +260,6 @@ dependencies {
     implementation(libs.androidx.navigation.fragment)
     implementation(libs.androidx.navigation.ui)
 
-    //koin
-    implementation(libs.kotlin.reflect)
-
     //location
     implementation(libs.play.services.location)
 
@@ -277,5 +281,8 @@ dependencies {
 
     //lifecycle
     implementation(libs.androidx.lifecycle.process)
+
+    //google play billing
+    implementation(libs.billing.ktx)
 
 }

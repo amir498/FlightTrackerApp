@@ -1,5 +1,6 @@
 package com.example.flighttrackerappnew.presentation.dialogbuilder
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
@@ -68,7 +69,11 @@ class CustomDialogBuilder(private val context: Context) {
             onCrossClick?.invoke(dialog)
         }
 
-        dialog.show()
+        (context as? Activity)?.isFinishing?.let {
+            if (!it == true) {
+                dialog.show()
+            }
+        }
         return dialog
     }
 

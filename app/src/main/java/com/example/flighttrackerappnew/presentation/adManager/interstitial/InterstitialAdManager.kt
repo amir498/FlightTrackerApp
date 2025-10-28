@@ -73,13 +73,15 @@ object InterstitialAdManager {
             Handler(Looper.getMainLooper()).postDelayed({
                 it.setImmersiveMode(true)
                 it.show(activity)
-
                 Handler(Looper.getMainLooper()).postDelayed({
+                    if (activity.isFinishing || activity.isDestroyed) {
+                        return@postDelayed
+                    }
+
                     if (dialog.isShowing) {
                         dialog.dismiss()
                     }
                 }, 500)
-
             }, 1000)
         }
     }

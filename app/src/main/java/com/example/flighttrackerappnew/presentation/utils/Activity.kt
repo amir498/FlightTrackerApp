@@ -43,7 +43,11 @@ fun Activity.shareApp() {
 
 fun Activity.openWebBrowser(link: String) {
     val intent = Intent(Intent.ACTION_VIEW, link.toUri())
-    startActivity(intent)
+    if (intent.resolveActivity(packageManager) != null) {
+        startActivity(intent)
+    } else {
+        showToast("No application found to open this link")
+    }
 }
 
 fun Activity.rateApp() {

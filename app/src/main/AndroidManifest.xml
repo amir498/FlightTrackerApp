@@ -15,6 +15,7 @@
         android:hardwareAccelerated="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/Theme.FlightTrackerAppNew"
         tools:targetApi="35">
         <activity

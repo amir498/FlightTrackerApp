@@ -1,8 +1,6 @@
 package com.example.flighttrackerappnew.presentation.googleMap
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.location.Location
 import android.os.Handler
 import android.os.Looper
 import androidx.core.content.ContextCompat
@@ -15,9 +13,6 @@ import com.example.flighttrackerappnew.presentation.utils.lastArrivalLongLat
 import com.example.flighttrackerappnew.presentation.utils.lastSelectedPlane
 import com.example.flighttrackerappnew.presentation.utils.lat
 import com.example.flighttrackerappnew.presentation.utils.lon
-import com.example.flighttrackerappnew.presentation.utils.showToast
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -33,7 +28,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PatternItem
 import com.google.android.gms.maps.model.Polyline
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.gms.tasks.CancellationTokenSource
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.math.atan2

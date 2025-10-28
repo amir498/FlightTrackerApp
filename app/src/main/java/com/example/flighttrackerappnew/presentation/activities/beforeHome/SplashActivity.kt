@@ -20,6 +20,7 @@ import com.example.flighttrackerappnew.presentation.adManager.interstitial.Inter
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.ump.UMPConsentManager
+import com.example.flighttrackerappnew.presentation.utils.DEFAULT_DISTANCE
 import com.example.flighttrackerappnew.presentation.utils.getCurrentCountryLatLon
 import com.example.flighttrackerappnew.presentation.utils.isNetworkAvailable
 import com.example.flighttrackerappnew.presentation.utils.lat
@@ -66,7 +67,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
             showDialog()
         }
 
-        handler.postDelayed(runnable2, 9000)
+        handler.postDelayed(runnable2, 15000)
     }
 
     private fun getLongLatFirst() {
@@ -101,13 +102,20 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
     fun getAllApiCall(lat: Double, lon: Double) {
         Log.d("MY----TAG", "getAllApiCall")
-        val distance =
-            RemoteConfigManager.getString("distance")
-        viewModel.getAllData(lat, lon, distance.toInt()) {
+        val distanceStr = RemoteConfigManager.getString("distance")
+        val distance = distanceStr.toIntOrNull() ?: DEFAULT_DISTANCE
+
+        viewModel.getAllData(lat, lon, distance) {
         }
     }
 
     private fun umpConsentForm() {
+//        lifecycleScope.launch {
+//            val updated = remoteConfigManager.fetchAndActivateSafe()
+//            Log.d("RemoteConfig", "Fetch result: $updated")
+//            // navigate to next screen
+//        }
+
         UMPConsentManager(this).apply {
             checkConsent { consentObtained ->
                 if (consentObtained) {

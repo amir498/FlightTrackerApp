@@ -253,5 +253,7 @@
     <string name="flight_data_unavailable">Flight Data Unavailable</string>
     <string name="most_popular_plan">Most Popular Plan</string>
     <string name="save">Save</string>
+    <string name="radar">Radar</string>
+    <string name="flights">Flights</string>
 
 </resources>

@@ -5,6 +5,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import com.example.flighttrackerappnew.domain.usecase.BillingUseCase
 import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager
 import com.example.flighttrackerappnew.presentation.di.appModule
+import com.example.flighttrackerappnew.presentation.di.remoteConfigModule
 import com.example.flighttrackerappnew.presentation.lifecycle_observer.ActivitiesLifeCycleObserver
 import com.example.flighttrackerappnew.presentation.lifecycle_observer.BillingLifecycleObserver
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
@@ -25,7 +26,7 @@ class FlightApp : Application() {
 
         startKoin {
             androidContext(this@FlightApp)
-            modules(appModule)
+            modules(appModule, remoteConfigModule)
         }
         RemoteConfigManager.init()
 

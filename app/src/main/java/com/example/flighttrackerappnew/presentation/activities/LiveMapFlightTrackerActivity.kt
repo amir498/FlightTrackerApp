@@ -414,7 +414,12 @@ class LiveMapFlightTrackerActivity :
     private fun initView() {
         try {
             val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.google_map_fragment) as SupportMapFragment
+                .findFragmentById(R.id.google_map_fragment) as? SupportMapFragment
+
+            if (mapFragment == null) {
+                return
+            }
+
             googleMap.apply {
                 setMapUi(mapFragment)
                 listener { flightData ->

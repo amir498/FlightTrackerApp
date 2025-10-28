@@ -34,7 +34,6 @@
         app:layout_constraintStart_toEndOf="@+id/btnBack"
         app:layout_constraintTop_toTopOf="@+id/btnBack" />
 
-
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/iv_airplane_home"
         android:layout_width="match_parent"
@@ -44,23 +43,6 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/search" />
-
-<!--    <ImageView-->
-<!--        android:id="@+id/iv_home_cloud"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:src="@drawable/iv_home_cloud"-->
-<!--        app:layout_constraintDimensionRatio="3:2"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        />-->
-
-<!--    <ImageView-->
-<!--        android:id="@+id/iv_airplane_home"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="@dimen/_80sdp"-->
-<!--        android:src="@drawable/iv_airplane_search"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/iv_home_cloud"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/iv_home_cloud" />-->
 
     <ScrollView
         android:id="@+id/scrollView"

@@ -45,8 +45,7 @@ class NativeAd1LangScreen1 {
                 }
             }
 
-            override fun onAdFailedToLoad(adError: LoadAdError) {
-            }
+            override fun onAdFailedToLoad(adError: LoadAdError) {}
 
             override fun onAdClicked() {}
 

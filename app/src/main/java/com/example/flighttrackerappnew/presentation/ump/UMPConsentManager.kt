@@ -2,6 +2,7 @@ package com.example.flighttrackerappnew.presentation.ump
 
 import android.app.Activity
 import android.util.Log
+import com.google.android.gms.ads.MobileAds
 import com.google.android.ump.ConsentDebugSettings
 import com.google.android.ump.ConsentInformation
 import com.google.android.ump.ConsentRequestParameters
@@ -19,7 +20,7 @@ class UMPConsentManager(private val activity: Activity) {
             .build()
 
         val params: ConsentRequestParameters = ConsentRequestParameters.Builder()
-//            .setConsentDebugSettings(debugSettings)
+            .setConsentDebugSettings(debugSettings)
             .build()
 
         consentInformation.requestConsentInfoUpdate(
@@ -84,4 +85,5 @@ class UMPConsentManager(private val activity: Activity) {
             }
         )
     }
+
 }

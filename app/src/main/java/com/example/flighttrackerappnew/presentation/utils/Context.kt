@@ -10,8 +10,11 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.flighttrackerappnew.data.model.Country
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

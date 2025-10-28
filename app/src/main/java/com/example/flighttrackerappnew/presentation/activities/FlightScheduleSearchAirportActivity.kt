@@ -8,7 +8,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.airport.AirportsDataItems
 import com.example.flighttrackerappnew.databinding.ActivityFlightScheduleSearchAirportBinding
-import com.example.flighttrackerappnew.presentation.activities.MainActivity
 import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adapter.SearchAirportAdapter
 import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
@@ -108,7 +107,6 @@ class FlightScheduleSearchAirportActivity :
 
                 override fun afterTextChanged(s: Editable?) {
                     val text = s.toString()
-                    val adapter = binding.recyclerView.adapter as SearchAirportAdapter
                     val filterList: List<AirportsDataItems> = airportsList.filter {
                         it.nameAirport?.lowercase()?.startsWith(text.lowercase()) == true
                     }

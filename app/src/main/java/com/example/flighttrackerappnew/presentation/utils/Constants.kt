@@ -20,3 +20,4 @@ const val TERM_OF_SERVICE = "https://sites.google.com/view/term-of-service-fligh
 const val PREMIUM_USER = "PREMIUM_USER"
 const val SAVE_VALUE = "SAVE_VALUE"
 const val FREE_TRAIL = "FREE_TRAIL"
+const val DEFAULT_DISTANCE = 1000
