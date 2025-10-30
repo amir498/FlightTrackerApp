@@ -14,7 +14,9 @@ import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.DetailActivity
 import com.example.flighttrackerappnew.presentation.activities.LiveMapFlightTrackerActivity
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.LanguageActivity
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_2_LANGUAGE_SCREEN1
 import com.example.flighttrackerappnew.presentation.google_play_billing.BillingEvent
+import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.PRIVACY_POLICY
 import com.example.flighttrackerappnew.presentation.utils.TERM_OF_SERVICE
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
@@ -62,6 +64,14 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>(ActivityPremiumBind
             hasFreeTrailEnabled = false
             binding.btnUpgradeNow.text = getString(R.string.subscribe_now)
         }
+        load()
+    }
+
+   private fun load() {
+        native_2_LANGUAGE_SCREEN1.loadNativeAd(
+            this@PremiumActivity,
+            RemoteConfigManager.getBoolean("native_2_LANGUAGE_SCREEN1")
+        )
     }
 
     private fun onBackPress() {

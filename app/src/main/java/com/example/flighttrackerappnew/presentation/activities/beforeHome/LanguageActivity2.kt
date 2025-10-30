@@ -9,22 +9,21 @@ import com.example.flighttrackerappnew.data.model.LanguageDataList
 import com.example.flighttrackerappnew.databinding.ActivityLanguage2Binding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.MainActivity
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adapter.LanguageActivityAdapter
+import com.example.flighttrackerappnew.presentation.admob.interstitial.InterstitialAdManager
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_2_LANGUAGE_SCREEN2
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.IS_FROM_SETTING_ACTIVITY
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
-import com.example.flighttrackerappnew.presentation.utils.gone
 import com.example.flighttrackerappnew.presentation.utils.setZoomClickEffect
 import com.example.flighttrackerappnew.presentation.utils.visible
-import org.koin.android.ext.android.inject
 
 class LanguageActivity2 :
     BaseActivity<ActivityLanguage2Binding>(ActivityLanguage2Binding::inflate) {
 
     private lateinit var adapter: LanguageActivityAdapter
     private var firstClicked = true
-    private val nativeAdController: NativeAdController by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,34 +37,28 @@ class LanguageActivity2 :
         val params = binding.chooseLanguage.layoutParams as ConstraintLayout.LayoutParams
         params.topMargin = getStatusBarHeight
         binding.chooseLanguage.layoutParams = params
-        val showNative2Lang2 =
-            RemoteConfigManager.getBoolean("NATIVE2_LANGUAGESCREEN2")
-        val showNative1Lang2 =
-            RemoteConfigManager.getBoolean("NATIVE1_LANGUAGESCREEN2")
 
-        nativeAdController.apply {
-            if (showNative2Lang2 && !config.isPremiumUser) {
-                loadLanguageScreen2NativeAd2(
-                    this@LanguageActivity2,
-                    app.getString(R.string.NATIVE2_LANGUAGESCREEN2)
-                )
-            }
-        }
+        showAd()
+    }
 
-        if (showNative1Lang2) {
-            if (!config.isPremiumUser) {
-                nativeAdController.showLanguageScreen2NativeAd1(
-                    this@LanguageActivity2,
-                    binding.flAdplaceholder
-                )
-            }
-        }
+    private fun showAd() {
+        NativeAdProvider.apply {
+            native_1_LANGUAGE_SCREEN2.showNativeAd(
+                adGroup = native_1_LANGUAGE_SCREEN2,
+                frameLayout = binding.flAdplaceholder,
+                adLayout = R.layout.native_ad_layout_view_with_media,
+               activity =  this@LanguageActivity2
+            )
 
-        if ((showNative1Lang2 || showNative2Lang2) && !config.isPremiumUser) {
-            binding.flAdplaceholder.visible()
-        } else {
-            binding.flAdplaceholder.gone()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        native_2_LANGUAGE_SCREEN2.loadNativeAd(
+            this@LanguageActivity2,
+            RemoteConfigManager.getBoolean("native_2_LANGUAGE_SCREEN2")
+        )
     }
 
     private fun viewListener() {
@@ -77,7 +70,14 @@ class LanguageActivity2 :
                     startActivity(Intent(this@LanguageActivity2, MainActivity::class.java))
                     finishAffinity()
                 } else {
-                    startActivity(Intent(this@LanguageActivity2, OnBoardingActivity::class.java))
+                    InterstitialAdManager.showAd(
+                        interstitialLoadingScreenShowTime = 0L,
+                        showLoadingScreenAsLoadAdRequestCalled = false,
+                        this@LanguageActivity2,
+                        showLoadingScreenWithDelay = 0,
+                        ) {
+                        startActivity(Intent(this@LanguageActivity2, OnBoardingActivity::class.java))
+                    }
                 }
             }
         }
@@ -89,18 +89,18 @@ class LanguageActivity2 :
         adapter.setListener {
             if (firstClicked) {
                 if (!config.isPremiumUser) {
-                    nativeAdController.showLanguageScreen2NativeAd2(this, binding.flAdplaceholder)
-                    val showOB1 =
-                        RemoteConfigManager.getBoolean("NATIVE_ONB1")
-                    if (showOB1) {
-                        nativeAdController.loadOnb1NativeAd(
-                            this,
-                            app.getString(R.string.NATIVE_ONB1)
+                    NativeAdProvider.apply {
+                        native_2_LANGUAGE_SCREEN2.showNativeAd(
+                            showFakeLoading = true,
+                            adGroup = native_2_LANGUAGE_SCREEN2,
+                            frameLayout = binding.flAdplaceholder,
+                            adLayout = R.layout.native_ad_layout_view_with_media,
+                          activity =   this@LanguageActivity2
                         )
                     }
                 }
+                firstClicked = false
             }
-            firstClicked = false
         }
     }
 
@@ -109,7 +109,7 @@ class LanguageActivity2 :
             add(
                 LanguageDataList(
                     R.drawable.iv_aus,
-                    ContextCompat.getString(this@LanguageActivity2, R.string.tv_newzeland),
+                    ContextCompat.getString(this@LanguageActivity2, R.string.tv_australia),
                     "en-AU",
                     type = 2
                 )
@@ -142,8 +142,16 @@ class LanguageActivity2 :
             add(
                 LanguageDataList(
                     R.drawable.iv_newzeland,
-                    ContextCompat.getString(this@LanguageActivity2, R.string.tvFrench),
+                    ContextCompat.getString(this@LanguageActivity2, R.string.tv_newzeland),
                     "en-NZ",
+                    type = 2
+                )
+            )
+            add(
+                LanguageDataList(
+                    R.drawable.iv_hindi,
+                    ContextCompat.getString(this@LanguageActivity2, R.string.tvIndia),
+                    "en-IN",
                     type = 2
                 )
             )

@@ -15,10 +15,9 @@ import com.example.flighttrackerappnew.data.model.cities.CitiesDataItems
 import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
 import com.example.flighttrackerappnew.data.model.schedulesFlight.FlightSchedulesItems
 import com.example.flighttrackerappnew.databinding.ActivitySearchAirportBinding
-import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
 import com.example.flighttrackerappnew.presentation.adapter.SearchAirportAdapter
+import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_SEARCH_AIRPORT
 import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
-import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.arrivalFlightData
 import com.example.flighttrackerappnew.presentation.utils.departureFlightData
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
@@ -35,7 +34,6 @@ import org.koin.android.ext.android.inject
 
 class SearchAirportActivity :
     BaseActivity<ActivitySearchAirportBinding>(ActivitySearchAirportBinding::inflate) {
-    private val bannerAdManager: BannerAdManager by inject()
 
     var liveFlight = listOf<FlightDataItem>()
     private var airportsList = listOf<AirportsDataItems>()
@@ -98,6 +96,16 @@ class SearchAirportActivity :
         }
     }
 
+    private fun loadBannerAd() {
+        BANNER_SEARCH_AIRPORT.apply {
+            loadAndShowBannerAd(
+                context = this@SearchAirportActivity,
+                adContainerView = binding.adContainerView,
+                onStartLoadingAd = {}
+            )
+        }
+    }
+
     private fun setAirPortData() {
         val airportIataCodes: Set<String> = buildSet {
             liveFlight.mapNotNullTo(this) { it.arrival?.iataCode?.lowercase() }
@@ -106,20 +114,21 @@ class SearchAirportActivity :
             airport.codeIataAirport?.lowercase() in airportIataCodes
         }
         if (matchedAirports.isNotEmpty()) {
-            val BANNER_SEARCH_AIRPORT =
-                RemoteConfigManager.getBoolean("BANNER_SEARCH_AIRPORT")
-            if (BANNER_SEARCH_AIRPORT && !config.isPremiumUser) {
-                binding.adContainerView.visible()
-                bannerAdManager.loadAd(true, this, app.getString(R.string.BANNER_SEARCH_AIRPORT), {
-                    bannerAdManager.showBannerAd(
-                        binding.adContainerView,
-                        this@SearchAirportActivity,
-                        null
-                    )
-                }, {
-
-                })
-            }
+            loadBannerAd()
+//            val BANNER_SEARCH_AIRPORT =
+//                RemoteConfigManager.getBoolean("BANNER_SEARCH_AIRPORT")
+//            if (BANNER_SEARCH_AIRPORT && !config.isPremiumUser) {
+//                binding.adContainerView.visible()
+//                bannerAdManager.loadAd(true, this, app.getString(R.string.BANNER_SEARCH_AIRPORT), {
+//                    bannerAdManager.showBannerAd(
+//                        binding.adContainerView,
+//                        this@SearchAirportActivity,
+//                        null
+//                    )
+//                }, {
+//
+//                })
+//            }
         } else {
             binding.recyclerView.invisible()
             binding.ivSearchFlightSchedule.visible()

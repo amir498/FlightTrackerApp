@@ -10,6 +10,7 @@
     <string name="tvEnglish">English</string>
     <string name="tvFrench">Français</string>
     <string name="tvHindi">हिंदी</string>
+    <string name="tvIndia" translatable="false">India</string>
     <string name="tvIndonesia">Indonesia</string>
     <string name="tvPortuguese">Português</string>
     <string name="tvPolish">Polski</string>
@@ -191,6 +192,7 @@
     <string name="tv_america">America</string>
     <string name="tv_england">England</string>
     <string name="tv_newzeland">Newzeland</string>
+    <string name="tv_australia" translatable="false">Australia</string>
     <string name="you_re_offline_please_check_your_internet_connection_and_try_again">You\'re offline. Please check your internet connection and try again.</string>
     <string name="open_setting">Open Setting</string>
     <string name="retry">Retry</string>

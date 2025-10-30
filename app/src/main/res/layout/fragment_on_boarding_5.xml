@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/app_bg"
-    tools:context=".presentation.fragments.OnBoardingFullNative1Fragment">
+    tools:context=".presentation.fragments.OnBoarding5Fragment">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -32,23 +32,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnNext"
         app:layout_constraintBottom_toBottomOf="parent" />
-
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/nativeAdShimmer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="visible"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:elevation="@dimen/_10sdp"
-        app:layout_constraintTop_toBottomOf="@+id/btnNext"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <include layout="@layout/full_screen_native_ad_view_shimmer" />
-
-    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

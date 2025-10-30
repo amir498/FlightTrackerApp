@@ -24,4 +24,8 @@ object RemoteConfigManager {
     fun getString(key: String): String {
         return remoteConfig.getString(key)
     }
+
+    fun getNumber(key: String): Long {
+        return remoteConfig.getLong(key)
+    }
 }

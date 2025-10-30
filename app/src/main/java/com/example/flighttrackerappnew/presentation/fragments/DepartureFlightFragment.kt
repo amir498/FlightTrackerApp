@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.arrival.ArrivalDataItems
@@ -14,9 +15,10 @@ import com.example.flighttrackerappnew.presentation.activities.AirportSearchActi
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.DetailActivity
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
 import com.example.flighttrackerappnew.presentation.adapter.DepartureFlightAdapter
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_DEPARTURE_FLIGHT_For_Aircraft_Or_TailNumber
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_DEPARTURE_FLIGHT_For_Airport_Or_Airline
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
@@ -37,7 +39,6 @@ class DepartureFlightFragment : Fragment() {
 
     private var adapter: DepartureFlightAdapter? = null
     private var departureData = ArrayList<ArrivalDataItems>()
-    private val nativeAdController: NativeAdController by inject()
     private val rewardedAd: RewardedAdManager by inject()
 
     override fun onCreateView(
@@ -56,20 +57,27 @@ class DepartureFlightFragment : Fragment() {
     }
 
     private fun loadAd() {
-        val NATIVE_DEPARTURE_FLIGHT_For_Airport_Or_Airline =
-            RemoteConfigManager.getBoolean("NATIVE_DEPARTURE_FLIGHT_For_Airport_Or_Airline")
-        if (NATIVE_DEPARTURE_FLIGHT_For_Airport_Or_Airline) {
-            val app = (requireActivity() as? BaseActivity<*>)?.app
-            app?.let {
-                nativeAdController.apply {
-                    loadNativeAd(
-                        requireContext(),
-                        app.getString(R.string.NATIVE_DEPARTURE_FLIGHT_For_Airport_Or_Airline)
-                    )
-                }
-            }
+        NATIVE_DEPARTURE_FLIGHT_For_Airport_Or_Airline.apply {
+            loadNativeAd(
+                requireContext(),
+                RemoteConfigManager.getBoolean("NATIVE_DEPARTURE_FLIGHT_For_Airport_Or_Airline")
+            )
         }
+    }
 
+    private fun loadAdForAircraft() {
+        NATIVE_DEPARTURE_FLIGHT_For_Aircraft_Or_TailNumber.apply {
+            loadNativeAd(
+                requireContext(),
+                RemoteConfigManager.getBoolean("NATIVE_DEPARTURE_FLIGHT_For_Aircraft_Or_TailNumber")
+            )
+            showNativeAd(
+                adGroup = NATIVE_DEPARTURE_FLIGHT_For_Aircraft_Or_TailNumber,
+                frameLayout = binding.flAdplaceholder,
+                adLayout = R.layout.native_ad_layout_view_with_media,
+                activity = requireActivity() as AppCompatActivity
+            )
+        }
     }
 
     fun checkData() {
@@ -90,22 +98,7 @@ class DepartureFlightFragment : Fragment() {
                 binding.recyclerView.invisible()
             } else {
                 if (!isFromAirportOrAirline && !config.isPremiumUser) {
-                    val app = (requireActivity() as? BaseActivity<*>)?.app
-                    app?.let {
-                        val NATIVE_DEPARTURE_FLIGHT_For_Aircraft_Or_TailNumber =
-                            RemoteConfigManager.getBoolean("NATIVE_DEPARTURE_FLIGHT_For_Aircraft_Or_TailNumber")
-                        if (NATIVE_DEPARTURE_FLIGHT_For_Aircraft_Or_TailNumber) {
-                            binding.flAdplaceholder.visible()
-                            nativeAdController.loadNativeAd(
-                                requireContext(),
-                                it.getString(R.string.NATIVE_DEPARTURE_FLIGHT_For_Aircraft_Or_TailNumber)
-                            )
-                            nativeAdController.showNativeAd(
-                                requireContext(),
-                                binding.flAdplaceholder
-                            )
-                        }
-                    }
+                    loadAdForAircraft()
                 }
                 this.departureData = departureData
                 var arrData = if (isFromAirportOrAirline && !config.isPremiumUser) {
@@ -113,7 +106,7 @@ class DepartureFlightFragment : Fragment() {
                 } else {
                     departureData
                 }
-                adapter?.setList(arrData, nativeAdController)
+                adapter?.setList(arrData)
                 adapter?.setListener { arrivalData ->
                     if ((requireActivity() as BaseActivity<*>).config.isPremiumUser) {
                         startActivity(Intent(requireContext(), DetailActivity::class.java))

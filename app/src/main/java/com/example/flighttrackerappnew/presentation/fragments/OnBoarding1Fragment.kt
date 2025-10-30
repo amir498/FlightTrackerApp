@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.FragmentOnBoarding1Binding
-import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.OnBoardingActivity
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_OnBoarding1
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_OnBoarding6
 import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.invisible
@@ -18,7 +19,6 @@ import org.koin.android.ext.android.inject
 
 class OnBoarding1Fragment : Fragment() {
 
-    private val nativeAdController: NativeAdController by inject()
     private val config: Config by inject()
 
     private val binding: FragmentOnBoarding1Binding by lazy {
@@ -34,44 +34,31 @@ class OnBoarding1Fragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val showOB1 =
-            RemoteConfigManager.getBoolean("NATIVE_ONB1")
-        val showOB4 =
-            RemoteConfigManager.getBoolean("NATIVE_ONB4")
-        val showOB2 =
-            RemoteConfigManager.getBoolean("NATIVE_ONB2")
 
-        val app = (requireActivity() as? BaseActivity<*>)?.app
-        app?.let {
-            if (showOB4 && !config.isPremiumUser) {
-                nativeAdController.loadOnb4NativeAd(
-                    requireContext(),
-                    app.getString(R.string.NATIVE_ONB4)
-                )
-            }
-            if (showOB2 && !config.isPremiumUser) {
-                nativeAdController.loadOnb2NativeAd(
-                    requireContext(),
-                    app.getString(R.string.NATIVE_ONB4)
-                )
-            }
-        }
+        setLayout()
+        loadAndShowAd()
+        viewListener()
+    }
 
+    private fun setLayout() {
         binding.apply {
-            if (showOB1 && !config.isPremiumUser) {
+            if (RemoteConfigManager.getBoolean("native_OnBoarding1") && !config.isPremiumUser) {
                 navBottom.visible()
                 navTop.invisible()
-                flAdplaceholder.visible()
-                nativeAdController.showOnb1NativeAd(
-                    requireContext(),
-                    flAdplaceholder
+                native_OnBoarding1.showNativeAd(
+                    adGroup = native_OnBoarding1,
+                    frameLayout = binding.flAdplaceholder,
+                    adLayout = R.layout.native_ad_layout_view_with_media,
+                    activity =  requireActivity() as AppCompatActivity
                 )
             } else {
                 navTop.visible()
                 navBottom.invisible()
             }
         }
+    }
 
+    private fun viewListener() {
         binding.apply {
             btnNext.setOnClickListener {
                 (activity as? OnBoardingActivity)?.gotToNextPage()
@@ -80,6 +67,12 @@ class OnBoarding1Fragment : Fragment() {
                 (activity as? OnBoardingActivity)?.gotToNextPage()
             }
         }
+    }
 
+    private fun loadAndShowAd() {
+        native_OnBoarding6.loadNativeAd(
+            requireContext(),
+            RemoteConfigManager.getBoolean("native_OnBoarding6")
+        )
     }
 }

@@ -4,20 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.FragmentOnBoarding3Binding
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.OnBoardingActivity
-import com.example.flighttrackerappnew.presentation.helper.Config
-import com.example.flighttrackerappnew.presentation.utils.invisible
-import com.example.flighttrackerappnew.presentation.utils.visible
-import org.koin.android.ext.android.inject
-
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_OnBoarding3
 
 class OnBoarding3Fragment : Fragment() {
+
     private val binding: FragmentOnBoarding3Binding by lazy {
         FragmentOnBoarding3Binding.inflate(layoutInflater)
     }
-    private val config: Config by inject()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,21 +28,25 @@ class OnBoarding3Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.apply {
-            btnNext.setOnClickListener {
-                (activity as? OnBoardingActivity)?.gotToNextPage()
-            }
-            conNext.setOnClickListener {
-                (activity as? OnBoardingActivity)?.gotToNextPage()
-            }
-        }
+        viewListener()
+        showAd()
+    }
 
-        if (config.isPremiumUser) {
-            binding.apply {
-                navTop.visible()
-                navBottom.invisible()
-                lottie.invisible()
+    private fun viewListener() {
+        binding.btnNext.setOnClickListener {
+            (activity as? OnBoardingActivity)?.let { onboardingActivity ->
+                val nextItem = onboardingActivity.binding.viewPager.currentItem + 1
+                onboardingActivity.binding.viewPager.setCurrentItem(nextItem, true)
             }
         }
+    }
+
+    private fun showAd() {
+        native_OnBoarding3.showNativeAd(
+            adGroup = native_OnBoarding3,
+            frameLayout = binding.flAdplaceholder,
+            adLayout = R.layout.native_ad_layout_view_with_media_full,
+          activity =   requireActivity() as AppCompatActivity
+        )
     }
 }

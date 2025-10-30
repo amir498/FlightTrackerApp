@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.flighttrackerappnew.data.model.Country
+import com.google.android.ump.UserMessagingPlatform
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -30,6 +31,9 @@ fun Context.showToast(message: String) {
         }
     }
 }
+
+fun Context.canRequestAd() =
+    UserMessagingPlatform.getConsentInformation(this).canRequestAds()
 
 fun Context.logDebug(tag: String = "APP_LOG", message: String) {
     Log.d(tag, message)

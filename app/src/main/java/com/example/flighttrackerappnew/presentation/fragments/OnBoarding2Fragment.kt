@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.FragmentOnBoarding2Binding
-import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.OnBoardingActivity
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_WELCOME
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_OnBoarding2
 import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.invisible
@@ -23,7 +24,6 @@ class OnBoarding2Fragment : Fragment() {
     }
     private val config: Config by inject()
 
-    private val nativeAdController: NativeAdController by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,58 +35,59 @@ class OnBoarding2Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val showOBFull2 =
-            RemoteConfigManager.getBoolean("NATIVE_ONB_Full2")
+        viewListener()
+        setLayout()
+        loadAd()
+    }
 
-        val showOBFull1 =
-            RemoteConfigManager.getBoolean("NATIVE_ONB_Full1")
-
-        val showOB2 =
-            RemoteConfigManager.getBoolean("NATIVE_ONB2")
-
-        binding.conNext.setOnClickListener {
-            (activity as? OnBoardingActivity)?.gotToNextPage()
-        }
-
-        binding.btnNext.setOnClickListener {
-            (activity as? OnBoardingActivity)?.gotToNextPage()
-        }
-        if (showOBFull2 && !config.isPremiumUser) {
-            val app = (requireActivity() as? BaseActivity<*>)?.app
-            app?.let {
-                nativeAdController.loadFullNativeAd2(
-                    requireContext(),
-                    app.getString(R.string.NATIVE_ONB_Full2)
-                )
-            }
-        } else {
-            binding.lottie.invisible()
-        }
-
+    private fun setLayout() {
         binding.apply {
-            if (showOB2 && !config.isPremiumUser) {
+            if (RemoteConfigManager.getBoolean("native_OnBoarding2") && !config.isPremiumUser) {
                 navTop.invisible()
                 navBottom.visible()
-                flAdplaceholder.visible()
-                binding.lottie.invisible()
-                nativeAdController.showOnb2NativeAd(
+                native_OnBoarding2.loadNativeAd(
                     requireContext(),
-                    flAdplaceholder
+                    RemoteConfigManager.getBoolean("native_OnBoarding2")
                 )
+                native_OnBoarding2.showNativeAd(
+                    adGroup = native_OnBoarding2,
+                    frameLayout = binding.flAdplaceholder,
+                    adLayout = R.layout.native_ad_layout_view_with_media,
+                    activity =  requireActivity() as AppCompatActivity
+                )
+                lottie.invisible()
             } else if (config.isPremiumUser) {
                 navTop.visible()
                 navBottom.invisible()
                 binding.lottie.invisible()
-                flAdplaceholder.invisible()
-            } else if (showOBFull1) {
+            } else if (RemoteConfigManager.getBoolean("native_OnBoarding3")) {
                 navTop.invisible()
                 navBottom.visible()
-                flAdplaceholder.invisible()
+                lottie.visible()
             } else {
                 lottie.invisible()
                 navBottom.invisible()
                 navTop.visible()
             }
         }
+    }
+
+    private fun viewListener() {
+        binding.apply {
+            conNext.setOnClickListener {
+                (activity as? OnBoardingActivity)?.gotToNextPage()
+            }
+
+            btnNext.setOnClickListener {
+                (activity as? OnBoardingActivity)?.gotToNextPage()
+            }
+        }
+    }
+
+    private fun loadAd() {
+        NATIVE_WELCOME.loadNativeAd(
+            requireContext(),
+            RemoteConfigManager.getBoolean("NATIVE_WELCOME")
+        )
     }
 }

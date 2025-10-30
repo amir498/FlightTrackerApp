@@ -41,15 +41,18 @@ android {
             )
             signingConfig = signingConfigs.getByName("debug")
             resValue("string", "INTERSTITIAL_SPLASH", "ca-app-pub-3940256099942544/1033173712")
+            resValue("string", "INTERSTITIAL_MAP_STYLE", "ca-app-pub-1476052568030102/4621593010")
             resValue("string", "BANNER_SPLASH", "ca-app-pub-3940256099942544/9214589741")
-            resValue("string", "NATIVE1_LANGUAGESCREEN1", "ca-app-pub-3940256099942544/2247696110")
-            resValue("string", "NATIVE2_LANGUAGESCREEN1", "ca-app-pub-3940256099942544/2247696110")
-            resValue("string", "NATIVE1_LANGUAGESCREEN2", "ca-app-pub-3940256099942544/2247696110")
-            resValue("string", "NATIVE2_LANGUAGESCREEN2", "ca-app-pub-3940256099942544/2247696110")
-            resValue("string", "NATIVE_ONB1", "ca-app-pub-3940256099942544/2247696110")
-            resValue("string", "NATIVE_ONB4", "ca-app-pub-3940256099942544/2247696110")
-            resValue("string", "NATIVE_ONB_Full1", "ca-app-pub-3940256099942544/2247696110")
-            resValue("string", "NATIVE_ONB_Full2", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "native_1_LANGUAGE_SCREEN1", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "native_2_LANGUAGE_SCREEN1", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "native_1_LANGUAGE_SCREEN2", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "native_2_LANGUAGE_SCREEN2", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "native_OnBoarding1", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "native_OnBoarding2", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "native_OnBoarding3", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "native_OnBoarding4", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "native_OnBoarding5", "ca-app-pub-3940256099942544/2247696110")
+            resValue("string", "native_OnBoarding6", "ca-app-pub-3940256099942544/2247696110")
             resValue("string", "NATIVE_WELCOME", "ca-app-pub-3940256099942544/2247696110")
             resValue("string", "NATIVE_MAP", "ca-app-pub-3940256099942544/2247696110")
 
@@ -110,6 +113,8 @@ android {
             resValue("string", "NATIVE_FLIGHT_SCHEDULED", "ca-app-pub-3940256099942544/2247696110")
             resValue("string", "INTERSTITIAL_HOME", "ca-app-pub-3940256099942544/1033173712")
             resValue("string", "INTERSTITIAL_SEARCH", "ca-app-pub-3940256099942544/1033173712")
+
+            resValue("integer", "minimumFetchIntervalInSeconds", "0")
         }
 
         release {
@@ -120,15 +125,18 @@ android {
             )
             signingConfig = signingConfigs.getByName("release")
             resValue("string", "INTERSTITIAL_SPLASH", "ca-app-pub-1476052568030102/4621593010")
+            resValue("string", "INTERSTITIAL_MAP_STYLE", "ca-app-pub-1476052568030102/4621593010")
             resValue("string", "BANNER_SPLASH", "ca-app-pub-1476052568030102/6002672032")
-            resValue("string", "NATIVE1_LANGUAGESCREEN1", "ca-app-pub-1476052568030102/3308511341")
-            resValue("string", "NATIVE2_LANGUAGESCREEN1", "ca-app-pub-1476052568030102/3835124955")
-            resValue("string", "NATIVE1_LANGUAGESCREEN2", "ca-app-pub-1476052568030102/7623160873")
-            resValue("string", "NATIVE2_LANGUAGESCREEN2", "ca-app-pub-1476052568030102/2522043284")
-            resValue("string", "NATIVE_ONB1", "ca-app-pub-1476052568030102/4996997534")
-            resValue("string", "NATIVE_ONB4", "ca-app-pub-1476052568030102/4941157210")
-            resValue("string", "NATIVE_ONB_Full1", "ca-app-pub-1476052568030102/3628075545")
-            resValue("string", "NATIVE_ONB_Full2", "ca-app-pub-1476052568030102/3116939657")
+            resValue("string", "native_1_LANGUAGE_SCREEN1", "ca-app-pub-1476052568030102/3308511341")
+            resValue("string", "native_2_LANGUAGE_SCREEN1", "ca-app-pub-1476052568030102/3835124955")
+            resValue("string", "native_1_LANGUAGE_SCREEN2", "ca-app-pub-1476052568030102/7623160873")
+            resValue("string", "native_2_LANGUAGE_SCREEN2", "ca-app-pub-1476052568030102/2522043284")
+            resValue("string", "native_OnBoarding1", "ca-app-pub-1476052568030102/4996997534")
+            resValue("string", "native_OnBoarding2", "ca-app-pub-1476052568030102/4996997534")
+            resValue("string", "native_OnBoarding3", "ca-app-pub-1476052568030102/3628075545")
+            resValue("string", "native_OnBoarding4", "ca-app-pub-1476052568030102/3628075545")
+            resValue("string", "native_OnBoarding5", "ca-app-pub-1476052568030102/3116939657")
+            resValue("string", "native_OnBoarding6", "ca-app-pub-1476052568030102/4941157210")
             resValue("string", "NATIVE_WELCOME", "ca-app-pub-1476052568030102/6158035962")
             resValue("string", "NATIVE_MAP", "ca-app-pub-1476052568030102/8688830538")
 
@@ -189,6 +197,8 @@ android {
             resValue("string", "NATIVE_FLIGHT_SCHEDULED", "ca-app-pub-1476052568030102/7191916036")
             resValue("string", "INTERSTITIAL_HOME", "ca-app-pub-1476052568030102/1939589356")
             resValue("string", "INTERSTITIAL_SEARCH", "ca-app-pub-1476052568030102/3184937000")
+
+            resValue("integer", "minimumFetchIntervalInSeconds", "0")
         }
     }
     compileOptions {

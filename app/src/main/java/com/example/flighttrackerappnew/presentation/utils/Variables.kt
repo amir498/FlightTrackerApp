@@ -1,5 +1,7 @@
 package com.example.flighttrackerappnew.presentation.utils
 
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import com.example.flighttrackerappnew.data.model.FollowFlightData
 import com.example.flighttrackerappnew.data.model.arrival.ArrivalDataItems
@@ -16,7 +18,6 @@ var FullDetailsFlightData: FullDetailFlightData? = null
 var airportCode = ""
 var flightType = "arrival"
 var startDate = ""
-var allApiCallCompleted = MutableLiveData<Boolean>()
 var IS_FROM_SETTING_ACTIVITY = false
 var searchedDataSubTitle = ""
 var searchedDataTitle = ""
@@ -37,3 +38,9 @@ var lon: Double? = null
 var isComeFromTracked: Boolean = true
 var trackData: FollowFlightData? = null
 var isFirstPremiumFlow = false
+
+fun runWithDelay(delay: Long = 1000L, function: () -> Unit) {
+    Handler(Looper.getMainLooper()).postDelayed({
+        function.invoke()
+    }, delay)
+}

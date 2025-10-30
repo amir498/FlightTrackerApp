@@ -116,13 +116,8 @@
         android:id="@+id/adContainerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/all_round_white_bg"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-        <include layout="@layout/layout_banner_control">
-
-        </include>
-    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

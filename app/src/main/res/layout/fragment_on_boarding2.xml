@@ -141,10 +141,8 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/btnNext"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <include layout="@layout/shimmer_native_with_large_media" />
-    </FrameLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottie"

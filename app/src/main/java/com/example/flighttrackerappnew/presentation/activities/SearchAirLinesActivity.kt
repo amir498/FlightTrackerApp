@@ -16,10 +16,9 @@ import com.example.flighttrackerappnew.data.model.cities.CitiesDataItems
 import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
 import com.example.flighttrackerappnew.data.model.schedulesFlight.FlightSchedulesItems
 import com.example.flighttrackerappnew.databinding.ActivitySearchAirLinesBinding
-import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
 import com.example.flighttrackerappnew.presentation.adapter.SearchAirLinesAdapter
+import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_SEARCH_AIRLINE
 import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
-import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.arrivalFlightData
 import com.example.flighttrackerappnew.presentation.utils.departureFlightData
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
@@ -44,7 +43,6 @@ class SearchAirLinesActivity :
     private var airLines = listOf<StaticAirLineItems>()
     private val dataCollector: DataCollector by inject()
     private var airlinesSearchAirLinesAdapter: SearchAirLinesAdapter? = null
-    private val bannerAdManager: BannerAdManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,22 +96,33 @@ class SearchAirLinesActivity :
         })
     }
 
+    private fun loadBannerAd() {
+        BANNER_SEARCH_AIRLINE.apply {
+            loadAndShowBannerAd(
+                context = this@SearchAirLinesActivity,
+                adContainerView = binding.adContainerView,
+                onStartLoadingAd = {}
+            )
+        }
+    }
+
     private fun setData() {
         if (airLines.isNotEmpty()) {
-            val BANNER_SEARCH_AIRLINE =
-                RemoteConfigManager.getBoolean("BANNER_SEARCH_AIRLINE")
-            if (BANNER_SEARCH_AIRLINE && !config.isPremiumUser){
-                binding.adContainerView.visible()
-                bannerAdManager.loadAd(true, this, app.getString(R.string.BANNER_SEARCH_AIRLINE), {
-                    bannerAdManager.showBannerAd(
-                        binding.adContainerView,
-                        this@SearchAirLinesActivity,
-                        null
-                    )
-                }, {
-
-                })
-            }
+            loadBannerAd()
+//            val BANNER_SEARCH_AIRLINE =
+//                RemoteConfigManager.getBoolean("BANNER_SEARCH_AIRLINE")
+//            if (BANNER_SEARCH_AIRLINE && !config.isPremiumUser){
+//                binding.adContainerView.visible()
+//                bannerAdManager.loadAd(true, this, app.getString(R.string.BANNER_SEARCH_AIRLINE), {
+//                    bannerAdManager.showBannerAd(
+//                        binding.adContainerView,
+//                        this@SearchAirLinesActivity,
+//                        null
+//                    )
+//                }, {
+//
+//                })
+//            }
         }else{
             binding.recyclerView.invisible()
             binding.ivSearchFlightSchedule.visible()

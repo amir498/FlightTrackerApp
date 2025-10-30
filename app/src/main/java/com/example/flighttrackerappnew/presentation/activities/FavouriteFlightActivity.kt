@@ -9,9 +9,9 @@ import com.example.flighttrackerappnew.data.db.FavFlightDao
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 import com.example.flighttrackerappnew.databinding.ActivityFavouriteFlightBinding
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
 import com.example.flighttrackerappnew.presentation.adapter.FavFlightAdapter
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_SAVED_FLIGHT
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.listener.FavFlightListener
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
@@ -33,7 +33,6 @@ class FavouriteFlightActivity :
     private val viewModel: FlightAppViewModel by inject()
 
     private val adapter = FavFlightAdapter()
-    private val nativeAdController: NativeAdController by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,23 +56,24 @@ class FavouriteFlightActivity :
                     binding.flAdplaceholder.invisible()
                 } else {
                     binding.conFav.invisible()
-                    val NATIVE_SAVED_FLIGHT =
-                        RemoteConfigManager.getBoolean("NATIVE_SAVED_FLIGHT")
-                    if (NATIVE_SAVED_FLIGHT && !config.isPremiumUser) {
-                        binding.flAdplaceholder.visible()
-                        nativeAdController.apply {
-                            loadNativeAd(
-                                this@FavouriteFlightActivity,
-                                app.getString(R.string.NATIVE_SAVED_FLIGHT)
-                            )
-                            showNativeAd(
-                                this@FavouriteFlightActivity,
-                                binding.flAdplaceholder
-                            )
-                        }
-                    }
+                    loadAd()
                 }
             }
+        }
+    }
+
+    private fun loadAd() {
+        NATIVE_SAVED_FLIGHT.apply {
+            loadNativeAd(
+                this@FavouriteFlightActivity,
+                RemoteConfigManager.getBoolean("NATIVE_SAVED_FLIGHT")
+            )
+            showNativeAd(
+                adGroup = NATIVE_SAVED_FLIGHT,
+                frameLayout = binding.flAdplaceholder,
+                adLayout = R.layout.native_ad_layout_view_with_media,
+                activity = this@FavouriteFlightActivity
+            )
         }
     }
 

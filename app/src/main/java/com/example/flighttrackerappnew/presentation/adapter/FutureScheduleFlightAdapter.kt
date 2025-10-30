@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.futureSchedule.CustomFutureSchedule
 import com.example.flighttrackerappnew.databinding.FutureFlightScheduleItemLayoutBinding
 import com.example.flighttrackerappnew.databinding.NativeAdLayoutViewWithMediaBinding
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_FLIGHT_SCHEDULED
 import com.example.flighttrackerappnew.presentation.listener.SearchAircraftListener
 import com.example.flighttrackerappnew.presentation.utils.selectedDate
 
@@ -18,12 +20,10 @@ class FutureScheduleFlightAdapter :
     private var flightData = ArrayList<CustomFutureSchedule>()
 
     private var listener: SearchAircraftListener? = null
-    private var nativeAdController: NativeAdController? = null
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setList(list: ArrayList<CustomFutureSchedule>, nativeAdController: NativeAdController) {
+    fun setList(list: ArrayList<CustomFutureSchedule>) {
         flightData = list
-        this.nativeAdController = nativeAdController
         notifyDataSetChanged()
     }
 
@@ -81,10 +81,8 @@ class FutureScheduleFlightAdapter :
             }
 
             is SearchAirportViewHolder.Type2 -> {
-                holder.bind(nativeAdController)
+                holder.bind()
             }
-
-            else -> {}
         }
     }
 
@@ -124,8 +122,15 @@ class FutureScheduleFlightAdapter :
 
         class Type2(private val binding: NativeAdLayoutViewWithMediaBinding) :
             SearchAirportViewHolder(binding.root) {
-            fun bind(nativeAdController: NativeAdController?) {
-                nativeAdController?.showNativeAd(binding.root.context, binding.root)
+            fun bind() {
+                NATIVE_FLIGHT_SCHEDULED.apply {
+                    showNativeAd(
+                        adGroup = NATIVE_FLIGHT_SCHEDULED,
+                        frameLayout = binding.root,
+                        adLayout = R.layout.native_ad_layout_view_with_media,
+                      activity =   binding.root.context as AppCompatActivity
+                    )
+                }
             }
         }
 

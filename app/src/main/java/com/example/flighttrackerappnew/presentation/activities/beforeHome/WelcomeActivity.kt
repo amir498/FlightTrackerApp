@@ -2,6 +2,7 @@ package com.example.flighttrackerappnew.presentation.activities.beforeHome
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
@@ -9,47 +10,43 @@ import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivityWelcomeBinding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.MapStyleActivity
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_MAP2
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_WELCOME
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_WELCOME2
 import com.example.flighttrackerappnew.presentation.enums.WelcomeOptionSelected
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.visible
-import org.koin.android.ext.android.inject
 
 class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>(ActivityWelcomeBinding::inflate) {
-
-    private val nativeAdController: NativeAdController by inject()
+    private var firstClick = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val NATIVE_MAP =
-            RemoteConfigManager.getBoolean("NATIVE_MAP")
-        val NATIVE_WELCOME =
-            RemoteConfigManager.getBoolean("NATIVE_WELCOME")
 
         val params = binding.ivWelcome.layoutParams as ConstraintLayout.LayoutParams
         params.topMargin = getStatusBarHeight
         binding.ivWelcome.layoutParams = params
 
         viewListeners()
+        showAd()
+        loadAd()
+    }
 
-        if (NATIVE_MAP && !config.isPremiumUser){
-            nativeAdController.apply {
-                loadMapStyleNativeAd(
-                    this@WelcomeActivity,
-                    app.getString(R.string.NATIVE_MAP)
-                )
-            }
-        }
+    private fun loadAd() {
+        NATIVE_MAP2.loadNativeAd(
+            this,
+            RemoteConfigManager.getBoolean("NATIVE_MAP2")
+        )
+    }
 
-        if (NATIVE_WELCOME && !config.isPremiumUser) {
-            binding.flAdplaceholder.visible()
-            nativeAdController.showWelcomeScreenNativeAd(
-                this@WelcomeActivity,
-                binding.flAdplaceholder
-            )
-        }
+    private fun showAd() {
+        NATIVE_WELCOME.showNativeAd(
+            adGroup = NATIVE_WELCOME,
+            frameLayout = binding.flAdplaceholder,
+            adLayout = R.layout.native_ad_layout_view_with_media,
+           activity =  this@WelcomeActivity as AppCompatActivity
+        )
     }
 
     private fun viewListeners() {
@@ -58,24 +55,44 @@ class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>(ActivityWelcomeBind
                 startActivity(Intent(this@WelcomeActivity, MapStyleActivity::class.java))
             }
             tick.setOnClickListener {
+                if (firstClick) {
+                    showDuplicateAd()
+                }
                 binding.ivTickWelcome.apply {
                     if (isInvisible) visible()
                 }
                 updateWelcomeSelection(WelcomeOptionSelected.SELECTED_OPTION1)
             }
             tick2.setOnClickListener {
+                if (firstClick) {
+                    showDuplicateAd()
+                }
                 binding.ivTickWelcome.apply {
                     if (isInvisible) visible()
                 }
                 updateWelcomeSelection(WelcomeOptionSelected.SELECTED_OPTION2)
             }
             tick3.setOnClickListener {
+                if (firstClick) {
+                    showDuplicateAd()
+                }
                 binding.ivTickWelcome.apply {
                     if (isInvisible) visible()
                 }
                 updateWelcomeSelection(WelcomeOptionSelected.SELECTED_OPTION3)
             }
         }
+    }
+
+    private fun showDuplicateAd() {
+        firstClick = false
+        NATIVE_WELCOME2.showNativeAd(
+            showFakeLoading = true,
+            adGroup = NATIVE_WELCOME2,
+            frameLayout = binding.flAdplaceholder,
+            adLayout = R.layout.native_ad_layout_view_with_media,
+           activity =  this@WelcomeActivity as AppCompatActivity
+        )
     }
 
     private fun updateWelcomeSelection(option: WelcomeOptionSelected) {

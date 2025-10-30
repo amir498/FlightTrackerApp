@@ -3,7 +3,6 @@ package com.example.flighttrackerappnew.presentation.activities
 import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
-import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.airplane.AirPlaneItems
 import com.example.flighttrackerappnew.data.model.airport.AirportsDataItems
 import com.example.flighttrackerappnew.data.model.cities.CitiesDataItems
@@ -11,8 +10,8 @@ import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
 import com.example.flighttrackerappnew.data.model.futureSchedule.CustomFutureSchedule
 import com.example.flighttrackerappnew.data.model.schedulesFlight.FlightSchedulesItems
 import com.example.flighttrackerappnew.databinding.ActivityFlightScheduleBinding
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adapter.FutureScheduleFlightAdapter
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_FLIGHT_SCHEDULED
 import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
@@ -40,7 +39,6 @@ class FlightScheduleActivity :
     private var citiesList = listOf<CitiesDataItems>()
     private var scheduleFlightList = listOf<FlightSchedulesItems>()
     private var airPlane = listOf<AirPlaneItems>()
-    private val nativeAdController: NativeAdController by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,17 +61,12 @@ class FlightScheduleActivity :
     }
 
     private fun loadAd() {
-        val NATIVE_FLIGHT_SCHEDULED =
-            RemoteConfigManager.getBoolean("NATIVE_FLIGHT_SCHEDULED")
-        if (NATIVE_FLIGHT_SCHEDULED) {
-            nativeAdController.apply {
-                loadNativeAd(
-                    this@FlightScheduleActivity,
-                    app.getString(R.string.NATIVE_FLIGHT_SCHEDULED),
-                )
-            }
+        NATIVE_FLIGHT_SCHEDULED.apply {
+            loadNativeAd(
+                this@FlightScheduleActivity,
+                RemoteConfigManager.getBoolean("NATIVE_FLIGHT_SCHEDULED")
+            )
         }
-
     }
 
     private fun viewListener() {
@@ -101,7 +94,7 @@ class FlightScheduleActivity :
                                     binding.conPlaceholder.invisible()
                                     binding.recyclerView.visible()
                                     binding.pg.invisible()
-                                    adapter.setList(customData, nativeAdController)
+                                    adapter.setList(customData)
 
                                 } else {
                                     binding.recyclerView.invisible()

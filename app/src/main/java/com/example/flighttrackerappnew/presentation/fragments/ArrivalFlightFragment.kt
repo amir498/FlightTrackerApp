@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.flighttrackerappnew.R
@@ -15,9 +16,10 @@ import com.example.flighttrackerappnew.presentation.activities.AirportSearchActi
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.DetailActivity
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
 import com.example.flighttrackerappnew.presentation.adapter.ArrivalFlightAdapter
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_ARRIVAL_FLIGHT_For_Airport_Or_Airline
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
@@ -41,7 +43,6 @@ class ArrivalFlightFragment : Fragment() {
     private val config: Config by inject()
     private var adapter: ArrivalFlightAdapter? = null
     private var arrivalData = ArrayList<ArrivalDataItems>()
-    private val nativeAdController: NativeAdController by inject()
     private val rewardedAd: RewardedAdManager by inject()
 
     override fun onCreateView(
@@ -61,18 +62,26 @@ class ArrivalFlightFragment : Fragment() {
     }
 
     private fun loadAd() {
-        val NATIVE_ARRIVAL_FLIGHT_For_Airport_Or_Airline =
-            RemoteConfigManager.getBoolean("NATIVE_ARRIVAL_FLIGHT_For_Airport_Or_Airline")
-        if (NATIVE_ARRIVAL_FLIGHT_For_Airport_Or_Airline) {
-            val app = (requireActivity() as? BaseActivity<*>)?.app
-            app?.let {
-                nativeAdController.apply {
-                    loadNativeAd(
-                        requireContext(),
-                        app.getString(R.string.NATIVE_ARRIVAL_FLIGHT_For_Airport_Or_Airline)
-                    )
-                }
-            }
+        NATIVE_ARRIVAL_FLIGHT_For_Airport_Or_Airline.apply {
+            loadNativeAd(
+                requireContext(),
+                RemoteConfigManager.getBoolean("NATIVE_ARRIVAL_FLIGHT_For_Airport_Or_Airline")
+            )
+        }
+    }
+
+    private fun loadAdForTail() {
+        NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber.apply {
+            loadNativeAd(
+                requireContext(),
+                RemoteConfigManager.getBoolean("NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber")
+            )
+            showNativeAd(
+                adGroup = NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber,
+                frameLayout = binding.flAdplaceholder,
+                adLayout = R.layout.native_ad_layout_view_with_media,
+                activity = requireActivity() as AppCompatActivity
+            )
         }
     }
 
@@ -93,23 +102,7 @@ class ArrivalFlightFragment : Fragment() {
                 (activity as AirportSearchActivity).binding.AirportName.invisible()
             } else {
                 if (!isFromAirportOrAirline && !config.isPremiumUser) {
-                    val NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber =
-                        RemoteConfigManager.getBoolean("NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber")
-                    if (NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber) {
-                        binding.flAdplaceholder.visible()
-                        val app = (requireActivity() as? BaseActivity<*>)?.app
-                        app?.let {
-                            binding.flAdplaceholder.visible()
-                            nativeAdController.loadNativeAd(
-                                requireContext(),
-                                it.getString(R.string.NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber)
-                            )
-                            nativeAdController.showNativeAd(
-                                requireContext(),
-                                binding.flAdplaceholder
-                            )
-                        }
-                    }
+                    loadAdForTail()
                 }
                 this.arrivalData = arrivalData
                 var arrData = if (isFromAirportOrAirline && !config.isPremiumUser) {
@@ -117,7 +110,7 @@ class ArrivalFlightFragment : Fragment() {
                 } else {
                     arrivalData
                 }
-                adapter?.setList(arrData, nativeAdController)
+                adapter?.setList(arrData)
                 adapter?.setListener { arrivalData ->
                     selectedLiveFlightData = arrivalData
                     if ((requireActivity() as BaseActivity<*>).config.isPremiumUser) {
@@ -160,9 +153,9 @@ class ArrivalFlightFragment : Fragment() {
     }
 
     private fun showRewardedAd() {
-        val REWARDED_ARRIVAL =
+        val rewardedArrival =
             RemoteConfigManager.getBoolean("REWARDED_ARRIVAL")
-        if (REWARDED_ARRIVAL) {
+        if (rewardedArrival) {
             val app = (requireActivity() as? BaseActivity<*>)?.app
             app?.let {
                 rewardedAd.loadAndShowRewardedAd(
@@ -183,9 +176,9 @@ class ArrivalFlightFragment : Fragment() {
     private fun addAdToArrivalData(): ArrayList<ArrivalDataItems> {
         val arrData = ArrayList<ArrivalDataItems>()
         arrivalData.forEachIndexed { index, data ->
-            val NATIVE_ARRIVAL_FLIGHT_For_Airport_Or_Airline =
+            val nativeARRIVALFLIGHTForAirportOrAirline =
                 RemoteConfigManager.getBoolean("NATIVE_ARRIVAL_FLIGHT_For_Airport_Or_Airline")
-            if (NATIVE_ARRIVAL_FLIGHT_For_Airport_Or_Airline) {
+            if (nativeARRIVALFLIGHTForAirportOrAirline) {
                 if (index == 1) {
                     arrData.add(data.copy(type = 2))
                 }

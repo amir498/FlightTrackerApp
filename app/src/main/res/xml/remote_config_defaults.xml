@@ -5,11 +5,19 @@
         <value>true</value>
     </entry>
     <entry>
+        <key>native_OnBoarding4</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>native_OnBoarding2</key>
+        <value>true</value>
+    </entry>
+    <entry>
         <key>BANNER_SPLASH</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>NATIVE1_LANGUAGESCREEN1</key>
+        <key>native_1_LANGUAGE_SCREEN1</key>
         <value>true</value>
     </entry>
     <entry>
@@ -17,7 +25,7 @@
         <value>1000</value>
     </entry>
     <entry>
-        <key>NATIVE2_LANGUAGESCREEN1</key>
+        <key>native_2_LANGUAGE_SCREEN1</key>
         <value>true</value>
     </entry>
     <entry>
@@ -25,15 +33,15 @@
         <value>2eb823-ea25c3</value>
     </entry>
     <entry>
-        <key>NATIVE1_LANGUAGESCREEN2</key>
+        <key>native_1_LANGUAGE_SCREEN2</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>NATIVE2_LANGUAGESCREEN2</key>
+        <key>native_2_LANGUAGE_SCREEN2</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>NATIVE_ONB1</key>
+        <key>native_OnBoarding1</key>
         <value>true</value>
     </entry>
     <entry>
@@ -41,19 +49,39 @@
         <value>true</value>
     </entry>
     <entry>
-        <key>NATIVE_ONB4</key>
+        <key>native_OnBoarding6</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>NATIVE_ONB_Full1</key>
+        <key>native_OnBoarding3</key>
         <value>true</value>
     </entry>
     <entry>
-        <key>NATIVE_ONB_Full2</key>
+        <key>native_OnBoarding5</key>
         <value>true</value>
     </entry>
     <entry>
         <key>NATIVE_WELCOME</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>Interstitial_loading_screen_show_time</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>INTERSTITIAL_MAP_STYLE</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>Interstitial_time_out</key>
+        <value>10000</value>
+    </entry>
+    <entry>
+        <key>showLoadingScreenWithDelay</key>
+        <value>2000</value>
+    </entry>
+    <entry>
+        <key>NATIVE_WELCOME2</key>
         <value>true</value>
     </entry>
     <entry>

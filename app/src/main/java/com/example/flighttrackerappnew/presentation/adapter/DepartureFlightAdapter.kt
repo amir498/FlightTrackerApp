@@ -4,23 +4,23 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.arrival.ArrivalDataItems
 import com.example.flighttrackerappnew.databinding.ArrivalFlightItemLayoutBinding
 import com.example.flighttrackerappnew.databinding.NativeAdLayoutViewWithMediaBinding
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_DEPARTURE_FLIGHT_For_Airport_Or_Airline
 import com.example.flighttrackerappnew.presentation.listener.DepartureListener
 
 class DepartureFlightAdapter :
     RecyclerView.Adapter<DepartureFlightAdapter.SearchAirportViewHolderss>() {
     private var departureFlight = ArrayList<ArrivalDataItems>()
-    private var nativeAdController: NativeAdController? = null
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setList(list: ArrayList<ArrivalDataItems>, nativeAdController: NativeAdController) {
+    fun setList(list: ArrayList<ArrivalDataItems>) {
         departureFlight.clear()
         departureFlight = list
-        this.nativeAdController = nativeAdController
         notifyDataSetChanged()
     }
 
@@ -74,7 +74,7 @@ class DepartureFlightAdapter :
             }
 
             is SearchAirportViewHolderss.Type2 -> {
-                holder.bind(nativeAdController)
+                holder.bind()
             }
         }
     }
@@ -117,8 +117,15 @@ class DepartureFlightAdapter :
 
         class Type2(private val binding: NativeAdLayoutViewWithMediaBinding) :
             SearchAirportViewHolderss(binding.root) {
-            fun bind(nativeAdController: NativeAdController?) {
-                nativeAdController?.showNativeAd(binding.root.context, binding.root)
+            fun bind() {
+                NATIVE_DEPARTURE_FLIGHT_For_Airport_Or_Airline.apply {
+                    showNativeAd(
+                        adGroup = NATIVE_DEPARTURE_FLIGHT_For_Airport_Or_Airline,
+                        frameLayout = binding.root,
+                        adLayout = R.layout.native_ad_layout_view_with_media,
+                      activity =   binding.root.context as AppCompatActivity
+                    )
+                }
             }
         }
     }

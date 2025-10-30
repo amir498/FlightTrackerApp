@@ -5,17 +5,14 @@ import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivitySearchBinding
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
-import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager
+import com.example.flighttrackerappnew.presentation.admob.interstitial.InterstitialAdManager.loadInterstitialAd
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_SEARCH_ACTIVITY
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.clickCount
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.setZoomClickEffect
-import com.example.flighttrackerappnew.presentation.utils.visible
-import org.koin.android.ext.android.inject
 
 class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding::inflate) {
-    private val nativeAdController: NativeAdController by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,39 +25,18 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
         loadAd()
     }
 
-    override fun onResume() {
-        super.onResume()
-        loadInterstitialAd()
-    }
-
-    private fun loadInterstitialAd() {
-        val INTERSTITIAL_SEARCH =
-            RemoteConfigManager.getBoolean("INTERSTITIAL_SEARCH")
-        if (INTERSTITIAL_SEARCH) {
-            InterstitialAdManager.loadInterstitialAd(
-                this,
-                app.getString(R.string.INTERSTITIAL_SEARCH),
-                {},
-                {},
-                {})
-        }
-    }
-
     private fun loadAd() {
-        if (!config.isPremiumUser) {
-            val NATIVE_SEARCH_ACTIVITY =
+        NATIVE_SEARCH_ACTIVITY.apply {
+            loadNativeAd(
+                this@SearchActivity,
                 RemoteConfigManager.getBoolean("NATIVE_SEARCH_ACTIVITY")
-            if (NATIVE_SEARCH_ACTIVITY) {
-                binding.flAdplaceholder.visible()
-                app.let {
-                    nativeAdController.apply {
-                        loadNativeAd(
-                            this@SearchActivity, app.getString(R.string.NATIVE_SEARCH_ACTIVITY)
-                        )
-                        showNativeAd(this@SearchActivity, binding.flAdplaceholder)
-                    }
-                }
-            }
+            )
+            showNativeAd(
+                adGroup = NATIVE_SEARCH_ACTIVITY,
+                frameLayout = binding.flAdplaceholder,
+                adLayout = R.layout.native_ad_layout_view_with_media,
+               activity =  this@SearchActivity
+            )
         }
     }
 
@@ -69,66 +45,94 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
             btnAirport.setZoomClickEffect()
             btnAirport.setOnClickListener {
                 clickCount += 1
-                InterstitialAdManager.mInterstitialAd?.let {
-                    InterstitialAdManager.showAd(this@SearchActivity) {
+                loadInterstitialAd(
+                    ignoreClickCount = false,
+                    showLoadingScreenWithDelay = 0L,
+                    showLoadingAsLoadAdRequestCalled = true,
+                    interstitialLoadingScreenShowTime = RemoteConfigManager.getNumber("Interstitial_loading_screen_show_time"),
+                    showWhenReady = true,
+                    activity = this@SearchActivity,
+                    adUnitId = app.getString(R.string.INTERSTITIAL_SEARCH),
+                    isInterstitialEnabled = RemoteConfigManager.getBoolean("INTERSTITIAL_SEARCH"),
+                    adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
+                    {
                         startActivity(
                             Intent(
                                 this@SearchActivity,
                                 SearchAirportActivity::class.java
                             )
                         )
-                    }
-                } ?: run {
-                    startActivity(Intent(this@SearchActivity, SearchAirportActivity::class.java))
+                    }, {
 
-                }
+                    })
             }
             btnAirlines.setZoomClickEffect()
             btnAirlines.setOnClickListener {
                 clickCount += 1
-                InterstitialAdManager.mInterstitialAd?.let {
-                    InterstitialAdManager.showAd(this@SearchActivity) {
+                loadInterstitialAd(
+                    ignoreClickCount = false,
+                    showLoadingScreenWithDelay = 0L,
+                    showLoadingAsLoadAdRequestCalled = true,
+                    interstitialLoadingScreenShowTime = RemoteConfigManager.getNumber("Interstitial_loading_screen_show_time"),
+                    showWhenReady = true,
+                    activity = this@SearchActivity,
+                    adUnitId = app.getString(R.string.INTERSTITIAL_SEARCH),
+                    isInterstitialEnabled = RemoteConfigManager.getBoolean("INTERSTITIAL_SEARCH"),
+                    adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
+                    {
                         startActivity(
                             Intent(
                                 this@SearchActivity,
                                 SearchAirLinesActivity::class.java
                             )
                         )
+                    }, {
 
-                    }
-                } ?: run {
-                    startActivity(Intent(this@SearchActivity, SearchAirLinesActivity::class.java))
-
-                }
+                    })
             }
             btnAircraft.setZoomClickEffect()
             btnAircraft.setOnClickListener {
                 clickCount += 1
-                InterstitialAdManager.mInterstitialAd?.let {
-                    InterstitialAdManager.showAd(this@SearchActivity) {
+                loadInterstitialAd(
+                    ignoreClickCount = false,
+                    showLoadingScreenWithDelay = 0L,
+                    showLoadingAsLoadAdRequestCalled = true,
+                    interstitialLoadingScreenShowTime = RemoteConfigManager.getNumber("Interstitial_loading_screen_show_time"),
+                    showWhenReady = true,
+                    activity = this@SearchActivity,
+                    adUnitId = app.getString(R.string.INTERSTITIAL_SEARCH),
+                    isInterstitialEnabled = RemoteConfigManager.getBoolean("INTERSTITIAL_SEARCH"),
+                    adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
+                    {
                         startActivity(
                             Intent(
                                 this@SearchActivity,
                                 SearchAircraftActivity::class.java
                             )
                         )
+                    }, {
 
-                    }
-                } ?: run {
-                    startActivity(Intent(this@SearchActivity, SearchAircraftActivity::class.java))
-
-                }
+                    })
             }
             btnTailNumber.setZoomClickEffect()
             btnTailNumber.setOnClickListener {
                 clickCount += 1
-                InterstitialAdManager.mInterstitialAd?.let {
-                    InterstitialAdManager.showAd(this@SearchActivity) {
+                loadInterstitialAd(
+                    ignoreClickCount = false,
+                    showLoadingScreenWithDelay = 0L,
+                    showLoadingAsLoadAdRequestCalled = true,
+                    interstitialLoadingScreenShowTime = RemoteConfigManager.getNumber("Interstitial_loading_screen_show_time"),
+                    showWhenReady = true,
+                    activity = this@SearchActivity,
+                    adUnitId = app.getString(R.string.INTERSTITIAL_SEARCH),
+                    isInterstitialEnabled = RemoteConfigManager.getBoolean("INTERSTITIAL_SEARCH"),
+                    adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
+                    {
                         startActivity(Intent(this@SearchActivity, SearchTailActivity::class.java))
-                    }
-                } ?: run {
-                    startActivity(Intent(this@SearchActivity, SearchTailActivity::class.java))
-                }
+
+                    }, {
+
+                    })
             }
             btnBack.setZoomClickEffect()
             btnBack.setOnClickListener {

@@ -14,6 +14,9 @@ import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivityPrivacyPolicyBinding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
+import com.example.flighttrackerappnew.presentation.admob.interstitial.InterstitialAdManager
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider
+import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.openWebBrowser
 import com.example.flighttrackerappnew.presentation.utils.showToast
@@ -33,6 +36,14 @@ class PrivacyPolicyActivity :
         viewListener()
 
         makeString()
+        loadAd()
+    }
+
+    private fun loadAd() {
+        NativeAdProvider.native_2_LANGUAGE_SCREEN1.loadNativeAd(
+            this,
+            RemoteConfigManager.getBoolean("native_2_LANGUAGE_SCREEN1")
+        )
     }
 
     private fun makeString() {
@@ -78,21 +89,35 @@ class PrivacyPolicyActivity :
                 if (ivPrivacyCheck.contentDescription == "yes") {
                     config.isPrivacyPolicyAccepted = true
                     if (!config.isPremiumUser) {
-                        val intent = Intent(
+                        InterstitialAdManager.showAd(
+                            interstitialLoadingScreenShowTime = 0L,
+                            showLoadingScreenAsLoadAdRequestCalled = false,
                             this@PrivacyPolicyActivity,
-                            PremiumActivity::class.java
-                        )
-                        intent.putExtra("from_splash", true)
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        startActivity(
-                            Intent(
+                            showLoadingScreenWithDelay = 0,
+                        ) {
+                            val intent = Intent(
                                 this@PrivacyPolicyActivity,
-                                LanguageActivity::class.java
+                                PremiumActivity::class.java
                             )
-                        )
-                        finish()
+                            intent.putExtra("from_splash", true)
+                            startActivity(intent)
+                            finish()
+                        }
+                    } else {
+                        InterstitialAdManager.showAd(
+                            interstitialLoadingScreenShowTime = 0L,
+                            showLoadingScreenAsLoadAdRequestCalled = false,
+                            this@PrivacyPolicyActivity,
+                            showLoadingScreenWithDelay = 0,
+                        ) {
+                            startActivity(
+                                Intent(
+                                    this@PrivacyPolicyActivity,
+                                    LanguageActivity::class.java
+                                )
+                            )
+                            finish()
+                        }
                     }
                 } else {
                     this@PrivacyPolicyActivity.showToast("Please agree to the Privacy Policy before continuing")

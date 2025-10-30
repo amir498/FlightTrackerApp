@@ -7,8 +7,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivityFlightScheduleTypeAirportBinding
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
-import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager
+import com.example.flighttrackerappnew.presentation.admob.interstitial.InterstitialAdManager
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_FLIGHT_SCHEDULED_TYPE
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.clickCount
 import com.example.flighttrackerappnew.presentation.utils.flightType
@@ -16,15 +16,12 @@ import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.selectedDate
 import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.example.flighttrackerappnew.presentation.utils.startDate
-import com.example.flighttrackerappnew.presentation.utils.visible
 import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
 import org.koin.android.ext.android.inject
 import java.util.Calendar
 
 class FlightScheduleTypeAirportActivity :
     BaseActivity<ActivityFlightScheduleTypeAirportBinding>(ActivityFlightScheduleTypeAirportBinding::inflate) {
-
-    private val nativeAdController: NativeAdController by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,34 +31,22 @@ class FlightScheduleTypeAirportActivity :
         binding.btnBack.layoutParams = params
 
         viewListener()
-
-        val NATIVE_FLIGHT_SCHEDULED_TYPE =
-            RemoteConfigManager.getBoolean("NATIVE_FLIGHT_SCHEDULED_TYPE")
-        if (NATIVE_FLIGHT_SCHEDULED_TYPE && !config.isPremiumUser){
-            binding.flAdplaceholder.visible()
-            nativeAdController.apply {
-                loadNativeAd(
-                    this@FlightScheduleTypeAirportActivity,
-                    app.getString(R.string.NATIVE_FLIGHT_SCHEDULED_TYPE),
-                )
-                showNativeAd(this@FlightScheduleTypeAirportActivity, binding.flAdplaceholder)
-            }
-        }
-
-
-        loadInterstitialAd()
+        loadAd()
     }
 
-    private fun loadInterstitialAd() {
-        if (clickCount % 2 != 0) {
-            clickCount += 1
+    private fun loadAd() {
+        NATIVE_FLIGHT_SCHEDULED_TYPE.apply {
+            loadNativeAd(
+                this@FlightScheduleTypeAirportActivity,
+                RemoteConfigManager.getBoolean("NATIVE_FLIGHT_SCHEDULED_TYPE")
+            )
+            showNativeAd(
+                adGroup = NATIVE_FLIGHT_SCHEDULED_TYPE,
+                frameLayout = binding.flAdplaceholder,
+                adLayout = R.layout.native_ad_layout_view_with_media,
+              activity =   this@FlightScheduleTypeAirportActivity
+            )
         }
-        InterstitialAdManager.loadInterstitialAd(
-            this,
-            app.getString(R.string.INTERSTITIAL_SEARCH),
-            {},
-            {},
-            {})
     }
 
     private fun viewListener() {
@@ -120,13 +105,21 @@ class FlightScheduleTypeAirportActivity :
                 )
             }
             btnSearch.setOnClickListener {
-
                 if (startDate.isEmpty()) {
                     this@FlightScheduleTypeAirportActivity.showToast("Please select date")
                 } else {
                     clickCount += 1
-                    InterstitialAdManager.mInterstitialAd?.let {
-                        InterstitialAdManager.showAd(this@FlightScheduleTypeAirportActivity) {
+                    InterstitialAdManager.loadInterstitialAd(
+                        ignoreClickCount = true,
+                        showLoadingScreenWithDelay = 0L,
+                        showLoadingAsLoadAdRequestCalled = true,
+                        interstitialLoadingScreenShowTime = RemoteConfigManager.getNumber("Interstitial_loading_screen_show_time"),
+                        showWhenReady = true,
+                        activity = this@FlightScheduleTypeAirportActivity,
+                        adUnitId = app.getString(R.string.INTERSTITIAL_MAP_STYLE),
+                        isInterstitialEnabled = RemoteConfigManager.getBoolean("INTERSTITIAL_MAP_STYLE"),
+                        adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
+                        {
                             viewModel.getFutureScheduleFlight()
                             startActivity(
                                 Intent(
@@ -134,20 +127,14 @@ class FlightScheduleTypeAirportActivity :
                                     FlightScheduleActivity::class.java
                                 )
                             )
-                        }
-                    } ?: run {
-                        viewModel.getFutureScheduleFlight()
-                        startActivity(
-                            Intent(
-                                this@FlightScheduleTypeAirportActivity,
-                                FlightScheduleActivity::class.java
-                            )
-                        )
-                    }
+                        }, {
+
+                        })
                 }
             }
         }
     }
+
     private val viewModel: FlightAppViewModel by inject()
 
     private fun showDatePicker() {

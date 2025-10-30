@@ -85,21 +85,6 @@ import com.example.flighttrackerappnew.domain.usecase.GetFutureScheduleFlightUse
 import com.example.flighttrackerappnew.domain.usecase.GetLiveFlightUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetNearByAirPortsUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetStaticAirLineUseCase
-import com.example.flighttrackerappnew.presentation.adManager.NativeAd1LangScreen1
-import com.example.flighttrackerappnew.presentation.adManager.NativeAd1LangScreen2
-import com.example.flighttrackerappnew.presentation.adManager.NativeAd2LangScreen1
-import com.example.flighttrackerappnew.presentation.adManager.NativeAd2LangScreen2
-import com.example.flighttrackerappnew.presentation.adManager.NativeAdHome
-import com.example.flighttrackerappnew.presentation.adManager.NativeAdMapStyle
-import com.example.flighttrackerappnew.presentation.adManager.NativeAdOnb1
-import com.example.flighttrackerappnew.presentation.adManager.NativeAdOnb2
-import com.example.flighttrackerappnew.presentation.adManager.NativeAdOnb4
-import com.example.flighttrackerappnew.presentation.adManager.NativeAdOther
-import com.example.flighttrackerappnew.presentation.adManager.NativeAdWelcomeScreen
-import com.example.flighttrackerappnew.presentation.adManager.OnBoardingFullNativeAd1
-import com.example.flighttrackerappnew.presentation.adManager.OnBoardingFullNativeAd2
-import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
 import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
 import com.example.flighttrackerappnew.presentation.googleMap.MyGoogleMap
@@ -213,38 +198,7 @@ val appModule = module {
     single { GetLiveFlightUseCase(get()) }
     single { GetFlightScheduleUseCase(get()) }
 
-    factory { BannerAdManager() }
-    single { NativeAd1LangScreen1() }
-    single { NativeAd2LangScreen1() }
-    single { NativeAd1LangScreen2() }
-    single { NativeAd2LangScreen2() }
-    single { NativeAdOnb2() }
-    single { NativeAdOnb1() }
-    single { NativeAdOnb4() }
-    single { NativeAdWelcomeScreen() }
-    single { NativeAdMapStyle() }
-    single { OnBoardingFullNativeAd1() }
-    single { OnBoardingFullNativeAd2() }
-    factory { NativeAdOther() }
-    factory { NativeAdHome() }
     factory { RewardedAdManager() }
-    single {
-        NativeAdController(
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get()
-        )
-    }
     single { MyGoogleMap() }
     single { MyGoogleMapRoute() }
     single { MyGoogleMapNearAirports() }
@@ -264,7 +218,6 @@ val appModule = module {
     single<CitiesRoomDataSource> { CitiesRoomDataSourceImpl(get()) }
     single<CitiesRemoteDataSource> { CitiesRemoteDataSourceImpl(get()) }
     single<CitiesCacheDataSource> { CitiesCacheDataSourceImpl() }
-
 
     single { GetAirPlanesUseCase(get()) }
     single<AirPlanesRepository> { AirPlanesRepositoryImpl(get(), get(), get()) }

@@ -10,9 +10,9 @@ import com.example.flighttrackerappnew.data.model.FollowFlightData
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 import com.example.flighttrackerappnew.databinding.ActivityTrackedBinding
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
 import com.example.flighttrackerappnew.presentation.adapter.FollowFlightAdapter
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_TRACKED_FLIGHT
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.listener.FollowedFlightListener
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
@@ -32,7 +32,6 @@ class TrackedActivity : BaseActivity<ActivityTrackedBinding>(ActivityTrackedBind
 
     private val followLiveFlightDao: FollowLiveFlightDao by inject()
     private val adapter = FollowFlightAdapter()
-    private val nativeAdController: NativeAdController by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,18 +55,23 @@ class TrackedActivity : BaseActivity<ActivityTrackedBinding>(ActivityTrackedBind
                 binding.conPlaceholder.visible()
                 binding.flAdplaceholder.invisible()
             } else {
-                val NATIVE_TRACKED_FLIGHT =
-                    RemoteConfigManager.getBoolean("NATIVE_TRACKED_FLIGHT")
-                if (NATIVE_TRACKED_FLIGHT && !config.isPremiumUser) {
-                    binding.flAdplaceholder.visible()
-                    nativeAdController.loadNativeAd(
-                        this@TrackedActivity,
-                        app.getString(R.string.NATIVE_TRACKED_FLIGHT)
-                    )
-                    nativeAdController.showNativeAd(this@TrackedActivity, binding.flAdplaceholder)
-                }
-                binding.conPlaceholder.invisible()
+                loadAd()
             }
+        }
+    }
+
+    private fun loadAd() {
+        NATIVE_TRACKED_FLIGHT.apply {
+            loadNativeAd(
+                this@TrackedActivity,
+                RemoteConfigManager.getBoolean("NATIVE_TRACKED_FLIGHT")
+            )
+            showNativeAd(
+                adGroup = NATIVE_TRACKED_FLIGHT,
+                frameLayout = binding.flAdplaceholder,
+                adLayout = R.layout.native_ad_layout_view_with_media,
+               activity =  this@TrackedActivity
+            )
         }
     }
 

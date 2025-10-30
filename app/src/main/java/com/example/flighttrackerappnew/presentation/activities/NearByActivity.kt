@@ -13,9 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.nearby.NearByAirportsDataItems
 import com.example.flighttrackerappnew.databinding.ActivityNearByBinding
-import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
+import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_NEARBy_AIRPORT
 import com.example.flighttrackerappnew.presentation.googleMap.MyGoogleMapNearAirports
-import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.invisible
@@ -45,7 +44,6 @@ class NearByActivity : BaseActivity<ActivityNearByBinding>(ActivityNearByBinding
     private val googleMap: MyGoogleMapNearAirports by inject()
     private lateinit var mBottomSheetBehaviour: BottomSheetBehavior<ConstraintLayout>
     private val handler = Handler(Looper.getMainLooper())
-    private val bannerAdManager: BannerAdManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -137,6 +135,16 @@ class NearByActivity : BaseActivity<ActivityNearByBinding>(ActivityNearByBinding
         }
     }
 
+    private fun loadBannerAd() {
+        BANNER_NEARBy_AIRPORT.apply {
+            loadAndShowBannerAd(
+                context = this@NearByActivity,
+                adContainerView = binding.adContainerView,
+                onStartLoadingAd = {}
+            )
+        }
+    }
+
     private fun observeLiveData() {
         viewModel.nearByData.observe(this) { result ->
             when (result) {
@@ -145,25 +153,26 @@ class NearByActivity : BaseActivity<ActivityNearByBinding>(ActivityNearByBinding
                 is Resource.Success -> {
                     nearbyAirports = result.data as ArrayList<NearByAirportsDataItems>
                     if (nearbyAirports.isNotEmpty()) {
-                        val BANNER_NEARBy_AIRPORT =
-                            RemoteConfigManager.getBoolean("BANNER_NEARBy_AIRPORT")
-                        if (BANNER_NEARBy_AIRPORT && !config.isPremiumUser) {
-                            binding.adContainerView.visible()
-                            bannerAdManager.loadAd(
-                                true,
-                                this@NearByActivity,
-                                app.getString(R.string.BANNER_NEARBy_AIRPORT),
-                                {
-                                    bannerAdManager.showBannerAd(
-                                        binding.adContainerView,
-                                        this@NearByActivity,
-                                        null
-                                    )
-                                },
-                                {
-
-                                })
-                        }
+//                        val BANNER_NEARBy_AIRPORT =
+//                            RemoteConfigManager.getBoolean("BANNER_NEARBy_AIRPORT")
+//                        if (BANNER_NEARBy_AIRPORT && !config.isPremiumUser) {
+//                            binding.adContainerView.visible()
+//                            bannerAdManager.loadAd(
+//                                true,
+//                                this@NearByActivity,
+//                                app.getString(R.string.BANNER_NEARBy_AIRPORT),
+//                                {
+//                                    bannerAdManager.showBannerAd(
+//                                        binding.adContainerView,
+//                                        this@NearByActivity,
+//                                        null
+//                                    )
+//                                },
+//                                {
+//
+//                                })
+//                        }
+                        loadBannerAd()
                     }
                     drawMarkersJob = lifecycleScope.launch {
                         delay(3000)

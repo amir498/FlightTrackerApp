@@ -83,7 +83,7 @@ fun formatTo12HourTime(input: String): String {
             val progress = (elapsed.toDouble() / totalDuration) * 100
             progress.coerceIn(0.0, 100.0).toInt()
 
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             0
         }
     }
@@ -115,7 +115,7 @@ fun formatTo12HourTime(input: String): String {
                 else -> "$seconds secs"
             }
 
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             "N/A"
         }
     }
@@ -137,19 +137,6 @@ fun formatTo12HourTime(input: String): String {
         }
     }
 
-    fun formatToPrettyDate(dateString: String): String {
-        val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val outputFormat = SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault())
-
-        return try {
-            val date = inputFormat.parse(dateString)
-            outputFormat.format(date ?: Date())
-        } catch (e: Exception) {
-            dateString // fallback if parsing fails
-        }
-    }
-
-
     fun openGoogleMap(lat: String, long: String, context: Context) {
         try {
             val latitude = lat.toDouble()
@@ -166,7 +153,7 @@ fun formatTo12HourTime(input: String): String {
             } else {
                 context.showToast("Google Maps not found")
             }
-        } catch (e: NumberFormatException) {
+        } catch (_: NumberFormatException) {
             context.showToast("N/A")
         }
     }

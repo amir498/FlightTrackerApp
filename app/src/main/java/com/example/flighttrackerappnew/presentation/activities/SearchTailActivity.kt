@@ -15,11 +15,9 @@ import com.example.flighttrackerappnew.data.model.cities.CitiesDataItems
 import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
 import com.example.flighttrackerappnew.data.model.schedulesFlight.FlightSchedulesItems
 import com.example.flighttrackerappnew.databinding.ActivitySeacrhTailBinding
-import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
-import com.example.flighttrackerappnew.presentation.adapter.SearchAirportAdapter
 import com.example.flighttrackerappnew.presentation.adapter.SearchTailAdapter
+import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_SEARCH_TAIL
 import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
-import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.arrivalFlightData
 import com.example.flighttrackerappnew.presentation.utils.departureFlightData
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
@@ -27,7 +25,6 @@ import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isFromAirportOrAirline
 import com.example.flighttrackerappnew.presentation.utils.orNA
 import com.example.flighttrackerappnew.presentation.utils.searchedDataTitle
-import com.example.flighttrackerappnew.presentation.utils.selectedLiveFlightData
 import com.example.flighttrackerappnew.presentation.utils.toNAString
 import com.example.flighttrackerappnew.presentation.utils.visible
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +42,6 @@ class SearchTailActivity :
     private var scheduleFlightList = listOf<FlightSchedulesItems>()
     private var airPlane = listOf<AirPlaneItems>()
     private val dataCollector: DataCollector by inject()
-    private val bannerAdManager: BannerAdManager by inject()
 
     private var searchTailAdapter: SearchTailAdapter? = null
 
@@ -74,26 +70,19 @@ class SearchTailActivity :
             }
             tvAirports.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
+                    s: CharSequence?, start: Int, count: Int, after: Int
                 ) {
                 }
 
                 override fun onTextChanged(
-                    s: CharSequence?,
-                    start: Int,
-                    before: Int,
-                    count: Int
+                    s: CharSequence?, start: Int, before: Int, count: Int
                 ) {
                 }
 
                 override fun afterTextChanged(s: Editable?) {
                     val text = s.toString()
                     val adapter = binding.recyclerView.adapter as SearchTailAdapter
-                    val filterList = dataCollector.matchingAirplanes
-                        .filter {
+                    val filterList = dataCollector.matchingAirplanes.filter {
                             it.numberRegistration?.lowercase()?.startsWith(text.lowercase()) == true
                         }
 
@@ -101,7 +90,15 @@ class SearchTailActivity :
                 }
             })
         }
+    }
 
+    private fun loadBannerAd() {
+        BANNER_SEARCH_TAIL.apply {
+            loadAndShowBannerAd(
+                context = this@SearchTailActivity,
+                adContainerView = binding.adContainerView,
+                onStartLoadingAd = {})
+        }
     }
 
     private fun setData() {
@@ -118,24 +115,26 @@ class SearchTailActivity :
                 }
             } else {
                 withContext(Dispatchers.Main) {
-                    val BANNER_SEARCH_TAIL =
-                        RemoteConfigManager.getBoolean("BANNER_SEARCH_TAIL")
-                    if (BANNER_SEARCH_TAIL && !config.isPremiumUser) {
-                        binding.adContainerView.visible()
-                        bannerAdManager.loadAd(
-                            true,
-                            this@SearchTailActivity,
-                            app.getString(R.string.BANNER_SEARCH_TAIL),
-                            {
-                                bannerAdManager.showBannerAd(
-                                    binding.adContainerView,
-                                    this@SearchTailActivity,
-                                    null
-                                )
-                            },
-                            {
-                            })
-                    }
+
+                    loadBannerAd()
+//                    val BANNER_SEARCH_TAIL =
+//                        RemoteConfigManager.getBoolean("BANNER_SEARCH_TAIL")
+//                    if (BANNER_SEARCH_TAIL && !config.isPremiumUser) {
+//                        binding.adContainerView.visible()
+//                        bannerAdManager.loadAd(
+//                            true,
+//                            this@SearchTailActivity,
+//                            app.getString(R.string.BANNER_SEARCH_TAIL),
+//                            {
+//                                bannerAdManager.showBannerAd(
+//                                    binding.adContainerView,
+//                                    this@SearchTailActivity,
+//                                    null
+//                                )
+//                            },
+//                            {
+//                            })
+//                    }
 
                     searchTailAdapter?.setList(dataCollector.matchingAirplanes)
                     searchTailAdapter?.setListener { tailData: AirPlaneItems? ->
@@ -143,8 +142,7 @@ class SearchTailActivity :
                             ContextCompat.getString(this@SearchTailActivity, R.string.tail_number)
                         startActivity(
                             Intent(
-                                this@SearchTailActivity,
-                                AirportSearchActivity::class.java
+                                this@SearchTailActivity, AirportSearchActivity::class.java
                             )
                         )
                         tailData?.let {

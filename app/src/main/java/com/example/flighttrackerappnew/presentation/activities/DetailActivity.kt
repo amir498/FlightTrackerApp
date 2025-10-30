@@ -14,9 +14,8 @@ import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 import com.example.flighttrackerappnew.databinding.ActivityDetailBinding
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
-import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
+import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_DETAIL
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
-import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import com.example.flighttrackerappnew.presentation.utils.FullDetailsFlightData
 import com.example.flighttrackerappnew.presentation.utils.favData
@@ -40,7 +39,6 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
 
     private val favFlightDao: FavFlightDao by inject()
     private val followLiveFlightDao: FollowLiveFlightDao by inject()
-    private val bannerAdManager: BannerAdManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,17 +65,16 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
             binding.favFlightBtn.tag = "fav"
         }
 
-        val BANNER_DETAIL =
-            RemoteConfigManager.getBoolean("BANNER_DETAIL")
-        if (BANNER_DETAIL && !config.isPremiumUser) {
-            binding.adContainerView.visible()
-            bannerAdManager.loadAd(true, this, app.getString(R.string.BANNER_DETAIL), {
-                bannerAdManager.showBannerAd(
-                    binding.adContainerView,
-                    this@DetailActivity,
-                    null
-                )
-            }, {})
+        loadBannerAd()
+    }
+
+    private fun loadBannerAd() {
+        BANNER_DETAIL.apply {
+            loadAndShowBannerAd(
+                context = this@DetailActivity,
+                adContainerView = binding.adContainerView,
+                onStartLoadingAd = {}
+            )
         }
     }
 

@@ -9,10 +9,9 @@ import com.airbnb.lottie.RenderMode
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivityMainBinding
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
-import com.example.flighttrackerappnew.presentation.adManager.AppOpenAdManager
-import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
-import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager
+import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_HOME
+import com.example.flighttrackerappnew.presentation.admob.interstitial.InterstitialAdManager
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_HOME
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
@@ -39,18 +38,10 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
-    private val bannerAdManager: BannerAdManager by inject()
-    private val nativeAdController: NativeAdController by inject()
     private val viewModel: FlightAppViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val bannerHome =
-            RemoteConfigManager.getBoolean("BANNER_HOME")
-
-        val nativeHome =
-            RemoteConfigManager.getBoolean("NATIVE_HOME")
 
         binding.subMain.setPadding(
             0,
@@ -63,56 +54,36 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         observeLiveData()
         onBackPress()
 
-        if (nativeHome && !config.isPremiumUser) {
-            binding.flAdplaceholder.visible()
-            bannerAdManager.loadAd(true, this, app.getString(R.string.BANNER_HOME), {
-                bannerAdManager.showBannerAd(
-                    binding.adContainerView,
-                    this@MainActivity,
-                    null
-                )
-            }, {})
-        }
-        if (bannerHome && !config.isPremiumUser) {
-            binding.adContainerView.visible()
-            loadAd()
-        }
+        loadAd()
 
         binding.ivAirplaneHome.renderMode = RenderMode.HARDWARE
     }
 
-    private fun loadInterstitialAd() {
-        if (!config.isPremiumUser) {
-            val interstitialHome =
-                RemoteConfigManager.getBoolean("INTERSTITIAL_HOME")
-            if (interstitialHome) {
-                InterstitialAdManager.loadInterstitialAd(
-                    this,
-                    app.getString(R.string.INTERSTITIAL_HOME),
-                    {},
-                    {},
-                    {})
-            }
-        } else {
-            InterstitialAdManager.mInterstitialAd = null
-        }
-    }
-
     private fun loadAd() {
-        binding.flAdplaceholder.visible()
-        app.let {
-            nativeAdController.apply {
-                loadNativeAdHome(
-                    this@MainActivity, app.getString(R.string.NATIVE_HOME)
-                )
-                showNativeAdHome(this@MainActivity, binding.flAdplaceholder)
-            }
+        NATIVE_HOME.apply {
+            loadNativeAd(
+                this@MainActivity,
+                RemoteConfigManager.getBoolean("NATIVE_HOME")
+            )
+            showNativeAd(
+                adGroup = NATIVE_HOME,
+                frameLayout = binding.flAdplaceholder,
+                adLayout = R.layout.native_ad_home_screen,
+                activity = this@MainActivity
+            )
+        }
+
+        BANNER_HOME.apply {
+            loadAndShowBannerAd(
+                context = this@MainActivity,
+                adContainerView = binding.adContainerView,
+                onStartLoadingAd = {}
+            )
         }
     }
 
     override fun onResume() {
         super.onResume()
-        loadInterstitialAd()
         lastSelectedPlane = null
         isFromDetail = false
         if (config.isPremiumUser) {
@@ -137,7 +108,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             .setLayout(R.layout.dialog_exit_app)
             .setCancelable(false)
             .setPositiveClickListener {
-                AppOpenAdManager.appOpenAd = null
                 loadAppOpen = false
                 it.dismiss()
                 job?.cancel()
@@ -183,13 +153,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     return@setOnClickListener
                 }
                 clickCount += 1
-                InterstitialAdManager.mInterstitialAd?.let {
-                    InterstitialAdManager.showAd(this@MainActivity) {
+                InterstitialAdManager.loadInterstitialAd(
+                    ignoreClickCount = false,
+                    showLoadingScreenWithDelay = 0L,
+                    showLoadingAsLoadAdRequestCalled = true,
+                    interstitialLoadingScreenShowTime = RemoteConfigManager.getNumber("Interstitial_loading_screen_show_time"),
+                    showWhenReady = true,
+                    activity = this@MainActivity,
+                    adUnitId = app.getString(R.string.INTERSTITIAL_HOME),
+                    isInterstitialEnabled = RemoteConfigManager.getBoolean("INTERSTITIAL_HOME"),
+                    adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
+                    {
                         startActivity(Intent(this@MainActivity, SettingActivity::class.java))
-                    }
-                } ?: run {
-                    startActivity(Intent(this@MainActivity, SettingActivity::class.java))
-                }
+                    }, {
+
+                    })
             }
 
             btnSearchNow.setZoomClickEffect()
@@ -199,13 +177,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     return@setOnClickListener
                 }
                 clickCount += 1
-                InterstitialAdManager.mInterstitialAd?.let {
-                    InterstitialAdManager.showAd(this@MainActivity) {
+                InterstitialAdManager.loadInterstitialAd(
+                    ignoreClickCount = false,
+                    showLoadingScreenWithDelay = 0L,
+                    showLoadingAsLoadAdRequestCalled = true,
+                    interstitialLoadingScreenShowTime = RemoteConfigManager.getNumber("Interstitial_loading_screen_show_time"),
+                    showWhenReady = true,
+                    activity = this@MainActivity,
+                    adUnitId = app.getString(R.string.INTERSTITIAL_HOME),
+                    isInterstitialEnabled = RemoteConfigManager.getBoolean("INTERSTITIAL_HOME"),
+                    adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
+                    {
                         startActivity(Intent(this@MainActivity, SearchActivity::class.java))
-                    }
-                } ?: run {
-                    startActivity(Intent(this@MainActivity, SearchActivity::class.java))
-                }
+                    }, {
+
+                    })
             }
 
             btnNearbyFlight.setZoomClickEffect()
@@ -215,13 +201,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     return@setOnClickListener
                 }
                 clickCount += 1
-                InterstitialAdManager.mInterstitialAd?.let {
-                    InterstitialAdManager.showAd(this@MainActivity) {
+                InterstitialAdManager.loadInterstitialAd(
+                    ignoreClickCount = false,
+                    showLoadingScreenWithDelay = 0L,
+                    showLoadingAsLoadAdRequestCalled = true,
+                    interstitialLoadingScreenShowTime = RemoteConfigManager.getNumber("Interstitial_loading_screen_show_time"),
+                    showWhenReady = true,
+                    activity = this@MainActivity,
+                    adUnitId = app.getString(R.string.INTERSTITIAL_HOME),
+                    isInterstitialEnabled = RemoteConfigManager.getBoolean("INTERSTITIAL_HOME"),
+                    adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
+                    {
                         startActivity(Intent(this@MainActivity, NearByActivity::class.java))
-                    }
-                } ?: run {
-                    startActivity(Intent(this@MainActivity, NearByActivity::class.java))
-                }
+
+                    }, {
+
+                    })
             }
 
             btnFollowedFlight.setZoomClickEffect()
@@ -231,13 +226,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     return@setOnClickListener
                 }
                 clickCount += 1
-                InterstitialAdManager.mInterstitialAd?.let {
-                    InterstitialAdManager.showAd(this@MainActivity) {
+                InterstitialAdManager.loadInterstitialAd(
+                    ignoreClickCount = false,
+                    showLoadingScreenWithDelay = 0L,
+                    showLoadingAsLoadAdRequestCalled = true,
+                    interstitialLoadingScreenShowTime = RemoteConfigManager.getNumber("Interstitial_loading_screen_show_time"),
+                    showWhenReady = true,
+                    activity = this@MainActivity,
+                    adUnitId = app.getString(R.string.INTERSTITIAL_HOME),
+                    isInterstitialEnabled = RemoteConfigManager.getBoolean("INTERSTITIAL_HOME"),
+                    adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
+                    {
                         startActivity(Intent(this@MainActivity, TrackedActivity::class.java))
-                    }
-                } ?: run {
-                    startActivity(Intent(this@MainActivity, TrackedActivity::class.java))
-                }
+                    }, {
+
+                    })
             }
 
             btnScheduledFlight.setZoomClickEffect()
@@ -247,23 +250,26 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     return@setOnClickListener
                 }
                 clickCount += 1
-                InterstitialAdManager.mInterstitialAd?.let {
-                    InterstitialAdManager.showAd(this@MainActivity) {
+                InterstitialAdManager.loadInterstitialAd(
+                    ignoreClickCount = false,
+                    showLoadingScreenWithDelay = 0L,
+                    showLoadingAsLoadAdRequestCalled = true,
+                    interstitialLoadingScreenShowTime = RemoteConfigManager.getNumber("Interstitial_loading_screen_show_time"),
+                    showWhenReady = true,
+                    activity = this@MainActivity,
+                    adUnitId = app.getString(R.string.INTERSTITIAL_HOME),
+                    isInterstitialEnabled = RemoteConfigManager.getBoolean("INTERSTITIAL_HOME"),
+                    adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
+                    {
                         startActivity(
                             Intent(
                                 this@MainActivity,
                                 FlightScheduleSearchAirportActivity::class.java
                             )
                         )
-                    }
-                } ?: run {
-                    startActivity(
-                        Intent(
-                            this@MainActivity,
-                            FlightScheduleSearchAirportActivity::class.java
-                        )
-                    )
-                }
+                    }, {
+
+                    })
             }
 
             PremiumScreenIcon.setZoomClickEffect()
@@ -282,23 +288,26 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     return@setOnClickListener
                 }
                 clickCount += 1
-                InterstitialAdManager.mInterstitialAd?.let {
-                    InterstitialAdManager.showAd(this@MainActivity) {
+                InterstitialAdManager.loadInterstitialAd(
+                    ignoreClickCount = false,
+                    showLoadingScreenWithDelay = 0L,
+                    showLoadingAsLoadAdRequestCalled = true,
+                    interstitialLoadingScreenShowTime = RemoteConfigManager.getNumber("Interstitial_loading_screen_show_time"),
+                    showWhenReady = true,
+                    activity = this@MainActivity,
+                    adUnitId = app.getString(R.string.INTERSTITIAL_HOME),
+                    isInterstitialEnabled = RemoteConfigManager.getBoolean("INTERSTITIAL_HOME"),
+                    adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
+                    {
                         startActivity(
                             Intent(
                                 this@MainActivity,
                                 FavouriteFlightActivity::class.java
                             )
                         )
-                    }
-                } ?: run {
-                    startActivity(
-                        Intent(
-                            this@MainActivity,
-                            FavouriteFlightActivity::class.java
-                        )
-                    )
-                }
+                    }, {
+
+                    })
             }
         }
     }
@@ -432,13 +441,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    private fun showLoading(){
+    private fun showLoading() {
         binding.pg.visible()
         binding.pgText.visible()
         binding.ivTransparent.visible()
     }
 
-    private fun hideLoading(){
+    private fun hideLoading() {
         binding.pg.invisible()
         binding.pgText.invisible()
         binding.ivTransparent.invisible()

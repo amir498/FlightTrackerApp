@@ -24,8 +24,8 @@ import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightDa
 import com.example.flighttrackerappnew.data.model.schedulesFlight.FlightSchedulesItems
 import com.example.flighttrackerappnew.data.model.tracking.TrackedDataItem
 import com.example.flighttrackerappnew.databinding.ActivityLiveMapFlightTrackerBinding
-import com.example.flighttrackerappnew.presentation.adManager.banner.BannerAdManager
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
+import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_LIVE_MAP
 import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
 import com.example.flighttrackerappnew.presentation.googleMap.MyGoogleMap
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
@@ -85,7 +85,6 @@ class LiveMapFlightTrackerActivity :
     private val handler = Handler(Looper.getMainLooper())
     private val rewardedAd: RewardedAdManager by inject()
 
-    private val bannerAdManager: BannerAdManager by inject()
     private lateinit var mBottomSheetBehaviour: BottomSheetBehavior<ConstraintLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,17 +109,29 @@ class LiveMapFlightTrackerActivity :
 
         handler.postDelayed(runnable, 1000)
 
-        val BANNER_LIVE_MAP =
-            RemoteConfigManager.getBoolean("BANNER_LIVE_MAP")
-        if (BANNER_LIVE_MAP && !config.isPremiumUser) {
-            binding.adContainerView.visible()
-            bannerAdManager.loadAd(true, this, app.getString(R.string.BANNER_LIVE_MAP), {
-                bannerAdManager.showBannerAd(
-                    binding.adContainerView,
-                    this@LiveMapFlightTrackerActivity,
-                    null
-                )
-            }, {})
+//        val BANNER_LIVE_MAP =
+//            RemoteConfigManager.getBoolean("BANNER_LIVE_MAP")
+//        if (BANNER_LIVE_MAP && !config.isPremiumUser) {
+//            binding.adContainerView.visible()
+//            bannerAdManager.loadAd(true, this, app.getString(R.string.BANNER_LIVE_MAP), {
+//                bannerAdManager.showBannerAd(
+//                    binding.adContainerView,
+//                    this@LiveMapFlightTrackerActivity,
+//                    null
+//                )
+//            }, {})
+//        }
+        loadBannerAd()
+
+    }
+
+    private fun loadBannerAd() {
+        BANNER_LIVE_MAP.apply {
+            loadAndShowBannerAd(
+                context = this@LiveMapFlightTrackerActivity,
+                adContainerView = binding.adContainerView,
+                onStartLoadingAd = {}
+            )
         }
     }
 

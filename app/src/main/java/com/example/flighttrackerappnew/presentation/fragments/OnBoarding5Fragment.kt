@@ -1,24 +1,21 @@
 package com.example.flighttrackerappnew.presentation.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.flighttrackerappnew.databinding.FragmentOnBoardingFullNative1Binding
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.example.flighttrackerappnew.R
+import com.example.flighttrackerappnew.databinding.FragmentOnBoarding5Binding
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.OnBoardingActivity
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
-import org.koin.android.ext.android.inject
-import kotlin.getValue
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_OnBoarding5
 
 
-class OnBoardingFullNative1Fragment : Fragment() {
-
-    private val binding: FragmentOnBoardingFullNative1Binding by lazy {
-        FragmentOnBoardingFullNative1Binding.inflate(layoutInflater)
+class OnBoarding5Fragment : Fragment() {
+    private val binding: FragmentOnBoarding5Binding by lazy {
+        FragmentOnBoarding5Binding.inflate(layoutInflater)
     }
-
-    private val nativeAdController: NativeAdController by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,18 +27,25 @@ class OnBoardingFullNative1Fragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        showAd()
+        viewListener()
+    }
+
+    private fun showAd() {
+        native_OnBoarding5.showNativeAd(
+            adGroup = native_OnBoarding5,
+            frameLayout = binding.flAdplaceholder,
+            adLayout = R.layout.native_ad_layout_view_with_media_full,
+          activity =   requireActivity() as AppCompatActivity
+        )
+    }
+
+    private fun viewListener() {
         binding.btnNext.setOnClickListener {
             (activity as? OnBoardingActivity)?.let { onboardingActivity ->
                 val nextItem = onboardingActivity.binding.viewPager.currentItem + 1
                 onboardingActivity.binding.viewPager.setCurrentItem(nextItem, true)
             }
-        }
-        nativeAdController.showFullNativeAd1(
-            binding.flAdplaceholder,
-            binding.nativeAdShimmer,
-            requireContext()
-        ) {
-
         }
     }
 }

@@ -447,17 +447,6 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!--            <ProgressBar-->
-            <!--                android:id="@+id/pg"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:elevation="@dimen/_10sdp"-->
-            <!--                android:visibility="invisible"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent" />-->
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
@@ -468,12 +457,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/all_round_white_bg"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <include layout="@layout/layout_banner_control">
-
-        </include>
-    </FrameLayout>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

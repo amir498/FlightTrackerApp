@@ -27,7 +27,7 @@
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/ivob1"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_290sdp"
+                android:layout_height="@dimen/_300sdp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/_10sdp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -35,29 +35,29 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/ob4json" />
+                app:lottie_rawRes="@raw/ob3json" />
 
             <TextView
                 style="@style/sfb19p"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/_10sdp"
-                android:maxLines="1"
-                android:text="@string/find_arrivals"
+                android:text="@string/search_everything_easily"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="@+id/ivob1"
                 app:layout_constraintEnd_toEndOf="@+id/ivob1"
-                app:layout_constraintStart_toStartOf="@+id/ivob1" />
-
+                app:layout_constraintStart_toStartOf="@+id/ivob1"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
+
     <ImageView
-        android:id="@+id/onb1_dots"
+        android:id="@+id/onb2_dots_t"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_20sdp"
-        android:src="@drawable/onb4_dots"
+        android:src="@drawable/onb3_dots"
         app:layout_constraintEnd_toEndOf="@+id/ivob1Scroll"
         app:layout_constraintStart_toStartOf="@+id/ivob1Scroll"
         app:layout_constraintTop_toBottomOf="@+id/ivob1Scroll" />
@@ -70,11 +70,11 @@
         android:layout_marginStart="@dimen/_6sdp"
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginEnd="@dimen/_6sdp"
-        android:text="@string/check_live_airport_arrivals_and_departures_see_schedules_with_real_time_updates_never_miss_a_flight_with_instant_information"
+        android:text="@string/find_flights_airports_and_airlines_instantly_search_by_number_route_or_destination_fast_simple_and_reliable_results_every_time"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/onb1_dots" />
+        app:layout_constraintTop_toBottomOf="@+id/onb2_dots_t" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/conNext"
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_2sdp"
-            android:text="@string/start"
+            android:text="@string/next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/next_f_onb"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -115,35 +115,19 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <FrameLayout
-        android:id="@+id/fl_adplaceholder"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/btnNext"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <include layout="@layout/shimmer_native_with_large_media" />
-    </FrameLayout>
-
     <androidx.constraintlayout.widget.Group
         android:id="@+id/navTop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        app:constraint_referenced_ids="conNext,tvvv,onb1_dots" />
+        app:constraint_referenced_ids="conNext,tvvv,onb2_dots_t" />
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/navBottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:constraint_referenced_ids="tv_onb1_dots,onb1_dots_b,btnNext" />
+        app:constraint_referenced_ids="tv_onb1_dots,onb3_dots,btnNext" />
 
     <TextView
         android:id="@+id/tv_onb1_dots"
@@ -152,17 +136,17 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_10sdp"
         android:maxLines="1"
-        android:text="@string/built_for_sky_enthusiasts"
+        android:text="@string/stay_updated_instantly"
         app:layout_constraintEnd_toStartOf="@+id/btnNext"
         app:layout_constraintStart_toStartOf="@+id/glLeft"
         app:layout_constraintTop_toTopOf="@+id/btnNext" />
 
     <ImageView
-        android:id="@+id/onb1_dots_b"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_7sdp"
-        android:src="@drawable/onb4_dots"
+        android:src="@drawable/onb3_dots"
+        android:id="@+id/onb3_dots"
         app:layout_constraintStart_toStartOf="@+id/glLeft"
         app:layout_constraintTop_toBottomOf="@+id/tv_onb1_dots" />
 
@@ -174,5 +158,33 @@
         android:src="@drawable/onb_next_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/glRight" />
+
+    <FrameLayout
+        android:id="@+id/fl_adplaceholder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/btnNext"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottie"
+        android:layout_width="250dp"
+        android:layout_height="180dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/btnNext"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivob1Scroll"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/ob_swipe_anim" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,9 @@ import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import com.example.flighttrackerappnew.presentation.admob.ump.UMPConsentManager.Companion.mobileAdsInitialized
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 
 fun Activity.setScreenDisplay() {
     WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = false
@@ -26,6 +29,28 @@ fun Activity.setFullscreenCompat(fullScreen: Boolean) {
         } else {
             window.clearFlags(flagToUpdate)
         }
+    }
+}
+
+fun Activity.initializeMobileAdsOnce(onInitialized: () -> Unit) {
+    if (!mobileAdsInitialized) {
+        val testDeviceIds = listOf(
+            "AE46A43A1CB75C82FD93B9FA308DE7C3"
+        )
+
+        val configurationBuilder = RequestConfiguration.Builder()
+        val configurationBuild = configurationBuilder.let {
+            it.setTestDeviceIds(testDeviceIds)
+            it.build()
+        }
+        MobileAds.setRequestConfiguration(configurationBuild)
+
+        MobileAds.initialize(this) {
+            mobileAdsInitialized = true
+            onInitialized.invoke()
+        }
+    } else {
+        onInitialized.invoke()
     }
 }
 

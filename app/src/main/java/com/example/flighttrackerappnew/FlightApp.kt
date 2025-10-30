@@ -1,22 +1,20 @@
 package com.example.flighttrackerappnew
 
 import android.app.Application
-import androidx.lifecycle.ProcessLifecycleOwner
 import com.example.flighttrackerappnew.domain.usecase.BillingUseCase
-import com.example.flighttrackerappnew.presentation.adManager.interstitial.InterstitialAdManager
+import com.example.flighttrackerappnew.presentation.admob.AdManager
 import com.example.flighttrackerappnew.presentation.di.appModule
 import com.example.flighttrackerappnew.presentation.di.remoteConfigModule
-import com.example.flighttrackerappnew.presentation.lifecycle_observer.ActivitiesLifeCycleObserver
 import com.example.flighttrackerappnew.presentation.lifecycle_observer.BillingLifecycleObserver
-import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
-import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class FlightApp : Application() {
+
     companion object {
-        var canRequestAd = false
+        lateinit var instance: FlightApp
+            private set
     }
 
     private val billingUseCase: BillingUseCase by inject()
@@ -28,13 +26,10 @@ class FlightApp : Application() {
             androidContext(this@FlightApp)
             modules(appModule, remoteConfigModule)
         }
-        RemoteConfigManager.init()
 
-        registerActivityLifecycleCallbacks(ActivitiesLifeCycleObserver)
-        ProcessLifecycleOwner.get().lifecycle.addObserver(ActivitiesLifeCycleObserver)
+        instance = this
+        AdManager.init()
 
         registerActivityLifecycleCallbacks(BillingLifecycleObserver(billingUseCase))
-
-        InterstitialAdManager.init(getKoin())
     }
 }

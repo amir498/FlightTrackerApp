@@ -8,8 +8,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.airport.AirportsDataItems
 import com.example.flighttrackerappnew.databinding.ActivityFlightScheduleSearchAirportBinding
-import com.example.flighttrackerappnew.presentation.adManager.controller.NativeAdController
 import com.example.flighttrackerappnew.presentation.adapter.SearchAirportAdapter
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_FLIGHT_SCHEDULED_SEARCH
 import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
@@ -29,7 +29,6 @@ class FlightScheduleSearchAirportActivity :
     private var adapter = SearchAirportAdapter()
     private var airportsList = listOf<AirportsDataItems>()
     private val dataCollector: DataCollector by inject()
-    private val nativeAdController: NativeAdController by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,23 +68,27 @@ class FlightScheduleSearchAirportActivity :
         }
     }
 
+    private fun loadAd() {
+        NATIVE_FLIGHT_SCHEDULED_SEARCH.apply {
+            loadNativeAd(
+                this@FlightScheduleSearchAirportActivity,
+                RemoteConfigManager.getBoolean("NATIVE_FLIGHT_SCHEDULED_SEARCH")
+            )
+            showNativeAd(
+                adGroup = NATIVE_FLIGHT_SCHEDULED_SEARCH,
+                frameLayout = binding.flAdplaceholder,
+                adLayout = R.layout.native_ad_layout_view_with_media,
+               activity =  this@FlightScheduleSearchAirportActivity
+            )
+        }
+    }
+
     private fun setData() {
         airportsList = dataCollector.airports
         binding.recyclerView.adapter = adapter
         adapter.setList(airportsList)
         if (airportsList.isNotEmpty()) {
-            val NATIVE_FLIGHT_SCHEDULED_SEARCH =
-                RemoteConfigManager.getBoolean("NATIVE_FLIGHT_SCHEDULED_SEARCH")
-            if (NATIVE_FLIGHT_SCHEDULED_SEARCH && !config.isPremiumUser) {
-                binding.flAdplaceholder.visible()
-                nativeAdController.apply {
-                    loadNativeAd(
-                        this@FlightScheduleSearchAirportActivity,
-                        app.getString(R.string.NATIVE_FLIGHT_SCHEDULED_SEARCH),
-                    )
-                    showNativeAd(this@FlightScheduleSearchAirportActivity, binding.flAdplaceholder)
-                }
-            }
+            loadAd()
         }
     }
 
