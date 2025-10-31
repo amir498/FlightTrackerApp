@@ -10,6 +10,7 @@ import com.example.flighttrackerappnew.data.model.FollowFlightData
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 import com.example.flighttrackerappnew.databinding.ActivityTrackedBinding
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
+import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity2
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
 import com.example.flighttrackerappnew.presentation.adapter.FollowFlightAdapter
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_TRACKED_FLIGHT
@@ -184,14 +185,28 @@ class TrackedActivity : BaseActivity<ActivityTrackedBinding>(ActivityTrackedBind
             .setLayout(R.layout.dialog_premium)
             .setCancelable(false)
             .setPositiveClickListener {
-                val intent = Intent(this, PremiumActivity::class.java)
-                intent.putExtra("from_arrival", true)
-                startActivity(intent)
+                showPremiumScreen()
                 it.dismiss()
             }.setNegativeClickListener {
                 showRewardedAd()
                 it.dismiss()
             }.show()
+    }
+
+    private fun showPremiumScreen() {
+        config.startDiscountIfNeeded()
+
+        val isDiscountActive = config.isDiscountActive()
+
+        if (isDiscountActive) {
+            val intent = Intent(this@TrackedActivity, PremiumActivity2::class.java)
+            intent.putExtra("from_arrival", true)
+            startActivity(intent)
+        } else {
+            val intent = Intent(this@TrackedActivity, PremiumActivity::class.java)
+            intent.putExtra("from_arrival", true)
+            startActivity(intent)
+        }
     }
 
     private fun showRewardedAd() {

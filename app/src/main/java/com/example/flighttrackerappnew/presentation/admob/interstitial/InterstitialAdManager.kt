@@ -92,7 +92,11 @@ object InterstitialAdManager : KoinComponent {
                 }
             }
         } else {
-            onAdDismissed?.invoke()
+            Handler(Looper.getMainLooper()).postDelayed(
+                {
+                    onAdDismissed?.invoke()
+                }, 4000
+            )
         }
     }
 

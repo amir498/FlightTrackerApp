@@ -44,14 +44,15 @@ class MyGoogleMapNearAirports : OnMapReadyCallback, KoinComponent {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        mMap?.mapType = config.mapStyle
-        mMap?.uiSettings?.isCompassEnabled = false
-        mMap?.setOnMarkerClickListener { marker ->
-            val airportData = marker.tag as? NearByAirportsDataItems
-            airportData?.let { airPortClickListener?.onAirportClick(it) }
-            true
+        mMap?.apply {
+            mapType = config.mapStyle
+            uiSettings.isCompassEnabled = false
+            setOnMarkerClickListener { marker ->
+                val airportData = marker.tag as? NearByAirportsDataItems
+                airportData?.let { airPortClickListener?.onAirportClick(it) }
+                true
+            }
         }
-
         val pakistanCenter = LatLng(30.3753, 69.3451)
         val zoomLevel = 4.5f
         mMap?.animateCamera(

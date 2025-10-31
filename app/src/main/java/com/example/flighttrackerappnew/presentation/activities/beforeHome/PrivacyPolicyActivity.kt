@@ -14,6 +14,7 @@ import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivityPrivacyPolicyBinding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
+import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity2
 import com.example.flighttrackerappnew.presentation.admob.interstitial.InterstitialAdManager
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
@@ -95,12 +96,7 @@ class PrivacyPolicyActivity :
                             this@PrivacyPolicyActivity,
                             showLoadingScreenWithDelay = 0,
                         ) {
-                            val intent = Intent(
-                                this@PrivacyPolicyActivity,
-                                PremiumActivity::class.java
-                            )
-                            intent.putExtra("from_splash", true)
-                            startActivity(intent)
+                            showPremiumScreen()
                             finish()
                         }
                     } else {
@@ -127,6 +123,22 @@ class PrivacyPolicyActivity :
                 config.isPrivacyPolicyAccepted = false
                 finish()
             }
+        }
+    }
+
+    private fun showPremiumScreen() {
+        config.startDiscountIfNeeded()
+
+        val isDiscountActive = config.isDiscountActive()
+
+        if (isDiscountActive) {
+            val intent = Intent(this@PrivacyPolicyActivity, PremiumActivity2::class.java)
+            intent.putExtra("from_splash", true)
+            startActivity(intent)
+        } else {
+            val intent = Intent(this@PrivacyPolicyActivity, PremiumActivity::class.java)
+            intent.putExtra("from_splash", true)
+            startActivity(intent)
         }
     }
 }

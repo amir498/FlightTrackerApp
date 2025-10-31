@@ -1,6 +1,8 @@
 package com.example.flighttrackerappnew.presentation.admob.native
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
@@ -57,7 +59,11 @@ class NativeAdUnit(
                 override fun onAdImpression() {
                     super.onAdImpression()
                     if (nativeAdCategory == NativeAdCategory.NATIVE_REGULAR) {
-                        _statusFlow.value = AdStatus.Shown
+                        Handler(Looper.getMainLooper()).postDelayed(
+                            {
+                                _statusFlow.value = AdStatus.Shown
+                            }, 300
+                        )
                     }
                 }
             })

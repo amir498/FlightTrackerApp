@@ -25,6 +25,7 @@ import com.example.flighttrackerappnew.presentation.utils.isFirstPremiumFlow
 import com.example.flighttrackerappnew.presentation.utils.isFromDetail
 import com.example.flighttrackerappnew.presentation.utils.loadAppOpen
 import com.example.flighttrackerappnew.presentation.utils.openWebBrowser
+import com.example.flighttrackerappnew.presentation.utils.setStyledSpan
 import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.example.flighttrackerappnew.presentation.utils.visible
 import kotlinx.coroutines.launch
@@ -41,7 +42,29 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>(ActivityPremiumBind
         Handler(Looper.getMainLooper()).postDelayed({
             binding.btnClosePremium.visible()
         }, 2000)
+
+        viewListener()
+        billingEventListener()
+        billingUseCase.getProductDetails()
+        onBackPress()
+        setLayout()
+        load()
+    }
+
+    private fun setLayout() {
         binding.apply {
+            tvAgree.setStyledSpan(
+                getString(R.string.by_subscribing_you_agree_to_our_terms_of_use_and_privacy_policy),
+                listOf("Terms of Use", "Privacy Policy"),
+                R.style.sfb14s,
+                R.style.sfr14s,
+                underline = true,
+                onClickListeners = listOf(
+                    { openWebBrowser(TERM_OF_SERVICE) },
+                    { openWebBrowser(PRIVACY_POLICY) }
+                )
+            )
+
             weeklyPrice.text = config.priceWeekly.toString()
             yearlyPrice.text = config.priceYearly.toString()
             root.setPadding(
@@ -51,11 +74,6 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>(ActivityPremiumBind
                 0
             )
         }
-
-        viewListener()
-        billingEventListener()
-        billingUseCase.getProductDetails()
-        onBackPress()
         if (config.isFreeTrailAvailable) {
             binding.conFreeTrail.visible()
             hasFreeTrailEnabled = true
@@ -64,10 +82,9 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>(ActivityPremiumBind
             hasFreeTrailEnabled = false
             binding.btnUpgradeNow.text = getString(R.string.subscribe_now)
         }
-        load()
     }
 
-   private fun load() {
+    private fun load() {
         native_2_LANGUAGE_SCREEN1.loadNativeAd(
             this@PremiumActivity,
             RemoteConfigManager.getBoolean("native_2_LANGUAGE_SCREEN1")

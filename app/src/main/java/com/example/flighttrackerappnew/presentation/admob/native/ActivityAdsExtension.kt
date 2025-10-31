@@ -94,7 +94,7 @@ private fun showNativeAdInner(
                 val handler = Handler(Looper.getMainLooper())
                 val runnable = Runnable {
                     frameLayout.visibility = View.VISIBLE
-                    val nativeAd = adGroup.getLoadedAd() ?: return@Runnable
+                    val nativeAd = adGroup.nativeAdUnit.ad ?: return@Runnable
                     val adView = layoutInflater.inflate(adLayout, null) as NativeAdView
 
                     when (adType) {

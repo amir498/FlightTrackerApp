@@ -225,7 +225,7 @@
     <string name="completely_ad_free">Completely Ad-Free</string>
     <string name="enjoy_a_seamless_distraction_free_experience_without_any_ads">Enjoy a seamless, distraction-free experience without any ads.</string>
     <string name="free_trail_enabled">Free Trail Enabled</string>
-    <string name="weekly_plan">Weekly Subscription</string>
+    <string name="weekly_subscriptions">Weekly Subscription</string>
     <string name="yearly_plan">Annual Subscription</string>
     <string name="cancel_anytime_no_hidden_fees">Cancel anytime. No hidden fees.</string>
     <string name="please_review_our_privacy_policy_to_understand_how_we_collect_use_and_protect_your_personal_information">please_review_our_privacy_policy_to_understand_how_we_collect_use_and_protect_your_personal_information</string>
@@ -257,5 +257,14 @@
     <string name="save">Save</string>
     <string name="radar">Radar</string>
     <string name="flights">Flights</string>
+    <string name="claim_your_limited_time_discount">Claim your limited time discount</string>
+    <string name="avail_discount_now">Avail Discount Now</string>
+    <string name="days">DAYS</string>
+    <string name="hours">HOURS</string>
+    <string name="minute">MINUTES</string>
+    <string name="second">SECONDS</string>
+    <string name="by_subscribing_you_agree_to_our_terms_of_use_and_privacy_policy">By subscribing, you agree to our Terms of Use and Privacy Policy.</string>
+    <string name="_70_off">70% OFF</string>
+    <string name="weekly_plan">Weekly Plan</string>
 
 </resources>

@@ -14,6 +14,7 @@ import com.example.flighttrackerappnew.presentation.admob.interstitial.Interstit
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_1_LANGUAGE_SCREEN1
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_1_LANGUAGE_SCREEN2
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_2_LANGUAGE_SCREEN1
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_OnBoarding1
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.IS_FROM_SETTING_ACTIVITY
@@ -52,6 +53,10 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
 
     override fun onResume() {
         super.onResume()
+        native_2_LANGUAGE_SCREEN1.loadNativeAd(
+            this@LanguageActivity,
+            RemoteConfigManager.getBoolean("native_2_LANGUAGE_SCREEN1")
+        )
         native_OnBoarding1.loadNativeAd(
             this@LanguageActivity,
             RemoteConfigManager.getBoolean("native_OnBoarding1")

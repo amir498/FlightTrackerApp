@@ -36,8 +36,16 @@ class OnBoarding1Fragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setLayout()
-        loadAndShowAd()
+        loadAd()
         viewListener()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        native_OnBoarding1.loadNativeAd(
+            requireContext(),
+            RemoteConfigManager.getBoolean("native_OnBoarding1")
+        )
     }
 
     private fun setLayout() {
@@ -69,7 +77,7 @@ class OnBoarding1Fragment : Fragment() {
         }
     }
 
-    private fun loadAndShowAd() {
+    private fun loadAd() {
         native_OnBoarding6.loadNativeAd(
             requireContext(),
             RemoteConfigManager.getBoolean("native_OnBoarding6")

@@ -9,6 +9,7 @@ import com.airbnb.lottie.RenderMode
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivityMainBinding
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
+import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity2
 import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_HOME
 import com.example.flighttrackerappnew.presentation.admob.interstitial.InterstitialAdManager
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_HOME
@@ -54,8 +55,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         observeLiveData()
         onBackPress()
 
-        loadAd()
-
         binding.ivAirplaneHome.renderMode = RenderMode.HARDWARE
     }
 
@@ -84,6 +83,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     override fun onResume() {
         super.onResume()
+        loadAd()
         lastSelectedPlane = null
         isFromDetail = false
         if (config.isPremiumUser) {
@@ -267,9 +267,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                                 FlightScheduleSearchAirportActivity::class.java
                             )
                         )
-                    }, {
-
-                    })
+                    }, {}
+                )
             }
 
             PremiumScreenIcon.setZoomClickEffect()
@@ -278,7 +277,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     this@MainActivity.showToast("Wait!!")
                     return@setOnClickListener
                 }
-                startActivity(Intent(this@MainActivity, PremiumActivity::class.java))
+                showPremiumScreen()
             }
 
             btnSavedFlight.setZoomClickEffect()
@@ -309,6 +308,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
                     })
             }
+        }
+    }
+
+    private fun showPremiumScreen() {
+        config.startDiscountIfNeeded()
+
+        val isDiscountActive = config.isDiscountActive()
+
+        if (isDiscountActive) {
+            val intent = Intent(this@MainActivity, PremiumActivity2::class.java)
+            startActivity(intent)
+        } else {
+            val intent = Intent(this@MainActivity, PremiumActivity::class.java)
+            startActivity(intent)
         }
     }
 

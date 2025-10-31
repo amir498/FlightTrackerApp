@@ -10,6 +10,7 @@
     <color name="surface">#1C1C1C</color>
     <color name="acc1">#F4A62C</color>
     <color name="primary">#1C1C1C</color>
+    <color name="text_primary">#FAFAFA</color>
     <color name="error">#FF3B3B</color>
     <color name="success">#51B366</color>
     <color name="transparent">#00000000</color>
@@ -17,4 +18,5 @@
     <color name="lightTransparent">#50FFFFFF</color>
     <color name="stockeCard">#5E58595A</color>
     <color name="black_t">#99000000</color>
+    <color name="warning">#FFC947</color>
 </resources>

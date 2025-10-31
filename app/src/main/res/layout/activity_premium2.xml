@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:background="@drawable/iv_premium_screen2_bg"
+    tools:context=".presentation.activities.premium.PremiumActivity2">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/app_margin" />
+
+        <ImageView
+            android:id="@+id/btnCross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:src="@drawable/iv_premium_screen2_cross_icon"
+            app:layout_constraintStart_toStartOf="@+id/glLeft"
+            app:layout_constraintTop_toTopOf="@+id/glTop" />
+
+        <ImageView
+            android:id="@+id/giftIcon"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_200sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:src="@drawable/iv_premium_screen2_gift_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnCross" />
+
+        <TextView
+            android:id="@+id/discountPercent"
+            style="@style/sfb40acc1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_70_off"
+            android:layout_marginTop="@dimen/_15sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/giftIcon" />
+
+        <TextView
+            android:id="@+id/tvClaim"
+            style="@style/sfr20p"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:text="@string/claim_your_limited_time_discount"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/discountPercent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/conWeekly"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_60sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:background="@drawable/iv_premium_screen2_weekly_plan_bg"
+            app:layout_constraintEnd_toEndOf="@+id/glRight"
+            app:layout_constraintStart_toStartOf="@+id/glLeft"
+            app:layout_constraintTop_toBottomOf="@+id/tvClaim">
+
+            <ImageView
+                android:id="@+id/ivEmoji"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:src="@drawable/iv_premium_screen2_emoji"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvWeeklyPlane"
+                style="@style/sfsbtp20p"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:text="@string/weekly_plan"
+                app:layout_constraintBottom_toTopOf="@+id/weeklyprice"
+                app:layout_constraintStart_toEndOf="@+id/ivEmoji"
+                app:layout_constraintTop_toTopOf="@+id/ivEmoji" />
+
+            <TextView
+                android:id="@+id/weeklyprice"
+                style="@style/sfrw16p"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$1.999"
+                app:layout_constraintBottom_toBottomOf="@+id/ivEmoji"
+                app:layout_constraintStart_toStartOf="@+id/tvWeeklyPlane"
+                app:layout_constraintTop_toBottomOf="@+id/tvWeeklyPlane"
+                />
+
+            <TextView
+                android:id="@+id/weeklyPriceSale"
+                style="@style/sfrw16p"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="$1.212 / week"
+                android:layout_marginStart="@dimen/_5sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/weeklyprice"
+                app:layout_constraintStart_toEndOf="@+id/weeklyprice"
+                app:layout_constraintTop_toTopOf="@+id/weeklyprice"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:src="@drawable/iv_premium_screen2_radio_btn"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/day"
+            style="@style/sfsr37p"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_57sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/tv_premium_time_bg"
+            android:gravity="center"
+            android:text="00"
+            android:layout_marginStart="@dimen/_7sdp"
+            app:layout_constraintEnd_toStartOf="@+id/colon1"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="@+id/conWeekly"
+            app:layout_constraintTop_toBottomOf="@+id/conWeekly" />
+
+        <TextView
+            android:id="@+id/tvDays"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/days"
+            style="@style/sfr14s"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@+id/day"
+            app:layout_constraintStart_toStartOf="@+id/day"
+            app:layout_constraintTop_toBottomOf="@+id/day" />
+
+        <ImageView
+            android:id="@+id/colon1"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:src="@drawable/iv_premium_screen2_colon"
+            app:layout_constraintBottom_toBottomOf="@+id/day"
+            app:layout_constraintEnd_toStartOf="@+id/hour"
+            app:layout_constraintStart_toEndOf="@+id/day"
+            app:layout_constraintTop_toTopOf="@+id/day" />
+
+
+        <TextView
+            android:id="@+id/hour"
+            style="@style/sfsr37p"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_57sdp"
+            android:background="@drawable/tv_premium_time_bg"
+            android:gravity="center"
+            android:text="00"
+            app:layout_constraintEnd_toStartOf="@+id/colon2"
+            app:layout_constraintStart_toEndOf="@+id/colon1"
+            app:layout_constraintTop_toTopOf="@+id/day" />
+
+        <TextView
+            android:id="@+id/tvHours"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/hours"
+            style="@style/sfr14s"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@+id/hour"
+            app:layout_constraintStart_toStartOf="@+id/hour"
+            app:layout_constraintTop_toBottomOf="@+id/hour" />
+
+        <ImageView
+            android:id="@+id/colon2"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:src="@drawable/iv_premium_screen2_colon"
+            app:layout_constraintBottom_toBottomOf="@+id/day"
+            app:layout_constraintEnd_toStartOf="@+id/minute"
+            app:layout_constraintStart_toEndOf="@+id/hour"
+            app:layout_constraintTop_toTopOf="@+id/day" />
+
+        <TextView
+            android:id="@+id/minute"
+            style="@style/sfsr37p"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_57sdp"
+            android:background="@drawable/tv_premium_time_bg"
+            android:gravity="center"
+            android:text="00"
+            app:layout_constraintEnd_toStartOf="@+id/colon3"
+            app:layout_constraintStart_toEndOf="@+id/colon2"
+            app:layout_constraintTop_toTopOf="@+id/day" />
+
+        <TextView
+            android:id="@+id/tvMinute"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/minute"
+            style="@style/sfr14s"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@+id/minute"
+            app:layout_constraintStart_toStartOf="@+id/minute"
+            app:layout_constraintTop_toBottomOf="@+id/minute" />
+
+        <ImageView
+            android:id="@+id/colon3"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:src="@drawable/iv_premium_screen2_colon"
+            app:layout_constraintBottom_toBottomOf="@+id/day"
+            app:layout_constraintEnd_toStartOf="@+id/second"
+            app:layout_constraintStart_toEndOf="@+id/minute"
+            app:layout_constraintTop_toTopOf="@+id/day" />
+
+        <TextView
+            android:id="@+id/second"
+            style="@style/sfsr37p"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_57sdp"
+            android:background="@drawable/tv_premium_time_bg"
+            android:gravity="center"
+            android:text="00"
+            android:layout_marginEnd="@dimen/_7sdp"
+            app:layout_constraintEnd_toEndOf="@+id/glRight"
+            app:layout_constraintStart_toEndOf="@+id/colon3"
+            app:layout_constraintTop_toTopOf="@+id/day" />
+
+        <TextView
+            android:id="@+id/tvSecond"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/second"
+            style="@style/sfr14s"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@+id/second"
+            app:layout_constraintStart_toStartOf="@+id/second"
+            app:layout_constraintTop_toBottomOf="@+id/second" />
+
+        <TextView
+            android:id="@+id/btnAvailDiscount"
+            style="@style/sfb14primary"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_47sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/iv_premiumscreen2_avail_discount_btn"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:text="@string/avail_discount_now"
+            app:layout_constraintEnd_toEndOf="@+id/glRight"
+            app:layout_constraintStart_toStartOf="@+id/glLeft"
+            app:layout_constraintTop_toBottomOf="@+id/tvDays" />
+
+        <TextView
+            android:id="@+id/txtPrivacy"
+            style="@style/sfsb14p"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:text="@string/privacy"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="@+id/btnAvailDiscount"
+            app:layout_constraintEnd_toStartOf="@+id/txtTerms"
+            app:layout_constraintTop_toBottomOf="@+id/btnAvailDiscount" />
+
+        <TextView
+            android:id="@+id/txtTerms"
+            style="@style/sfsb14p"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:text="@string/terms"
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@+id/txtPrivacy"
+            app:layout_constraintEnd_toStartOf="@+id/txtRestore"
+            app:layout_constraintTop_toBottomOf="@+id/btnAvailDiscount" />
+
+        <TextView
+            android:id="@+id/txtRestore"
+            style="@style/sfsb14p"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:text="@string/restore"
+            android:textAlignment="center"
+            app:layout_constraintStart_toEndOf="@+id/txtTerms"
+            app:layout_constraintEnd_toEndOf="@+id/btnAvailDiscount"
+            app:layout_constraintTop_toBottomOf="@+id/btnAvailDiscount" />
+
+        <TextView
+            android:id="@+id/tvAgree"
+            android:layout_width="0dp"
+            style="@style/sfr14s"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="@+id/glLeft"
+            app:layout_constraintEnd_toEndOf="@+id/glRight"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:text="@string/by_subscribing_you_agree_to_our_terms_of_use_and_privacy_policy"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtPrivacy" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

@@ -15,6 +15,8 @@ import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvide
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_OnBoarding6
 import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
+import com.example.flighttrackerappnew.presentation.utils.invisible
+import com.example.flighttrackerappnew.presentation.utils.visible
 import org.koin.android.ext.android.inject
 
 class OnBoarding6Fragment : Fragment() {
@@ -22,7 +24,6 @@ class OnBoarding6Fragment : Fragment() {
         FragmentOnBoarding6Binding.inflate(layoutInflater)
     }
     private val config: Config by inject()
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +38,28 @@ class OnBoarding6Fragment : Fragment() {
         viewListener()
         showAd()
         loadAd()
+        setLayout()
+    }
+
+    private fun setLayout() {
+        binding.apply {
+            if (RemoteConfigManager.getBoolean("native_OnBoarding6") && !config.isPremiumUser) {
+                navTop.invisible()
+                navBottom.visible()
+                showAd()
+            } else if (config.isPremiumUser) {
+                navTop.visible()
+                navBottom.invisible()
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        native_OnBoarding6.loadNativeAd(
+            requireContext(),
+            RemoteConfigManager.getBoolean("native_OnBoarding6")
+        )
     }
 
     private fun showAd(){

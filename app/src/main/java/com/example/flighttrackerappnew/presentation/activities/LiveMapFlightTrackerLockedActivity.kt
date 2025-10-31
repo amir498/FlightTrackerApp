@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import com.example.flighttrackerappnew.databinding.ActivityLiveMapFlightTrackerLockedBinding
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
+import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity2
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 
 class LiveMapFlightTrackerLockedActivity : BaseActivity<ActivityLiveMapFlightTrackerLockedBinding>(
@@ -23,7 +24,21 @@ class LiveMapFlightTrackerLockedActivity : BaseActivity<ActivityLiveMapFlightTra
             finish()
         }
         binding.positiveBtn.setOnClickListener {
-            val intent = Intent(this, PremiumActivity::class.java)
+            showPremiumScreen()
+        }
+    }
+
+    private fun showPremiumScreen() {
+        config.startDiscountIfNeeded()
+
+        val isDiscountActive = config.isDiscountActive()
+
+        if (isDiscountActive) {
+            val intent = Intent(this@LiveMapFlightTrackerLockedActivity, PremiumActivity2::class.java)
+            intent.putExtra("from_liveLocked", true)
+            startActivity(intent)
+        } else {
+            val intent = Intent(this@LiveMapFlightTrackerLockedActivity, PremiumActivity::class.java)
             intent.putExtra("from_liveLocked", true)
             startActivity(intent)
         }

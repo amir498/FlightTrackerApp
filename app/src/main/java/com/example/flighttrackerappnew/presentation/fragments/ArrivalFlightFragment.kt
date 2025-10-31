@@ -16,6 +16,7 @@ import com.example.flighttrackerappnew.presentation.activities.AirportSearchActi
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.DetailActivity
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
+import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity2
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
 import com.example.flighttrackerappnew.presentation.adapter.ArrivalFlightAdapter
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber
@@ -140,9 +141,7 @@ class ArrivalFlightFragment : Fragment() {
             .setLayout(R.layout.dialog_premium)
             .setCancelable(false)
             .setPositiveClickListener {
-                val intent = Intent(requireContext(), PremiumActivity::class.java)
-                intent.putExtra("from_arrival", true)
-                startActivity(intent)
+                showPremiumScreen()
                 it.dismiss()
             }.setNegativeClickListener {
                 showRewardedAd()
@@ -150,6 +149,23 @@ class ArrivalFlightFragment : Fragment() {
             }.setCrossBtnListener {
                 it.dismiss()
             }.show()
+    }
+
+    private fun showPremiumScreen() {
+        config.startDiscountIfNeeded()
+
+        val isDiscountActive = config.isDiscountActive()
+
+        if (isDiscountActive) {
+            val intent = Intent(requireContext(), PremiumActivity2::class.java)
+            intent.putExtra("from_arrival", true)
+
+            startActivity(intent)
+        } else {
+            val intent = Intent(requireContext(), PremiumActivity::class.java)
+            intent.putExtra("from_arrival", true)
+            startActivity(intent)
+        }
     }
 
     private fun showRewardedAd() {

@@ -1,6 +1,7 @@
 package com.example.flighttrackerappnew.presentation.google_play_billing
 
 import android.text.TextUtils
+import android.util.Base64
 import java.io.IOException
 import java.security.InvalidKeyException
 import java.security.KeyFactory
@@ -10,8 +11,6 @@ import java.security.Signature
 import java.security.SignatureException
 import java.security.spec.InvalidKeySpecException
 import java.security.spec.X509EncodedKeySpec
-import android.util.Base64
-import kotlin.jvm.Throws
 
 class Security {
     private val keyFactorALGORITHM = "RSA"
@@ -36,18 +35,15 @@ class Security {
 
     @Throws(IOException::class)
     private fun generatePublicKey(encodedPublicKey: String?): PublicKey {
-
         return try {
             val decodedKey = Base64.decode(encodedPublicKey, Base64.DEFAULT)
             val keyFactory = KeyFactory.getInstance(keyFactorALGORITHM)
             keyFactory.generatePublic(X509EncodedKeySpec(decodedKey))
-
         } catch (e: NoSuchAlgorithmException) {
             throw RuntimeException(e)
-        } catch (e: InvalidKeySpecException) {
+        } catch (_: InvalidKeySpecException) {
             throw IOException("Invalid Key Specification")
         }
-
     }
 
     private fun verify(publicKey: PublicKey?, signedData: String, signature: String?): Boolean {

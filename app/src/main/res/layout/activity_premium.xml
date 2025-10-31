@@ -19,8 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
-            android:visibility="invisible"
             android:src="@drawable/btn_close_premium"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="@+id/glLeft"
             app:layout_constraintTop_toTopOf="@+id/glTop" />
 
@@ -29,8 +29,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/premium_icon_home"
-            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintEnd_toStartOf="@+id/tvTitle"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/btn_close_premium" />
 
@@ -41,8 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_10sdp"
             android:text="@string/upgrade_to_premium"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/premium_icon_home"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/premium_icon_home"
             app:layout_constraintTop_toTopOf="@+id/premium_icon_home" />
 
@@ -135,10 +135,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:src="@drawable/btn_video_icon_premium"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginBottom="@dimen/_10sdp"
+                android:src="@drawable/btn_video_icon_premium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSave" />
 
             <TextView
@@ -172,8 +172,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:text="@string/free_trail_enabled"
-                app:layout_constraintEnd_toStartOf="@+id/hbtnSwitchCompactCons"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/hbtnSwitchCompactCons"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -205,8 +205,8 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            style="@style/sfb10primary"
             android:id="@+id/savePercentage"
+            style="@style/sfb10primary"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -234,28 +234,28 @@
             app:layout_constraintTop_toBottomOf="@+id/con_free_trail">
 
             <TextView
+                android:id="@+id/tvYearly"
                 style="@style/sfb13p"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/tvYearly"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
                 android:text="@string/yearly_plan"
-                app:layout_constraintVertical_chainStyle="packed"
                 app:layout_constraintBottom_toTopOf="@+id/tvvYearly"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/yearlyPrice"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
+                android:id="@+id/tvvYearly"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/most_popular_plan"
                 android:textColor="#FFC947"
-                android:id="@+id/tvvYearly"
-                app:layout_constraintTop_toBottomOf="@+id/tvYearly"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/tvYearly"/>
+                app:layout_constraintStart_toStartOf="@+id/tvYearly"
+                app:layout_constraintTop_toBottomOf="@+id/tvYearly" />
 
             <TextView
                 android:id="@+id/yearlyPrice"
@@ -281,16 +281,16 @@
             app:layout_constraintTop_toBottomOf="@+id/con_yearly_plan">
 
             <TextView
-                style="@style/sfb13s"
                 android:id="@+id/tvWeekly"
+                style="@style/sfb13s"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_5sdp"
-                android:text="@string/weekly_plan"
+                android:text="@string/weekly_subscriptions"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/weeklyPrice"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -334,23 +334,22 @@
 
         <TextView
             android:id="@+id/txtPrivacy"
-            style="@style/sfsb12s"
+            style="@style/sfsb14p"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_20sdp"
-            app:layout_constraintHorizontal_chainStyle="packed"
             android:layout_marginBottom="@dimen/_10sdp"
             android:text="@string/privacy"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/btnUpgradeNow"
             app:layout_constraintEnd_toStartOf="@+id/txtTerms"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@+id/btnUpgradeNow"
             app:layout_constraintTop_toBottomOf="@+id/btnUpgradeNow" />
 
         <TextView
             android:id="@+id/txtTerms"
-            style="@style/sfsb12s"
+            style="@style/sfsb14p"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
@@ -358,25 +357,35 @@
             android:layout_marginBottom="@dimen/_10sdp"
             android:text="@string/terms"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/txtPrivacy"
             app:layout_constraintEnd_toStartOf="@+id/txtRestore"
+            app:layout_constraintStart_toEndOf="@+id/txtPrivacy"
             app:layout_constraintTop_toBottomOf="@+id/btnUpgradeNow" />
 
         <TextView
             android:id="@+id/txtRestore"
-            style="@style/sfsb12s"
+            style="@style/sfsb14p"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:text="@string/restore"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/txtTerms"
             app:layout_constraintEnd_toEndOf="@+id/btnUpgradeNow"
+            app:layout_constraintStart_toEndOf="@+id/txtTerms"
             app:layout_constraintTop_toBottomOf="@+id/btnUpgradeNow" />
 
+        <TextView
+            android:id="@+id/tvAgree"
+            android:layout_width="0dp"
+            style="@style/sfr14s"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="@+id/glLeft"
+            app:layout_constraintEnd_toEndOf="@+id/glRight"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:text="@string/by_subscribing_you_agree_to_our_terms_of_use_and_privacy_policy"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtPrivacy" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

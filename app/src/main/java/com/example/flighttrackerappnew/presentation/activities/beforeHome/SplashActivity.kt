@@ -8,6 +8,7 @@ import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivitySplashBinding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
+import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity2
 import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_SPLASH
 import com.example.flighttrackerappnew.presentation.admob.interstitial.InterstitialAdManager
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider
@@ -37,18 +38,30 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         } else {
             loadAd()
         }
+
+        config.startDiscountIfNeeded()
     }
 
-    private fun loadAd() {
-        if (config.isPremiumUser) {
-            if (config.isPrivacyPolicyAccepted) {
-                val intent = Intent(this@SplashActivity, LanguageActivity::class.java)
-                intent.putExtra("fromSetting", false)
-                startActivity(intent)
-            } else {
-                startActivity(Intent(this, PrivacyPolicyActivity::class.java))
-            }
+    private fun showPremiumScreen() {
+        config.startDiscountIfNeeded()
+
+        val isDiscountActive = config.isDiscountActive()
+
+        if (isDiscountActive) {
+            val intent = Intent(this@SplashActivity, PremiumActivity2::class.java)
+            intent.putExtra("fromSetting", false)
+            intent.putExtra("from_splash", true)
+            startActivity(intent)
         } else {
+            val intent = Intent(this@SplashActivity, PremiumActivity::class.java)
+            intent.putExtra("fromSetting", false)
+            intent.putExtra("from_splash", true)
+            startActivity(intent)
+        }
+    }
+
+
+    private fun loadAd() {
             InterstitialAdManager.mInterstitialAd = null
             InterstitialAdManager.loadInterstitialAd(
                 ignoreClickCount = true,
@@ -62,10 +75,11 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                 adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
                 {
                     if (config.isPrivacyPolicyAccepted) {
-                        val intent = Intent(this@SplashActivity, PremiumActivity::class.java)
-                        intent.putExtra("fromSetting", false)
-                        intent.putExtra("from_splash", true)
-                        startActivity(intent)
+                        if (config.isPremiumUser) {
+                            startActivity(Intent(this, LanguageActivity::class.java))
+                        } else {
+                            showPremiumScreen()
+                        }
                     } else {
                         startActivity(Intent(this, PrivacyPolicyActivity::class.java))
                     }
@@ -89,7 +103,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                 this,
                 RemoteConfigManager.getBoolean("native_1_LANGUAGE_SCREEN1")
             )
-        }
     }
 
     private fun getLongLatFirst() {

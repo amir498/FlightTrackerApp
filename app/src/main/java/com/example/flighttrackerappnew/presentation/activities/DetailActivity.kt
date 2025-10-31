@@ -14,6 +14,7 @@ import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 import com.example.flighttrackerappnew.databinding.ActivityDetailBinding
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
+import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity2
 import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_DETAIL
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
@@ -157,15 +158,30 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
             .setLayout(R.layout.dialog_premium_without_ads)
             .setCancelable(true)
             .setPositiveClickListener {
-                val intent = Intent(this, PremiumActivity::class.java)
-                intent.putExtra("from_detail", true)
-                startActivity(intent)
+                showPremiumScreen()
                 it.dismiss()
                 isFromDetail = true
             }.setCrossBtnListener {
                 it.dismiss()
             }
             .show()
+    }
+
+    private fun showPremiumScreen() {
+        config.startDiscountIfNeeded()
+
+        val isDiscountActive = config.isDiscountActive()
+
+        if (isDiscountActive) {
+            val intent = Intent(this@DetailActivity, PremiumActivity2::class.java)
+            intent.putExtra("from_detail", true)
+
+            startActivity(intent)
+        } else {
+            val intent = Intent(this@DetailActivity, PremiumActivity::class.java)
+            intent.putExtra("from_detail", true)
+            startActivity(intent)
+        }
     }
 
     @SuppressLint("ClickableViewAccessibility")

@@ -9,8 +9,6 @@ import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.utils.canRequestAd
 import com.example.flighttrackerappnew.presentation.utils.initializeMobileAdsOnce
 import com.example.flighttrackerappnew.presentation.utils.isNetworkAvailable
-import com.example.flighttrackerappnew.presentation.utils.runWithDelay
-import com.google.android.gms.ads.nativead.NativeAd
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,8 +19,8 @@ class NativeAdsManager(
     ids: Pair<String, String>,
     adType: NativeAdTypes,
     nativeAdCategory: NativeAdCategory = NativeAdCategory.NATIVE_REGULAR
-): KoinComponent {
-    val nativeAdUnit: NativeAdUnit = NativeAdUnit(ids.first, ids.second, adType,nativeAdCategory)
+) : KoinComponent {
+    val nativeAdUnit: NativeAdUnit = NativeAdUnit(ids.first, ids.second, adType, nativeAdCategory)
     private val config: Config by inject()
 
     fun loadNativeAd(
@@ -66,7 +64,7 @@ class NativeAdsManager(
         adLayout: Int,
         activity: AppCompatActivity,
     ) {
-        runWithDelay(delay = 0) {
+        if (!config.isPremiumUser) {
             activity.showNativeAd(
                 showFakeLoading,
                 adGroup = adGroup,
@@ -74,9 +72,5 @@ class NativeAdsManager(
                 adLayout = adLayout
             )
         }
-    }
-
-    fun getLoadedAd(): NativeAd? {
-        return nativeAdUnit.ad
     }
 }

@@ -7,6 +7,7 @@ import com.example.flighttrackerappnew.data.model.FollowFlightData
 import com.example.flighttrackerappnew.data.model.arrival.ArrivalDataItems
 import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
+import com.example.flighttrackerappnew.presentation.helper.Config
 import com.google.android.gms.maps.model.LatLng
 
 var arrivalFlightData: MutableLiveData<ArrayList<ArrivalDataItems>> =
@@ -22,8 +23,8 @@ var IS_FROM_SETTING_ACTIVITY = false
 var searchedDataSubTitle = ""
 var searchedDataTitle = ""
 var selectedDate = ""
-var lastSelectedPlane:FlightDataItem? = null
-var lastArrivalLongLat:LatLng? = null
+var lastSelectedPlane: FlightDataItem? = null
+var lastArrivalLongLat: LatLng? = null
 var isFromDetail = false
 var selectedLiveFlightData: ArrivalDataItems? = null
 var loadAppOpen = true
@@ -39,8 +40,14 @@ var isComeFromTracked: Boolean = true
 var trackData: FollowFlightData? = null
 var isFirstPremiumFlow = false
 
+const val DISCOUNT_START_TIME = "discount_start_time"
+
 fun runWithDelay(delay: Long = 1000L, function: () -> Unit) {
     Handler(Looper.getMainLooper()).postDelayed({
         function.invoke()
     }, delay)
+}
+
+fun showPremiumScreen(function: (isDiscountActive: Boolean) -> Unit) {
+
 }
