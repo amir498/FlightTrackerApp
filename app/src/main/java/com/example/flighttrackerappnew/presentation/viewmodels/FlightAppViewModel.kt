@@ -48,7 +48,7 @@ class FlightAppViewModel(
     private val _liveFlightData = MutableLiveData<Resource<List<FlightDataItem>>>()
     val liveFlightData: LiveData<Resource<List<FlightDataItem>>> get() = _liveFlightData
 
-    fun getLiveFlight(latitude: Double, longitude: Double, distance: Int) {
+    private fun getLiveFlight(latitude: Double, longitude: Double, distance: Int) {
         viewModelScope.launch {
             _liveFlightData.postValue(Resource.Loading)
             val result = getLiveFlightUseCase.execute(latitude, longitude, distance)

@@ -32,16 +32,6 @@ class LiveFlightRepositoryImpl(
         }
     }
 
-//    private suspend fun getFromRoom(): List<FlightDataItem> {
-//        val dataFromRoom = liveFlightRoomDataSource.getLiveFlightFromRoom()
-//        return if (dataFromRoom.isNotEmpty()) {
-//            liveFlightCacheDataSource.saveLiveFlightToCache(dataFromRoom)
-//            dataFromRoom
-//        } else {
-//            getDataFromRemote()
-//        }
-//    }
-
     private suspend fun getDataFromRemote(latitude: Double, longitude: Double, distance: Int): List<FlightDataItem> {
         val remote = liveFlightRemoteDataSource.getLiveFlightData(latitude, longitude, distance)
         liveFlightCacheDataSource.saveLiveFlightToCache(remote)

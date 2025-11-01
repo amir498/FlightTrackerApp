@@ -27,7 +27,6 @@ import com.example.flighttrackerappnew.presentation.utils.lastSelectedPlane
 import com.example.flighttrackerappnew.presentation.utils.lat
 import com.example.flighttrackerappnew.presentation.utils.loadAppOpen
 import com.example.flighttrackerappnew.presentation.utils.lon
-import com.example.flighttrackerappnew.presentation.utils.setZoomClickEffect
 import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.example.flighttrackerappnew.presentation.utils.visible
 import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
@@ -123,7 +122,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private fun viewListener() {
         binding.apply {
-            viewMapBtn.setZoomClickEffect()
             viewMapBtn.setOnClickListener {
                 if (checkTrue()) {
                     this@MainActivity.showToast("Wait!!")
@@ -146,7 +144,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
             }
 
-            btnSetting.setZoomClickEffect()
             btnSetting.setOnClickListener {
                 if (checkTrue()) {
                     this@MainActivity.showToast("Wait!!")
@@ -170,7 +167,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     })
             }
 
-            btnSearchNow.setZoomClickEffect()
             btnSearchNow.setOnClickListener {
                 if (checkTrue()) {
                     this@MainActivity.showToast("Wait!!")
@@ -194,7 +190,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     })
             }
 
-            btnNearbyFlight.setZoomClickEffect()
             btnNearbyFlight.setOnClickListener {
                 if (checkTrue()) {
                     this@MainActivity.showToast("Wait!!")
@@ -219,7 +214,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     })
             }
 
-            btnFollowedFlight.setZoomClickEffect()
             btnFollowedFlight.setOnClickListener {
                 if (checkTrue()) {
                     this@MainActivity.showToast("Wait!!")
@@ -237,13 +231,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     isInterstitialEnabled = RemoteConfigManager.getBoolean("INTERSTITIAL_HOME"),
                     adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
                     {
-                        startActivity(Intent(this@MainActivity, TrackedActivity::class.java))
+                        startActivity(Intent(this@MainActivity, FollowedFlightActivity::class.java))
                     }, {
 
                     })
             }
 
-            btnScheduledFlight.setZoomClickEffect()
             btnScheduledFlight.setOnClickListener {
                 if (checkTrue()) {
                     this@MainActivity.showToast("Wait!!")
@@ -271,7 +264,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 )
             }
 
-            PremiumScreenIcon.setZoomClickEffect()
             PremiumScreenIcon.setOnClickListener {
                 if (checkTrue()) {
                     this@MainActivity.showToast("Wait!!")
@@ -280,7 +272,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 showPremiumScreen()
             }
 
-            btnSavedFlight.setZoomClickEffect()
             btnSavedFlight.setOnClickListener {
                 if (checkTrue()) {
                     this@MainActivity.showToast("Wait!!")
@@ -393,25 +384,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         showToast("No Airlines Data found")
                         Log.d("MY----TAG", "observeLiveData:No Airlines Data found")
                     }
+
                 }
             }
 
             liveFlightData.observe(this@MainActivity) { result ->
                 when (result) {
                     is Resource.Loading -> {
-                        Log.d("MY----TAG", "observeLiveData:liveFlightData Loading")
+                        Log.d("MY----TAG", "observeLiveData: LiveFlightData Loading")
                         showLoading()
                     }
 
                     is Resource.Success -> {
                         hideLoading()
                         dataCollector.flights = result.data
+                        Log.d("MY----TAG", "observeLiveData: Success — ${result.data.size} flights loaded")
                     }
 
                     is Resource.Error -> {
                         hideLoading()
-                        showToast("No LiveFlight Data found")
-                        Log.d("MY----TAG", "observeLiveData:No LiveFlight Data found")
+                        showToast("Error: ${result.message}")
+                        Log.e("MY----TAG", "observeLiveData: Error — ${result.message}", result.throwable)
                         showDialog()
                     }
                 }

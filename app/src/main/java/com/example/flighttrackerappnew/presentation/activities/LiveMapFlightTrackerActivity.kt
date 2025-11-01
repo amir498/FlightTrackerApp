@@ -38,7 +38,7 @@ import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.getTimeDifference
 import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isComeFromFav
-import com.example.flighttrackerappnew.presentation.utils.isComeFromTracked
+import com.example.flighttrackerappnew.presentation.utils.isComeFromFollowed
 import com.example.flighttrackerappnew.presentation.utils.isFromDetail
 import com.example.flighttrackerappnew.presentation.utils.orNA
 import com.example.flighttrackerappnew.presentation.utils.selectedLiveFlightData
@@ -95,7 +95,7 @@ class LiveMapFlightTrackerActivity :
         binding.backBtn.layoutParams = params
 
         isComeFromFav = false
-        isComeFromTracked = false
+        isComeFromFollowed = false
         trackData = null
         favData = null
         getBottomSheetReference()
@@ -194,7 +194,7 @@ class LiveMapFlightTrackerActivity :
                         R.string.unfollow
                     )
                 ) {
-                    isComeFromTracked = false
+                    isComeFromFollowed = false
                     this@LiveMapFlightTrackerActivity.showToast("Flight is not being Followed")
                     binding.include.tvFollow.text =
                         ContextCompat.getString(this@LiveMapFlightTrackerActivity, R.string.follow)
@@ -204,7 +204,7 @@ class LiveMapFlightTrackerActivity :
                         }
                     }
                 } else {
-                    isComeFromTracked = true
+                    isComeFromFollowed = true
                     this@LiveMapFlightTrackerActivity.showToast("Flight is being Followed")
                     binding.include.tvFollow.text = ContextCompat.getString(
                         this@LiveMapFlightTrackerActivity,

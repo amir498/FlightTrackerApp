@@ -42,7 +42,7 @@ class PremiumActivity2 : BaseActivity<ActivityPremium2Binding>(ActivityPremium2B
 
         Handler(Looper.getMainLooper()).postDelayed({
             binding.btnCross.visible()
-        }, 2000)
+        }, 3000)
 
         viewListener()
         billingEventListener()

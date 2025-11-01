@@ -41,7 +41,7 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>(ActivityPremiumBind
 
         Handler(Looper.getMainLooper()).postDelayed({
             binding.btnClosePremium.visible()
-        }, 2000)
+        }, 3000)
 
         viewListener()
         billingEventListener()

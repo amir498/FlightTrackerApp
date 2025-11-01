@@ -54,7 +54,7 @@
             android:name=".presentation.activities.NearByActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.activities.TrackedActivity"
+            android:name=".presentation.activities.FollowedFlightActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.activities.DetailActivity"

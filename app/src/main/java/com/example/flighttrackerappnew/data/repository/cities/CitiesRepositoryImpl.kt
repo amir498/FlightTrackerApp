@@ -16,13 +16,21 @@ class CitiesRepositoryImpl(
 ) : CitiesRepository {
 
     override suspend fun getCitiesData(): Resource<List<CitiesDataItems>> {
-        val cacheDat = citiesCacheDataSource.getCitiesCacheData()
         return try {
-            if (cacheDat.isNotEmpty()) {
-                Resource.Success(cacheDat)
-            } else {
-                Resource.Success(getDataFromRemote())
+            val cacheData = citiesCacheDataSource.getCitiesCacheData()
+            if (cacheData.isNotEmpty()) {
+                return Resource.Success(cacheData)
             }
+            val roomData = citiesRoomDataSource.getCitiesFromRoom()
+            if (roomData.isNotEmpty()) {
+                citiesCacheDataSource.saveCitiesToCache(roomData)
+                return Resource.Success(roomData)
+            }
+            val remoteData = citiesRemoteDataSource.getCitiesFromRemote()
+            citiesRoomDataSource.saveCitiesToRoom(remoteData)
+            citiesCacheDataSource.saveCitiesToCache(remoteData)
+            Resource.Success(remoteData)
+
         } catch (e: HttpException) {
             Resource.Error("HTTP ${e.code()} ${e.message()}")
         } catch (e: IOException) {
@@ -30,22 +38,5 @@ class CitiesRepositoryImpl(
         } catch (e: Exception) {
             Resource.Error("Unexpected error: ${e.localizedMessage}")
         }
-    }
-
-    private suspend fun getDataFromRoom(): List<CitiesDataItems> {
-        val dataFromRoom = citiesRoomDataSource.getCitiesFromRoom()
-        return if (dataFromRoom.isNotEmpty()) {
-            citiesCacheDataSource.saveCitiesToCache(dataFromRoom)
-            dataFromRoom
-        } else {
-            getDataFromRemote()
-        }
-    }
-
-    private suspend fun getDataFromRemote(): List<CitiesDataItems> {
-        val dataFromRemote = citiesRemoteDataSource.getCitiesFromRemote()
-        citiesRoomDataSource.saveCitiesToRoom(dataFromRemote)
-        citiesCacheDataSource.saveCitiesToCache(dataFromRemote)
-        return dataFromRemote
     }
 }

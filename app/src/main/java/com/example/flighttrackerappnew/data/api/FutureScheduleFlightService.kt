@@ -1,6 +1,7 @@
 package com.example.flighttrackerappnew.data.api
 
-import com.example.flighttrackerappnew.data.model.futureSchedule.FutureScheduleItem
+import okhttp3.ResponseBody
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -11,5 +12,5 @@ interface FutureScheduleFlightService {
         @Query("iataCode") iataCode: String,
         @Query("date") date: String,
         @Query("key") apiKey: String
-    ): List<FutureScheduleItem>
+    ): Response<ResponseBody>
 }

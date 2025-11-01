@@ -31,15 +31,6 @@ class FlightScheduleRepositoryImpl(
         }
     }
 
-    private suspend fun getFromRoom(): List<FlightSchedulesItems> {
-        if (flightScheduleRoomDataSource.getLiveFlightFromRoom().isNotEmpty()) {
-            flightScheduleCacheDataSource.saveLiveFlightToCache(flightScheduleRoomDataSource.getLiveFlightFromRoom())
-            return flightScheduleRoomDataSource.getLiveFlightFromRoom()
-        } else {
-            return getFromApi()
-        }
-    }
-
     private suspend fun getFromApi(): List<FlightSchedulesItems> {
         val flightData = flightScheduleRemoteDataSource.getLiveFlightData()
         flightScheduleRoomDataSource.saveLiveFlightToRoom(flightData)

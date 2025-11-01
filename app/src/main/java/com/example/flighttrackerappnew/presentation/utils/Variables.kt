@@ -7,7 +7,6 @@ import com.example.flighttrackerappnew.data.model.FollowFlightData
 import com.example.flighttrackerappnew.data.model.arrival.ArrivalDataItems
 import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
-import com.example.flighttrackerappnew.presentation.helper.Config
 import com.google.android.gms.maps.model.LatLng
 
 var arrivalFlightData: MutableLiveData<ArrayList<ArrivalDataItems>> =
@@ -36,7 +35,7 @@ var favData: FullDetailFlightData? = null
 var lat: Double? = null
 var lon: Double? = null
 
-var isComeFromTracked: Boolean = true
+var isComeFromFollowed: Boolean = true
 var trackData: FollowFlightData? = null
 var isFirstPremiumFlow = false
 

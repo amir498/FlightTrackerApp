@@ -16,10 +16,12 @@ import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvide
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.listener.FavFlightListener
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
+import com.example.flighttrackerappnew.presentation.utils.FullDetailsFlightData
 import com.example.flighttrackerappnew.presentation.utils.favData
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isComeFromFav
+import com.example.flighttrackerappnew.presentation.utils.logDebug
 import com.example.flighttrackerappnew.presentation.utils.visible
 import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
 import kotlinx.coroutines.Dispatchers
@@ -61,6 +63,7 @@ class FavouriteFlightActivity :
                 }
             }
         }
+        logDebug("asjdjan",FullDetailsFlightData.toString())
     }
 
     private fun loadAd() {
@@ -120,6 +123,7 @@ class FavouriteFlightActivity :
     }
 
     override fun onViewDetailedClicked(data: FullDetailFlightData) {
+        FullDetailsFlightData = data
         if (config.isPremiumUser) {
             startActivity(Intent(this, DetailActivity::class.java))
         } else {

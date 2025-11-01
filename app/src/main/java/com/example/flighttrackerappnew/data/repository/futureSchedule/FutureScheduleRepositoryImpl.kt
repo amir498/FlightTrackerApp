@@ -1,18 +1,14 @@
 package com.example.flighttrackerappnew.data.repository.futureSchedule
 
 import com.example.flighttrackerappnew.data.model.futureSchedule.FutureScheduleItem
-import com.example.flighttrackerappnew.data.repository.futureSchedule.dataSource.FutureScheduleCacheDataSource
 import com.example.flighttrackerappnew.data.repository.futureSchedule.dataSource.FutureScheduleRemoteDataSource
-import com.example.flighttrackerappnew.data.repository.futureSchedule.dataSource.FutureScheduleRoomDataSource
 import com.example.flighttrackerappnew.domain.repository.FutureScheduleFlightRepository
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import retrofit2.HttpException
 import java.io.IOException
 
 class FutureScheduleRepositoryImpl(
-    private val futureScheduleCacheDataSource: FutureScheduleCacheDataSource,
-    private val futureScheduleRemoteDataSource: FutureScheduleRemoteDataSource,
-    private val futureScheduleRoomDataSource: FutureScheduleRoomDataSource
+    private val futureScheduleRemoteDataSource: FutureScheduleRemoteDataSource
 ) : FutureScheduleFlightRepository {
 
     override suspend fun getFutureScheduleFlightData(): Resource<List<FutureScheduleItem>> {

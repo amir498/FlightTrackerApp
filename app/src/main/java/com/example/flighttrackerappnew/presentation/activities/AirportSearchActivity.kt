@@ -16,7 +16,7 @@ import com.example.flighttrackerappnew.presentation.fragments.DepartureFlightFra
 import com.example.flighttrackerappnew.presentation.utils.favData
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.isComeFromFav
-import com.example.flighttrackerappnew.presentation.utils.isComeFromTracked
+import com.example.flighttrackerappnew.presentation.utils.isComeFromFollowed
 import com.example.flighttrackerappnew.presentation.utils.searchedDataSubTitle
 import com.example.flighttrackerappnew.presentation.utils.searchedDataTitle
 import com.example.flighttrackerappnew.presentation.utils.trackData
@@ -30,7 +30,7 @@ class AirportSearchActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         isComeFromFav = false
-        isComeFromTracked = false
+        isComeFromFollowed = false
         trackData = null
         favData = null
         val params = binding.btnBack.layoutParams as ConstraintLayout.LayoutParams

@@ -16,14 +16,21 @@ class AirPlanesRepositoryImpl(
 ) : AirPlanesRepository {
 
     override suspend fun getAirPlaneData(): Resource<List<AirPlaneItems>> {
-        val cacheDat = airPlanesCacheDataSource.getAirPlanesCacheData()
-
         return try {
-            if (cacheDat.isNotEmpty()) {
-                Resource.Success(cacheDat)
-            } else {
-                Resource.Success(getDataFromRemote())
+            val cacheData = airPlanesCacheDataSource.getAirPlanesCacheData()
+            if (cacheData.isNotEmpty()) {
+                return Resource.Success(cacheData)
             }
+            val roomData = airPlanesRoomDataSource.getAirPlanesFromRoom()
+            if (roomData.isNotEmpty()) {
+                airPlanesCacheDataSource.saveAirPlanesToCache(roomData)
+                return Resource.Success(roomData)
+            }
+            val remoteData = airPlanesRemoteDataSource.getStaticAirPlaneFromRemote()
+            airPlanesRoomDataSource.saveAirPlanesToRoom(remoteData)
+            airPlanesCacheDataSource.saveAirPlanesToCache(remoteData)
+            Resource.Success(remoteData)
+
         } catch (e: HttpException) {
             Resource.Error("HTTP ${e.code()} ${e.message()}")
         } catch (e: IOException) {
@@ -31,22 +38,5 @@ class AirPlanesRepositoryImpl(
         } catch (e: Exception) {
             Resource.Error("Unexpected error: ${e.localizedMessage}")
         }
-    }
-
-    private suspend fun getDataFromRoom(): List<AirPlaneItems> {
-        val dataFromRoom = airPlanesRoomDataSource.getAirPlanesFromRoom()
-        return if (dataFromRoom.isNotEmpty()) {
-            airPlanesCacheDataSource.saveAirPlanesToCache(dataFromRoom)
-            dataFromRoom
-        } else {
-            getDataFromRemote()
-        }
-    }
-
-    private suspend fun getDataFromRemote(): List<AirPlaneItems> {
-        val dataFromRemote = airPlanesRemoteDataSource.getStaticAirPlaneFromRemote()
-        airPlanesRoomDataSource.saveAirPlanesToRoom(dataFromRemote)
-        airPlanesCacheDataSource.saveAirPlanesToCache(dataFromRemote)
-        return dataFromRemote
     }
 }

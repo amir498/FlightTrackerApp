@@ -14,15 +14,23 @@ class AirPortsRepositoryImpl(
     private val airPortsCacheDataSource: AirPortsCacheDataSource,
     private val airPortsRoomDataSource: AirPortsRoomDataSource
 ) : AirPortsRepository {
-    override suspend fun getAirportsData(): Resource<List<AirportsDataItems>> {
-        val cacheDat = airPortsCacheDataSource.getAirportsCacheData()
 
+    override suspend fun getAirportsData(): Resource<List<AirportsDataItems>> {
         return try {
-            if (cacheDat.isNotEmpty()) {
-                Resource.Success(cacheDat)
-            } else {
-                Resource.Success(getDataFromRemote())
+            val cacheData = airPortsCacheDataSource.getAirportsCacheData()
+            if (cacheData.isNotEmpty()) {
+                return Resource.Success(cacheData)
             }
+            val roomData = airPortsRoomDataSource.getAirportsFromRoom()
+            if (roomData.isNotEmpty()) {
+                airPortsCacheDataSource.saveAirportsToCache(roomData)
+                return Resource.Success(roomData)
+            }
+            val remoteData = airPortsRemoteDataSource.getAirPortsFromRemote()
+            airPortsRoomDataSource.saveAirportsToRoom(remoteData)
+            airPortsCacheDataSource.saveAirportsToCache(remoteData)
+            Resource.Success(remoteData)
+
         } catch (e: HttpException) {
             Resource.Error("HTTP ${e.code()} ${e.message()}")
         } catch (e: IOException) {
@@ -30,22 +38,5 @@ class AirPortsRepositoryImpl(
         } catch (e: Exception) {
             Resource.Error("Unexpected error: ${e.localizedMessage}")
         }
-    }
-
-    private suspend fun getDataFromRoom(): List<AirportsDataItems> {
-        val dataFromRoom = airPortsRoomDataSource.getAirportsFromRoom()
-        return if (dataFromRoom.isNotEmpty()) {
-            airPortsCacheDataSource.saveAirportsToCache(dataFromRoom)
-            dataFromRoom
-        } else {
-            getDataFromRemote()
-        }
-    }
-
-    private suspend fun getDataFromRemote(): List<AirportsDataItems> {
-        val dataFromRemote = airPortsRemoteDataSource.getAirPortsFromRemote()
-        airPortsRoomDataSource.saveAirportsToRoom(dataFromRemote)
-        airPortsCacheDataSource.saveAirportsToCache(dataFromRemote)
-        return dataFromRemote
     }
 }

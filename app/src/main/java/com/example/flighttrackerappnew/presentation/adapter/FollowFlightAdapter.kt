@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.flighttrackerappnew.data.model.FollowFlightData
 import com.example.flighttrackerappnew.databinding.TrackedFlightItemsLayoutBinding
 import com.example.flighttrackerappnew.presentation.listener.FollowedFlightListener
+import com.example.flighttrackerappnew.presentation.utils.extractTime
 
 class FollowFlightAdapter : RecyclerView.Adapter<FollowFlightAdapter.SearchAirportViewHolder>() {
     private var list = ArrayList<FollowFlightData>()
@@ -52,21 +53,21 @@ class FollowFlightAdapter : RecyclerView.Adapter<FollowFlightAdapter.SearchAirpo
 
             binding.apply {
                 flightNum.text = item.flightNum
-                depTime.text = item.depTime
-                arriTime.text = item.arrivalTime
+                depTime.text = item.depTime?.extractTime()
+                arriTime.text = item.arrivalTime?.extractTime()
                 sea.text = item.depCityName
                 alt.text = item.arrivalCityName
                 callSign.text = item.callSign
                 AirCraftiataNumber.text = item.airCraftIataNumber
                 depIataCode.text = item.depIataCode
                 depCityName.text = item.depCityName
-                depTime.text = item.depTime
+                depTime.text = item.depTime?.extractTime()
                 arrivalIataCode.text = item.arrivalIataCode
                 arrCityName.text = item.arrivalCityName
-                arriTime.text = item.arrivalTime
-                depActualTime.text = item.depTime
-                arrEstimatedTime.text = item.arrivalTime
-                time.text = item.time
+                arriTime.text = item.arrivalTime?.extractTime()
+                depActualTime.text = item.depTime?.extractTime()
+                arrEstimatedTime.text = item.arrivalTime?.extractTime()
+                time.text = item.time.extractTime()
                 discreteSeekBar.progress = item.progress
                 binding.discreteSeekBar.setOnTouchListener { _, _ -> true }
             }

@@ -230,7 +230,7 @@ val appModule = module {
     single<AirPlanesCacheDataSource> { AirPlanesCacheDataSourceImpl() }
 
     single { GetFutureScheduleFlightUseCase(get()) }
-    single<FutureScheduleFlightRepository> { FutureScheduleRepositoryImpl(get(), get(), get()) }
+    single<FutureScheduleFlightRepository> { FutureScheduleRepositoryImpl(get()) }
     single<FutureScheduleRoomDataSource> { FutureScheduleRoomDataSourceImpl(get()) }
     single<FutureScheduleCacheDataSource> { FutureScheduleCacheDataSourceImpl() }
     single<FutureScheduleRemoteDataSource> { FutureScheduleRemoteDataSourceImpl(get()) }

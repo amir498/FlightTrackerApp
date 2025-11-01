@@ -8,7 +8,7 @@ import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.db.FollowLiveFlightDao
 import com.example.flighttrackerappnew.data.model.FollowFlightData
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
-import com.example.flighttrackerappnew.databinding.ActivityTrackedBinding
+import com.example.flighttrackerappnew.databinding.ActivityFollowedFlightBinding
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity2
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
@@ -20,7 +20,7 @@ import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigMan
 import com.example.flighttrackerappnew.presentation.utils.FullDetailsFlightData
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.invisible
-import com.example.flighttrackerappnew.presentation.utils.isComeFromTracked
+import com.example.flighttrackerappnew.presentation.utils.isComeFromFollowed
 import com.example.flighttrackerappnew.presentation.utils.trackData
 import com.example.flighttrackerappnew.presentation.utils.visible
 import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
@@ -28,7 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
-class TrackedActivity : BaseActivity<ActivityTrackedBinding>(ActivityTrackedBinding::inflate),
+class FollowedFlightActivity : BaseActivity<ActivityFollowedFlightBinding>(ActivityFollowedFlightBinding::inflate),
     FollowedFlightListener {
 
     private val followLiveFlightDao: FollowLiveFlightDao by inject()
@@ -44,7 +44,7 @@ class TrackedActivity : BaseActivity<ActivityTrackedBinding>(ActivityTrackedBind
         initView()
         getFollowedFlight()
         viewListener()
-        isComeFromTracked = true
+        isComeFromFollowed = true
         viewModel.getFollowFlightData()
     }
 
@@ -64,14 +64,14 @@ class TrackedActivity : BaseActivity<ActivityTrackedBinding>(ActivityTrackedBind
     private fun loadAd() {
         NATIVE_TRACKED_FLIGHT.apply {
             loadNativeAd(
-                this@TrackedActivity,
+                this@FollowedFlightActivity,
                 RemoteConfigManager.getBoolean("NATIVE_TRACKED_FLIGHT")
             )
             showNativeAd(
                 adGroup = NATIVE_TRACKED_FLIGHT,
                 frameLayout = binding.flAdplaceholder,
                 adLayout = R.layout.native_ad_layout_view_with_media,
-               activity =  this@TrackedActivity
+               activity =  this@FollowedFlightActivity
             )
         }
     }
@@ -79,14 +79,14 @@ class TrackedActivity : BaseActivity<ActivityTrackedBinding>(ActivityTrackedBind
     private fun setData(data: List<FollowFlightData>) {
         adapter.apply {
             setList(data)
-            setListener(this@TrackedActivity)
+            setListener(this@FollowedFlightActivity)
         }
     }
 
     private fun viewListener() {
         binding.apply {
             btnBack.setOnClickListener {
-                this@TrackedActivity.finish()
+                this@FollowedFlightActivity.finish()
             }
         }
     }
@@ -199,11 +199,11 @@ class TrackedActivity : BaseActivity<ActivityTrackedBinding>(ActivityTrackedBind
         val isDiscountActive = config.isDiscountActive()
 
         if (isDiscountActive) {
-            val intent = Intent(this@TrackedActivity, PremiumActivity2::class.java)
+            val intent = Intent(this@FollowedFlightActivity, PremiumActivity2::class.java)
             intent.putExtra("from_arrival", true)
             startActivity(intent)
         } else {
-            val intent = Intent(this@TrackedActivity, PremiumActivity::class.java)
+            val intent = Intent(this@FollowedFlightActivity, PremiumActivity::class.java)
             intent.putExtra("from_arrival", true)
             startActivity(intent)
         }

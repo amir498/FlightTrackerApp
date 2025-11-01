@@ -14,14 +14,23 @@ class StaticAirLineRepositoryImpl(
     private val staticAirLineRoomDataSource: StaticAirLineRoomDataSource,
     private val staticAirLineCacheDataSource: StaticAirLineCacheDataSource
 ) : StaticAirLineRepository {
+
     override suspend fun getStaticAirLineData(): Resource<List<StaticAirLineItems>> {
-        val cacheDat = staticAirLineCacheDataSource.getStaticAirLineCacheData()
         return try {
-            if (cacheDat.isNotEmpty()) {
-                Resource.Success(cacheDat)
-            } else {
-                Resource.Success(getDataFromRemote())
+            val cacheData = staticAirLineCacheDataSource.getStaticAirLineCacheData()
+            if (cacheData.isNotEmpty()) {
+                return Resource.Success(cacheData)
             }
+            val roomData = staticAirLineRoomDataSource.getStaticAirLineFromRoom()
+            if (roomData.isNotEmpty()) {
+                staticAirLineCacheDataSource.saveStaticAirLineToCache(roomData)
+                return Resource.Success(roomData)
+            }
+            val remoteData = staticAirLineRemoteDataSource.getStaticAirLineFromRemote()
+            staticAirLineRoomDataSource.saveStaticAirLineToRoom(remoteData)
+            staticAirLineCacheDataSource.saveStaticAirLineToCache(remoteData)
+            Resource.Success(remoteData)
+
         } catch (e: HttpException) {
             Resource.Error("HTTP ${e.code()} ${e.message()}")
         } catch (e: IOException) {
@@ -29,22 +38,5 @@ class StaticAirLineRepositoryImpl(
         } catch (e: Exception) {
             Resource.Error("Unexpected error: ${e.localizedMessage}")
         }
-    }
-
-    private suspend fun getDataFromRoom(): List<StaticAirLineItems> {
-        val dataFromRoom = staticAirLineRoomDataSource.getStaticAirLineFromRoom()
-        return if (dataFromRoom.isNotEmpty()) {
-            staticAirLineCacheDataSource.saveStaticAirLineToCache(dataFromRoom)
-            dataFromRoom
-        } else {
-            getDataFromRemote()
-        }
-    }
-
-    private suspend fun getDataFromRemote(): List<StaticAirLineItems> {
-        val dataFromRemote = staticAirLineRemoteDataSource.getStaticAirLineFromRemote()
-        staticAirLineRoomDataSource.saveStaticAirLineToRoom(dataFromRemote)
-        staticAirLineCacheDataSource.saveStaticAirLineToCache(dataFromRemote)
-        return dataFromRemote
     }
 }

@@ -8,17 +8,47 @@ import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigMan
 import com.example.flighttrackerappnew.presentation.utils.airportCode
 import com.example.flighttrackerappnew.presentation.utils.flightType
 import com.example.flighttrackerappnew.presentation.utils.startDate
+import com.google.common.reflect.TypeToken
+import com.google.gson.Gson
+import org.json.JSONObject
+import retrofit2.HttpException
+import java.io.IOException
 
 class FutureScheduleRemoteDataSourceImpl(
     private val futureScheduleFlightService: FutureScheduleFlightService
 ) : FutureScheduleRemoteDataSource {
+
+    private val apiKey = RemoteConfigManager.getString("api_key")
+
     override suspend fun getFutureFlightData(): List<FutureScheduleItem> {
-        val apiKey = RemoteConfigManager.getString("api_key")
-        return futureScheduleFlightService.getSchedulesFlight(
+        val response = futureScheduleFlightService.getSchedulesFlight(
             type = flightType,
             iataCode = airportCode.uppercase(),
             date = startDate,
-            apiKey
+            apiKey = apiKey
         )
+
+        if (response.isSuccessful) {
+            val body = response.body()?.string()
+            try {
+                val type = object : TypeToken<List<FutureScheduleItem>>() {}.type
+                return Gson().fromJson(body, type)
+            } catch (e: Exception) {
+                Log.e("MY----TAG", "Parse array failed, trying error object: ${e.message}")
+                try {
+                    val errorJson = JSONObject(body ?: "{}")
+                    val errorMessage =
+                        errorJson.optJSONObject("error")?.optString("message")
+                            ?: errorJson.optString("error", "Unknown API error")
+                    throw IOException("API error: $errorMessage")
+                } catch (inner: Exception) {
+                    throw IOException("API error: Unknown error format — ${inner.message}")
+                }
+            }
+        } else {
+            val errorText = response.errorBody()?.string()
+            Log.e("MY----TAG", "HTTP error: ${response.code()} — $errorText")
+            throw HttpException(response)
+        }
     }
 }

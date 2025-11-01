@@ -7,6 +7,7 @@ import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flighttrackerappnew.R
+import com.example.flighttrackerappnew.presentation.activities.beforeHome.SplashActivity
 import com.example.flighttrackerappnew.presentation.admob.ump.UMPConsentManager
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.helper.Config
@@ -92,10 +93,15 @@ object InterstitialAdManager : KoinComponent {
                 }
             }
         } else {
+            val delay: Long = if (activity is SplashActivity) {
+                5000
+            } else {
+                0
+            }
             Handler(Looper.getMainLooper()).postDelayed(
                 {
                     onAdDismissed?.invoke()
-                }, 4000
+                }, delay
             )
         }
     }

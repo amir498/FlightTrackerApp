@@ -114,7 +114,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
 
     override fun onResume() {
         super.onResume()
-        if (isNetworkAvailable() && !config.isPremiumUser) {
+        if (isNetworkAvailable()) {
             getLongLatFirst()
         }
     }

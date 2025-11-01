@@ -63,11 +63,12 @@
         android:layout_height="@dimen/_6sdp"
         android:src="@drawable/iv_splash_dots"
         android:id="@+id/iv_splash_dots1"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:layout_marginEnd="@dimen/_3sdp"
         app:layout_constraintStart_toEndOf="@+id/live_flight_track2"
         app:layout_constraintEnd_toStartOf="@+id/live_flight_track22"
         app:layout_constraintTop_toTopOf="@+id/live_flight_track2"
         app:layout_constraintBottom_toBottomOf="@+id/live_flight_track2"/>
-
 
     <TextView
         android:id="@+id/live_flight_track22"
@@ -85,6 +86,8 @@
         android:layout_height="@dimen/_6sdp"
         android:src="@drawable/iv_splash_dots"
         android:id="@+id/iv_splash_dots2"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:layout_marginEnd="@dimen/_3sdp"
         app:layout_constraintStart_toEndOf="@+id/live_flight_track22"
         app:layout_constraintEnd_toStartOf="@+id/live_flight_track23"
         app:layout_constraintTop_toTopOf="@+id/live_flight_track2"

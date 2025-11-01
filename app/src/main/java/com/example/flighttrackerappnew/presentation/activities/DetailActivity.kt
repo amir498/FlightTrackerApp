@@ -3,8 +3,10 @@ package com.example.flighttrackerappnew.presentation.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.db.FavFlightDao
@@ -19,15 +21,18 @@ import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvide
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import com.example.flighttrackerappnew.presentation.utils.FullDetailsFlightData
+import com.example.flighttrackerappnew.presentation.utils.extractTime
 import com.example.flighttrackerappnew.presentation.utils.favData
 import com.example.flighttrackerappnew.presentation.utils.formatIsoDate
 import com.example.flighttrackerappnew.presentation.utils.formatTo12HourTime
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.gone
+import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isComeFromFav
-import com.example.flighttrackerappnew.presentation.utils.isComeFromTracked
+import com.example.flighttrackerappnew.presentation.utils.isComeFromFollowed
 import com.example.flighttrackerappnew.presentation.utils.isFromDetail
 import com.example.flighttrackerappnew.presentation.utils.lastSelectedPlane
+import com.example.flighttrackerappnew.presentation.utils.runWithDelay
 import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.example.flighttrackerappnew.presentation.utils.trackData
 import com.example.flighttrackerappnew.presentation.utils.visible
@@ -48,7 +53,7 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
         params.topMargin = getStatusBarHeight
         binding.selectedMove.layoutParams = params
 
-        if (isComeFromTracked) {
+        if (isComeFromFollowed) {
             binding.tvFollow.text =
                 ContextCompat.getString(this@DetailActivity, R.string.unfollow)
         } else {
@@ -63,7 +68,6 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
 
         if (isComeFromFav) {
             binding.favFlightBtn.setImageResource(R.drawable.iv_fav_s)
-            binding.favFlightBtn.tag = "fav"
         }
 
         loadBannerAd()
@@ -80,6 +84,8 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
     }
 
     private fun getTrackedData() {
+        Log.d("MY-re-TAG", "scheduledArrTime:${FullDetailsFlightData?.scheduledArrTime}")
+        Log.d("MY-re-TAG", "scheduledDepTime:${FullDetailsFlightData?.scheduledDepTime}")
         trackData = FollowFlightData(
             id = 0,
             depTime = FullDetailsFlightData?.scheduledDepTime,
@@ -99,23 +105,39 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
         )
     }
 
+    private var firstTime = true
+
     private val viewModel: FlightAppViewModel by inject()
 
-    private var favFlightDta: List<FullDetailFlightData>? = null
+    private var favFlightDtaList: List<FullDetailFlightData>? = null
 
     private fun observerLiveData() {
         viewModel.apply {
-            viewModel.favFlightData.observe(this@DetailActivity) {
-                favFlightDta = it
-                if (favFlightDta != null) {
-                    if (favFlightDta?.any { it.flightNo == FullDetailsFlightData?.flightNo } == true) {
-                        binding.favFlightBtn.setImageResource(R.drawable.iv_fav_s)
-                        binding.favFlightBtn.tag = "fav"
-                        favData = FullDetailsFlightData
+            favFlightData.observe(this@DetailActivity) {
+                favFlightDtaList = it
+                if (favFlightDtaList != null) {
+                    if (favFlightDtaList?.any { it.flightNo == FullDetailsFlightData?.flightNo } == true) {
+                        val delay = if (firstTime) {
+                            0L
+                        } else {
+                            this@DetailActivity.showToast("Flight added to Favorites")
+                            1000L
+                        }
+                        firstTime = false
+                        runWithDelay(delay) {
+                            binding.favFlightBtn.setImageResource(R.drawable.iv_fav_s)
+                            favData = FullDetailsFlightData
+                            binding.pg.invisible()
+                        }
+                    } else {
+                        favData = null
                     }
+                } else {
+                    firstTime = false
+                    favData = null
                 }
             }
-            viewModel.followFlightData.observe(this@DetailActivity) {
+            followFlightData.observe(this@DetailActivity) {
                 val isTrackData = it?.any {
                     it.flightNum == FullDetailsFlightData?.flightNo
                 }
@@ -247,8 +269,9 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
             }
             favFlightBtn.setOnClickListener {
                 binding.apply {
-                    if (favFlightBtn.tag == "") {
-                        if (favData != null) {
+                    if (!binding.pg.isVisible) {
+                        if (favData == null) {
+                            binding.pg.visible()
                             lifecycleScope.launch(Dispatchers.IO) {
                                 val job = lifecycleScope.launch(Dispatchers.IO) {
                                     FullDetailsFlightData?.let { entity ->
@@ -258,30 +281,9 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
                                     }
                                 }
                                 job.join()
-                                favFlightBtn.tag = "fav"
-                                favFlightBtn.setImageResource(R.drawable.iv_fav_s)
-                                this@DetailActivity.showToast("Flight added to Favorites")
                                 getFavFlight()
                             }
-                        }
-
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            val job = lifecycleScope.launch(Dispatchers.IO) {
-                                FullDetailsFlightData?.let { entity ->
-                                    favFlightDao.insertFavFlightData(
-                                        entity
-                                    )
-                                }
-                            }
-                            job.join()
-                            favFlightBtn.tag = "fav"
-                            favFlightBtn.setImageResource(R.drawable.iv_fav_s)
-                            this@DetailActivity.showToast("Flight added to Favorites")
-                            getFavFlight()
-                        }
-
-                    } else {
-                        if (favData != null) {
+                        } else {
                             lifecycleScope.launch(Dispatchers.IO) {
                                 val job = lifecycleScope.launch(Dispatchers.IO) {
                                     favData!!.flightNo.let { flightNumber ->
@@ -291,27 +293,13 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
                                     }
                                 }
                                 job.join()
-                                favFlightBtn.tag = ""
                                 favFlightBtn.setImageResource(R.drawable.iv_fav)
                                 this@DetailActivity.showToast("Flight removed from Favorites")
                                 getFavFlight()
                             }
                         }
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            val job = lifecycleScope.launch(Dispatchers.IO) {
-                                FullDetailsFlightData?.let { entity ->
-                                    favFlightDao.deleteFavFlightByNumber(
-                                        entity.flightNo
-                                    )
-                                }
-                            }
-                            job.join()
-                            favFlightBtn.tag = ""
-                            favFlightBtn.setImageResource(R.drawable.iv_fav)
-                            this@DetailActivity.showToast("Flight removed from Favorites")
-                            getFavFlight()
-                        }
-
+                    } else {
+                        this@DetailActivity.showToast("Wait...")
                     }
                 }
             }
@@ -377,16 +365,15 @@ class DetailActivity : BaseActivity<ActivityDetailBinding>(ActivityDetailBinding
 
     fun setData() {
         binding.apply {
-            favFlightBtn.tag = ""
             depIataCode.text = FullDetailsFlightData?.depIataCode
             arrivalIataCode.text = FullDetailsFlightData?.arrIataCode
             depCityName.text = FullDetailsFlightData?.depCity
             arrCityName.text = FullDetailsFlightData?.arrCity
             tvAmericanAirlines.text = FullDetailsFlightData?.airlineName
-            depTime.text = FullDetailsFlightData?.scheduledDepTime
-            arriTime.text = FullDetailsFlightData?.scheduledArrTime
-            depActualTime.text = FullDetailsFlightData?.scheduledDepTime
-            arrEstimatedTime.text = FullDetailsFlightData?.scheduledArrTime
+            depTime.text = FullDetailsFlightData?.scheduledDepTime?.extractTime()
+            arriTime.text = FullDetailsFlightData?.scheduledArrTime?.extractTime()
+            depActualTime.text = FullDetailsFlightData?.scheduledDepTime?.extractTime()
+            arrEstimatedTime.text = FullDetailsFlightData?.scheduledArrTime?.extractTime()
             terminalValue.text = FullDetailsFlightData?.terminal
             GateNo.text = FullDetailsFlightData?.gate
             delayValue.text = formatTo12HourTime(FullDetailsFlightData?.delay ?: "N/A")

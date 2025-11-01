@@ -182,6 +182,8 @@
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/_4sdp"
             android:text="5:15 AM"
+            android:textAlignment="center"
+            android:maxLines="1"
             app:layout_constraintEnd_toEndOf="@+id/depCityName"
             app:layout_constraintStart_toStartOf="@+id/depCityName"
             app:layout_constraintTop_toBottomOf="@+id/iv_dep_w" />
@@ -192,6 +194,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="SCHEDULED"
+            android:maxLines="1"
             app:layout_constraintEnd_toEndOf="@+id/depIataCode"
             app:layout_constraintStart_toStartOf="@+id/depIataCode"
             app:layout_constraintTop_toBottomOf="@+id/depTime" />
@@ -224,6 +227,7 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:fontFamily="@font/sf_pro_display_bold"
             android:text="@string/_10_24_hrs"
+            android:maxLines="1"
             android:textColor="@color/text_color_p"
             app:layout_constraintEnd_toEndOf="@+id/dep_to_arriv"
             app:layout_constraintStart_toStartOf="@+id/dep_to_arriv"
@@ -242,6 +246,7 @@
             android:paddingEnd="@dimen/_5sdp"
             android:paddingBottom="@dimen/_2sdp"
             android:text="@string/active"
+            android:maxLines="1"
             android:textColor="@color/success"
             app:layout_constraintEnd_toEndOf="@+id/time"
             app:layout_constraintStart_toStartOf="@+id/time"
@@ -287,6 +292,8 @@
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/_4sdp"
             android:text="5:15 AM"
+            android:textAlignment="center"
+            android:maxLines="1"
             app:layout_constraintEnd_toEndOf="@+id/arrivalIataCode"
             app:layout_constraintStart_toStartOf="@+id/arrivalIataCode"
             app:layout_constraintTop_toBottomOf="@+id/iv_arrival_w" />
@@ -297,6 +304,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="SCHEDULED"
+            android:maxLines="1"
             app:layout_constraintEnd_toEndOf="@+id/arriTime"
             app:layout_constraintStart_toStartOf="@+id/arriTime"
             app:layout_constraintTop_toBottomOf="@+id/arriTime" />
