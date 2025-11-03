@@ -1,62 +1,57 @@
-package com.example.flighttrackerappnew.presentation.activities
+package com.example.flighttrackerappnew.presentation.activities.main
 
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.lifecycleScope
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.airport.AirportsDataItems
 import com.example.flighttrackerappnew.databinding.ActivityFlightScheduleSearchAirportBinding
+import com.example.flighttrackerappnew.presentation.activities.BaseActivity
+import com.example.flighttrackerappnew.presentation.activities.FlightScheduleTypeAirportActivity
 import com.example.flighttrackerappnew.presentation.adapter.SearchAirportAdapter
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_FLIGHT_SCHEDULED_SEARCH
-import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import com.example.flighttrackerappnew.presentation.utils.airportCode
-import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.example.flighttrackerappnew.presentation.utils.visible
 import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class FlightScheduleSearchAirportActivity :
     BaseActivity<ActivityFlightScheduleSearchAirportBinding>(
         ActivityFlightScheduleSearchAirportBinding::inflate
     ) {
-
+    private val viewModel: FlightAppViewModel by inject()
     private var adapter = SearchAirportAdapter()
     private var airportsList = listOf<AirportsDataItems>()
-    private val dataCollector: DataCollector by inject()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val params = binding.btnBack.layoutParams as ConstraintLayout.LayoutParams
-        params.topMargin = getStatusBarHeight
-        binding.btnBack.layoutParams = params
-
         observerData()
         viewListener()
-        adapter.setListener {
-            airportCode = it.codeIataAirport.toString()
-            startActivity(Intent(this, FlightScheduleTypeAirportActivity::class.java))
-        }
     }
 
-    private val viewModel: FlightAppViewModel by inject()
-
     private fun observerData() {
-        viewModel.airPortsData.observe(this@FlightScheduleSearchAirportActivity) { result ->
+        lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.getAirPorts()
+        }
+        viewModel.airPortsData.observe(this) { result ->
             when (result) {
                 is Resource.Loading -> {
                     binding.pg.visible()
                 }
 
                 is Resource.Success -> {
+                    airportsList = result.data
                     binding.pg.invisible()
-                    dataCollector.airports = result.data
                     setData()
                 }
 
@@ -65,6 +60,18 @@ class FlightScheduleSearchAirportActivity :
                     showToast("No Airport Data found")
                 }
             }
+        }
+    }
+
+    private fun setData() {
+        binding.recyclerView.adapter = adapter
+        adapter.setList(airportsList)
+        if (airportsList.isNotEmpty()) {
+            loadAd()
+        }
+        adapter.setListener {
+            airportCode = it.codeIataAirport.toString()
+            startActivity(Intent(this, FlightScheduleTypeAirportActivity::class.java))
         }
     }
 
@@ -78,17 +85,8 @@ class FlightScheduleSearchAirportActivity :
                 adGroup = NATIVE_FLIGHT_SCHEDULED_SEARCH,
                 frameLayout = binding.flAdplaceholder,
                 adLayout = R.layout.native_ad_layout_view_with_media,
-               activity =  this@FlightScheduleSearchAirportActivity
+                activity = this@FlightScheduleSearchAirportActivity
             )
-        }
-    }
-
-    private fun setData() {
-        airportsList = dataCollector.airports
-        binding.recyclerView.adapter = adapter
-        adapter.setList(airportsList)
-        if (airportsList.isNotEmpty()) {
-            loadAd()
         }
     }
 

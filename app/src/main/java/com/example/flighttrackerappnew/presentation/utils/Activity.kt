@@ -3,6 +3,8 @@ package com.example.flighttrackerappnew.presentation.utils
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.os.Build
+import android.view.Window
 import android.view.WindowManager
 import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
@@ -94,5 +96,14 @@ fun Activity.rateApp() {
                 "https://play.google.com/store/apps/details?id=$packageName".toUri()
             )
         )
+    }
+}
+
+fun Activity.setStatusBarDisplay(isStatusBarBgLight: Boolean, window: Window) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars =
+            isStatusBarBgLight
+        WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightNavigationBars =
+            isStatusBarBgLight
     }
 }

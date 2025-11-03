@@ -3,7 +3,6 @@ package com.example.flighttrackerappnew.data.repository.flight
 import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
 import com.example.flighttrackerappnew.data.repository.flight.datasource.LiveFlightCacheDataSource
 import com.example.flighttrackerappnew.data.repository.flight.datasource.LiveFlightRemoteDataSource
-import com.example.flighttrackerappnew.data.repository.flight.datasource.LiveFlightRoomDataSource
 import com.example.flighttrackerappnew.domain.repository.LiveFlightRepository
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import retrofit2.HttpException
@@ -12,7 +11,6 @@ import java.io.IOException
 class LiveFlightRepositoryImpl(
     private val liveFlightCacheDataSource: LiveFlightCacheDataSource,
     private val liveFlightRemoteDataSource: LiveFlightRemoteDataSource,
-    private val liveFlightRoomDataSource: LiveFlightRoomDataSource,
 ) : LiveFlightRepository {
 
     override suspend fun getLiveFlightData(latitude: Double, longitude: Double, distance: Int): Resource<List<FlightDataItem>> {
@@ -35,7 +33,6 @@ class LiveFlightRepositoryImpl(
     private suspend fun getDataFromRemote(latitude: Double, longitude: Double, distance: Int): List<FlightDataItem> {
         val remote = liveFlightRemoteDataSource.getLiveFlightData(latitude, longitude, distance)
         liveFlightCacheDataSource.saveLiveFlightToCache(remote)
-        liveFlightRoomDataSource.saveLiveFlightToRoom(remote)
         return remote
     }
 }

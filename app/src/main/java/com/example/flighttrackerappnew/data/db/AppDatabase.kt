@@ -39,8 +39,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun nearByDao(): NearByDao
     abstract fun citiesDao(): CitiesDao
     abstract fun airPlaneDao(): AirPlaneDao
-    abstract fun trackedFlightDao(): TrackedFlightDao
     abstract fun followLiveFlightDao(): FollowLiveFlightDao
-    abstract fun favFlightDao(): FavFlightDao
+    abstract fun favFlightDao(): StarredFlightDao
     abstract fun futureFlightDao(): FutureSchedulesDao
 }

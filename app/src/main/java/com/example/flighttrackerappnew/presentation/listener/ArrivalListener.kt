@@ -1,7 +1,7 @@
 package com.example.flighttrackerappnew.presentation.listener
 
-import com.example.flighttrackerappnew.data.model.arrival.ArrivalDataItems
+import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 
 fun interface ArrivalListener {
-    fun onclick(items: ArrivalDataItems)
+    fun onclick(items: FullDetailFlightData)
 }

@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.flighttrackerappnew.data.db.FavFlightDao
 import com.example.flighttrackerappnew.data.db.FollowLiveFlightDao
+import com.example.flighttrackerappnew.data.db.StarredFlightDao
 import com.example.flighttrackerappnew.data.model.FollowFlightData
 import com.example.flighttrackerappnew.data.model.airLine.StaticAirLineItems
 import com.example.flighttrackerappnew.data.model.airplane.AirPlaneItems
@@ -16,7 +16,7 @@ import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightDa
 import com.example.flighttrackerappnew.data.model.futureSchedule.FutureScheduleItem
 import com.example.flighttrackerappnew.data.model.nearby.NearByAirportsDataItems
 import com.example.flighttrackerappnew.data.model.schedulesFlight.FlightSchedulesItems
-import com.example.flighttrackerappnew.domain.usecase.GetAirPlanesUseCase
+import com.example.flighttrackerappnew.domain.usecase.GetAirCraftUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetAirPortsUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetCitiesUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetFlightScheduleUseCase
@@ -25,12 +25,11 @@ import com.example.flighttrackerappnew.domain.usecase.GetLiveFlightUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetNearByAirPortsUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetStaticAirLineUseCase
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
+import com.example.flighttrackerappnew.presentation.utils.isCitiesApiSuccess
+import com.example.flighttrackerappnew.presentation.utils.isFutureScheduleApiSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class FlightAppViewModel(
     private val getLiveFlightUseCase: GetLiveFlightUseCase,
@@ -39,51 +38,51 @@ class FlightAppViewModel(
     private val getAirPortsUseCase: GetAirPortsUseCase,
     private val getNearByAirPortsUseCase: GetNearByAirPortsUseCase,
     private val getCitiesUseCase: GetCitiesUseCase,
-    private val getAirPlanesUseCase: GetAirPlanesUseCase,
+    private val getAirCraftUseCase: GetAirCraftUseCase,
     private val getFutureScheduleFlightUseCase: GetFutureScheduleFlightUseCase,
-    private val favFlightDao: FavFlightDao,
+    private val starredFlightDao: StarredFlightDao,
     private val followFlightDao: FollowLiveFlightDao
 ) : ViewModel() {
 
     private val _liveFlightData = MutableLiveData<Resource<List<FlightDataItem>>>()
     val liveFlightData: LiveData<Resource<List<FlightDataItem>>> get() = _liveFlightData
 
-    private fun getLiveFlight(latitude: Double, longitude: Double, distance: Int) {
-        viewModelScope.launch {
-            _liveFlightData.postValue(Resource.Loading)
-            val result = getLiveFlightUseCase.execute(latitude, longitude, distance)
-            _liveFlightData.postValue(result)
+    suspend fun getLiveFlight(latitude: Double, longitude: Double, distance: Int) {
+        _liveFlightData.postValue(Resource.Loading)
+        val result = getLiveFlightUseCase.execute(latitude, longitude, distance)
+        _liveFlightData.postValue(result)
+    }
 
-            if (result is Resource.Success) {
-                async(Dispatchers.IO) {
-                    getAirPorts()
-                }
-                async(Dispatchers.IO) {
-                    getStaticAirLines()
-                }
-                async(Dispatchers.IO) {
-                    getScheduleFlight()
-                }
-            }
+    fun getAllData(lat: Double, long: Double, distance: Int) {
+        getDynamicApiData(lat, long, distance)
+        getStaticApiData()
+        getOtherAppDataFromRoomDb()
+    }
+
+    private fun getOtherAppDataFromRoomDb() {
+        viewModelScope.launch {
+            async(Dispatchers.IO) { getFavFlightData() }
+            async(Dispatchers.IO) { getFollowFlightData() }
         }
     }
 
-    fun getAllData(lat: Double, long: Double, distance: Int, onAllComplete: () -> Unit = {}) {
+    private fun getStaticApiData() {
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
+            async(Dispatchers.IO) { getCities() }
+            async(Dispatchers.IO) { getAirCraft() }
+            async(Dispatchers.IO) { getStaticAirLines() }
+            async(Dispatchers.IO) { getAirPorts() }
+        }
+    }
+
+    fun getDynamicApiData(lat: Double, long: Double, distance: Int) {
+        viewModelScope.launch {
+            async(Dispatchers.IO) {
                 getLiveFlight(lat, long, distance)
             }
-            coroutineScope {
-                val nearbyJob = async(Dispatchers.IO) { getNearBy(lat, long, distance) }
-                val citiesJob = async(Dispatchers.IO) { getCities() }
-                val planesJob = async(Dispatchers.IO) { getAirPlanes() }
-                async(Dispatchers.IO) { getFavFlightData() }
-                async(Dispatchers.IO) { getFollowFlightData() }
-
-                awaitAll(nearbyJob, citiesJob, planesJob)
+            async(Dispatchers.IO) {
+                getScheduleFlight()
             }
-
-            onAllComplete()
         }
     }
 
@@ -134,20 +133,21 @@ class FlightAppViewModel(
     val citiesData: LiveData<Resource<List<CitiesDataItems>>> get() = _citiesData
     fun getCities() {
         viewModelScope.launch {
+            isCitiesApiSuccess = false
             _citiesData.postValue(Resource.Loading)
             val result = getCitiesUseCase.execute()
             _citiesData.postValue(result)
         }
     }
 
-    private val _airPlanesData = MutableLiveData<Resource<List<AirPlaneItems>>>()
-    val airPlanesData: LiveData<Resource<List<AirPlaneItems>>> get() = _airPlanesData
+    private val _airCraftData = MutableLiveData<Resource<List<AirPlaneItems>>>()
+    val airCraftData: LiveData<Resource<List<AirPlaneItems>>> get() = _airCraftData
 
-    fun getAirPlanes() {
+    fun getAirCraft() {
         viewModelScope.launch {
-            _airPlanesData.postValue(Resource.Loading)
-            val result = getAirPlanesUseCase.execute()
-            _airPlanesData.postValue(result)
+            _airCraftData.postValue(Resource.Loading)
+            val result = getAirCraftUseCase.execute()
+            _airCraftData.postValue(result)
         }
     }
 
@@ -156,6 +156,7 @@ class FlightAppViewModel(
 
     fun getFutureScheduleFlight() {
         viewModelScope.launch {
+            isFutureScheduleApiSuccess = false
             _futureScheduleFlightData.postValue(Resource.Loading)
             val result = getFutureScheduleFlightUseCase.execute()
             _futureScheduleFlightData.postValue(result)
@@ -171,7 +172,7 @@ class FlightAppViewModel(
 
     fun getFavFlightData() {
         viewModelScope.launch {
-            val result = favFlightDao.getFavFlightData()
+            val result = starredFlightDao.getFavFlightData()
             _favFlightData.postValue(result)
         }
     }
@@ -185,6 +186,11 @@ class FlightAppViewModel(
             _followFlightData.postValue(result)
         }
     }
+
+    var arrivalFlightData: MutableLiveData<ArrayList<FullDetailFlightData>> =
+        MutableLiveData<ArrayList<FullDetailFlightData>>()
+    var departureFlightData: MutableLiveData<ArrayList<FullDetailFlightData>> =
+        MutableLiveData<ArrayList<FullDetailFlightData>>()
 }
 
 

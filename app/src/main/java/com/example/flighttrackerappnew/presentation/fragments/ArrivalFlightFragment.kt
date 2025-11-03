@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.flighttrackerappnew.R
-import com.example.flighttrackerappnew.data.model.arrival.ArrivalDataItems
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 import com.example.flighttrackerappnew.databinding.FragmentArrivalFlightBinding
 import com.example.flighttrackerappnew.presentation.activities.AirportSearchActivity
@@ -25,31 +24,31 @@ import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBu
 import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.FullDetailsFlightData
-import com.example.flighttrackerappnew.presentation.utils.arrivalFlightData
-import com.example.flighttrackerappnew.presentation.utils.getFlightProgressPercent
 import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isFromAirportOrAirline
 import com.example.flighttrackerappnew.presentation.utils.searchedDataSubTitle
 import com.example.flighttrackerappnew.presentation.utils.selectedLiveFlightData
 import com.example.flighttrackerappnew.presentation.utils.visible
+import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class ArrivalFlightFragment : Fragment() {
+
+    private val config: Config by inject()
+    private var adapter = ArrivalFlightAdapter()
+    private var arrivalData = ArrayList<FullDetailFlightData>()
+    private val rewardedAd: RewardedAdManager by inject()
+    private val viewModel: FlightAppViewModel by inject()
+
     private val binding: FragmentArrivalFlightBinding by lazy {
         FragmentArrivalFlightBinding.inflate(layoutInflater)
     }
 
-    private val config: Config by inject()
-    private var adapter: ArrivalFlightAdapter? = null
-    private var arrivalData = ArrayList<ArrivalDataItems>()
-    private val rewardedAd: RewardedAdManager by inject()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        adapter = ArrivalFlightAdapter()
         return binding.root
     }
 
@@ -71,21 +70,6 @@ class ArrivalFlightFragment : Fragment() {
         }
     }
 
-    private fun loadAdForTail() {
-        NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber.apply {
-            loadNativeAd(
-                requireContext(),
-                RemoteConfigManager.getBoolean("NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber")
-            )
-            showNativeAd(
-                adGroup = NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber,
-                frameLayout = binding.flAdplaceholder,
-                adLayout = R.layout.native_ad_layout_view_with_media,
-                activity = requireActivity() as AppCompatActivity
-            )
-        }
-    }
-
     fun checkData() {
         if (arrivalData.isEmpty()) {
             (activity as AirportSearchActivity).binding.AirportName.invisible()
@@ -96,7 +80,7 @@ class ArrivalFlightFragment : Fragment() {
 
     private fun observeData() {
         binding.recyclerView.adapter = adapter
-        arrivalFlightData.observe(viewLifecycleOwner) { arrivalData ->
+        viewModel.arrivalFlightData.observe(viewLifecycleOwner) { arrivalData ->
             if (arrivalData.isEmpty()) {
                 binding.conPlaceholder.visible()
                 binding.pg.invisible()
@@ -119,7 +103,7 @@ class ArrivalFlightFragment : Fragment() {
                     } else {
                         showDialogPremium()
                     }
-                    getFullArrivalFlightDataDetail(arrivalData)
+                    FullDetailsFlightData = arrivalData
                 }
             }
 
@@ -133,6 +117,21 @@ class ArrivalFlightFragment : Fragment() {
                 }
                 (activity as AirportSearchActivity).setAirportName()
             }
+        }
+    }
+
+    private fun loadAdForTail() {
+        NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber.apply {
+            loadNativeAd(
+                requireContext(),
+                RemoteConfigManager.getBoolean("NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber")
+            )
+            showNativeAd(
+                adGroup = NATIVE_ARRIVAL_FLIGHT_For_Aircraft_Or_TailNumber,
+                frameLayout = binding.flAdplaceholder,
+                adLayout = R.layout.native_ad_layout_view_with_media,
+                activity = requireActivity() as AppCompatActivity
+            )
         }
     }
 
@@ -189,8 +188,8 @@ class ArrivalFlightFragment : Fragment() {
         }
     }
 
-    private fun addAdToArrivalData(): ArrayList<ArrivalDataItems> {
-        val arrData = ArrayList<ArrivalDataItems>()
+    private fun addAdToArrivalData(): ArrayList<FullDetailFlightData> {
+        val arrData = ArrayList<FullDetailFlightData>()
         arrivalData.forEachIndexed { index, data ->
             val nativeARRIVALFLIGHTForAirportOrAirline =
                 RemoteConfigManager.getBoolean("NATIVE_ARRIVAL_FLIGHT_For_Airport_Or_Airline")
@@ -212,66 +211,5 @@ class ArrivalFlightFragment : Fragment() {
         super.onResume()
         searchedDataSubTitle = arrivalData.getOrNull(0)?.airlineName ?: "N/A"
         (activity as AirportSearchActivity).setAirportName()
-    }
-
-    fun getFullArrivalFlightDataDetail(arrivalData: ArrivalDataItems) {
-        var fullArrivalFlightDataDetails: FullDetailFlightData? = null
-
-        val progress =
-            getFlightProgressPercent(arrivalData.actualDepTime, arrivalData.estimatedArrivalTime)
-
-        fullArrivalFlightDataDetails = FullDetailFlightData(
-            flightNo = arrivalData.flightNo,
-            depIataCode = arrivalData.depIataCode,
-            arrIataCode = arrivalData.arrIataCode,
-            arrAirportName = arrivalData.arrAirportName,
-            depAirportName = arrivalData.depAirportName,
-            depCity = arrivalData.depCity,
-            arrCity = arrivalData.arrCity,
-            nameAirport = arrivalData.nameAirport,
-            callSign = arrivalData.callSign,
-            scheduledArrTime = arrivalData.scheduledArrTime,
-            scheduledDepTime = arrivalData.scheduledDepTime,
-            actualDepTime = arrivalData.actualDepTime,
-            estimatedArrTime = arrivalData.estimatedArrivalTime,
-            flightIataNumber = arrivalData.flightIataNumber,
-            airlineName = arrivalData.airlineName,
-            flightIcaoNo = arrivalData.flightIcaoNo,
-            terminal = arrivalData.terminal,
-            gate = arrivalData.gate,
-            delay = arrivalData.delay,
-            scheduled = arrivalData.scheduled,
-            altitude = arrivalData.altitude,
-            direction = arrivalData.direction,
-            latitude = arrivalData.latitude,
-            longitude = arrivalData.longitude,
-            hSpeed = arrivalData.hSpeed,
-            vSpeed = arrivalData.vSpeed,
-            status = arrivalData.status,
-            squawk = arrivalData.squawk,
-            modelName = arrivalData.modelName,
-            modelCode = arrivalData.modelCode,
-            airCraftType = arrivalData.airCraftType,
-            regNo = arrivalData.regNo,
-            iataModel = arrivalData.iataModel,
-            icaoHex = arrivalData.icaoHex,
-            productionLine = arrivalData.productionLine,
-            series = arrivalData.series,
-            lineNumber = arrivalData.lineNumber,
-            constructionNo = arrivalData.constructionNo,
-            firstFlight = arrivalData.firstFlight,
-            deliveryDate = arrivalData.deliveryDate,
-            rolloutDate = arrivalData.rolloutDate,
-            currentOwner = arrivalData.currentOwner,
-            planeStatus = arrivalData.planeStatus,
-            airLineIataCode = arrivalData.airLineIataCode,
-            airLineICaoCode = arrivalData.airLineICaoCode,
-            airPlaneIataCode = arrivalData.airPlaneIataCode,
-            engineCount = arrivalData.engineCount,
-            regDate = arrivalData.regDate,
-            progress = progress
-        )
-
-        FullDetailsFlightData = fullArrivalFlightDataDetails
     }
 }

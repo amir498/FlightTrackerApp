@@ -3,7 +3,6 @@ package com.example.flighttrackerappnew.presentation.activities
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivityFlightScheduleTypeAirportBinding
@@ -12,23 +11,20 @@ import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvide
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.clickCount
 import com.example.flighttrackerappnew.presentation.utils.flightType
-import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.selectedDate
 import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.example.flighttrackerappnew.presentation.utils.startDate
 import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
 import org.koin.android.ext.android.inject
 import java.util.Calendar
+import kotlin.getValue
 
 class FlightScheduleTypeAirportActivity :
     BaseActivity<ActivityFlightScheduleTypeAirportBinding>(ActivityFlightScheduleTypeAirportBinding::inflate) {
+    private val viewModel: FlightAppViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val params = binding.btnBack.layoutParams as ConstraintLayout.LayoutParams
-        params.topMargin = getStatusBarHeight
-        binding.btnBack.layoutParams = params
 
         viewListener()
         loadAd()
@@ -44,7 +40,7 @@ class FlightScheduleTypeAirportActivity :
                 adGroup = NATIVE_FLIGHT_SCHEDULED_TYPE,
                 frameLayout = binding.flAdplaceholder,
                 adLayout = R.layout.native_ad_layout_view_with_media,
-              activity =   this@FlightScheduleTypeAirportActivity
+                activity =   this@FlightScheduleTypeAirportActivity
             )
         }
     }
@@ -54,50 +50,50 @@ class FlightScheduleTypeAirportActivity :
             btnBack.setOnClickListener {
                 finish()
             }
-            binding.conDate.setOnClickListener {
+            conDate.setOnClickListener {
                 showDatePicker()
             }
             consArrival.setOnClickListener {
                 flightType = "arrival"
-                binding.consArrival.background = ContextCompat.getDrawable(
+                consArrival.background = ContextCompat.getDrawable(
                     this@FlightScheduleTypeAirportActivity,
                     R.drawable.search_airport_s_tab_bg
 
                 )
-                binding.tvFollow.setTextColor(
+                tvFollow.setTextColor(
                     ContextCompat.getColor(
                         this@FlightScheduleTypeAirportActivity,
                         R.color.primary
                     )
                 )
-                binding.tvDetails.setTextColor(
+                tvDetails.setTextColor(
                     ContextCompat.getColor(
                         this@FlightScheduleTypeAirportActivity,
                         R.color.acc1
                     )
                 )
-                binding.conDeparture.background = ContextCompat.getDrawable(
+                conDeparture.background = ContextCompat.getDrawable(
                     this@FlightScheduleTypeAirportActivity,
                     R.drawable.search_airport_uns_tab_bg
                 )
             }
             conDeparture.setOnClickListener {
                 flightType = "departure"
-                binding.consArrival.background = ContextCompat.getDrawable(
+                consArrival.background = ContextCompat.getDrawable(
                     this@FlightScheduleTypeAirportActivity,
                     R.drawable.search_airport_uns_tab_bg
                 )
-                binding.conDeparture.background = ContextCompat.getDrawable(
+                conDeparture.background = ContextCompat.getDrawable(
                     this@FlightScheduleTypeAirportActivity,
                     R.drawable.search_airport_s_tab_bg
                 )
-                binding.tvFollow.setTextColor(
+                tvFollow.setTextColor(
                     ContextCompat.getColor(
                         this@FlightScheduleTypeAirportActivity,
                         R.color.acc1
                     )
                 )
-                binding.tvDetails.setTextColor(
+                tvDetails.setTextColor(
                     ContextCompat.getColor(
                         this@FlightScheduleTypeAirportActivity,
                         R.color.primary
@@ -120,6 +116,7 @@ class FlightScheduleTypeAirportActivity :
                         isInterstitialEnabled = RemoteConfigManager.getBoolean("INTERSTITIAL_MAP_STYLE"),
                         adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
                         {
+                            viewModel.getCities()
                             viewModel.getFutureScheduleFlight()
                             startActivity(
                                 Intent(
@@ -134,8 +131,6 @@ class FlightScheduleTypeAirportActivity :
             }
         }
     }
-
-    private val viewModel: FlightAppViewModel by inject()
 
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()

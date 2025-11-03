@@ -2,13 +2,15 @@ package com.example.flighttrackerappnew.presentation.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.flighttrackerappnew.R
-import com.example.flighttrackerappnew.data.model.arrival.ArrivalDataItems
+import com.example.flighttrackerappnew.data.model.airport.AirportsDataItems
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 import com.example.flighttrackerappnew.databinding.FragmentDepartureFlightBinding
 import com.example.flighttrackerappnew.presentation.activities.AirportSearchActivity
@@ -18,18 +20,18 @@ import com.example.flighttrackerappnew.presentation.activities.premium.PremiumAc
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity2
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
 import com.example.flighttrackerappnew.presentation.adapter.DepartureFlightAdapter
+import com.example.flighttrackerappnew.presentation.adapter.SearchAirportAdapter
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_DEPARTURE_FLIGHT_For_Aircraft_Or_TailNumber
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_DEPARTURE_FLIGHT_For_Airport_Or_Airline
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.FullDetailsFlightData
-import com.example.flighttrackerappnew.presentation.utils.departureFlightData
-import com.example.flighttrackerappnew.presentation.utils.getFlightProgressPercent
 import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isFromAirportOrAirline
 import com.example.flighttrackerappnew.presentation.utils.searchedDataSubTitle
 import com.example.flighttrackerappnew.presentation.utils.visible
+import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
 import org.koin.android.ext.android.inject
 
 class DepartureFlightFragment : Fragment() {
@@ -38,20 +40,21 @@ class DepartureFlightFragment : Fragment() {
         FragmentDepartureFlightBinding.inflate(layoutInflater)
     }
 
-    private var adapter: DepartureFlightAdapter? = null
-    private var departureData = ArrayList<ArrivalDataItems>()
+    private var adapter: DepartureFlightAdapter = DepartureFlightAdapter()
+    private val viewModel: FlightAppViewModel by inject()
+    private var departureData = ArrayList<FullDetailFlightData>()
     private val rewardedAd: RewardedAdManager by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        adapter = DepartureFlightAdapter()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeData()
         if (isFromAirportOrAirline && !config.isPremiumUser) {
             loadAd()
         }
@@ -91,7 +94,7 @@ class DepartureFlightFragment : Fragment() {
 
     private fun observeData() {
         binding.recyclerView.adapter = adapter
-        departureFlightData.observe(viewLifecycleOwner) { departureData ->
+        viewModel.departureFlightData.observe(viewLifecycleOwner) { departureData ->
             if (departureData.isEmpty()) {
                 binding.conPlaceholder.visible()
                 binding.pg.invisible()
@@ -108,13 +111,13 @@ class DepartureFlightFragment : Fragment() {
                     departureData
                 }
                 adapter?.setList(arrData)
-                adapter?.setListener { arrivalData ->
+                adapter?.setListener { depData ->
                     if ((requireActivity() as BaseActivity<*>).config.isPremiumUser) {
                         startActivity(Intent(requireContext(), DetailActivity::class.java))
                     } else {
                         showDialogPremium()
                     }
-                    getFullDepartureFlightDataDetail(arrivalData)
+                    FullDetailsFlightData = depData
                 }
                 binding.pg.invisible()
                 binding.conPlaceholder.invisible()
@@ -182,8 +185,8 @@ class DepartureFlightFragment : Fragment() {
         }
     }
 
-    private fun addAdToDepartureData(): ArrayList<ArrivalDataItems> {
-        val arrData = ArrayList<ArrivalDataItems>()
+    private fun addAdToDepartureData(): ArrayList<FullDetailFlightData> {
+        val arrData = ArrayList<FullDetailFlightData>()
         departureData.forEachIndexed { index, data ->
             val NATIVE_DEPARTURE_FLIGHT_For_Airport_Or_Airline =
                 RemoteConfigManager.getBoolean("NATIVE_DEPARTURE_FLIGHT_For_Airport_Or_Airline")
@@ -204,70 +207,7 @@ class DepartureFlightFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        observeData()
         searchedDataSubTitle = departureData.getOrNull(0)?.airlineName ?: "N/A"
         (activity as AirportSearchActivity).setAirportName()
-    }
-
-    fun getFullDepartureFlightDataDetail(departureData: ArrivalDataItems) {
-        var fullArrivalFlightDataDetails: FullDetailFlightData? = null
-        val progress =
-            getFlightProgressPercent(
-                departureData.actualDepTime,
-                departureData.estimatedArrivalTime
-            )
-        fullArrivalFlightDataDetails = FullDetailFlightData(
-            flightNo = departureData.flightNo,
-            depIataCode = departureData.depIataCode,
-            arrIataCode = departureData.arrIataCode,
-            arrAirportName = departureData.arrAirportName,
-            depAirportName = departureData.depAirportName,
-            depCity = departureData.depCity,
-            arrCity = departureData.arrCity,
-            nameAirport = departureData.nameAirport,
-            callSign = departureData.callSign,
-            scheduledArrTime = departureData.scheduledArrTime,
-            scheduledDepTime = departureData.scheduledDepTime,
-            actualDepTime = departureData.actualDepTime,
-            estimatedArrTime = departureData.estimatedArrivalTime,
-            flightIataNumber = departureData.flightIataNumber,
-            airlineName = departureData.airlineName,
-            flightIcaoNo = departureData.flightIcaoNo,
-            terminal = departureData.terminal,
-            gate = departureData.gate,
-            delay = departureData.delay,
-            scheduled = departureData.scheduled,
-            altitude = departureData.altitude,
-            direction = departureData.direction,
-            latitude = departureData.latitude,
-            longitude = departureData.longitude,
-            hSpeed = departureData.hSpeed,
-            vSpeed = departureData.vSpeed,
-            status = departureData.status,
-            squawk = departureData.squawk,
-            modelName = departureData.modelName,
-            modelCode = departureData.modelCode,
-            airCraftType = departureData.airCraftType,
-            regNo = departureData.regNo,
-            iataModel = departureData.iataModel,
-            icaoHex = departureData.icaoHex,
-            productionLine = departureData.productionLine,
-            series = departureData.series,
-            lineNumber = departureData.lineNumber,
-            constructionNo = departureData.constructionNo,
-            firstFlight = departureData.firstFlight,
-            deliveryDate = departureData.deliveryDate,
-            rolloutDate = departureData.rolloutDate,
-            currentOwner = departureData.currentOwner,
-            planeStatus = departureData.planeStatus,
-            airLineIataCode = departureData.airLineIataCode,
-            airLineICaoCode = departureData.airLineICaoCode,
-            airPlaneIataCode = departureData.airPlaneIataCode,
-            engineCount = departureData.engineCount,
-            regDate = departureData.regDate,
-            progress = progress
-        )
-
-        FullDetailsFlightData = fullArrivalFlightDataDetails
     }
 }

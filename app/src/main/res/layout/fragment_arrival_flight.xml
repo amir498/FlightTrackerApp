@@ -34,6 +34,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="invisible"
+        android:elevation="@dimen/_10sdp"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="@+id/glRight"
         app:layout_constraintStart_toStartOf="@+id/glLeft"

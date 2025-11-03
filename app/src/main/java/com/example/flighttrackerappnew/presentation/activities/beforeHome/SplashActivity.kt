@@ -7,6 +7,7 @@ import android.provider.Settings
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivitySplashBinding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
+import com.example.flighttrackerappnew.presentation.activities.main.MainActivity
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity2
 import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_SPLASH
@@ -32,14 +33,16 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (!isNetworkAvailable()) {
-            adLoaded = true
-            showDialog()
-        } else {
-            loadAd()
-        }
+//        if (!isNetworkAvailable()) {
+//            adLoaded = true
+//            showDialog()
+//        } else {
+//            loadAd()
+//        }
+//
+//        config.startDiscountIfNeeded()
 
-        config.startDiscountIfNeeded()
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
     private fun showPremiumScreen() {
@@ -60,49 +63,48 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         }
     }
 
-
     private fun loadAd() {
-            InterstitialAdManager.mInterstitialAd = null
-            InterstitialAdManager.loadInterstitialAd(
-                ignoreClickCount = true,
-                showLoadingScreenWithDelay = RemoteConfigManager.getNumber("showLoadingScreenWithDelay"),
-                showLoadingAsLoadAdRequestCalled = false,
-                interstitialLoadingScreenShowTime = RemoteConfigManager.getNumber("Interstitial_loading_screen_show_time"),
-                showWhenReady = true,
-                activity = this@SplashActivity,
-                adUnitId = app.getString(R.string.INTERSTITIAL_SPLASH),
-                isInterstitialEnabled = RemoteConfigManager.getBoolean("INTERSTITIAL_SPLASH"),
-                adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
-                {
-                    if (config.isPrivacyPolicyAccepted) {
-                        if (config.isPremiumUser) {
-                            startActivity(Intent(this, LanguageActivity::class.java))
-                        } else {
-                            showPremiumScreen()
-                        }
+        InterstitialAdManager.mInterstitialAd = null
+        InterstitialAdManager.loadInterstitialAd(
+            ignoreClickCount = true,
+            showLoadingScreenWithDelay = RemoteConfigManager.getNumber("showLoadingScreenWithDelay"),
+            showLoadingAsLoadAdRequestCalled = false,
+            interstitialLoadingScreenShowTime = RemoteConfigManager.getNumber("Interstitial_loading_screen_show_time"),
+            showWhenReady = true,
+            activity = this@SplashActivity,
+            adUnitId = app.getString(R.string.INTERSTITIAL_SPLASH),
+            isInterstitialEnabled = RemoteConfigManager.getBoolean("INTERSTITIAL_SPLASH"),
+            adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
+            {
+                if (config.isPrivacyPolicyAccepted) {
+                    if (config.isPremiumUser) {
+                        startActivity(Intent(this, LanguageActivity::class.java))
                     } else {
-                        startActivity(Intent(this, PrivacyPolicyActivity::class.java))
+                        showPremiumScreen()
                     }
-                    finish()
-                }, {
-                    binding.apply {
-                        loadingText.visible()
-                        lottiepg.visible()
-                    }
-                })
+                } else {
+                    startActivity(Intent(this, PrivacyPolicyActivity::class.java))
+                }
+                finish()
+            }, {
+                binding.apply {
+                    loadingText.visible()
+                    lottiepg.visible()
+                }
+            })
 
-            BANNER_SPLASH.apply {
-                loadAndShowBannerAd(
-                    context = this@SplashActivity,
-                    adContainerView = binding.adContainerView,
-                    onStartLoadingAd = {}
-                )
-            }
-
-            NativeAdProvider.native_1_LANGUAGE_SCREEN1.loadNativeAd(
-                this,
-                RemoteConfigManager.getBoolean("native_1_LANGUAGE_SCREEN1")
+        BANNER_SPLASH.apply {
+            loadAndShowBannerAd(
+                context = this@SplashActivity,
+                adContainerView = binding.adContainerView,
+                onStartLoadingAd = {}
             )
+        }
+
+        NativeAdProvider.native_1_LANGUAGE_SCREEN1.loadNativeAd(
+            this,
+            RemoteConfigManager.getBoolean("native_1_LANGUAGE_SCREEN1")
+        )
     }
 
     private fun getLongLatFirst() {
@@ -123,8 +125,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         val distanceStr = RemoteConfigManager.getString("distance")
         val distance = distanceStr.toIntOrNull() ?: DEFAULT_DISTANCE
 
-        viewModel.getAllData(lat, lon, distance) {
-        }
+        viewModel.getAllData(lat, lon, distance)
     }
 
     private fun checkInternetConnection() {

@@ -3,7 +3,6 @@ package com.example.flighttrackerappnew.data.repository.flightSchedule
 import com.example.flighttrackerappnew.data.model.schedulesFlight.FlightSchedulesItems
 import com.example.flighttrackerappnew.data.repository.flightSchedule.dataSource.FlightScheduleCacheDataSource
 import com.example.flighttrackerappnew.data.repository.flightSchedule.dataSource.FlightScheduleRemoteDataSource
-import com.example.flighttrackerappnew.data.repository.flightSchedule.dataSource.FlightScheduleRoomDataSource
 import com.example.flighttrackerappnew.domain.repository.FlightScheduleRepository
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import retrofit2.HttpException
@@ -11,7 +10,6 @@ import java.io.IOException
 
 class FlightScheduleRepositoryImpl(
     private val flightScheduleRemoteDataSource: FlightScheduleRemoteDataSource,
-    private val flightScheduleRoomDataSource: FlightScheduleRoomDataSource,
     private val flightScheduleCacheDataSource: FlightScheduleCacheDataSource
 ) : FlightScheduleRepository {
 
@@ -33,7 +31,6 @@ class FlightScheduleRepositoryImpl(
 
     private suspend fun getFromApi(): List<FlightSchedulesItems> {
         val flightData = flightScheduleRemoteDataSource.getLiveFlightData()
-        flightScheduleRoomDataSource.saveLiveFlightToRoom(flightData)
         flightScheduleCacheDataSource.saveLiveFlightToCache(flightData)
         return flightData
     }

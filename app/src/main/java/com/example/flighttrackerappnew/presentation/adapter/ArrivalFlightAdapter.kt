@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flighttrackerappnew.R
-import com.example.flighttrackerappnew.data.model.arrival.ArrivalDataItems
+import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 import com.example.flighttrackerappnew.databinding.ArrivalFlightItemLayoutBinding
 import com.example.flighttrackerappnew.databinding.NativeAdLayoutViewWithMediaBinding
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_ARRIVAL_FLIGHT_For_Airport_Or_Airline
 import com.example.flighttrackerappnew.presentation.listener.ArrivalListener
 
 class ArrivalFlightAdapter : RecyclerView.Adapter<ArrivalFlightAdapter.SearchAirportViewHolders>() {
-    private var arrivalFlight = ArrayList<ArrivalDataItems>()
+    private var arrivalFlight = ArrayList<FullDetailFlightData>()
 
     private var arrivalListener: ArrivalListener? = null
     fun setListener(arrivalListener: ArrivalListener) {
@@ -22,8 +22,7 @@ class ArrivalFlightAdapter : RecyclerView.Adapter<ArrivalFlightAdapter.SearchAir
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setList(list: ArrayList<ArrivalDataItems>) {
-        arrivalFlight.clear()
+    fun setList(list: ArrayList<FullDetailFlightData>) {
         arrivalFlight = list
         notifyDataSetChanged()
     }
@@ -90,7 +89,7 @@ class ArrivalFlightAdapter : RecyclerView.Adapter<ArrivalFlightAdapter.SearchAir
         class Type1(private val binding: ArrivalFlightItemLayoutBinding) :
             SearchAirportViewHolders(binding.root) {
 
-            fun bind(position: Int, arrivalFlight: ArrayList<ArrivalDataItems>) {
+            fun bind(position: Int, arrivalFlight: ArrayList<FullDetailFlightData>) {
                 val item = arrivalFlight[position]
 
                 binding.apply {
@@ -106,7 +105,7 @@ class ArrivalFlightAdapter : RecyclerView.Adapter<ArrivalFlightAdapter.SearchAir
 
             fun listener(
                 position: Int,
-                arrivalFlight: ArrayList<ArrivalDataItems>,
+                arrivalFlight: ArrayList<FullDetailFlightData>,
                 arrivalListener: ArrivalListener?
             ) {
                 binding.viewDetailsBtn.setOnClickListener {

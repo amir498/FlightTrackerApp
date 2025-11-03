@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.viewbinding.ViewBinding
 import com.example.flighttrackerappnew.FlightApp
 import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.utils.LocaleHelper
-import com.example.flighttrackerappnew.presentation.utils.hideSystemUI
-import com.example.flighttrackerappnew.presentation.utils.setScreenDisplay
+import com.example.flighttrackerappnew.presentation.utils.hideNavigationBar
+import com.example.flighttrackerappnew.presentation.utils.setStatusBarDisplay
 import org.koin.android.ext.android.inject
 
 abstract class BaseActivity<BINDING : ViewBinding>(private val bindingInflater: (LayoutInflater) -> BINDING) :
@@ -22,21 +24,27 @@ abstract class BaseActivity<BINDING : ViewBinding>(private val bindingInflater: 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
         app = application as FlightApp
         binding = bindingInflater(layoutInflater)
         enableEdgeToEdge()
         setContentView(binding.root)
 
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
-//        }
+        setStatusBarDisplay(isStatusBarBgLight = false, window = window)
 
-//        window.setStatusAndNavigationBarColor(this, R.color.app_bg_top, R.color.app_bg_bottom)
-        window.hideSystemUI()
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+            val statusBarHeight = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+            if (statusBarHeight > 0) {
+                v.setPadding(0, statusBarHeight, 0, 0)
+            }
+            insets
+        }
+    }
 
-        setScreenDisplay()
+    override fun onResume() {
+        super.onResume()
+        window.hideNavigationBar()
     }
 
     override fun attachBaseContext(newBase: Context) {

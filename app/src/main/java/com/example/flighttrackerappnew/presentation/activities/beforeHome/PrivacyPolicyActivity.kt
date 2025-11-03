@@ -18,7 +18,6 @@ import com.example.flighttrackerappnew.presentation.activities.premium.PremiumAc
 import com.example.flighttrackerappnew.presentation.admob.interstitial.InterstitialAdManager
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
-import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.openWebBrowser
 import com.example.flighttrackerappnew.presentation.utils.showToast
 
@@ -28,12 +27,6 @@ class PrivacyPolicyActivity :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding.root.setPadding(
-            0,
-            getStatusBarHeight,
-            0,
-            0
-        )
         viewListener()
 
         makeString()

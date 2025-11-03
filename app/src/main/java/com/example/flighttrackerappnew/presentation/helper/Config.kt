@@ -5,8 +5,6 @@ import androidx.core.content.edit
 import com.example.flighttrackerappnew.presentation.utils.DISCOUNT_START_TIME
 import com.example.flighttrackerappnew.presentation.utils.FREE_TRAIL
 import com.example.flighttrackerappnew.presentation.utils.MAPStyle
-import com.example.flighttrackerappnew.presentation.utils.PREMIUM_USER
-import com.example.flighttrackerappnew.presentation.utils.PRIVACY_POLICY_ACCEPTED
 import com.example.flighttrackerappnew.presentation.utils.SAVE_VALUE
 import com.example.flighttrackerappnew.presentation.utils.SUB_WEEKLY
 import com.example.flighttrackerappnew.presentation.utils.SUB_WEEKLY_SALE

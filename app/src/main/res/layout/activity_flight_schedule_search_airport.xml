@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_bg"
-    tools:context=".presentation.activities.FlightScheduleSearchAirportActivity">
+    tools:context=".presentation.activities.main.FlightScheduleSearchAirportActivity">
 
     <include layout="@layout/app_margin" />
 

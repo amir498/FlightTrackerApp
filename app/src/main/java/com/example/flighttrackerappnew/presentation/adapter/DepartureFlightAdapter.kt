@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.flighttrackerappnew.R
-import com.example.flighttrackerappnew.data.model.arrival.ArrivalDataItems
+import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 import com.example.flighttrackerappnew.databinding.ArrivalFlightItemLayoutBinding
 import com.example.flighttrackerappnew.databinding.NativeAdLayoutViewWithMediaBinding
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_DEPARTURE_FLIGHT_For_Airport_Or_Airline
@@ -15,10 +15,10 @@ import com.example.flighttrackerappnew.presentation.listener.DepartureListener
 
 class DepartureFlightAdapter :
     RecyclerView.Adapter<DepartureFlightAdapter.SearchAirportViewHolderss>() {
-    private var departureFlight = ArrayList<ArrivalDataItems>()
+    private var departureFlight = ArrayList<FullDetailFlightData>()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setList(list: ArrayList<ArrivalDataItems>) {
+    fun setList(list: ArrayList<FullDetailFlightData>) {
         departureFlight.clear()
         departureFlight = list
         notifyDataSetChanged()
@@ -90,7 +90,7 @@ class DepartureFlightAdapter :
 
         class Type1(private val binding: ArrivalFlightItemLayoutBinding) :
             SearchAirportViewHolderss(binding.root) {
-            fun bind(position: Int, departureFlight: ArrayList<ArrivalDataItems>) {
+            fun bind(position: Int, departureFlight: ArrayList<FullDetailFlightData>) {
                 val item = departureFlight[position]
 
                 binding.apply {
@@ -106,7 +106,7 @@ class DepartureFlightAdapter :
 
             fun listener(
                 position: Int,
-                departureFlight: ArrayList<ArrivalDataItems>,
+                departureFlight: ArrayList<FullDetailFlightData>,
                 departureListener: DepartureListener?
             ) {
                 binding.viewDetailsBtn.setOnClickListener {

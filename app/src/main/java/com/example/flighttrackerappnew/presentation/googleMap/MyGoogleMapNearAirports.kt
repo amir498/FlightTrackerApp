@@ -53,13 +53,6 @@ class MyGoogleMapNearAirports : OnMapReadyCallback, KoinComponent {
                 true
             }
         }
-        val pakistanCenter = LatLng(30.3753, 69.3451)
-        val zoomLevel = 4.5f
-        mMap?.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(pakistanCenter, zoomLevel),
-            1500,
-            null
-        )
 
         mMap?.setOnCameraMoveStartedListener { reason ->
             onCameraMoveStartedCallback?.invoke(reason)
@@ -68,6 +61,16 @@ class MyGoogleMapNearAirports : OnMapReadyCallback, KoinComponent {
         mMap?.setOnCameraIdleListener {
             onCameraIdleCallback?.invoke(getVisibleBounds())
         }
+    }
+
+    fun moveCameraToCurrentLocation(){
+        val pakistanCenter = LatLng(lat!!, lon!!)
+        val zoomLevel = 4.5f
+        mMap?.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(pakistanCenter, zoomLevel),
+            1500,
+            null
+        )
     }
 
     fun moveCamera() {

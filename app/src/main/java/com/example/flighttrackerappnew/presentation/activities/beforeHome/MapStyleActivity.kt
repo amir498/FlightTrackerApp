@@ -1,19 +1,18 @@
-package com.example.flighttrackerappnew.presentation.activities
+package com.example.flighttrackerappnew.presentation.activities.beforeHome
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivityMapStyleBinding
+import com.example.flighttrackerappnew.presentation.activities.BaseActivity
+import com.example.flighttrackerappnew.presentation.activities.main.MainActivity
 import com.example.flighttrackerappnew.presentation.admob.interstitial.InterstitialAdManager
-import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_MAP
-import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_MAP2
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider
 import com.example.flighttrackerappnew.presentation.enums.MapOptionSelected
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.IS_FROM_SETTING_ACTIVITY
-import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.visible
 import com.google.android.gms.maps.GoogleMap
 
@@ -23,17 +22,13 @@ class MapStyleActivity : BaseActivity<ActivityMapStyleBinding>(ActivityMapStyleB
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val params = binding.tvTitle.layoutParams as ConstraintLayout.LayoutParams
-        params.topMargin = getStatusBarHeight
-        binding.tvTitle.layoutParams = params
-
         viewListeners()
         showAd()
     }
 
     private fun showAd() {
-        NATIVE_MAP.showNativeAd(
-            adGroup = NATIVE_MAP,
+        NativeAdProvider.NATIVE_MAP.showNativeAd(
+            adGroup = NativeAdProvider.NATIVE_MAP,
             frameLayout = binding.flAdplaceholder,
             adLayout = R.layout.native_ad_layout_view_with_media,
            activity =  this@MapStyleActivity as AppCompatActivity
@@ -85,9 +80,9 @@ class MapStyleActivity : BaseActivity<ActivityMapStyleBinding>(ActivityMapStyleB
     }
 
     fun showDuplicatedAd() {
-        NATIVE_MAP2.showNativeAd(
+        NativeAdProvider.NATIVE_MAP2.showNativeAd(
             showFakeLoading = true,
-            adGroup = NATIVE_MAP2,
+            adGroup = NativeAdProvider.NATIVE_MAP2,
             frameLayout = binding.flAdplaceholder,
             adLayout = R.layout.native_ad_layout_view_with_media,
             activity = this@MapStyleActivity as AppCompatActivity

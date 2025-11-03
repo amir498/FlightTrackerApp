@@ -1,22 +1,19 @@
 package com.example.flighttrackerappnew.presentation.activities
 
 import android.os.Bundle
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
-import com.example.flighttrackerappnew.data.model.airplane.AirPlaneItems
-import com.example.flighttrackerappnew.data.model.airport.AirportsDataItems
 import com.example.flighttrackerappnew.data.model.cities.CitiesDataItems
-import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
 import com.example.flighttrackerappnew.data.model.futureSchedule.CustomFutureSchedule
-import com.example.flighttrackerappnew.data.model.schedulesFlight.FlightSchedulesItems
+import com.example.flighttrackerappnew.data.model.futureSchedule.FutureScheduleItem
 import com.example.flighttrackerappnew.databinding.ActivityFlightScheduleBinding
 import com.example.flighttrackerappnew.presentation.adapter.FutureScheduleFlightAdapter
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_FLIGHT_SCHEDULED
-import com.example.flighttrackerappnew.presentation.getAllApsData.DataCollector
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
-import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.invisible
+import com.example.flighttrackerappnew.presentation.utils.isCitiesApiSuccess
+import com.example.flighttrackerappnew.presentation.utils.isFutureScheduleApiSuccess
+import com.example.flighttrackerappnew.presentation.utils.logDebug
 import com.example.flighttrackerappnew.presentation.utils.visible
 import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
 import kotlinx.coroutines.Dispatchers
@@ -31,33 +28,15 @@ class FlightScheduleActivity :
     BaseActivity<ActivityFlightScheduleBinding>(ActivityFlightScheduleBinding::inflate) {
 
     private val viewModel: FlightAppViewModel by inject()
-    private val dataCollector: DataCollector by inject()
-    private val adapter = FutureScheduleFlightAdapter()
-
-    private lateinit var liveFlight: List<FlightDataItem>
-    private lateinit var airportsDataList: List<AirportsDataItems>
+    private var futureScheduledFlightData: List<FutureScheduleItem> = emptyList()
     private var citiesList = listOf<CitiesDataItems>()
-    private var scheduleFlightList = listOf<FlightSchedulesItems>()
-    private var airPlane = listOf<AirPlaneItems>()
+    private val adapter = FutureScheduleFlightAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val params = binding.btnBack.layoutParams as ConstraintLayout.LayoutParams
-        params.topMargin = getStatusBarHeight
-        binding.btnBack.layoutParams = params
-
-        citiesList = dataCollector.cities
-        airportsDataList = dataCollector.airports
-        scheduleFlightList = dataCollector.schedules
-        airPlane = dataCollector.planes
-        liveFlight = dataCollector.flights
-
-        binding.recyclerView.adapter = adapter
         observeLiveData()
         viewListener()
-
-        loadAd()
     }
 
     private fun loadAd() {
@@ -77,35 +56,41 @@ class FlightScheduleActivity :
 
     private fun observeLiveData() {
         viewModel.apply {
+            citiesData.observe(this@FlightScheduleActivity) { result ->
+                when (result) {
+                    is Resource.Loading -> {
+                        isCitiesApiSuccess = false
+                    }
+
+                    is Resource.Success -> {
+                        citiesList = result.data
+                        if (isFutureScheduleApiSuccess) {
+                            setData()
+                        }
+                        isCitiesApiSuccess = true
+                    }
+
+                    is Resource.Error -> false
+                }
+            }
             futureScheduleFlightData.observe(this@FlightScheduleActivity) { result ->
                 when (result) {
                     is Resource.Loading -> {
+                        isFutureScheduleApiSuccess = false
                         binding.pg.visible()
                         binding.conPlaceholder.invisible()
                     }
 
                     is Resource.Success -> {
-                        dataCollector.futureScheduleFlightData = result.data
-
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            val customData = setData()
-                            withContext(Dispatchers.Main) {
-                                if (customData.isNotEmpty()) {
-                                    binding.conPlaceholder.invisible()
-                                    binding.recyclerView.visible()
-                                    binding.pg.invisible()
-                                    adapter.setList(customData)
-
-                                } else {
-                                    binding.recyclerView.invisible()
-                                    binding.conPlaceholder.visible()
-                                    binding.pg.invisible()
-                                }
-                            }
+                        futureScheduledFlightData = result.data
+                        if (isCitiesApiSuccess) {
+                            setData()
                         }
+                        isFutureScheduleApiSuccess = true
                     }
 
                     is Resource.Error -> {
+                        logDebug("aksjdb", result.message.toString())
                         binding.apply {
                             recyclerView.invisible()
                             pg.invisible()
@@ -117,11 +102,33 @@ class FlightScheduleActivity :
         }
     }
 
-    private fun setData(): ArrayList<CustomFutureSchedule> {
+    fun setData() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val customData = getData()
+            withContext(Dispatchers.Main) {
+                if (customData.isNotEmpty()) {
+                    loadAd()
+                    binding.conPlaceholder.invisible()
+                    binding.recyclerView.visible()
+                    binding.recyclerView.adapter = adapter
+                    binding.pg.invisible()
+                    adapter.setList(customData)
+                } else {
+                    binding.apply {
+                        recyclerView.invisible()
+                        pg.invisible()
+                        conPlaceholder.visible()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getData(): ArrayList<CustomFutureSchedule> {
         val customFutureScheduleList = ArrayList<CustomFutureSchedule>()
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.getDefault())
 
-        dataCollector.futureScheduleFlightData.forEachIndexed { index, item ->
+        futureScheduledFlightData.forEachIndexed { index, item ->
             val iataArrival = item.arrival?.iataCode?.uppercase()
             val iataDeparture = item.departure?.iataCode?.uppercase()
 

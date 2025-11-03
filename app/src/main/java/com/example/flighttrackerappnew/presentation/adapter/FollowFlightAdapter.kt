@@ -75,10 +75,10 @@ class FollowFlightAdapter : RecyclerView.Adapter<FollowFlightAdapter.SearchAirpo
 
         fun listener(position: Int) {
             binding.viewDetails.setOnClickListener {
-                listener?.onViewDetailedClicked(list[position])
+
             }
             binding.unfollow.setOnClickListener {
-                listener?.onUnFollowClicked(list[position])
+
             }
         }
     }

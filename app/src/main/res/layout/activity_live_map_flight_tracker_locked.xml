@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/live_map_locked_bg"
-    tools:context=".presentation.activities.LiveMapFlightTrackerLockedActivity">
+    tools:context=".presentation.activities.main.LiveMapFlightTrackerLockedActivity">
 
     <ImageView
         android:id="@+id/backBtn"

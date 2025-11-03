@@ -3,19 +3,16 @@ package com.example.flighttrackerappnew.presentation.activities.beforeHome
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivityWelcomeBinding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
-import com.example.flighttrackerappnew.presentation.activities.MapStyleActivity
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_MAP2
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_WELCOME
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_WELCOME2
 import com.example.flighttrackerappnew.presentation.enums.WelcomeOptionSelected
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
-import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.visible
 
 class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>(ActivityWelcomeBinding::inflate) {
@@ -23,10 +20,6 @@ class WelcomeActivity : BaseActivity<ActivityWelcomeBinding>(ActivityWelcomeBind
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val params = binding.ivWelcome.layoutParams as ConstraintLayout.LayoutParams
-        params.topMargin = getStatusBarHeight
-        binding.ivWelcome.layoutParams = params
 
         viewListeners()
         showAd()

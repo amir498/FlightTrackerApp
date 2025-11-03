@@ -7,7 +7,7 @@ import androidx.room.Query
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 
 @Dao
-interface FavFlightDao {
+interface StarredFlightDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFavFlightData(entity: FullDetailFlightData)

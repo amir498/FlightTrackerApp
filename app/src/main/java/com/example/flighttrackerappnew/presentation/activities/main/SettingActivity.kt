@@ -1,12 +1,14 @@
-package com.example.flighttrackerappnew.presentation.activities
+package com.example.flighttrackerappnew.presentation.activities.main
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivitySettingBinding
+import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.LanguageActivity
-import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_SETTING
+import com.example.flighttrackerappnew.presentation.activities.beforeHome.MapStyleActivity
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.IS_FROM_SETTING_ACTIVITY
 import com.example.flighttrackerappnew.presentation.utils.MORE_APPS
@@ -31,13 +33,13 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>(ActivitySettingBind
     }
 
     private fun loadAd() {
-        NATIVE_SETTING.apply {
+        NativeAdProvider.NATIVE_SETTING.apply {
             loadNativeAd(
                 this@SettingActivity,
                 RemoteConfigManager.getBoolean("NATIVE_SETTING")
             )
             showNativeAd(
-                adGroup = NATIVE_SETTING,
+                adGroup = NativeAdProvider.NATIVE_SETTING,
                 frameLayout = binding.flAdplaceholder,
                 adLayout = R.layout.native_ad_layout_view_with_media,
                activity =  this@SettingActivity

@@ -1,15 +1,19 @@
-package com.example.flighttrackerappnew.presentation.activities
+package com.example.flighttrackerappnew.presentation.activities.main
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.flighttrackerappnew.R
+import com.example.flighttrackerappnew.data.model.airport.AirportsDataItems
 import com.example.flighttrackerappnew.databinding.ActivitySearchBinding
+import com.example.flighttrackerappnew.presentation.activities.BaseActivity
+import com.example.flighttrackerappnew.presentation.activities.SearchAirLinesActivity
+import com.example.flighttrackerappnew.presentation.activities.SearchAircraftActivity
+import com.example.flighttrackerappnew.presentation.activities.SearchAirportActivity
+import com.example.flighttrackerappnew.presentation.activities.SearchTailActivity
 import com.example.flighttrackerappnew.presentation.admob.interstitial.InterstitialAdManager.loadInterstitialAd
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_SEARCH_ACTIVITY
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.clickCount
-import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.setZoomClickEffect
 
 class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding::inflate) {
@@ -17,12 +21,13 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val params = binding.btnBack.layoutParams as ConstraintLayout.LayoutParams
-        params.topMargin = getStatusBarHeight
-        binding.btnBack.layoutParams = params
-
         viewListeners()
         loadAd()
+        observeAllData()
+    }
+
+    private fun observeAllData() {
+
     }
 
     private fun loadAd() {
@@ -35,7 +40,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
                 adGroup = NATIVE_SEARCH_ACTIVITY,
                 frameLayout = binding.flAdplaceholder,
                 adLayout = R.layout.native_ad_layout_view_with_media,
-               activity =  this@SearchActivity
+                activity = this@SearchActivity
             )
         }
     }

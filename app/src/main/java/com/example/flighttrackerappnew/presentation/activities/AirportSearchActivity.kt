@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.example.flighttrackerappnew.R
@@ -13,13 +12,8 @@ import com.example.flighttrackerappnew.databinding.ActivityAirportSearchBinding
 import com.example.flighttrackerappnew.presentation.adapter.AirportSearchPagerAdapter
 import com.example.flighttrackerappnew.presentation.fragments.ArrivalFlightFragment
 import com.example.flighttrackerappnew.presentation.fragments.DepartureFlightFragment
-import com.example.flighttrackerappnew.presentation.utils.favData
-import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
-import com.example.flighttrackerappnew.presentation.utils.isComeFromFav
-import com.example.flighttrackerappnew.presentation.utils.isComeFromFollowed
 import com.example.flighttrackerappnew.presentation.utils.searchedDataSubTitle
 import com.example.flighttrackerappnew.presentation.utils.searchedDataTitle
-import com.example.flighttrackerappnew.presentation.utils.trackData
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -29,21 +23,42 @@ class AirportSearchActivity :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        isComeFromFav = false
-        isComeFromFollowed = false
-        trackData = null
-        favData = null
-        val params = binding.btnBack.layoutParams as ConstraintLayout.LayoutParams
-        params.topMargin = getStatusBarHeight
-        binding.btnBack.layoutParams = params
-
-        adapter = AirportSearchPagerAdapter(this)
-        binding.viewPager2.adapter = adapter
 
         setTabWithViewpager()
         viewListener()
         changeTabsFont()
         viewpagerListener()
+    }
+
+    private fun viewListener() {
+        binding.btnBack.setOnClickListener {
+            this.finish()
+        }
+    }
+
+    fun setAirportName() {
+        binding.apply {
+            AirportName.text = searchedDataSubTitle
+            tvTitle.text = searchedDataTitle
+        }
+    }
+
+    private fun changeTabsFont() {
+        val typeface = ResourcesCompat.getFont(this, R.font.sf_pro_display_bold) ?: return
+        val vg = binding.tabLayout.getChildAt(0) as? ViewGroup ?: return
+        val tabsCount = vg.childCount
+
+        for (j in 0 until tabsCount) {
+            val vgTab = vg.getChildAt(j) as? ViewGroup ?: continue
+            val tabChildsCount = vgTab.childCount
+
+            for (i in 0 until tabChildsCount) {
+                val tabViewChild = vgTab.getChildAt(i)
+                if (tabViewChild is TextView) {
+                    tabViewChild.typeface = typeface
+                }
+            }
+        }
     }
 
     private fun viewpagerListener() {
@@ -75,38 +90,10 @@ class AirportSearchActivity :
 
     }
 
-    private fun viewListener() {
-        binding.btnBack.setOnClickListener {
-            this.finish()
-        }
-    }
-
-    private fun changeTabsFont() {
-        val typeface = ResourcesCompat.getFont(this, R.font.sf_pro_display_bold) ?: return
-        val vg = binding.tabLayout.getChildAt(0) as? ViewGroup ?: return
-        val tabsCount = vg.childCount
-
-        for (j in 0 until tabsCount) {
-            val vgTab = vg.getChildAt(j) as? ViewGroup ?: continue
-            val tabChildsCount = vgTab.childCount
-
-            for (i in 0 until tabChildsCount) {
-                val tabViewChild = vgTab.getChildAt(i)
-                if (tabViewChild is TextView) {
-                    tabViewChild.typeface = typeface
-                }
-            }
-        }
-    }
-
-    fun setAirportName() {
-        binding.apply {
-            AirportName.text = searchedDataSubTitle
-            tvTitle.text = searchedDataTitle
-        }
-    }
-
     private fun setTabWithViewpager() {
+        adapter = AirportSearchPagerAdapter(this)
+        binding.viewPager2.adapter = adapter
+
         val typeface = ResourcesCompat.getFont(this, R.font.sf_pro_display_bold)
         TabLayoutMediator(binding.tabLayout, binding.viewPager2) { tab, position ->
             when (position) {
@@ -161,4 +148,5 @@ class AirportSearchActivity :
             }
         }
     }
+
 }

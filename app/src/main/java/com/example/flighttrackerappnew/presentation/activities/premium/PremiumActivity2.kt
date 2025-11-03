@@ -14,7 +14,7 @@ import com.example.flighttrackerappnew.databinding.ActivityPremium2Binding
 import com.example.flighttrackerappnew.domain.usecase.BillingUseCase2
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.DetailActivity
-import com.example.flighttrackerappnew.presentation.activities.LiveMapFlightTrackerActivity
+import com.example.flighttrackerappnew.presentation.activities.main.LiveMapFlightTrackerActivity
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.LanguageActivity
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_2_LANGUAGE_SCREEN1
 import com.example.flighttrackerappnew.presentation.google_play_billing.BillingEvent

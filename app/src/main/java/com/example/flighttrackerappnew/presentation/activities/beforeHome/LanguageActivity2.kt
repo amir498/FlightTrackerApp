@@ -2,20 +2,18 @@ package com.example.flighttrackerappnew.presentation.activities.beforeHome
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.LanguageDataList
 import com.example.flighttrackerappnew.databinding.ActivityLanguage2Binding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
-import com.example.flighttrackerappnew.presentation.activities.MainActivity
+import com.example.flighttrackerappnew.presentation.activities.main.MainActivity
 import com.example.flighttrackerappnew.presentation.adapter.LanguageActivityAdapter
 import com.example.flighttrackerappnew.presentation.admob.interstitial.InterstitialAdManager
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_2_LANGUAGE_SCREEN2
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.IS_FROM_SETTING_ACTIVITY
-import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.setZoomClickEffect
 import com.example.flighttrackerappnew.presentation.utils.visible
 
@@ -33,10 +31,6 @@ class LanguageActivity2 :
         }
         setRecyclerView()
         viewListener()
-
-        val params = binding.chooseLanguage.layoutParams as ConstraintLayout.LayoutParams
-        params.topMargin = getStatusBarHeight
-        binding.chooseLanguage.layoutParams = params
 
         showAd()
     }

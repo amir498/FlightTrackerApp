@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.FragmentOnBoarding6Binding
-import com.example.flighttrackerappnew.presentation.activities.MapStyleActivity
+import com.example.flighttrackerappnew.presentation.activities.beforeHome.MapStyleActivity
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.WelcomeActivity
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_MAP
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_OnBoarding6

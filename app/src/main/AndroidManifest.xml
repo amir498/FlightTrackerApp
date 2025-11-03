@@ -22,7 +22,7 @@
             android:name=".presentation.activities.premium.PremiumActivity2"
             android:exported="true" />
         <activity
-            android:name=".presentation.activities.LiveMapFlightTrackerLockedActivity"
+            android:name=".presentation.activities.main.LiveMapFlightTrackerLockedActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.activities.premium.PremiumActivity"
@@ -39,13 +39,13 @@
             android:value="ca-app-pub-1476052568030102~2131161042" />
 
         <activity
-            android:name=".presentation.activities.FlightScheduleSearchAirportActivity"
+            android:name=".presentation.activities.main.FlightScheduleSearchAirportActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.activities.FlightScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.activities.StarredFlightActivity"
+            android:name=".presentation.activities.main.StarredFlightActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.activities.FlightScheduleTypeAirportActivity"
@@ -54,13 +54,13 @@
             android:name=".presentation.activities.NearByActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.activities.FollowedFlightActivity"
+            android:name=".presentation.activities.main.FollowedFlightActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.activities.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.activities.MapStyleActivity"
+            android:name=".presentation.activities.beforeHome.MapStyleActivity"
             android:exported="true" />
         <activity
             android:name=".presentation.activities.beforeHome.WelcomeActivity"
@@ -81,13 +81,13 @@
             android:name=".presentation.activities.SearchAirportActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.activities.SearchActivity"
+            android:name=".presentation.activities.main.SearchActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.activities.SettingActivity"
+            android:name=".presentation.activities.main.SettingActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.activities.LiveMapFlightTrackerActivity"
+            android:name=".presentation.activities.main.LiveMapFlightTrackerActivity"
             android:exported="true" />
         <activity
             android:name=".presentation.activities.beforeHome.OnBoardingActivity"
@@ -108,7 +108,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.activities.MainActivity"
+            android:name=".presentation.activities.main.MainActivity"
             android:exported="true" />
 
         <meta-data

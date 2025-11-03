@@ -1,7 +1,6 @@
 package com.example.flighttrackerappnew.presentation.activities.beforeHome
 
 import android.os.Bundle
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.flighttrackerappnew.databinding.ActivityOnBoardingBinding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
@@ -14,7 +13,6 @@ import com.example.flighttrackerappnew.presentation.fragments.OnBoarding4Fragmen
 import com.example.flighttrackerappnew.presentation.fragments.OnBoarding5Fragment
 import com.example.flighttrackerappnew.presentation.fragments.OnBoarding6Fragment
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
-import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 
 class OnBoardingActivity :
     BaseActivity<ActivityOnBoardingBinding>(ActivityOnBoardingBinding::inflate) {
@@ -25,9 +23,6 @@ class OnBoardingActivity :
             RemoteConfigManager.getBoolean("native_OnBoarding3")
         val showOBFull2 =
             RemoteConfigManager.getBoolean("native_OnBoarding5")
-        val params = binding.viewPager.layoutParams as ConstraintLayout.LayoutParams
-        params.topMargin = getStatusBarHeight
-        binding.viewPager.layoutParams = params
 
         val adapter = OnBoardingPagerAdapter(this, getFragmentList(showOBFull2, showOBFull1))
         binding.viewPager.adapter = adapter

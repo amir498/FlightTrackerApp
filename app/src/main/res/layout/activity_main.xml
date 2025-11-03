@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/app_bg"
     android:scrollbars="none"
-    tools:context=".presentation.activities.MainActivity">
+    tools:context=".presentation.activities.main.MainActivity">
 
     <!--    <ProgressBar-->
     <!--        android:id="@+id/pg"-->
@@ -152,7 +152,7 @@
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:src="@drawable/iv_globe_live_flight_tracker"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/viewMapBtn"
+                    app:layout_constraintEnd_toStartOf="@+id/btnLiveFlightTracker"
                     app:layout_constraintHorizontal_chainStyle="spread_inside"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -164,7 +164,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/live_map"
                     app:layout_constraintBottom_toTopOf="@+id/tvFLightTracker"
-                    app:layout_constraintStart_toStartOf="@+id/viewMapBtn"
+                    app:layout_constraintStart_toStartOf="@+id/btnLiveFlightTracker"
                     app:layout_constraintTop_toTopOf="@+id/iv_globe_live_flight_tracker"
                     app:layout_constraintVertical_chainStyle="packed" />
 
@@ -175,12 +175,12 @@
                     android:layout_height="wrap_content"
                     android:maxLength="15"
                     android:text="@string/flight_tracker"
-                    app:layout_constraintBottom_toTopOf="@+id/viewMapBtn"
+                    app:layout_constraintBottom_toTopOf="@+id/btnLiveFlightTracker"
                     app:layout_constraintStart_toStartOf="@+id/tvLiveMap"
                     app:layout_constraintTop_toBottomOf="@+id/tvLiveMap" />
 
                 <LinearLayout
-                    android:id="@+id/viewMapBtn"
+                    android:id="@+id/btnLiveFlightTracker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
@@ -314,7 +314,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/btnSavedFlight"
+                android:id="@+id/btnStarredFlight"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_95sdp"
                 android:layout_marginTop="@dimen/_20sdp"
@@ -365,7 +365,7 @@
                 android:background="@drawable/btn_scheduled_home_bg"
                 app:layout_constraintEnd_toEndOf="@+id/glRight"
                 app:layout_constraintStart_toStartOf="@+id/glLeft"
-                app:layout_constraintTop_toBottomOf="@+id/btnSavedFlight">
+                app:layout_constraintTop_toBottomOf="@+id/btnStarredFlight">
 
                 <ImageView
                     android:id="@+id/iv_scheduled_flight_home"

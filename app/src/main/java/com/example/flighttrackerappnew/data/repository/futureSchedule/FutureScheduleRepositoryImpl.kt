@@ -1,6 +1,7 @@
 package com.example.flighttrackerappnew.data.repository.futureSchedule
 
 import com.example.flighttrackerappnew.data.model.futureSchedule.FutureScheduleItem
+import com.example.flighttrackerappnew.data.repository.futureSchedule.dataSource.FutureScheduleCacheDataSource
 import com.example.flighttrackerappnew.data.repository.futureSchedule.dataSource.FutureScheduleRemoteDataSource
 import com.example.flighttrackerappnew.domain.repository.FutureScheduleFlightRepository
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
@@ -8,12 +9,18 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class FutureScheduleRepositoryImpl(
-    private val futureScheduleRemoteDataSource: FutureScheduleRemoteDataSource
+    private val futureScheduleRemoteDataSource: FutureScheduleRemoteDataSource,
+    private val futureScheduleCacheDataSource: FutureScheduleCacheDataSource,
 ) : FutureScheduleFlightRepository {
 
     override suspend fun getFutureScheduleFlightData(): Resource<List<FutureScheduleItem>> {
         return try {
-            Resource.Success(getFromApi())
+            val cached = futureScheduleCacheDataSource.getFutureFlightFromCache()
+            if (cached.isNotEmpty()) {
+                Resource.Success(cached)
+            } else {
+                Resource.Success(getFromApi())
+            }
         } catch (e: HttpException) {
             Resource.Error("HTTP ${e.code()} ${e.message()}")
         } catch (e: IOException) {

@@ -4,18 +4,18 @@ import com.example.flighttrackerappnew.data.model.airplane.AirPlaneItems
 import com.example.flighttrackerappnew.data.repository.airplane.datasource.AirPlanesCacheDataSource
 import com.example.flighttrackerappnew.data.repository.airplane.datasource.AirPlanesRemoteDataSource
 import com.example.flighttrackerappnew.data.repository.airplane.datasource.AirPlanesRoomDataSource
-import com.example.flighttrackerappnew.domain.repository.AirPlanesRepository
+import com.example.flighttrackerappnew.domain.repository.AirCraftRepository
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import retrofit2.HttpException
 import java.io.IOException
 
-class AirPlanesRepositoryImpl(
+class AirCraftRepositoryImpl(
     private val airPlanesRemoteDataSource: AirPlanesRemoteDataSource,
     private val airPlanesRoomDataSource: AirPlanesRoomDataSource,
     private val airPlanesCacheDataSource: AirPlanesCacheDataSource
-) : AirPlanesRepository {
+) : AirCraftRepository {
 
-    override suspend fun getAirPlaneData(): Resource<List<AirPlaneItems>> {
+    override suspend fun getAirCraftData(): Resource<List<AirPlaneItems>> {
         return try {
             val cacheData = airPlanesCacheDataSource.getAirPlanesCacheData()
             if (cacheData.isNotEmpty()) {
