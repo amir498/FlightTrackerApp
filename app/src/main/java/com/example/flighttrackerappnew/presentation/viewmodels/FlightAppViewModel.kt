@@ -87,16 +87,6 @@ class FlightAppViewModel(
         }
     }
 
-//    private val _location = MutableLiveData<Resource<IpLocationResponse>>()
-//    val location: LiveData<Resource<IpLocationResponse>> get() = _location
-//    fun getLocation() {
-//        viewModelScope.launch {
-//            _location.postValue(Resource.Loading)
-//            val result = Resource.Success(ipService.getLocation())
-//            _location.postValue(result)
-//        }
-//    }
-
     private val _staticAirLineData = MutableLiveData<Resource<List<StaticAirLineItems>>>()
     val staticAirLineData: LiveData<Resource<List<StaticAirLineItems>>> get() = _staticAirLineData
     fun getStaticAirLines() {

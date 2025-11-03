@@ -292,7 +292,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         startActivity(
                             Intent(
                                 this@MainActivity,
-                                FavouriteFlightActivity::class.java
+                                StarredFlightActivity::class.java
                             )
                         )
                     }, {

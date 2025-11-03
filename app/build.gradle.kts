@@ -14,8 +14,8 @@ android {
         applicationId = "com.radar.flight.tracker.airport.info"
         minSdk = 24
         targetSdk = 35
-        versionCode = 13
-        versionName = "2.3"
+        versionCode = 15
+        versionName = "2.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "API_KEY", "\"${project.findProperty("MY_API_KEY") ?: ""}\"")
@@ -24,7 +24,7 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("D:/FlightTrackerAppnew/key/key.jks")
+            storeFile = file("D:/FlightTracker/key/key.jks")
             storePassword =
                 "FlightTrackerAppnew"
             keyAlias = "key0"
@@ -41,7 +41,7 @@ android {
             )
             signingConfig = signingConfigs.getByName("debug")
             resValue("string", "INTERSTITIAL_SPLASH", "ca-app-pub-3940256099942544/1033173712")
-            resValue("string", "INTERSTITIAL_MAP_STYLE", "ca-app-pub-1476052568030102/4621593010")
+            resValue("string", "INTERSTITIAL_MAP_STYLE", "ca-app-pub-3940256099942544/1033173712")
             resValue("string", "BANNER_SPLASH", "ca-app-pub-3940256099942544/9214589741")
             resValue("string", "native_1_LANGUAGE_SCREEN1", "ca-app-pub-3940256099942544/2247696110")
             resValue("string", "native_2_LANGUAGE_SCREEN1", "ca-app-pub-3940256099942544/2247696110")
@@ -118,7 +118,8 @@ android {
         }
 
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

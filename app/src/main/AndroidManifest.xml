@@ -45,7 +45,7 @@
             android:name=".presentation.activities.FlightScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.activities.FavouriteFlightActivity"
+            android:name=".presentation.activities.StarredFlightActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.activities.FlightScheduleTypeAirportActivity"
