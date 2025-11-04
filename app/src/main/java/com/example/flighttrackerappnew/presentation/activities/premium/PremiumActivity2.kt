@@ -13,9 +13,9 @@ import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivityPremium2Binding
 import com.example.flighttrackerappnew.domain.usecase.BillingUseCase2
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
-import com.example.flighttrackerappnew.presentation.activities.DetailActivity
-import com.example.flighttrackerappnew.presentation.activities.main.LiveMapFlightTrackerActivity
+import com.example.flighttrackerappnew.presentation.activities.DetailActivityForSearch
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.LanguageActivity
+import com.example.flighttrackerappnew.presentation.activities.main.LiveMapFlightTrackerActivity
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_2_LANGUAGE_SCREEN1
 import com.example.flighttrackerappnew.presentation.google_play_billing.BillingEvent
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
@@ -23,7 +23,6 @@ import com.example.flighttrackerappnew.presentation.utils.PRIVACY_POLICY
 import com.example.flighttrackerappnew.presentation.utils.TERM_OF_SERVICE
 import com.example.flighttrackerappnew.presentation.utils.getStatusBarHeight
 import com.example.flighttrackerappnew.presentation.utils.isFirstPremiumFlow
-import com.example.flighttrackerappnew.presentation.utils.isFromDetail
 import com.example.flighttrackerappnew.presentation.utils.openWebBrowser
 import com.example.flighttrackerappnew.presentation.utils.setGradientText
 import com.example.flighttrackerappnew.presentation.utils.setStyledSpan
@@ -131,12 +130,11 @@ class PremiumActivity2 : BaseActivity<ActivityPremium2Binding>(ActivityPremium2B
                             startActivity(
                                 Intent(
                                     this@PremiumActivity2,
-                                    DetailActivity::class.java
+                                    DetailActivityForSearch::class.java
                                 )
                             )
                             finish()
                         } else if (intent.getBooleanExtra("from_detail", false)) {
-                            isFromDetail = true
                             startActivity(
                                 Intent(
                                     this@PremiumActivity2,

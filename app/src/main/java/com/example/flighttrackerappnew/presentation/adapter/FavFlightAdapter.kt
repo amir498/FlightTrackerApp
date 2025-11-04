@@ -4,12 +4,12 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
+import com.example.flighttrackerappnew.data.model.fav.FavFlightData
 import com.example.flighttrackerappnew.databinding.FavFlightItemLayoutBinding
 import com.example.flighttrackerappnew.presentation.listener.FavFlightListener
 
 class FavFlightAdapter : RecyclerView.Adapter<FavFlightAdapter.SearchAirportViewHolder>() {
-    private var list = ArrayList<FullDetailFlightData>()
+    private var list = ArrayList<FavFlightData>()
 
     private var listener: FavFlightListener? = null
     fun setListener(favFlightListener: FavFlightListener) {
@@ -17,7 +17,7 @@ class FavFlightAdapter : RecyclerView.Adapter<FavFlightAdapter.SearchAirportView
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setList(list: List<FullDetailFlightData>) {
+    fun setList(list: List<FavFlightData>) {
         this.list = ArrayList(list)
         notifyDataSetChanged()
     }

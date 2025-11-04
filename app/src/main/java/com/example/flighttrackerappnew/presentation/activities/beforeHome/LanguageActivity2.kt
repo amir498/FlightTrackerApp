@@ -41,7 +41,7 @@ class LanguageActivity2 :
                 adGroup = native_1_LANGUAGE_SCREEN2,
                 frameLayout = binding.flAdplaceholder,
                 adLayout = R.layout.native_ad_layout_view_with_media,
-               activity =  this@LanguageActivity2
+                activity = this@LanguageActivity2
             )
 
         }
@@ -59,18 +59,29 @@ class LanguageActivity2 :
         binding.apply {
             btnSelect.setZoomClickEffect()
             btnSelect.setOnClickListener {
-                if (IS_FROM_SETTING_ACTIVITY) {
+                if (config.isPremiumUser) {
                     IS_FROM_SETTING_ACTIVITY = false
                     startActivity(Intent(this@LanguageActivity2, MainActivity::class.java))
                     finishAffinity()
                 } else {
-                    InterstitialAdManager.showAd(
-                        interstitialLoadingScreenShowTime = 0L,
-                        showLoadingScreenAsLoadAdRequestCalled = false,
-                        this@LanguageActivity2,
-                        showLoadingScreenWithDelay = 0,
+                    if (IS_FROM_SETTING_ACTIVITY) {
+                        IS_FROM_SETTING_ACTIVITY = false
+                        startActivity(Intent(this@LanguageActivity2, MainActivity::class.java))
+                        finishAffinity()
+                    } else {
+                        InterstitialAdManager.showAd(
+                            interstitialLoadingScreenShowTime = 0L,
+                            showLoadingScreenAsLoadAdRequestCalled = false,
+                            this@LanguageActivity2,
+                            showLoadingScreenWithDelay = 0,
                         ) {
-                        startActivity(Intent(this@LanguageActivity2, OnBoardingActivity::class.java))
+                            startActivity(
+                                Intent(
+                                    this@LanguageActivity2,
+                                    OnBoardingActivity::class.java
+                                )
+                            )
+                        }
                     }
                 }
             }
@@ -89,7 +100,7 @@ class LanguageActivity2 :
                             adGroup = native_2_LANGUAGE_SCREEN2,
                             frameLayout = binding.flAdplaceholder,
                             adLayout = R.layout.native_ad_layout_view_with_media,
-                          activity =   this@LanguageActivity2
+                            activity = this@LanguageActivity2
                         )
                     }
                 }

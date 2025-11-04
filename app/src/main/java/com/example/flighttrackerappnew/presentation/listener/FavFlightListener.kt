@@ -1,9 +1,9 @@
 package com.example.flighttrackerappnew.presentation.listener
 
-import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
+import com.example.flighttrackerappnew.data.model.fav.FavFlightData
 
 interface FavFlightListener {
 
-    fun onUnFavClicked(data: FullDetailFlightData)
-    fun onViewDetailedClicked(data: FullDetailFlightData)
+    fun onUnFavClicked(data: FavFlightData)
+    fun onViewDetailedClicked(data: FavFlightData)
 }

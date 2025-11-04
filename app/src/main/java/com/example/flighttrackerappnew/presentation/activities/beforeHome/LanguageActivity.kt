@@ -79,7 +79,7 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
                                 showLoadingScreenAsLoadAdRequestCalled = false,
                                 this@LanguageActivity,
                                 showLoadingScreenWithDelay = 0,
-                                ) {
+                            ) {
                                 startActivity(
                                     Intent(
                                         this@LanguageActivity,
@@ -100,7 +100,17 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
                         )
                     } else {
                         IS_FROM_SETTING_ACTIVITY = false
-                        startActivity(Intent(this@LanguageActivity, MainActivity::class.java))
+                        if (config.selectedLanguageCode == "en") {
+                            startActivity(
+                                Intent(
+                                    this@LanguageActivity,
+                                    LanguageActivity2::class.java
+                                )
+                            )
+                        } else {
+                            startActivity(Intent(this@LanguageActivity, MainActivity::class.java))
+                        }
+
                         finishAffinity()
                     }
                 }
@@ -121,13 +131,13 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
                             adGroup = native_2_LANGUAGE_SCREEN1,
                             frameLayout = binding.flAdplaceholder,
                             adLayout = R.layout.native_ad_layout_view_with_media,
-                           activity =  this@LanguageActivity
+                            activity = this@LanguageActivity
                         )
-                            native_OnBoarding3.loadNativeAd(
-                                this@LanguageActivity,
-                                RemoteConfigManager.getBoolean("native_OnBoarding3")
-                            )
-                        }
+                        native_OnBoarding3.loadNativeAd(
+                            this@LanguageActivity,
+                            RemoteConfigManager.getBoolean("native_OnBoarding3")
+                        )
+                    }
                     firstClicked = false
                 }
             }

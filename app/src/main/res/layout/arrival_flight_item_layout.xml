@@ -23,15 +23,17 @@
 
     <TextView
         android:id="@+id/depCityName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:text="@string/islamabad"
         android:textAllCaps="true"
         android:textAlignment="center"
         android:textColor="@color/text_color_s"
-        app:layout_constraintEnd_toEndOf="@+id/depIataCode"
-        app:layout_constraintStart_toStartOf="@+id/depIataCode"
+        android:layout_marginStart="@dimen/_2sdp"
+        android:layout_marginEnd="@dimen/_2sdp"
+        app:layout_constraintEnd_toStartOf="@+id/dep_to_arriv"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/depIataCode" />
 
     <TextView
@@ -98,9 +100,11 @@
         android:maxLines="1"
         android:text="@string/doha"
         android:textAllCaps="true"
+        android:layout_marginStart="@dimen/_2sdp"
+        android:layout_marginEnd="@dimen/_2sdp"
         android:textColor="@color/text_color_s"
-        app:layout_constraintEnd_toEndOf="@+id/arrivalIataCode"
-        app:layout_constraintStart_toStartOf="@+id/arrivalIataCode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dep_to_arriv"
         app:layout_constraintTop_toBottomOf="@+id/arrivalIataCode"
         android:textAlignment="center"
         />

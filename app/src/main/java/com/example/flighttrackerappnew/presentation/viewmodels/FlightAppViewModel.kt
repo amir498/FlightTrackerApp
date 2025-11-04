@@ -6,11 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.flighttrackerappnew.data.db.FollowLiveFlightDao
 import com.example.flighttrackerappnew.data.db.StarredFlightDao
-import com.example.flighttrackerappnew.data.model.FollowFlightData
+import com.example.flighttrackerappnew.data.model.follow.FollowFlightData
 import com.example.flighttrackerappnew.data.model.airLine.StaticAirLineItems
 import com.example.flighttrackerappnew.data.model.airplane.AirPlaneItems
 import com.example.flighttrackerappnew.data.model.airport.AirportsDataItems
 import com.example.flighttrackerappnew.data.model.cities.CitiesDataItems
+import com.example.flighttrackerappnew.data.model.fav.FavFlightData
 import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 import com.example.flighttrackerappnew.data.model.futureSchedule.FutureScheduleItem
@@ -167,8 +168,8 @@ class FlightAppViewModel(
         _futureScheduleFlightData.postValue(Resource.Success(emptyList()))
     }
 
-    private val _favFlightData = MutableLiveData<List<FullDetailFlightData>>()
-    val favFlightData: LiveData<List<FullDetailFlightData>> get() = _favFlightData
+    private val _favFlightData = MutableLiveData<List<FavFlightData>>()
+    val favFlightData: LiveData<List<FavFlightData>> get() = _favFlightData
 
     fun getFavFlightData() {
         viewModelScope.launch {

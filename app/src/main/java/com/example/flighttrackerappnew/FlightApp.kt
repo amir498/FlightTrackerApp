@@ -5,7 +5,6 @@ import com.example.flighttrackerappnew.domain.usecase.BillingUseCase
 import com.example.flighttrackerappnew.domain.usecase.BillingUseCase2
 import com.example.flighttrackerappnew.presentation.admob.AdManager
 import com.example.flighttrackerappnew.presentation.di.appModule
-import com.example.flighttrackerappnew.presentation.di.remoteConfigModule
 import com.example.flighttrackerappnew.presentation.lifecycle_observer.BillingLifecycleObserverCombined
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
@@ -23,7 +22,7 @@ class FlightApp : Application() {
 
         startKoin {
             androidContext(this@FlightApp)
-            modules(appModule, remoteConfigModule)
+            modules(appModule)
         }
 
         instance = this

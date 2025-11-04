@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 import com.example.flighttrackerappnew.databinding.FragmentArrivalFlightBinding
 import com.example.flighttrackerappnew.presentation.activities.AirportSearchActivity
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
-import com.example.flighttrackerappnew.presentation.activities.DetailActivity
+import com.example.flighttrackerappnew.presentation.activities.DetailActivityForSearch
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity2
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
@@ -27,11 +26,8 @@ import com.example.flighttrackerappnew.presentation.utils.FullDetailsFlightData
 import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isFromAirportOrAirline
 import com.example.flighttrackerappnew.presentation.utils.searchedDataSubTitle
-import com.example.flighttrackerappnew.presentation.utils.selectedLiveFlightData
 import com.example.flighttrackerappnew.presentation.utils.visible
 import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class ArrivalFlightFragment : Fragment() {
@@ -95,19 +91,16 @@ class ArrivalFlightFragment : Fragment() {
                 } else {
                     arrivalData
                 }
-                adapter?.setList(arrData)
-                adapter?.setListener { arrivalData ->
-                    selectedLiveFlightData = arrivalData
+                adapter.setList(arrData)
+                adapter.setListener { arrivalData ->
                     if ((requireActivity() as BaseActivity<*>).config.isPremiumUser) {
-                        startActivity(Intent(requireContext(), DetailActivity::class.java))
+                        startActivity(Intent(requireContext(), DetailActivityForSearch::class.java))
                     } else {
                         showDialogPremium()
                     }
                     FullDetailsFlightData = arrivalData
                 }
-            }
 
-            lifecycleScope.launch(Dispatchers.Main) {
                 binding.pg.invisible()
                 binding.conPlaceholder.invisible()
                 try {
@@ -177,14 +170,14 @@ class ArrivalFlightFragment : Fragment() {
                     requireActivity(),
                     app.getString(R.string.REWARDED_ARRIVAL),
                     onRewardEarned = {
-                        startActivity(Intent(requireContext(), DetailActivity::class.java))
+                        startActivity(Intent(requireContext(), DetailActivityForSearch::class.java))
                     }, {
-                        startActivity(Intent(requireContext(), DetailActivity::class.java))
+                        startActivity(Intent(requireContext(), DetailActivityForSearch::class.java))
                     }
                 )
             }
         } else {
-            startActivity(Intent(requireContext(), DetailActivity::class.java))
+            startActivity(Intent(requireContext(), DetailActivityForSearch::class.java))
         }
     }
 

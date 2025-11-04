@@ -1,12 +1,16 @@
 package com.example.flighttrackerappnew.presentation.activities.main
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.RenderMode
 import com.example.flighttrackerappnew.R
+import com.example.flighttrackerappnew.data.model.airplane.AirPlaneItems
+import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
 import com.example.flighttrackerappnew.databinding.ActivityMainBinding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.NearByActivity
@@ -30,10 +34,13 @@ import com.example.flighttrackerappnew.presentation.utils.isFlightScheduleApiSuc
 import com.example.flighttrackerappnew.presentation.utils.isFlightTrackerApiSuccess
 import com.example.flighttrackerappnew.presentation.utils.lat
 import com.example.flighttrackerappnew.presentation.utils.loadAppOpen
+import com.example.flighttrackerappnew.presentation.utils.logDebug
 import com.example.flighttrackerappnew.presentation.utils.lon
+import com.example.flighttrackerappnew.presentation.utils.matchingAirplanes
 import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.example.flighttrackerappnew.presentation.utils.visible
 import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -42,6 +49,8 @@ import org.koin.android.ext.android.inject
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
     private val viewModel: FlightAppViewModel by inject()
+    private var planes: List<AirPlaneItems> = emptyList()
+    var flights: List<FlightDataItem> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -348,6 +357,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
                     is Resource.Error -> {
                         isCitiesApiSuccess = false
+                        logDebug("mmmm", "Error in citiesData: ${result.message}")
                     }
                 }
             }
@@ -359,11 +369,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     }
 
                     is Resource.Success -> {
+                        planes = result.data
                         isAirCraftApiSuccess = true
+                        if (isFlightTrackerApiSuccess) {
+                            getMatchingAirPlanes(planes, flights)
+                        }
                     }
 
                     is Resource.Error -> {
                         isAirCraftApiSuccess = false
+                        logDebug("mmmm", "Error in airCraftData: ${result.message}")
                     }
                 }
             }
@@ -379,12 +394,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
                     is Resource.Error -> {
                         isAirPortApiSuccess = false
+                        logDebug("mmmm", "Error in airPortsData: ${result.message}")
                     }
                 }
             }
 
-            staticAirLineData.observe(this@MainActivity) { response ->
-                when (response) {
+            staticAirLineData.observe(this@MainActivity) { result ->
+                when (result) {
                     is Resource.Loading -> {
                         isAirLineApiSuccess = false
                     }
@@ -395,8 +411,27 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
                     is Resource.Error -> {
                         isAirLineApiSuccess = false
+                        logDebug("mmmm", "Error in staticAirLineData: ${result.message}")
                     }
                 }
+            }
+        }
+    }
+
+
+    fun getMatchingAirPlanes(planes: List<AirPlaneItems>, flights: List<FlightDataItem>) {
+        job = CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val matchingAirplane = planes.filter { airplane ->
+                    flights.any { flight ->
+                        flight.aircraft?.regNumber?.equals(
+                            airplane.numberRegistration, ignoreCase = true
+                        ) == true
+                    }
+                }
+                matchingAirplanes = matchingAirplane
+            } catch (e: Exception) {
+                Log.e("MainActivity", "Error in matchingAirplanes: ${e.message}")
             }
         }
     }
@@ -411,14 +446,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     }
 
                     is Resource.Success -> {
+                        flights = result.data
                         isFlightTrackerApiSuccess = true
                         hideLoading()
+                        if (isAirCraftApiSuccess) {
+                            getMatchingAirPlanes(planes, flights)
+                        }
                     }
 
                     is Resource.Error -> {
                         isFlightTrackerApiSuccess = false
                         hideLoading()
                         showDialog()
+                        this@MainActivity.showToast(result.message)
                     }
                 }
             }
@@ -435,6 +475,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
                     is Resource.Error -> {
                         isFlightScheduleApiSuccess = false
+                        hideLoading()
+                        showDialog()
+                        this@MainActivity.showToast(result.message)
                     }
                 }
             }
@@ -480,15 +523,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
+    private var dialog: Dialog? = null
+
     private fun showDialog() {
-        CustomDialogBuilder(this).setLayout(R.layout.dialog_retry).setCancelable(false)
-            .setPositiveClickListener {
-                showLoading()
-                it.dismiss()
-                getLongLatFirst()
-            }.setNegativeClickListener {
-                it.dismiss()
-            }.show()
+        if (dialog== null){
+            dialog = CustomDialogBuilder(this).setLayout(R.layout.dialog_retry).setCancelable(false)
+                .setPositiveClickListener {
+                    showLoading()
+                    it.dismiss()
+                    getLongLatFirst()
+                    dialog = null
+                }.setNegativeClickListener {
+                    it.dismiss()
+                    dialog = null
+                }.show()
+        }
     }
 
     private var job: Job? = null

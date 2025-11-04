@@ -1,5 +1,6 @@
 package com.example.flighttrackerappnew.presentation.remoteconfig
 
+import com.example.flighttrackerappnew.FlightApp
 import com.example.flighttrackerappnew.R
 import com.google.firebase.Firebase
 import com.google.firebase.remoteconfig.remoteConfig
@@ -10,11 +11,19 @@ object RemoteConfigManager {
     val remoteConfig by lazy { Firebase.remoteConfig }
 
     fun init() {
-        val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 0
+        remoteConfig.apply {
+            setConfigSettingsAsync(
+                remoteConfigSettings {
+                    minimumFetchIntervalInSeconds =
+                        FlightApp.instance.resources
+                            .getInteger(R.integer.minimumFetchIntervalInSeconds)
+                            .toLong()
+                }
+            )
+            setDefaultsAsync(R.xml.remote_config_defaults)
+            fetchAndActivate()
+                .addOnCompleteListener { task -> }
         }
-        remoteConfig.setConfigSettingsAsync(configSettings)
-        remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
     }
 
     fun getBoolean(key: String): Boolean {

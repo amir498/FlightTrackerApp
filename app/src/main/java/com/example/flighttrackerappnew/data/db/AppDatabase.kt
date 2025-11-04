@@ -2,11 +2,12 @@ package com.example.flighttrackerappnew.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.flighttrackerappnew.data.model.FollowFlightData
+import com.example.flighttrackerappnew.data.model.follow.FollowFlightData
 import com.example.flighttrackerappnew.data.model.airLine.StaticAirLineItems
 import com.example.flighttrackerappnew.data.model.airplane.AirPlaneItems
 import com.example.flighttrackerappnew.data.model.airport.AirportsDataItems
 import com.example.flighttrackerappnew.data.model.cities.CitiesDataItems
+import com.example.flighttrackerappnew.data.model.fav.FavFlightData
 import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 import com.example.flighttrackerappnew.data.model.futureSchedule.FutureScheduleItem
@@ -27,6 +28,7 @@ import com.example.flighttrackerappnew.data.model.tracking.TrackedDataItem
         FollowFlightData::class,
         FullDetailFlightData::class,
         FutureScheduleItem::class,
+        FavFlightData::class,
     ],
     version = 2,
     exportSchema = false

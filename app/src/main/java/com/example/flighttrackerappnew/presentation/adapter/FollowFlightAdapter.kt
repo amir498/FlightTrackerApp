@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.flighttrackerappnew.data.model.FollowFlightData
+import com.example.flighttrackerappnew.data.model.follow.FollowFlightData
 import com.example.flighttrackerappnew.databinding.TrackedFlightItemsLayoutBinding
 import com.example.flighttrackerappnew.presentation.listener.FollowedFlightListener
 import com.example.flighttrackerappnew.presentation.utils.extractTime
@@ -52,22 +52,22 @@ class FollowFlightAdapter : RecyclerView.Adapter<FollowFlightAdapter.SearchAirpo
             val item = list[position]
 
             binding.apply {
-                flightNum.text = item.flightNum
-                depTime.text = item.depTime?.extractTime()
-                arriTime.text = item.arrivalTime?.extractTime()
-                sea.text = item.depCityName
-                alt.text = item.arrivalCityName
+                flightNum.text = item.flightNo
+                depTime.text = item.actualDepTime.extractTime()
+                arriTime.text = item.scheduledArrTime.extractTime()
+                sea.text = item.depCity
+                alt.text = item.arrCity
                 callSign.text = item.callSign
-                AirCraftiataNumber.text = item.airCraftIataNumber
+                AirCraftiataNumber.text = item.flightIataNumber
                 depIataCode.text = item.depIataCode
-                depCityName.text = item.depCityName
-                depTime.text = item.depTime?.extractTime()
-                arrivalIataCode.text = item.arrivalIataCode
-                arrCityName.text = item.arrivalCityName
-                arriTime.text = item.arrivalTime?.extractTime()
-                depActualTime.text = item.depTime?.extractTime()
-                arrEstimatedTime.text = item.arrivalTime?.extractTime()
-                time.text = item.time.extractTime()
+                depCityName.text = item.depCity
+                depTime.text = item.actualDepTime.extractTime()
+                arrivalIataCode.text = item.arrIataCode
+                arrCityName.text = item.arrCity
+                arriTime.text = item.estimatedArrTime.extractTime()
+                depActualTime.text = item.actualDepTime.extractTime()
+                arrEstimatedTime.text = item.estimatedArrTime.extractTime()
+                time.text = item.actualDepTime.extractTime()
                 discreteSeekBar.progress = item.progress
                 binding.discreteSeekBar.setOnTouchListener { _, _ -> true }
             }
@@ -75,10 +75,10 @@ class FollowFlightAdapter : RecyclerView.Adapter<FollowFlightAdapter.SearchAirpo
 
         fun listener(position: Int) {
             binding.viewDetails.setOnClickListener {
-
+                listener?.onViewDetailedClicked(list[position])
             }
             binding.unfollow.setOnClickListener {
-
+                listener?.onUnFollowClicked(list[position])
             }
         }
     }

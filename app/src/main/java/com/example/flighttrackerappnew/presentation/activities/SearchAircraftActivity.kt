@@ -79,7 +79,7 @@ class SearchAircraftActivity :
 
                     is Resource.Success -> {
                         isFlightTrackerApiSuccess = true
-                        liveFlight = result.data
+                        liveFlight = result.data.filterNot { it.flight?.iataNumber == "XXD" }
                     }
 
                     is Resource.Error -> {

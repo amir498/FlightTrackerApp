@@ -11,8 +11,8 @@ import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.SplashActivity
 import com.example.flighttrackerappnew.presentation.admob.app_open.AppOpenAdManager
-import com.example.flighttrackerappnew.presentation.admob.remote_config.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.helper.Config
+import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.isNetworkAvailable
 import com.example.flighttrackerappnew.presentation.utils.loadAppOpen
 import org.koin.core.component.KoinComponent

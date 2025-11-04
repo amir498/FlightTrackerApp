@@ -2,7 +2,7 @@ package com.example.flighttrackerappnew.presentation.admob.banner
 
 import com.example.flighttrackerappnew.FlightApp
 import com.example.flighttrackerappnew.R
-import com.example.flighttrackerappnew.presentation.admob.remote_config.RemoteConfigManager
+import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 
 object BannerAdProvider {
     private val app = FlightApp.Companion.instance

@@ -189,7 +189,7 @@ val appModule = module {
     single { GetFlightScheduleUseCase(get()) }
 
     factory { RewardedAdManager() }
-    single { MyGoogleMap() }
+    factory { MyGoogleMap() }
     single { MyGoogleMapRoute() }
     single { MyGoogleMapNearAirports() }
     single<StaticAirLineRepository> { StaticAirLineRepositoryImpl(get(), get(), get()) }

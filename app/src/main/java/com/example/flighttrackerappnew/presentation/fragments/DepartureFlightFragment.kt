@@ -2,25 +2,21 @@ package com.example.flighttrackerappnew.presentation.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.flighttrackerappnew.R
-import com.example.flighttrackerappnew.data.model.airport.AirportsDataItems
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 import com.example.flighttrackerappnew.databinding.FragmentDepartureFlightBinding
 import com.example.flighttrackerappnew.presentation.activities.AirportSearchActivity
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
-import com.example.flighttrackerappnew.presentation.activities.DetailActivity
+import com.example.flighttrackerappnew.presentation.activities.DetailActivityForSearch
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity2
 import com.example.flighttrackerappnew.presentation.adManager.rewarded.RewardedAdManager
 import com.example.flighttrackerappnew.presentation.adapter.DepartureFlightAdapter
-import com.example.flighttrackerappnew.presentation.adapter.SearchAirportAdapter
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_DEPARTURE_FLIGHT_For_Aircraft_Or_TailNumber
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_DEPARTURE_FLIGHT_For_Airport_Or_Airline
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
@@ -110,10 +106,10 @@ class DepartureFlightFragment : Fragment() {
                 } else {
                     departureData
                 }
-                adapter?.setList(arrData)
-                adapter?.setListener { depData ->
+                adapter.setList(arrData)
+                adapter.setListener { depData ->
                     if ((requireActivity() as BaseActivity<*>).config.isPremiumUser) {
-                        startActivity(Intent(requireContext(), DetailActivity::class.java))
+                        startActivity(Intent(requireContext(), DetailActivityForSearch::class.java))
                     } else {
                         showDialogPremium()
                     }
@@ -174,14 +170,14 @@ class DepartureFlightFragment : Fragment() {
                     requireActivity(),
                     app.getString(R.string.REWARDED_DEPARTURE),
                     onRewardEarned = {
-                        startActivity(Intent(requireContext(), DetailActivity::class.java))
+                        startActivity(Intent(requireContext(), DetailActivityForSearch::class.java))
                     }, {
-                        startActivity(Intent(requireContext(), DetailActivity::class.java))
+                        startActivity(Intent(requireContext(), DetailActivityForSearch::class.java))
                     }
                 )
             }
         } else {
-            startActivity(Intent(requireContext(), DetailActivity::class.java))
+            startActivity(Intent(requireContext(), DetailActivityForSearch::class.java))
         }
     }
 

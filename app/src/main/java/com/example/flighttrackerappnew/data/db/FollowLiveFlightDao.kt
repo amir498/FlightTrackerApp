@@ -4,8 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.flighttrackerappnew.data.model.FollowFlightData
-import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
+import com.example.flighttrackerappnew.data.model.follow.FollowFlightData
 
 @Dao
 interface FollowLiveFlightDao {
@@ -16,6 +15,6 @@ interface FollowLiveFlightDao {
     @Query("SELECT * FROM FollowFlightData")
     suspend fun getFollowLiveFlightData(): List<FollowFlightData>
 
-    @Query("DELETE FROM FollowFlightData WHERE flightNum = :flightNumber")
+    @Query("DELETE FROM FollowFlightData WHERE flightNo = :flightNumber")
     suspend fun deleteFollowFlightByNumber(flightNumber: String)
 }

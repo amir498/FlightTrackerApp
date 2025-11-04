@@ -7,7 +7,6 @@ import android.provider.Settings
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.ActivitySplashBinding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
-import com.example.flighttrackerappnew.presentation.activities.main.MainActivity
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity2
 import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_SPLASH
@@ -33,16 +32,15 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        if (!isNetworkAvailable()) {
-//            adLoaded = true
-//            showDialog()
-//        } else {
-//            loadAd()
-//        }
-//
-//        config.startDiscountIfNeeded()
+        if (!isNetworkAvailable()) {
+            adLoaded = true
+            showDialog()
+        } else {
+            loadAd()
+        }
 
-        startActivity(Intent(this, MainActivity::class.java))
+        config.startDiscountIfNeeded()
+
     }
 
     private fun showPremiumScreen() {

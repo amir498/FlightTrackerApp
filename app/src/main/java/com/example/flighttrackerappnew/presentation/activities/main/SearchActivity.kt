@@ -3,7 +3,6 @@ package com.example.flighttrackerappnew.presentation.activities.main
 import android.content.Intent
 import android.os.Bundle
 import com.example.flighttrackerappnew.R
-import com.example.flighttrackerappnew.data.model.airport.AirportsDataItems
 import com.example.flighttrackerappnew.databinding.ActivitySearchBinding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.SearchAirLinesActivity
@@ -14,7 +13,6 @@ import com.example.flighttrackerappnew.presentation.admob.interstitial.Interstit
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_SEARCH_ACTIVITY
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.clickCount
-import com.example.flighttrackerappnew.presentation.utils.setZoomClickEffect
 
 class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding::inflate) {
 
@@ -23,11 +21,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
 
         viewListeners()
         loadAd()
-        observeAllData()
-    }
-
-    private fun observeAllData() {
-
     }
 
     private fun loadAd() {
@@ -47,7 +40,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
 
     private fun viewListeners() {
         binding.apply {
-            btnAirport.setZoomClickEffect()
             btnAirport.setOnClickListener {
                 clickCount += 1
                 loadInterstitialAd(
@@ -71,7 +63,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
 
                     })
             }
-            btnAirlines.setZoomClickEffect()
             btnAirlines.setOnClickListener {
                 clickCount += 1
                 loadInterstitialAd(
@@ -95,7 +86,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
 
                     })
             }
-            btnAircraft.setZoomClickEffect()
             btnAircraft.setOnClickListener {
                 clickCount += 1
                 loadInterstitialAd(
@@ -119,7 +109,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
 
                     })
             }
-            btnTailNumber.setZoomClickEffect()
             btnTailNumber.setOnClickListener {
                 clickCount += 1
                 loadInterstitialAd(
@@ -139,7 +128,6 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
 
                     })
             }
-            btnBack.setZoomClickEffect()
             btnBack.setOnClickListener {
                 finish()
             }
