@@ -7,7 +7,7 @@
     <color name="app_bg_bottom">#000000</color>
     <color name="text_color_p">#FAFAFA</color>
     <color name="text_color_s">#9A9A9A</color>
-    <color name="surface">#1C1C1C</color>
+    <color name="surface">#2B2B2B</color>
     <color name="acc1">#F4A62C</color>
     <color name="primary">#1C1C1C</color>
     <color name="text_primary">#FAFAFA</color>
@@ -19,4 +19,5 @@
     <color name="stockeCard">#5E58595A</color>
     <color name="black_t">#99000000</color>
     <color name="warning">#FFC947</color>
+    <color name="text_color_708CB5">#708CB5</color>
 </resources>

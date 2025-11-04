@@ -26,6 +26,7 @@ import com.example.flighttrackerappnew.presentation.utils.isFlightScheduleApiSuc
 import com.example.flighttrackerappnew.presentation.utils.isFlightTrackerApiSuccess
 import com.example.flighttrackerappnew.presentation.utils.isFromAirportOrAirline
 import com.example.flighttrackerappnew.presentation.utils.logDebug
+import com.example.flighttrackerappnew.presentation.utils.manageKeyboardAndSystemUI
 import com.example.flighttrackerappnew.presentation.utils.orNA
 import com.example.flighttrackerappnew.presentation.utils.searchedDataTitle
 import com.example.flighttrackerappnew.presentation.utils.showToast
@@ -57,6 +58,7 @@ class SearchAirportActivity :
     }
 
     private fun viewListener() {
+        window.manageKeyboardAndSystemUI(binding.root)
         binding.apply {
             btnBack.setOnClickListener {
                 finish()

@@ -230,7 +230,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_95sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/btn_search_now_home_bg"
+                android:background="@drawable/btn_search_now_home_bg_r"
                 app:layout_constraintEnd_toEndOf="@+id/glRight"
                 app:layout_constraintStart_toStartOf="@+id/glLeft"
                 app:layout_constraintTop_toBottomOf="@+id/fl_adplaceholder">
@@ -274,7 +274,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_95sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/btn_followed_flight_home_bg"
+                android:background="@drawable/btn_followed_flight_home_bg_r"
                 app:layout_constraintEnd_toEndOf="@+id/glRight"
                 app:layout_constraintStart_toStartOf="@+id/glLeft"
                 app:layout_constraintTop_toBottomOf="@+id/btnSearchNow">
@@ -318,7 +318,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_95sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/btn_save_flight_home_bg"
+                android:background="@drawable/btn_save_flight_home_bg_r"
                 app:layout_constraintEnd_toEndOf="@+id/glRight"
                 app:layout_constraintStart_toStartOf="@+id/glLeft"
                 app:layout_constraintTop_toBottomOf="@+id/btnFollowedFlight">
@@ -362,7 +362,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_95sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/btn_scheduled_home_bg"
+                android:background="@drawable/btn_scheduled_home_bg_r"
                 app:layout_constraintEnd_toEndOf="@+id/glRight"
                 app:layout_constraintStart_toStartOf="@+id/glLeft"
                 app:layout_constraintTop_toBottomOf="@+id/btnStarredFlight">
@@ -407,7 +407,7 @@
                 android:layout_height="@dimen/_95sdp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                android:background="@drawable/btn_nearby_home_bg"
+                android:background="@drawable/btn_nearby_home_bg_r"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/glRight"
                 app:layout_constraintStart_toStartOf="@+id/glLeft"

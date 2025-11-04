@@ -39,8 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_160sdp"
         android:layout_gravity="center"
-        app:lottie_autoPlay="true"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/search" />
 
@@ -48,12 +48,12 @@
         android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="-40dp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/glRight"
         app:layout_constraintStart_toStartOf="@+id/glLeft"
-        android:layout_marginTop="-40dp"
-        android:layout_marginBottom="@dimen/_10sdp"
         app:layout_constraintTop_toBottomOf="@+id/iv_airplane_home">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_95sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/btn_search_airport_search_bg"
+                android:background="@drawable/btn_search_airport_search_bg_r"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
@@ -95,8 +95,8 @@
                     style="@style/sfm13s"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:maxLines="2"
                     android:layout_marginEnd="@dimen/_80sdp"
+                    android:maxLines="2"
                     android:text="@string/find_airport_details_routes_and_scheduled_flights"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -112,11 +112,12 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:layout_marginEnd="5dp"
-                android:visibility="gone"
                 android:layout_marginBottom="@dimen/_10sdp"
-                app:layout_constraintTop_toBottomOf="@+id/btnAirport"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" >
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnAirport">
+
                 <include layout="@layout/shimmer_native_with_large_media" />
             </FrameLayout>
 
@@ -125,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_95sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/btn_search_aircraft_search_bg"
+                android:background="@drawable/btn_search_aircraft_search_bg_r"
                 app:layout_constraintTop_toBottomOf="@+id/fl_adplaceholder">
 
                 <ImageView
@@ -170,7 +171,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_95sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/btn_search_airline_search_bg"
+                android:background="@drawable/btn_search_airline_search_bg_r"
                 app:layout_constraintTop_toBottomOf="@+id/btnAircraft">
 
                 <ImageView
@@ -215,7 +216,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_95sdp"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/btn_search_tail_number_search_bg"
+                android:background="@drawable/btn_search_tail_number_search_bg_r"
                 app:layout_constraintTop_toBottomOf="@+id/btnAirlines">
 
                 <ImageView

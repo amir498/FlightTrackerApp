@@ -31,7 +31,6 @@ import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewMode
 import org.koin.android.ext.android.inject
 
 class ArrivalFlightFragment : Fragment() {
-
     private val config: Config by inject()
     private var adapter = ArrivalFlightAdapter()
     private var arrivalData = ArrayList<FullDetailFlightData>()

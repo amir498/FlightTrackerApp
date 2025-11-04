@@ -187,9 +187,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         {
                             startActivity(Intent(this@MainActivity, SearchActivity::class.java))
                         },
-                        {
-
-                        })
+                        {}
+                    )
                 } else {
                     showDialog()
                 }
@@ -526,7 +525,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private var dialog: Dialog? = null
 
     private fun showDialog() {
-        if (dialog== null){
+        if (dialog == null) {
             dialog = CustomDialogBuilder(this).setLayout(R.layout.dialog_retry).setCancelable(false)
                 .setPositiveClickListener {
                     showLoading()

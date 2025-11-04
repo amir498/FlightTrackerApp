@@ -2,12 +2,14 @@ package com.example.flighttrackerappnew.presentation.utils
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Rect
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowInsets
 import android.view.WindowInsetsController
+import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 
@@ -31,6 +33,36 @@ fun Window.hideNavigationBar() {
         }
     } catch (e: NoSuchMethodError) {
         e.printStackTrace()
+    }
+}
+
+fun Window.manageKeyboardAndSystemUI(rootView: View) {
+    if (!isRedVelvetCakePlus()) {
+        setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+    }
+    rootView.viewTreeObserver.addOnGlobalLayoutListener {
+        val rect = Rect()
+        rootView.getWindowVisibleDisplayFrame(rect)
+        val screenHeight = rootView.rootView.height
+        val keypadHeight = screenHeight - rect.bottom
+
+        if (keypadHeight > screenHeight * 0.15) {
+            showNavigationBar()
+        } else {
+            hideNavigationBar()
+        }
+    }
+}
+
+fun Window.showNavigationBar() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        insetsController?.let { controller ->
+            controller.show(WindowInsets.Type.navigationBars() or WindowInsets.Type.statusBars())
+            controller.systemBarsBehavior =
+                WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        }
+    } else {
+        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
     }
 }
 

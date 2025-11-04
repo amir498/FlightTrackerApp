@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/text_color_708CB5">   <!-- ripple color -->
+
+    <!-- Ripple mask (defines ripple shape) -->
+    <item android:id="@android:id/mask">
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/_14sdp" />
+            <solid android:color="@android:color/black" />
+        </shape>
+    </item>
+
+    <!-- Your original PNG background -->
+    <item>
+        <bitmap
+            android:gravity="fill"
+            android:src="@drawable/btn_search_airport_search_bg" />
+    </item>
+</ripple>

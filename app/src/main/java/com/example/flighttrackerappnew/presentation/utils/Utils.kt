@@ -2,8 +2,10 @@ package com.example.flighttrackerappnew.presentation.utils
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.telephony.TelephonyManager
 import android.util.Log
+import androidx.annotation.ChecksSdkIntAtLeast
 import androidx.core.net.toUri
 import com.example.flighttrackerappnew.data.model.fav.FavFlightData
 import com.example.flighttrackerappnew.data.model.follow.FollowFlightData
@@ -160,6 +162,13 @@ fun openGoogleMap(lat: String, long: String, context: Context) {
         context.showToast("N/A")
     }
 }
+
+@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.TIRAMISU)
+fun isTiramisuPlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+
+@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.TIRAMISU)
+fun isRedVelvetCakePlus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+
 fun FavFlightData.toFullDetailData(): FullDetailFlightData {
     return FullDetailFlightData(
         id = id,
