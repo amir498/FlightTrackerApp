@@ -253,5 +253,15 @@
     <string name="flight_data_unavailable">उड़ान डेटा उपलब्ध नहीं है</string>
     <string name="most_popular_plan">सबसे लोकप्रिय योजना</string>
     <string name="save">बचत</string>
-
+    <string name="radar">रडार</string>
+    <string name="flights">उड़ानें</string>
+    <string name="claim_your_limited_time_discount">अपना सीमित समय का ऑफ़र प्राप्त करें</string>
+    <string name="avail_discount_now">अभी छूट प्राप्त करें</string>
+    <string name="days">दिन</string>
+    <string name="hours">घंटे</string>
+    <string name="minute">मिनट</string>
+    <string name="second">सेकंड</string>
+    <string name="by_subscribing_you_agree_to_our_terms_of_use_and_privacy_policy">सदस्यता लेने पर, आप हमारी उपयोग की शर्तों और गोपनीयता नीति से सहमत होते हैं।</string>
+    <string name="_70_off">70% की छूट</string>
+    <string name="weekly_plan">साप्ताहिक योजना</string>
 </resources>

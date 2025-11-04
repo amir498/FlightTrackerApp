@@ -279,7 +279,6 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.config)
-    implementation(libs.google.firebase.analytics)
 
     //UMP SDK
     implementation(libs.user.messaging.platform)

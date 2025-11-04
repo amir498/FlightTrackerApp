@@ -253,5 +253,15 @@
     <string name="flight_data_unavailable">Dữ liệu chuyến bay không khả dụng</string>
     <string name="most_popular_plan">Gói phổ biến nhất</string>
     <string name="save">Tiết kiệm</string>
-
+    <string name="radar">Ra đa</string>
+    <string name="flights">Chuyến bay</string>
+    <string name="claim_your_limited_time_discount">Nhận ưu đãi giới hạn thời gian của bạn</string>
+    <string name="avail_discount_now">Nhận giảm giá ngay</string>
+    <string name="days">NGÀY</string>
+    <string name="hours">GIỜ</string>
+    <string name="minute">PHÚT</string>
+    <string name="second">GIÂY</string>
+    <string name="by_subscribing_you_agree_to_our_terms_of_use_and_privacy_policy">Bằng cách đăng ký, bạn đồng ý với Điều khoản sử dụng và Chính sách quyền riêng tư của chúng tôi.</string>
+    <string name="_70_off">GIẢM 70%</string>
+    <string name="weekly_plan">Gói hàng tuần</string>
 </resources>

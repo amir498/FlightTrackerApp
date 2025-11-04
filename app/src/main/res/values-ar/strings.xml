@@ -253,5 +253,16 @@
     <string name="flight_data_unavailable">بيانات الرحلة غير متوفرة</string>
     <string name="most_popular_plan">الخطة الأكثر شيوعًا</string>
     <string name="save">توفير</string>
+    <string name="radar">رادار</string>
+    <string name="flights">الرحلات</string>
+    <string name="claim_your_limited_time_discount">احصل على خصم لفترة محدودة</string>
+    <string name="avail_discount_now">احصل على الخصم الآن</string>
+    <string name="days">أيام</string>
+    <string name="hours">ساعات</string>
+    <string name="minute">دقائق</string>
+    <string name="second">ثوانٍ</string>
+    <string name="by_subscribing_you_agree_to_our_terms_of_use_and_privacy_policy">من خلال الاشتراك، فإنك توافق على شروط الاستخدام وسياسة الخصوصية الخاصة بنا.</string>
+    <string name="_70_off">خصم 70٪</string>
+    <string name="weekly_plan">الخطة الأسبوعية</string>
 
 </resources>

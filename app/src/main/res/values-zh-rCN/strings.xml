@@ -253,5 +253,15 @@
     <string name="flight_data_unavailable">航班数据不可用</string>
     <string name="most_popular_plan">最受欢迎的方案</string>
     <string name="save">节省</string>
-
+    <string name="radar">雷达</string>
+    <string name="flights">航班</string>
+    <string name="claim_your_limited_time_discount">领取限时优惠</string>
+    <string name="avail_discount_now">立即领取优惠</string>
+    <string name="days">天</string>
+    <string name="hours">小时</string>
+    <string name="minute">分钟</string>
+    <string name="second">秒</string>
+    <string name="by_subscribing_you_agree_to_our_terms_of_use_and_privacy_policy">订阅即表示您同意我们的使用条款和隐私政策。</string>
+    <string name="_70_off">七折优惠</string>
+    <string name="weekly_plan">每周计划</string>
 </resources>

@@ -253,5 +253,15 @@
     <string name="flight_data_unavailable">پرواز کا ڈیٹا دستیاب نہیں</string>
     <string name="most_popular_plan">سب سے مقبول منصوبہ</string>
     <string name="save">بچت</string>
-
+    <string name="radar">ریڈار</string>
+    <string name="flights">پروازیں</string>
+    <string name="claim_your_limited_time_discount">اپنی محدود وقت کی پیشکش حاصل کریں</string>
+    <string name="avail_discount_now">ابھی رعایت حاصل کریں</string>
+    <string name="days">دن</string>
+    <string name="hours">گھنٹے</string>
+    <string name="minute">منٹ</string>
+    <string name="second">سیکنڈ</string>
+    <string name="by_subscribing_you_agree_to_our_terms_of_use_and_privacy_policy">سبسکرائب کرنے سے، آپ ہماری استعمال کی شرائط اور رازداری کی پالیسی سے اتفاق کرتے ہیں۔</string>
+    <string name="_70_off">٪70 رعایت</string>
+    <string name="weekly_plan">ہفتہ وار منصوبہ</string>
 </resources>

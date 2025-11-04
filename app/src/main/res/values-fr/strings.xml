@@ -253,5 +253,15 @@
     <string name="flight_data_unavailable">Données de vol indisponibles</string>
     <string name="most_popular_plan">Forfait le plus populaire</string>
     <string name="save">Économiser</string>
-
+    <string name="radar">Radar</string>
+    <string name="flights">Vols</string>
+    <string name="claim_your_limited_time_discount">Profitez de votre offre à durée limitée</string>
+    <string name="avail_discount_now">Bénéficiez de la remise maintenant</string>
+    <string name="days">JOURS</string>
+    <string name="hours">HEURES</string>
+    <string name="minute">MINUTES</string>
+    <string name="second">SECONDES</string>
+    <string name="by_subscribing_you_agree_to_our_terms_of_use_and_privacy_policy">En vous abonnant, vous acceptez nos conditions d\'utilisation et notre politique de confidentialité.</string>
+    <string name="_70_off">-70%</string>
+    <string name="weekly_plan">Forfait hebdomadaire</string>
 </resources>

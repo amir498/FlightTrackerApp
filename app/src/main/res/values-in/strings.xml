@@ -253,5 +253,15 @@
     <string name="flight_data_unavailable">Data Penerbangan Tidak Tersedia</string>
     <string name="most_popular_plan">Paket Terpopuler</string>
     <string name="save">Hemat</string>
-
+    <string name="radar">Radar</string>
+    <string name="flights">Penerbangan</string>
+    <string name="claim_your_limited_time_discount">Dapatkan diskon waktu terbatas Anda</string>
+    <string name="avail_discount_now">Dapatkan diskon sekarang</string>
+    <string name="days">HARI</string>
+    <string name="hours">JAM</string>
+    <string name="minute">MENIT</string>
+    <string name="second">DETIK</string>
+    <string name="by_subscribing_you_agree_to_our_terms_of_use_and_privacy_policy">Dengan berlangganan, Anda menyetujui Ketentuan Penggunaan dan Kebijakan Privasi kami.</string>
+    <string name="_70_off">Diskon 70%</string>
+    <string name="weekly_plan">Paket Mingguan</string>
 </resources>
