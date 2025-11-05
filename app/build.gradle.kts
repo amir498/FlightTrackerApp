@@ -14,11 +14,10 @@ android {
         applicationId = "com.radar.flight.tracker.airport.info"
         minSdk = 24
         targetSdk = 35
-        versionCode = 16
-        versionName = "2.6"
+        versionCode = 17
+        versionName = "2.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "API_KEY", "\"${project.findProperty("MY_API_KEY") ?: ""}\"")
         buildConfigField("String", "BASE_64_KEY", "\"${project.findProperty("BASE64_KEY") ?: ""}\"")
     }
 
@@ -34,7 +33,8 @@ android {
 
     buildTypes {
         debug {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -43,10 +43,26 @@ android {
             resValue("string", "INTERSTITIAL_SPLASH", "ca-app-pub-3940256099942544/1033173712")
             resValue("string", "INTERSTITIAL_MAP_STYLE", "ca-app-pub-3940256099942544/1033173712")
             resValue("string", "BANNER_SPLASH", "ca-app-pub-3940256099942544/9214589741")
-            resValue("string", "native_1_LANGUAGE_SCREEN1", "ca-app-pub-3940256099942544/2247696110")
-            resValue("string", "native_2_LANGUAGE_SCREEN1", "ca-app-pub-3940256099942544/2247696110")
-            resValue("string", "native_1_LANGUAGE_SCREEN2", "ca-app-pub-3940256099942544/2247696110")
-            resValue("string", "native_2_LANGUAGE_SCREEN2", "ca-app-pub-3940256099942544/2247696110")
+            resValue(
+                "string",
+                "native_1_LANGUAGE_SCREEN1",
+                "ca-app-pub-3940256099942544/2247696110"
+            )
+            resValue(
+                "string",
+                "native_2_LANGUAGE_SCREEN1",
+                "ca-app-pub-3940256099942544/2247696110"
+            )
+            resValue(
+                "string",
+                "native_1_LANGUAGE_SCREEN2",
+                "ca-app-pub-3940256099942544/2247696110"
+            )
+            resValue(
+                "string",
+                "native_2_LANGUAGE_SCREEN2",
+                "ca-app-pub-3940256099942544/2247696110"
+            )
             resValue("string", "native_OnBoarding1", "ca-app-pub-3940256099942544/2247696110")
             resValue("string", "native_OnBoarding2", "ca-app-pub-3940256099942544/2247696110")
             resValue("string", "native_OnBoarding3", "ca-app-pub-3940256099942544/2247696110")
@@ -128,10 +144,26 @@ android {
             resValue("string", "INTERSTITIAL_SPLASH", "ca-app-pub-1476052568030102/4621593010")
             resValue("string", "INTERSTITIAL_MAP_STYLE", "ca-app-pub-1476052568030102/4621593010")
             resValue("string", "BANNER_SPLASH", "ca-app-pub-1476052568030102/6002672032")
-            resValue("string", "native_1_LANGUAGE_SCREEN1", "ca-app-pub-1476052568030102/3308511341")
-            resValue("string", "native_2_LANGUAGE_SCREEN1", "ca-app-pub-1476052568030102/3835124955")
-            resValue("string", "native_1_LANGUAGE_SCREEN2", "ca-app-pub-1476052568030102/7623160873")
-            resValue("string", "native_2_LANGUAGE_SCREEN2", "ca-app-pub-1476052568030102/2522043284")
+            resValue(
+                "string",
+                "native_1_LANGUAGE_SCREEN1",
+                "ca-app-pub-1476052568030102/3308511341"
+            )
+            resValue(
+                "string",
+                "native_2_LANGUAGE_SCREEN1",
+                "ca-app-pub-1476052568030102/3835124955"
+            )
+            resValue(
+                "string",
+                "native_1_LANGUAGE_SCREEN2",
+                "ca-app-pub-1476052568030102/7623160873"
+            )
+            resValue(
+                "string",
+                "native_2_LANGUAGE_SCREEN2",
+                "ca-app-pub-1476052568030102/2522043284"
+            )
             resValue("string", "native_OnBoarding1", "ca-app-pub-1476052568030102/4996997534")
             resValue("string", "native_OnBoarding2", "ca-app-pub-1476052568030102/4996997534")
             resValue("string", "native_OnBoarding3", "ca-app-pub-1476052568030102/3628075545")
@@ -199,7 +231,7 @@ android {
             resValue("string", "INTERSTITIAL_HOME", "ca-app-pub-1476052568030102/1939589356")
             resValue("string", "INTERSTITIAL_SEARCH", "ca-app-pub-1476052568030102/3184937000")
 
-            resValue("integer", "minimumFetchIntervalInSeconds", "0")
+            resValue("integer", "minimumFetchIntervalInSeconds", "3")
         }
     }
     compileOptions {

@@ -1,11 +1,11 @@
 package com.example.flighttrackerappnew.data.repository.flight.datasourceImpl
 
 import android.util.Log
+import com.example.flighttrackerappnew.data.FutureScheduleItemTypeToken
 import com.example.flighttrackerappnew.data.api.FlightApiService
 import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
 import com.example.flighttrackerappnew.data.repository.flight.datasource.LiveFlightRemoteDataSource
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
-import com.google.common.reflect.TypeToken
 import com.google.gson.Gson
 import org.json.JSONObject
 import retrofit2.HttpException
@@ -28,7 +28,7 @@ class LiveFlightRemoteDataSourceImpl(
         if (response.isSuccessful) {
             val body = response.body()?.string()
             try {
-                val type = object : TypeToken<List<FlightDataItem>>() {}.type
+                val type = FutureScheduleItemTypeToken().type
                 return Gson().fromJson(body, type)
             } catch (e: Exception) {
                 Log.e("MY----TAG", "Parse array failed, trying error object: ${e.message}")

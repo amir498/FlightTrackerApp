@@ -72,46 +72,46 @@ class MyGoogleMap : OnMapReadyCallback, KoinComponent {
     ) {
         if (departure == null || arrival == null) return
 
-        clearAllFlightPaths()
-        clearDestinationMarkers()
-
-        val currentFlightLocation = LatLng(
-            flightData.geography?.latitude ?: return,
-            flightData.geography.longitude ?: return
-        )
-
-        val departureLatLng = LatLng(
-            departure.latitudeAirport ?: return,
-            departure.longitudeAirport ?: return
-        )
-
-        val arrivalLatLng = LatLng(
-            arrival.latitudeAirport ?: return,
-            arrival.longitudeAirport ?: return
-        )
-
-        val flightId = flightData.flight?.iataNumber
-
-        val line1 = mMap?.addPolyline(
-            PolylineOptions()
-                .add(departureLatLng, currentFlightLocation)
-                .width(4f)
-                .color(ContextCompat.getColor(context, R.color.acc1))
-                .geodesic(true)
-                .pattern(dashPattern)
-        )
-
-        val line2 = mMap?.addPolyline(
-            PolylineOptions()
-                .add(currentFlightLocation, arrivalLatLng)
-                .width(4f)
-                .color(ContextCompat.getColor(context, R.color.route_d))
-                .geodesic(true)
-                .pattern(dashPattern)
-        )
-
         withMapOnMain { map ->
-            val departureMarker = mMap?.addMarker(
+            clearAllFlightPaths()
+            clearDestinationMarkers()
+
+            val currentFlightLocation = LatLng(
+                flightData.geography?.latitude ?: return@withMapOnMain,
+                flightData.geography.longitude ?: return@withMapOnMain
+            )
+
+            val departureLatLng = LatLng(
+                departure.latitudeAirport ?: return@withMapOnMain,
+                departure.longitudeAirport ?: return@withMapOnMain
+            )
+
+            val arrivalLatLng = LatLng(
+                arrival.latitudeAirport ?: return@withMapOnMain,
+                arrival.longitudeAirport ?: return@withMapOnMain
+            )
+
+            val flightId = flightData.flight?.iataNumber ?: return@withMapOnMain
+
+            val line1 = map.addPolyline(
+                PolylineOptions()
+                    .add(departureLatLng, currentFlightLocation)
+                    .width(4f)
+                    .color(ContextCompat.getColor(context, R.color.acc1))
+                    .geodesic(true)
+                    .pattern(dashPattern)
+            )
+
+            val line2 = map.addPolyline(
+                PolylineOptions()
+                    .add(currentFlightLocation, arrivalLatLng)
+                    .width(4f)
+                    .color(ContextCompat.getColor(context, R.color.route_d))
+                    .geodesic(true)
+                    .pattern(dashPattern)
+            )
+
+            val departureMarker = map.addMarker(
                 MarkerOptions()
                     .position(departureLatLng)
                     .icon(depMarkerIcon)
@@ -119,7 +119,7 @@ class MyGoogleMap : OnMapReadyCallback, KoinComponent {
                     .title("Departure: ${departure.nameAirport ?: "Unknown"}")
             )
 
-            val arrivalMarker = mMap?.addMarker(
+            val arrivalMarker = map.addMarker(
                 MarkerOptions()
                     .position(arrivalLatLng)
                     .icon(arrMarkerIcon)
@@ -130,18 +130,98 @@ class MyGoogleMap : OnMapReadyCallback, KoinComponent {
             departureMarker?.let { drawnMarkers.add(it) }
             arrivalMarker?.let { drawnMarkers.add(it) }
 
-            if (line1 != null && line2 != null) {
-                drawnFlightPaths[flightId.toString()] = line1
-                drawnFlightPaths["${flightId}_2"] = line2
-            }
+            line1.let { drawnFlightPaths["$flightId-1"] = it }
+            line2.let { drawnFlightPaths["$flightId-2"] = it }
 
             removeLastSelected()
             addLastSelectedPlane(airplaneDefaultIcon)
             removeDefaultPlane(flightData)
             addSelectedPlane(flightData, airplaneSelectedIcon, arrivalLatLng)
         }
-
     }
+
+//    fun drawFlightPathIfNotExists(
+//        flightData: FlightDataItem,
+//        departure: AirportsDataItems?,
+//        arrival: AirportsDataItems?,
+//        context: Context,
+//        arrMarkerIcon: BitmapDescriptor?,
+//        depMarkerIcon: BitmapDescriptor?,
+//        airplaneSelectedIcon: BitmapDescriptor?,
+//        airplaneDefaultIcon: BitmapDescriptor?,
+//    ) {
+//        if (departure == null || arrival == null) return
+//
+//        clearAllFlightPaths()
+//        clearDestinationMarkers()
+//
+//        val currentFlightLocation = LatLng(
+//            flightData.geography?.latitude ?: return,
+//            flightData.geography.longitude ?: return
+//        )
+//
+//        val departureLatLng = LatLng(
+//            departure.latitudeAirport ?: return,
+//            departure.longitudeAirport ?: return
+//        )
+//
+//        val arrivalLatLng = LatLng(
+//            arrival.latitudeAirport ?: return,
+//            arrival.longitudeAirport ?: return
+//        )
+//
+//        val flightId = flightData.flight?.iataNumber
+//
+//        val line1 = mMap?.addPolyline(
+//            PolylineOptions()
+//                .add(departureLatLng, currentFlightLocation)
+//                .width(4f)
+//                .color(ContextCompat.getColor(context, R.color.acc1))
+//                .geodesic(true)
+//                .pattern(dashPattern)
+//        )
+//
+//        val line2 = mMap?.addPolyline(
+//            PolylineOptions()
+//                .add(currentFlightLocation, arrivalLatLng)
+//                .width(4f)
+//                .color(ContextCompat.getColor(context, R.color.route_d))
+//                .geodesic(true)
+//                .pattern(dashPattern)
+//        )
+//
+//        withMapOnMain { map ->
+//            val departureMarker = mMap?.addMarker(
+//                MarkerOptions()
+//                    .position(departureLatLng)
+//                    .icon(depMarkerIcon)
+//                    .anchor(0.5f, 0.5f)
+//                    .title("Departure: ${departure.nameAirport ?: "Unknown"}")
+//            )
+//
+//            val arrivalMarker = mMap?.addMarker(
+//                MarkerOptions()
+//                    .position(arrivalLatLng)
+//                    .icon(arrMarkerIcon)
+//                    .anchor(0.5f, 0.5f)
+//                    .title("Arrival: ${arrival.nameAirport ?: "Unknown"}")
+//            )
+//
+//            departureMarker?.let { drawnMarkers.add(it) }
+//            arrivalMarker?.let { drawnMarkers.add(it) }
+//
+//            if (line1 != null && line2 != null) {
+//                drawnFlightPaths[flightId.toString()] = line1
+//                drawnFlightPaths["${flightId}_2"] = line2
+//            }
+//
+//            removeLastSelected()
+//            addLastSelectedPlane(airplaneDefaultIcon)
+//            removeDefaultPlane(flightData)
+//            addSelectedPlane(flightData, airplaneSelectedIcon, arrivalLatLng)
+//        }
+//
+//    }
 
     private fun removeLastSelected() {
         val flightIdS = lastSelectedPlane?.flight?.iataNumber
@@ -214,9 +294,15 @@ class MyGoogleMap : OnMapReadyCallback, KoinComponent {
     private fun withMapOnMain(block: (GoogleMap) -> Unit) {
         val map = mMap ?: return
         if (Looper.myLooper() == Looper.getMainLooper()) {
-            block(map)
+            try {
+                block(map)
+            } catch (t: Throwable) { }
         } else {
-            Handler(Looper.getMainLooper()).post { block(map) }
+            Handler(Looper.getMainLooper()).post {
+                try {
+                    block(map)
+                } catch (t: Throwable) { }
+            }
         }
     }
 

@@ -457,6 +457,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         isFlightTrackerApiSuccess = false
                         hideLoading()
                         showDialog()
+                        logDebug("My__tAG",result.message)
                         this@MainActivity.showToast(result.message)
                     }
                 }
@@ -476,6 +477,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         isFlightScheduleApiSuccess = false
                         hideLoading()
                         showDialog()
+                        logDebug("My__tAG",result.message)
                         this@MainActivity.showToast(result.message)
                     }
                 }

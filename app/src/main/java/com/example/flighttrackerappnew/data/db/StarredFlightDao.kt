@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.flighttrackerappnew.data.model.fav.FavFlightData
-import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 
 @Dao
 interface StarredFlightDao {
