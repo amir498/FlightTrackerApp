@@ -18,6 +18,7 @@ import com.example.flighttrackerappnew.data.model.schedulesFlight.FlightSchedule
 import com.example.flighttrackerappnew.databinding.ActivitySeacrhTailBinding
 import com.example.flighttrackerappnew.presentation.adapter.SearchTailAdapter
 import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_SEARCH_AIRLINE
+import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_SEARCH_TAIL
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isAirCraftApiSuccess
@@ -167,7 +168,7 @@ class SearchTailActivity :
     }
 
     private fun loadBannerAd() {
-        BANNER_SEARCH_AIRLINE.apply {
+        BANNER_SEARCH_TAIL.apply {
             loadAndShowBannerAd(
                 context = this@SearchTailActivity,
                 adContainerView = binding.adContainerView,
@@ -192,7 +193,6 @@ class SearchTailActivity :
             } else {
                 withContext(Dispatchers.Main) {
                     loadBannerAd()
-
                     searchTailAdapter?.setList(matchingAirplanes)
                     searchTailAdapter?.setListener { tailData: AirPlaneItems? ->
                         searchedDataTitle =

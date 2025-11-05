@@ -56,7 +56,6 @@ class SearchAirLinesActivity :
         isFromAirportOrAirline = true
         viewListener()
         observeData()
-
     }
 
     private fun observeData() {

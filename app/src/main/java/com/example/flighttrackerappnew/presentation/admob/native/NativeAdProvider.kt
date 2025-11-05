@@ -103,7 +103,8 @@ object NativeAdProvider {
     val NATIVE_FLIGHT_SCHEDULED =
         NativeAdsManager(
             app.getString(R.string.NATIVE_FLIGHT_SCHEDULED) to "NATIVE_FLIGHT_SCHEDULED",
-            adType = NativeAdTypes.NATIVE_LARGE
+            adType = NativeAdTypes.NATIVE_LARGE,
+            nativeAdCategory = NativeAdCategory.NATIVE_RECYCLERVIEW
         )
 
     val NATIVE_FLIGHT_SCHEDULED_SEARCH =
