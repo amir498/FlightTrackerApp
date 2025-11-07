@@ -21,13 +21,13 @@ class StaticAirLineRepositoryImpl(
             if (cacheData.isNotEmpty()) {
                 return Resource.Success(cacheData)
             }
-            val roomData = staticAirLineRoomDataSource.getStaticAirLineFromRoom()
-            if (roomData.isNotEmpty()) {
-                staticAirLineCacheDataSource.saveStaticAirLineToCache(roomData)
-                return Resource.Success(roomData)
-            }
+//            val roomData = staticAirLineRoomDataSource.getStaticAirLineFromRoom()
+//            if (roomData.isNotEmpty()) {
+//                staticAirLineCacheDataSource.saveStaticAirLineToCache(roomData)
+//                return Resource.Success(roomData)
+//            }
             val remoteData = staticAirLineRemoteDataSource.getStaticAirLineFromRemote()
-            staticAirLineRoomDataSource.saveStaticAirLineToRoom(remoteData)
+//            staticAirLineRoomDataSource.saveStaticAirLineToRoom(remoteData)
             staticAirLineCacheDataSource.saveStaticAirLineToCache(remoteData)
             Resource.Success(remoteData)
 

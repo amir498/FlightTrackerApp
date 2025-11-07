@@ -12,6 +12,7 @@ import com.example.flighttrackerappnew.presentation.activities.premium.PremiumAc
 import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_SPLASH
 import com.example.flighttrackerappnew.presentation.admob.interstitial.InterstitialAdManager
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider
+import com.example.flighttrackerappnew.presentation.admob.ump.UMPConsentManager
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.utils.DEFAULT_DISTANCE
@@ -61,47 +62,53 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
     }
 
     private fun loadAd() {
-        InterstitialAdManager.mInterstitialAd = null
-        InterstitialAdManager.loadInterstitialAd(
-            ignoreClickCount = true,
-            showLoadingScreenWithDelay = RemoteConfigManager.getNumber("showLoadingScreenWithDelay"),
-            showLoadingAsLoadAdRequestCalled = false,
-            interstitialLoadingScreenShowTime = RemoteConfigManager.getNumber("Interstitial_loading_screen_show_time"),
-            showWhenReady = true,
-            activity = this@SplashActivity,
-            adUnitId = app.getString(R.string.INTERSTITIAL_SPLASH),
-            isInterstitialEnabled = RemoteConfigManager.getBoolean("INTERSTITIAL_SPLASH"),
-            adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
-            {
-                if (config.isPrivacyPolicyAccepted) {
-                    if (config.isPremiumUser) {
-                        startActivity(Intent(this, LanguageActivity::class.java))
-                    } else {
-                        showPremiumScreen()
+        UMPConsentManager(this).apply {
+            checkConsent { consentObtained ->
+                if (consentObtained) {
+                    InterstitialAdManager.mInterstitialAd = null
+                    InterstitialAdManager.loadInterstitialAd(
+                        ignoreClickCount = true,
+                        showLoadingScreenWithDelay = RemoteConfigManager.getNumber("showLoadingScreenWithDelay"),
+                        showLoadingAsLoadAdRequestCalled = false,
+                        interstitialLoadingScreenShowTime = RemoteConfigManager.getNumber("Interstitial_loading_screen_show_time"),
+                        showWhenReady = true,
+                        activity = this@SplashActivity,
+                        adUnitId = app.getString(R.string.INTERSTITIAL_SPLASH),
+                        isInterstitialEnabled = RemoteConfigManager.getBoolean("INTERSTITIAL_SPLASH"),
+                        adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
+                        {
+                            if (config.isPrivacyPolicyAccepted) {
+                                if (config.isPremiumUser) {
+                                    startActivity(Intent(this@SplashActivity, LanguageActivity::class.java))
+                                } else {
+                                    showPremiumScreen()
+                                }
+                            } else {
+                                startActivity(Intent(this@SplashActivity, PrivacyPolicyActivity::class.java))
+                            }
+                            finish()
+                        }, {
+                            binding.apply {
+                                loadingText.visible()
+                                lottiepg.visible()
+                            }
+                        })
+
+                    BANNER_SPLASH.apply {
+                        loadAndShowBannerAd(
+                            context = this@SplashActivity,
+                            adContainerView = binding.adContainerView,
+                            onStartLoadingAd = {}
+                        )
                     }
-                } else {
-                    startActivity(Intent(this, PrivacyPolicyActivity::class.java))
-                }
-                finish()
-            }, {
-                binding.apply {
-                    loadingText.visible()
-                    lottiepg.visible()
-                }
-            })
 
-        BANNER_SPLASH.apply {
-            loadAndShowBannerAd(
-                context = this@SplashActivity,
-                adContainerView = binding.adContainerView,
-                onStartLoadingAd = {}
-            )
+                    NativeAdProvider.native_1_LANGUAGE_SCREEN1.loadNativeAd(
+                        this@SplashActivity,
+                        RemoteConfigManager.getBoolean("native_1_LANGUAGE_SCREEN1")
+                    )
+                }
+            }
         }
-
-        NativeAdProvider.native_1_LANGUAGE_SCREEN1.loadNativeAd(
-            this,
-            RemoteConfigManager.getBoolean("native_1_LANGUAGE_SCREEN1")
-        )
     }
 
     private fun getLongLatFirst() {

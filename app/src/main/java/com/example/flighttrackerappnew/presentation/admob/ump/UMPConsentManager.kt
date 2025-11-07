@@ -2,6 +2,8 @@ package com.example.flighttrackerappnew.presentation.admob.ump
 
 import android.app.Activity
 import android.util.Log
+import com.example.flighttrackerappnew.BuildConfig
+import com.google.android.ump.ConsentDebugSettings
 import com.google.android.ump.ConsentInformation
 import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
@@ -11,21 +13,16 @@ class UMPConsentManager(private val activity: Activity) {
     private var consentInformation: ConsentInformation =
         UserMessagingPlatform.getConsentInformation(activity)
 
-    companion object{
-        var mobileAdsInitialized = false
-    }
-
     fun checkConsent(onConsentResult: (Boolean) -> Unit) {
         val builder = ConsentRequestParameters.Builder()
-//        if (BuildConfig.DEBUG) {
-//            val debugSettings = ConsentDebugSettings.Builder(activity)
-//                .setDebugGeography(ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA)
-//                .addTestDeviceHashedId("AE46A43A1CB75C82FD93B9FA308DE7C3")
-//                .build()
-//            builder.setConsentDebugSettings(debugSettings)
-//        }
+        if (BuildConfig.DEBUG) {
+            val debugSettings = ConsentDebugSettings.Builder(activity)
+                .setDebugGeography(ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA)
+                .addTestDeviceHashedId("AE46A43A1CB75C82FD93B9FA308DE7C3")
+                .build()
+            builder.setConsentDebugSettings(debugSettings)
+        }
         val params = builder.build()
-//        if (canRequestConsentInfo()) {
         consentInformation.requestConsentInfoUpdate(
             activity,
             params,
@@ -53,10 +50,9 @@ class UMPConsentManager(private val activity: Activity) {
                 onConsentResult(true)
             }
         )
-//        }
     }
 
-    private fun loadAndShowConsentForm(onConsentResult: (Boolean) -> Unit) {
+    fun loadAndShowConsentForm(onConsentResult: (Boolean) -> Unit) {
         UserMessagingPlatform.loadConsentForm(
             activity,
             { consentForm ->

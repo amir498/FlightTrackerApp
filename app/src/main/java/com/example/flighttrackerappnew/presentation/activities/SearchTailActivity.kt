@@ -1,5 +1,6 @@
 package com.example.flighttrackerappnew.presentation.activities
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -19,6 +20,7 @@ import com.example.flighttrackerappnew.databinding.ActivitySeacrhTailBinding
 import com.example.flighttrackerappnew.presentation.adapter.SearchTailAdapter
 import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_SEARCH_AIRLINE
 import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_SEARCH_TAIL
+import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isAirCraftApiSuccess
@@ -158,12 +160,36 @@ class SearchTailActivity :
                     }
 
                     is Resource.Error -> {
+                        binding.conPlaceHolder.visible()
+                        binding.recyclerView.invisible()
+                        showDialog()
                         isAirPortApiSuccess = false
                         showToast("No Airport Data found")
                         Log.d("MY----TAG", "observeLiveData:No Airport Data found")
                     }
                 }
             }
+        }
+    }
+
+    private var dialog: Dialog? = null
+
+    private fun showLoading() {
+        binding.pg.visible()
+    }
+
+    private fun showDialog() {
+        if (dialog == null) {
+            dialog = CustomDialogBuilder(this).setLayout(R.layout.dialog_retry).setCancelable(true)
+                .setPositiveClickListener {
+                    showLoading()
+                    it.dismiss()
+                    viewModel.getAirPorts()
+                    dialog = null
+                }.setNegativeClickListener {
+                    it.dismiss()
+                    dialog = null
+                }.show()
         }
     }
 
@@ -184,14 +210,15 @@ class SearchTailActivity :
         lifecycleScope.launch(Dispatchers.IO) {
             delay(1000)
             if (matchingAirplanes.isEmpty()) {
-                binding.recyclerView.invisible()
-                binding.ivSearchFlightSchedule.visible()
-                binding.findHistory.visible()
                 withContext(Dispatchers.Main) {
+                    binding.conPlaceHolder.visible()
+                    binding.recyclerView.invisible()
                     binding.pg.invisible()
                 }
             } else {
                 withContext(Dispatchers.Main) {
+                    binding.conPlaceHolder.invisible()
+                    binding.recyclerView.visible()
                     loadBannerAd()
                     searchTailAdapter?.setList(matchingAirplanes)
                     searchTailAdapter?.setListener { tailData: AirPlaneItems? ->

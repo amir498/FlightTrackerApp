@@ -5,17 +5,13 @@ import android.app.Dialog
 import android.os.Handler
 import android.os.Looper
 import com.example.flighttrackerappnew.R
-import com.example.flighttrackerappnew.presentation.admob.ump.UMPConsentManager
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
-import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.utils.canRequestAd
-import com.example.flighttrackerappnew.presentation.utils.initializeMobileAdsOnce
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.appopen.AppOpenAd
-import org.koin.core.Koin
 
 object AppOpenAdManager {
 
@@ -27,25 +23,12 @@ object AppOpenAdManager {
             loadAd(
                 context, adId
             )
-        } else {
-            UMPConsentManager(context).apply {
-                checkConsent { consentObtained ->
-                    if (consentObtained) {
-                        if (context.canRequestAd()) {
-                            loadAd(
-                                context, adId
-                            )
-                        }
-                    }
-                }
-            }
         }
     }
 
     private fun loadAd(
         context: Activity, adId: String
     ) {
-        (context).initializeMobileAdsOnce {
             if (appOpenAd == null && !isLoading) {
                 isLoading = true
                 val dialog = showDialogForAd(context)
@@ -73,7 +56,6 @@ object AppOpenAdManager {
                             appOpenAd = null
                         }
                     })
-            }
         }
     }
 

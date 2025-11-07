@@ -21,13 +21,13 @@ class CitiesRepositoryImpl(
             if (cacheData.isNotEmpty()) {
                 return Resource.Success(cacheData)
             }
-            val roomData = citiesRoomDataSource.getCitiesFromRoom()
-            if (roomData.isNotEmpty()) {
-                citiesCacheDataSource.saveCitiesToCache(roomData)
-                return Resource.Success(roomData)
-            }
+//            val roomData = citiesRoomDataSource.getCitiesFromRoom()
+//            if (roomData.isNotEmpty()) {
+//                citiesCacheDataSource.saveCitiesToCache(roomData)
+//                return Resource.Success(roomData)
+//            }
             val remoteData = citiesRemoteDataSource.getCitiesFromRemote()
-            citiesRoomDataSource.saveCitiesToRoom(remoteData)
+//            citiesRoomDataSource.saveCitiesToRoom(remoteData)
             citiesCacheDataSource.saveCitiesToCache(remoteData)
             Resource.Success(remoteData)
 

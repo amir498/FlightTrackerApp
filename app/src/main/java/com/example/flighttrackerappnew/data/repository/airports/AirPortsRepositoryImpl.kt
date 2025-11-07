@@ -21,13 +21,13 @@ class AirPortsRepositoryImpl(
             if (cacheData.isNotEmpty()) {
                 return Resource.Success(cacheData)
             }
-            val roomData = airPortsRoomDataSource.getAirportsFromRoom()
-            if (roomData.isNotEmpty()) {
-                airPortsCacheDataSource.saveAirportsToCache(roomData)
-                return Resource.Success(roomData)
-            }
+//            val roomData = airPortsRoomDataSource.getAirportsFromRoom()
+//            if (roomData.isNotEmpty()) {
+//                airPortsCacheDataSource.saveAirportsToCache(roomData)
+//                return Resource.Success(roomData)
+//            }
             val remoteData = airPortsRemoteDataSource.getAirPortsFromRemote()
-            airPortsRoomDataSource.saveAirportsToRoom(remoteData)
+//            airPortsRoomDataSource.saveAirportsToRoom(remoteData)
             airPortsCacheDataSource.saveAirportsToCache(remoteData)
             Resource.Success(remoteData)
 

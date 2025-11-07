@@ -8,12 +8,10 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.SplashActivity
-import com.example.flighttrackerappnew.presentation.admob.ump.UMPConsentManager
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.utils.canRequestAd
 import com.example.flighttrackerappnew.presentation.utils.clickCount
-import com.example.flighttrackerappnew.presentation.utils.initializeMobileAdsOnce
 import com.example.flighttrackerappnew.presentation.utils.isNetworkAvailable
 import com.example.flighttrackerappnew.presentation.utils.loadAppOpen
 import com.google.android.gms.ads.AdError
@@ -67,30 +65,7 @@ object InterstitialAdManager : KoinComponent {
                     onAdDismissed?.invoke()
                 }
             } else {
-                UMPConsentManager(activity).apply {
-                    checkConsent { consentObtained ->
-                        if (consentObtained) {
-                            if (activity.canRequestAd()) {
-                                if (clickCount % 2 == 0 || ignoreClickCount) {
-                                    loadAd(
-                                        interstitialLoadingScreenShowTime = interstitialLoadingScreenShowTime,
-                                        showLoadingAsLoadAdRequestCalled = showLoadingAsLoadAdRequestCalled,
-                                        showWhenReady = showWhenReady,
-                                        activity = activity,
-                                        adUnitId = adUnitId,
-                                        isInterstitialEnabled = isInterstitialEnabled,
-                                        adLoadingTimeOut = adLoadingTimeOut,
-                                        showLoadingScreenWithDelay = showLoadingScreenWithDelay.toLong(),
-                                        onAdDismissed,
-                                        onStartLoadingAd
-                                    )
-                                }
-                            } else {
-                                onAdDismissed?.invoke()
-                            }
-                        }
-                    }
-                }
+                onAdDismissed?.invoke()
             }
         } else {
             val delay: Long = if (activity is SplashActivity) {
@@ -118,7 +93,6 @@ object InterstitialAdManager : KoinComponent {
         onAdDismissed: (() -> Unit)?,
         onStartLoadingAd: () -> Unit
     ) {
-        activity.initializeMobileAdsOnce {
             if (activity.isNetworkAvailable() && isInterstitialEnabled) {
                 if (mInterstitialAd == null) {
                     if (showLoadingAsLoadAdRequestCalled) {
@@ -177,7 +151,6 @@ object InterstitialAdManager : KoinComponent {
             } else {
                 onAdDismissed?.invoke()
             }
-        }
     }
 
     fun showAd(

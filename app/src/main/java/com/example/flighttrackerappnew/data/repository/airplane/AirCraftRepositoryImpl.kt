@@ -21,13 +21,13 @@ class AirCraftRepositoryImpl(
             if (cacheData.isNotEmpty()) {
                 return Resource.Success(cacheData)
             }
-            val roomData = airPlanesRoomDataSource.getAirPlanesFromRoom()
-            if (roomData.isNotEmpty()) {
-                airPlanesCacheDataSource.saveAirPlanesToCache(roomData)
-                return Resource.Success(roomData)
-            }
+//            val roomData = airPlanesRoomDataSource.getAirPlanesFromRoom()
+//            if (roomData.isNotEmpty()) {
+//                airPlanesCacheDataSource.saveAirPlanesToCache(roomData)
+//                return Resource.Success(roomData)
+//            }
             val remoteData = airPlanesRemoteDataSource.getStaticAirPlaneFromRemote()
-            airPlanesRoomDataSource.saveAirPlanesToRoom(remoteData)
+//            airPlanesRoomDataSource.saveAirPlanesToRoom(remoteData)
             airPlanesCacheDataSource.saveAirPlanesToCache(remoteData)
             Resource.Success(remoteData)
 

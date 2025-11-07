@@ -2,6 +2,7 @@ package com.example.flighttrackerappnew.presentation.utils
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.view.Window
@@ -10,7 +11,7 @@ import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import com.example.flighttrackerappnew.presentation.admob.ump.UMPConsentManager.Companion.mobileAdsInitialized
+import com.example.flighttrackerappnew.BuildConfig
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 
@@ -34,26 +35,16 @@ fun Activity.setFullscreenCompat(fullScreen: Boolean) {
     }
 }
 
-fun Activity.initializeMobileAdsOnce(onInitialized: () -> Unit) {
-    if (!mobileAdsInitialized) {
-        val testDeviceIds = listOf(
-            "AE46A43A1CB75C82FD93B9FA308DE7C3"
-        )
-
-        val configurationBuilder = RequestConfiguration.Builder()
-        val configurationBuild = configurationBuilder.let {
-            it.setTestDeviceIds(testDeviceIds)
-            it.build()
-        }
-        MobileAds.setRequestConfiguration(configurationBuild)
-
-        MobileAds.initialize(this) {
-            mobileAdsInitialized = true
-            onInitialized.invoke()
-        }
-    } else {
-        onInitialized.invoke()
+fun initializeMobileAdsOnce(context: Context) {
+    if (BuildConfig.DEBUG) {
+        val testDeviceIds = listOf("AE46A43A1CB75C82FD93B9FA308DE7C3")
+        val config = RequestConfiguration.Builder()
+            .setTestDeviceIds(testDeviceIds)
+            .build()
+        MobileAds.setRequestConfiguration(config)
     }
+
+    MobileAds.initialize(context) {}
 }
 
 fun Activity.shareApp() {

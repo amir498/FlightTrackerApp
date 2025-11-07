@@ -1,13 +1,10 @@
 package com.example.flighttrackerappnew.presentation.admob.native
 
-import android.app.Activity
 import android.content.Context
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
-import com.example.flighttrackerappnew.presentation.admob.ump.UMPConsentManager
 import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.utils.canRequestAd
-import com.example.flighttrackerappnew.presentation.utils.initializeMobileAdsOnce
 import com.example.flighttrackerappnew.presentation.utils.isNetworkAvailable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,16 +27,6 @@ class NativeAdsManager(
         if (!config.isPremiumUser) {
             if (context.canRequestAd()) {
                 loadAd(context, isNativeEnabledFromRemote)
-            } else {
-                UMPConsentManager(context as Activity).apply {
-                    checkConsent { consentObtained ->
-                        if (consentObtained) {
-                            if (context.canRequestAd()) {
-                                loadAd(context, isNativeEnabledFromRemote)
-                            }
-                        }
-                    }
-                }
             }
         }
     }
@@ -48,13 +35,11 @@ class NativeAdsManager(
         context: Context,
         isNativeEnabledFromRemote: Boolean
     ) {
-        (context as Activity).initializeMobileAdsOnce {
             if (isNativeEnabledFromRemote && context.isNetworkAvailable()) {
                 CoroutineScope(Dispatchers.IO).launch {
                     nativeAdUnit.loadAd(context)
                 }
             }
-        }
     }
 
     fun showNativeAd(

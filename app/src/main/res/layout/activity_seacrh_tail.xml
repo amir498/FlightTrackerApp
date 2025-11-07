@@ -79,11 +79,21 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_80sdp"
         android:elevation="@dimen/_10sdp"
-        android:visibility="invisible"
         android:src="@drawable/iv_search_flight_schedule"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/conAirports"
         app:layout_constraintStart_toStartOf="@+id/conAirports"
         app:layout_constraintTop_toBottomOf="@+id/conAirports" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/conPlaceHolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="iv_search_flight_schedule,findHistory"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/findHistory"
@@ -91,8 +101,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
-        android:text="@string/no_data_found"
         android:elevation="@dimen/_10sdp"
+        android:text="@string/no_data_found"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

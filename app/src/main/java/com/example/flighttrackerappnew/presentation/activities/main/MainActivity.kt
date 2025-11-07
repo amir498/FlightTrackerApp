@@ -470,6 +470,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     }
 
                     is Resource.Success -> {
+                        hideLoading()
                         isFlightScheduleApiSuccess = true
                     }
 
