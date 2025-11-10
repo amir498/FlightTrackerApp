@@ -11,6 +11,13 @@ import com.airbnb.lottie.RenderMode
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.airplane.AirPlaneItems
 import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
+import com.example.flighttrackerappnew.data.remoteStatus.DataStatus
+import com.example.flighttrackerappnew.data.remoteStatus.RemoteDataProvider.airPlaneStatus
+import com.example.flighttrackerappnew.data.remoteStatus.RemoteDataProvider.airPortStatus
+import com.example.flighttrackerappnew.data.remoteStatus.RemoteDataProvider.airlineStatus
+import com.example.flighttrackerappnew.data.remoteStatus.RemoteDataProvider.cityStatus
+import com.example.flighttrackerappnew.data.remoteStatus.RemoteDataProvider.flight
+import com.example.flighttrackerappnew.data.remoteStatus.RemoteDataProvider.flightSchedule
 import com.example.flighttrackerappnew.databinding.ActivityMainBinding
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.NearByActivity
@@ -347,16 +354,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             citiesData.observe(this@MainActivity) { result ->
                 when (result) {
                     is Resource.Loading -> {
+                        cityStatus._statusFlow.value = DataStatus.Loading
+                        logDebug("Flight Trackers", "citiesData ==> Loading")
                         isCitiesApiSuccess = false
                     }
 
                     is Resource.Success -> {
+                        cityStatus._statusFlow.value = DataStatus.SUCCESS
+                        logDebug("Flight Trackers", "citiesData ==> Success")
                         isCitiesApiSuccess = true
                     }
 
                     is Resource.Error -> {
+                        cityStatus._statusFlow.value = DataStatus.Failure
+                        logDebug("Flight Trackers", "citiesData ==> Error")
                         isCitiesApiSuccess = false
-                        logDebug("mmmm", "Error in citiesData: ${result.message}")
                     }
                 }
             }
@@ -364,10 +376,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             airCraftData.observe(this@MainActivity) { result ->
                 when (result) {
                     is Resource.Loading -> {
+                        airPlaneStatus._statusFlow.value = DataStatus.Loading
                         isAirCraftApiSuccess = false
+                        logDebug("Flight Trackers", "airCraftData ==> Loading")
                     }
 
                     is Resource.Success -> {
+                        airPlaneStatus._statusFlow.value = DataStatus.SUCCESS
+                        logDebug("Flight Trackers", "airCraftData ==> Success")
                         planes = result.data
                         isAirCraftApiSuccess = true
                         if (isFlightTrackerApiSuccess) {
@@ -376,24 +392,30 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     }
 
                     is Resource.Error -> {
+                        airPlaneStatus._statusFlow.value = DataStatus.Failure
+                        logDebug("Flight Trackers", "airCraftData ==> Error")
                         isAirCraftApiSuccess = false
-                        logDebug("mmmm", "Error in airCraftData: ${result.message}")
                     }
                 }
             }
             airPortsData.observe(this@MainActivity) { result ->
                 when (result) {
                     is Resource.Loading -> {
+                        airPortStatus._statusFlow.value = DataStatus.Loading
+                        logDebug("Flight Trackers", "airPortsData Loading")
                         isAirPortApiSuccess = false
                     }
 
                     is Resource.Success -> {
+                        airPortStatus._statusFlow.value = DataStatus.SUCCESS
+                        logDebug("Flight Trackers", "airPortsData Success")
                         isAirPortApiSuccess = true
                     }
 
                     is Resource.Error -> {
+                        airPortStatus._statusFlow.value = DataStatus.Failure
                         isAirPortApiSuccess = false
-                        logDebug("mmmm", "Error in airPortsData: ${result.message}")
+                        logDebug("Flight Trackers", "airPortsData Error")
                     }
                 }
             }
@@ -401,16 +423,21 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             staticAirLineData.observe(this@MainActivity) { result ->
                 when (result) {
                     is Resource.Loading -> {
+                        airlineStatus._statusFlow.value = DataStatus.Loading
                         isAirLineApiSuccess = false
+                        logDebug("Flight Trackers", "staticAirLineData Loading")
                     }
 
                     is Resource.Success -> {
+                        airlineStatus._statusFlow.value = DataStatus.SUCCESS
                         isAirLineApiSuccess = true
+                        logDebug("Flight Trackers", "staticAirLineData Success")
                     }
 
                     is Resource.Error -> {
+                        airlineStatus._statusFlow.value = DataStatus.Failure
                         isAirLineApiSuccess = false
-                        logDebug("mmmm", "Error in staticAirLineData: ${result.message}")
+                        logDebug("Flight Trackers", "staticAirLineData Error")
                     }
                 }
             }
@@ -440,24 +467,32 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             liveFlightData.observe(this@MainActivity) { result ->
                 when (result) {
                     is Resource.Loading -> {
+                        flight._statusFlow.value = DataStatus.Loading
+                        logDebug("Flight Trackers", "liveFlightData Loading")
                         isFlightTrackerApiSuccess = false
                         showLoading()
                     }
 
                     is Resource.Success -> {
+                        flight._statusFlow.value = DataStatus.SUCCESS
+                        logDebug("Flight Trackers", "liveFlightData Success")
                         flights = result.data
                         isFlightTrackerApiSuccess = true
-                        hideLoading()
+                        if (flightSchedule.status == DataStatus.SUCCESS || flightSchedule.status == DataStatus.Failure) {
+                            hideLoading()
+                        }
                         if (isAirCraftApiSuccess) {
                             getMatchingAirPlanes(planes, flights)
                         }
                     }
 
                     is Resource.Error -> {
+                        flight._statusFlow.value = DataStatus.Failure
+                        logDebug("Flight Trackers", "liveFlightData Error")
                         isFlightTrackerApiSuccess = false
                         hideLoading()
                         showDialog()
-                        logDebug("My__tAG",result.message)
+                        logDebug("My__tAG", result.message)
                         this@MainActivity.showToast(result.message)
                     }
                 }
@@ -466,23 +501,48 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             scheduleFlightData.observe(this@MainActivity) { result ->
                 when (result) {
                     is Resource.Loading -> {
+                        flightSchedule._statusFlow.value = DataStatus.Loading
+                        logDebug("Flight Trackers", "scheduleFlightData Loading")
                         isFlightScheduleApiSuccess = false
                     }
 
                     is Resource.Success -> {
-                        hideLoading()
+                        flightSchedule._statusFlow.value = DataStatus.SUCCESS
+                        logDebug("Flight Trackers", "scheduleFlightData Success")
+                        if (flight.status == DataStatus.SUCCESS || flight.status == DataStatus.Failure) {
+                            hideLoading()
+                        }
                         isFlightScheduleApiSuccess = true
                     }
 
                     is Resource.Error -> {
+                        flightSchedule._statusFlow.value = DataStatus.Failure
+                        logDebug("Flight Trackers", "scheduleFlightData Error")
                         isFlightScheduleApiSuccess = false
                         hideLoading()
                         showDialog()
-                        logDebug("My__tAG",result.message)
+                        logDebug("My__tAG", result.message)
                         this@MainActivity.showToast(result.message)
                     }
                 }
             }
+        }
+    }
+
+    fun hideLoadings() {
+        if (airlineStatus.shouldShowDialog()
+            ||
+            airPlaneStatus.shouldShowDialog()
+            ||
+            airPortStatus.shouldShowDialog()
+            ||
+            cityStatus.shouldShowDialog()
+            ||
+            flight.shouldShowDialog()
+            ||
+            flightSchedule.shouldShowDialog()
+        ) {
+
         }
     }
 

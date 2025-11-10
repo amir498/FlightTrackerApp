@@ -1,9 +1,10 @@
 package com.example.flighttrackerappnew.data.repository.airplane.datasourceImpl
 
 import android.util.Log
-import com.example.flighttrackerappnew.data.FutureScheduleItemTypeToken
+import com.example.flighttrackerappnew.data.repository.futureSchedule.FutureScheduleItemTypeToken
 import com.example.flighttrackerappnew.data.api.AirPlanesService
 import com.example.flighttrackerappnew.data.model.airplane.AirPlaneItems
+import com.example.flighttrackerappnew.data.repository.airplane.AirplaneDataItemsTypeToken
 import com.example.flighttrackerappnew.data.repository.airplane.datasource.AirPlanesRemoteDataSource
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.google.gson.Gson
@@ -23,7 +24,7 @@ class AirPlanesRemoteDataSourceImpl(
         if (response.isSuccessful) {
             val body = response.body()?.string()
             try {
-                val type = FutureScheduleItemTypeToken().type
+                val type = AirplaneDataItemsTypeToken().type
                 return Gson().fromJson(body, type)
             } catch (e: Exception) {
                 Log.e("MY----TAG", "Parse array failed, trying error object: ${e.message}")

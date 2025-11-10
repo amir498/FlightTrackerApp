@@ -17,6 +17,8 @@ import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightDa
 import com.example.flighttrackerappnew.data.model.futureSchedule.FutureScheduleItem
 import com.example.flighttrackerappnew.data.model.nearby.NearByAirportsDataItems
 import com.example.flighttrackerappnew.data.model.schedulesFlight.FlightSchedulesItems
+import com.example.flighttrackerappnew.data.remoteStatus.DataStatus
+import com.example.flighttrackerappnew.data.remoteStatus.RemoteDataProvider.airlineStatus
 import com.example.flighttrackerappnew.domain.usecase.GetAirCraftUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetAirPortsUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetCitiesUseCase
@@ -44,7 +46,6 @@ class FlightAppViewModel(
     private val starredFlightDao: StarredFlightDao,
     private val followFlightDao: FollowLiveFlightDao
 ) : ViewModel() {
-
     private val _liveFlightData = MutableLiveData<Resource<List<FlightDataItem>>>()
     val liveFlightData: LiveData<Resource<List<FlightDataItem>>> get() = _liveFlightData
 

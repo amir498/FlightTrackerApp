@@ -1,13 +1,12 @@
 package com.example.flighttrackerappnew.data.repository.nearby.datasourceImpl
 
 import android.util.Log
-import com.example.flighttrackerappnew.data.FutureScheduleItemTypeToken
+import com.example.flighttrackerappnew.data.repository.nearby.NearbyAirportTypeToken
 import com.example.flighttrackerappnew.data.api.NearbyService
 import com.example.flighttrackerappnew.data.model.nearby.NearByAirportsDataItems
 import com.example.flighttrackerappnew.data.repository.nearby.datasource.NearByAirPortsRemoteDataSource
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.io.IOException
@@ -28,7 +27,7 @@ class NearByAirPortsRemoteDataSourceImpl(
         if (response.isSuccessful) {
             val body = response.body()?.string()
             try {
-                val type = FutureScheduleItemTypeToken().type
+                val type = NearbyAirportTypeToken().type
                 return Gson().fromJson(body, type)
             } catch (e: Exception) {
                 Log.e("MY----TAG", "Parse array failed, trying error object: ${e.message}")

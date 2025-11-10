@@ -1,7 +1,7 @@
 package com.example.flighttrackerappnew.data.repository.futureSchedule.dataSourceImpl
 
 import android.util.Log
-import com.example.flighttrackerappnew.data.FutureScheduleItemTypeToken
+import com.example.flighttrackerappnew.data.repository.futureSchedule.FutureScheduleItemTypeToken
 import com.example.flighttrackerappnew.data.api.FutureScheduleFlightService
 import com.example.flighttrackerappnew.data.model.futureSchedule.FutureScheduleItem
 import com.example.flighttrackerappnew.data.repository.futureSchedule.dataSource.FutureScheduleRemoteDataSource

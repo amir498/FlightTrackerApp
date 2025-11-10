@@ -64,7 +64,7 @@ class SearchAircraftActivity :
 
                     is Resource.Success -> {
                         isCitiesApiSuccess = true
-//                        citiesList = result.data
+                        citiesList = result.data
                     }
 
                     is Resource.Error -> {
@@ -80,7 +80,7 @@ class SearchAircraftActivity :
 
                     is Resource.Success -> {
                         isFlightTrackerApiSuccess = true
-//                        liveFlight = result.data
+                        liveFlight = result.data.filterNot { it.flight?.iataNumber == "XXD" }
                     }
 
                     is Resource.Error -> {
@@ -96,7 +96,7 @@ class SearchAircraftActivity :
 
                     is Resource.Success -> {
                         isFlightScheduleApiSuccess = true
-//                        scheduleFlightList = result.data
+                        scheduleFlightList = result.data
                     }
 
                     is Resource.Error -> {
@@ -112,7 +112,7 @@ class SearchAircraftActivity :
 
                     is Resource.Success -> {
                         isAirCraftApiSuccess = true
-//                        airCraft = result.data
+                        airCraft = result.data
                     }
 
                     is Resource.Error -> {

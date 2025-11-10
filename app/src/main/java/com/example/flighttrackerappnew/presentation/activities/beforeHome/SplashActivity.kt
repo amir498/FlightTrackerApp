@@ -41,6 +41,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         }
 
         config.startDiscountIfNeeded()
+
+//        startActivity(Intent(this,MainActivity::class.java))
     }
 
     private fun showPremiumScreen() {
