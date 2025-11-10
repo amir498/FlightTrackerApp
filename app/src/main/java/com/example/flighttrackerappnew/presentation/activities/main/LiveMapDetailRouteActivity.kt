@@ -98,7 +98,6 @@ class LiveMapDetailRouteActivity : BaseActivity<ActivityLiveMapFlightTrackerForR
         })
     }
 
-
     fun setData(
         flightData: FlightDataItem,
         depAirport: AirportsDataItems?,
