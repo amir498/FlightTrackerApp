@@ -39,9 +39,6 @@ fun getSimCountryIso(context: Context): String? {
     return tm.simCountryIso?.uppercase(Locale.ROOT)
 }
 
-/**
- * Returns device's current country lat/lon from your JSON.
- */
 fun getCurrentCountryLatLon(context: Context): Pair<Double, Double>? {
     val countries = context.loadCountries()
 
@@ -68,7 +65,6 @@ fun getFlightProgressPercent(dep: String, arr: String): Int {
         var arrTime = fullFormat.parse("$baseDate $arr") ?: return 0
         val now = Date()
 
-        // Handle overnight arrival
         if (arrTime.before(depTime)) {
             val calendar = Calendar.getInstance()
             calendar.time = arrTime
@@ -76,7 +72,6 @@ fun getFlightProgressPercent(dep: String, arr: String): Int {
             arrTime = calendar.time
         }
 
-        // If current time is equal to or after arrival time, progress is 100
         if (now.time >= arrTime.time) return 100
 
         val totalDuration = arrTime.time - depTime.time
