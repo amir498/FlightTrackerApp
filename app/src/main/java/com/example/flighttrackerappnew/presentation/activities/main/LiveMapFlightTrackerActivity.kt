@@ -201,12 +201,7 @@ class LiveMapFlightTrackerActivity :
                         getStaticAirLines()
                         getScheduleFlight()
                         liveFlight = result.data
-                        drawMarkersJob = lifecycleScope.launch {
-                            delay(2000)
-                            setAirplanesData(coroutineContext[Job]!!)
-                            delay(2000)
-                            googleMap.zoomAtCurrentLocation()
-                        }
+                        googleMap.zoomAtCurrentLocation()
 
                         googleMap.onCameraIdle { newVisibleBounds ->
                             binding.pg.visible()
@@ -388,9 +383,9 @@ class LiveMapFlightTrackerActivity :
                     }
 
                     BottomSheetBehavior.STATE_HIDDEN -> {
-                        val BANNER_LIVE_MAP =
+                        val bannerLiveMap =
                             RemoteConfigManager.getBoolean("BANNER_LIVE_MAP")
-                        if (BANNER_LIVE_MAP && !config.isPremiumUser) {
+                        if (bannerLiveMap && !config.isPremiumUser) {
                             binding.adContainerView.visible()
                         }
                     }
@@ -455,7 +450,7 @@ class LiveMapFlightTrackerActivity :
                             scheduleFlightList,
                             airPlanesList
                         )
-                    } catch (e: IndexOutOfBoundsException) {
+                    } catch (_: IndexOutOfBoundsException) {
                         this@LiveMapFlightTrackerActivity.showToast("No Flight Data Found")
                     }
                 }
@@ -633,9 +628,9 @@ class LiveMapFlightTrackerActivity :
             )
         )
         return
-        val REWARDED_LIVE =
+        val rewardedLive =
             RemoteConfigManager.getBoolean("REWARDED_LIVE")
-        if (REWARDED_LIVE) {
+        if (rewardedLive) {
             val app = (this as? BaseActivity<*>)?.app
             app?.let {
                 rewardedAd.loadAndShowRewardedAd(

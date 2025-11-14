@@ -82,13 +82,11 @@ class SearchAirportActivity :
 
                 override fun afterTextChanged(s: Editable?) {
                     val text = s.toString()
-                    val adapter = binding.recyclerView.adapter as SearchAirportAdapter
                     val filterList: List<AirportsDataItems> = airportList
                         .filter {
                             it.nameAirport?.lowercase()?.startsWith(text.lowercase()) == true
                         }
-
-                    adapter.setList(filterList)
+                    searchAirportAdapter.setList(filterList)
                 }
             })
         }

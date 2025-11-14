@@ -141,9 +141,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     } else {
                         startActivity(
                             Intent(
-                                this@MainActivity, LiveMapFlightTrackerLockedActivity::class.java
+                                this@MainActivity, LiveMapFlightTrackerActivity::class.java
                             )
                         )
+//                        startActivity(
+//                            Intent(
+//                                this@MainActivity, LiveMapFlightTrackerLockedActivity::class.java
+//                            )
+//                        )
                     }
                 } else {
                     showDialog()
@@ -477,6 +482,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                         flight._statusFlow.value = DataStatus.SUCCESS
                         logDebug("Flight Trackers", "liveFlightData Success")
                         flights = result.data
+                        flights.forEach {
+                            logDebug("Flight Trackers", "$it")
+                        }
                         isFlightTrackerApiSuccess = true
                         if (flightSchedule.status == DataStatus.SUCCESS || flightSchedule.status == DataStatus.Failure) {
                             hideLoading()
@@ -526,23 +534,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     }
                 }
             }
-        }
-    }
-
-    fun hideLoadings() {
-        if (airlineStatus.shouldShowDialog()
-            ||
-            airPlaneStatus.shouldShowDialog()
-            ||
-            airPortStatus.shouldShowDialog()
-            ||
-            cityStatus.shouldShowDialog()
-            ||
-            flight.shouldShowDialog()
-            ||
-            flightSchedule.shouldShowDialog()
-        ) {
-
         }
     }
 

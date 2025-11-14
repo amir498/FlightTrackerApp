@@ -18,7 +18,6 @@ import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightDa
 import com.example.flighttrackerappnew.data.model.schedulesFlight.FlightSchedulesItems
 import com.example.flighttrackerappnew.databinding.ActivitySeacrhTailBinding
 import com.example.flighttrackerappnew.presentation.adapter.SearchTailAdapter
-import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_SEARCH_AIRLINE
 import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_SEARCH_TAIL
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
@@ -440,12 +439,11 @@ class SearchTailActivity :
 
                 override fun afterTextChanged(s: Editable?) {
                     val text = s.toString()
-                    val adapter = binding.recyclerView.adapter as SearchTailAdapter
                     val filterList = matchingAirplanes.filter {
                         it.numberRegistration?.lowercase()?.startsWith(text.lowercase()) == true
                     }
 
-                    adapter.setList(filterList)
+                    searchTailAdapter?.setList(filterList)
                 }
             })
         }

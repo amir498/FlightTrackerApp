@@ -366,25 +366,22 @@ class SearchAircraftActivity :
                     start: Int,
                     count: Int,
                     after: Int
-                ) {
-                }
+                ) {}
 
                 override fun onTextChanged(
                     s: CharSequence?,
                     start: Int,
                     before: Int,
                     count: Int
-                ) {
-                }
+                ) {}
 
                 override fun afterTextChanged(s: Editable?) {
                     val text = s.toString()
-                    val adapter = binding.recyclerView.adapter as SearchAirCraftsAdapter
                     val filterList = liveFlight.filter {
                         it.flight?.iataNumber?.lowercase()?.startsWith(text.lowercase()) == true
                     }
 
-                    adapter.setList(filterList)
+                    aircraftSearchAdapter?.setList(filterList)
                 }
             })
         }

@@ -3,7 +3,6 @@ package com.example.flighttrackerappnew.data.repository.airLine
 import com.example.flighttrackerappnew.data.model.airLine.StaticAirLineItems
 import com.example.flighttrackerappnew.data.repository.airLine.dataSource.StaticAirLineCacheDataSource
 import com.example.flighttrackerappnew.data.repository.airLine.dataSource.StaticAirLineRemoteDataSource
-import com.example.flighttrackerappnew.data.repository.airLine.dataSource.StaticAirLineRoomDataSource
 import com.example.flighttrackerappnew.domain.repository.StaticAirLineRepository
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import retrofit2.HttpException
@@ -11,7 +10,6 @@ import java.io.IOException
 
 class StaticAirLineRepositoryImpl(
     private val staticAirLineRemoteDataSource: StaticAirLineRemoteDataSource,
-    private val staticAirLineRoomDataSource: StaticAirLineRoomDataSource,
     private val staticAirLineCacheDataSource: StaticAirLineCacheDataSource
 ) : StaticAirLineRepository {
 
@@ -21,13 +19,7 @@ class StaticAirLineRepositoryImpl(
             if (cacheData.isNotEmpty()) {
                 return Resource.Success(cacheData)
             }
-//            val roomData = staticAirLineRoomDataSource.getStaticAirLineFromRoom()
-//            if (roomData.isNotEmpty()) {
-//                staticAirLineCacheDataSource.saveStaticAirLineToCache(roomData)
-//                return Resource.Success(roomData)
-//            }
             val remoteData = staticAirLineRemoteDataSource.getStaticAirLineFromRemote()
-//            staticAirLineRoomDataSource.saveStaticAirLineToRoom(remoteData)
             staticAirLineCacheDataSource.saveStaticAirLineToCache(remoteData)
             Resource.Success(remoteData)
 

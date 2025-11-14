@@ -3,7 +3,6 @@ package com.example.flighttrackerappnew.data.repository.airports
 import com.example.flighttrackerappnew.data.model.airport.AirportsDataItems
 import com.example.flighttrackerappnew.data.repository.airports.datasource.AirPortsCacheDataSource
 import com.example.flighttrackerappnew.data.repository.airports.datasource.AirPortsRemoteDataSource
-import com.example.flighttrackerappnew.data.repository.airports.datasource.AirPortsRoomDataSource
 import com.example.flighttrackerappnew.domain.repository.AirPortsRepository
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import retrofit2.HttpException
@@ -12,7 +11,6 @@ import java.io.IOException
 class AirPortsRepositoryImpl(
     private val airPortsRemoteDataSource: AirPortsRemoteDataSource,
     private val airPortsCacheDataSource: AirPortsCacheDataSource,
-    private val airPortsRoomDataSource: AirPortsRoomDataSource
 ) : AirPortsRepository {
 
     override suspend fun getAirportsData(): Resource<List<AirportsDataItems>> {
@@ -21,13 +19,7 @@ class AirPortsRepositoryImpl(
             if (cacheData.isNotEmpty()) {
                 return Resource.Success(cacheData)
             }
-//            val roomData = airPortsRoomDataSource.getAirportsFromRoom()
-//            if (roomData.isNotEmpty()) {
-//                airPortsCacheDataSource.saveAirportsToCache(roomData)
-//                return Resource.Success(roomData)
-//            }
             val remoteData = airPortsRemoteDataSource.getAirPortsFromRemote()
-//            airPortsRoomDataSource.saveAirportsToRoom(remoteData)
             airPortsCacheDataSource.saveAirportsToCache(remoteData)
             Resource.Success(remoteData)
 

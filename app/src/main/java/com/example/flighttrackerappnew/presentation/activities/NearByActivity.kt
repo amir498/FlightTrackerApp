@@ -15,6 +15,7 @@ import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvide
 import com.example.flighttrackerappnew.presentation.googleMap.MyGoogleMapNearAirports
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
+import com.example.flighttrackerappnew.presentation.utils.getCurrentCountryLatLon
 import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.lat
 import com.example.flighttrackerappnew.presentation.utils.lon
@@ -195,7 +196,13 @@ class NearByActivity : BaseActivity<ActivityNearByBinding>(ActivityNearByBinding
 
     private fun observeLiveData() {
         viewModel.apply {
-            getNearBy(lat!!, lon!!, RemoteConfigManager.getString("distance").toInt())
+            if (lat == null || lon == null){
+                val pair = getCurrentCountryLatLon(this@NearByActivity)
+                lat = pair?.first
+                lon = pair?.second
+
+                lat?.let { lon?.let { long -> getNearBy(it, long, RemoteConfigManager.getString("distance").toInt()) } }
+            }
             nearByData.observe(this@NearByActivity) { result ->
                 when (result) {
                     is Resource.Loading -> {

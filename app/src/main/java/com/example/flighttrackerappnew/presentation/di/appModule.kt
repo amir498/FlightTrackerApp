@@ -14,33 +14,25 @@ import com.example.flighttrackerappnew.data.db.AppDatabase
 import com.example.flighttrackerappnew.data.repository.airLine.StaticAirLineRepositoryImpl
 import com.example.flighttrackerappnew.data.repository.airLine.dataSource.StaticAirLineCacheDataSource
 import com.example.flighttrackerappnew.data.repository.airLine.dataSource.StaticAirLineRemoteDataSource
-import com.example.flighttrackerappnew.data.repository.airLine.dataSource.StaticAirLineRoomDataSource
 import com.example.flighttrackerappnew.data.repository.airLine.dataSourceImpl.StaticAirLineCacheDataSourceImpl
 import com.example.flighttrackerappnew.data.repository.airLine.dataSourceImpl.StaticAirLineRemoteDataSourceImpl
-import com.example.flighttrackerappnew.data.repository.airLine.dataSourceImpl.StaticAirLineRoomDataSourceImpl
 import com.example.flighttrackerappnew.data.repository.airplane.AirCraftRepositoryImpl
 import com.example.flighttrackerappnew.data.repository.airplane.datasource.AirPlanesCacheDataSource
 import com.example.flighttrackerappnew.data.repository.airplane.datasource.AirPlanesRemoteDataSource
-import com.example.flighttrackerappnew.data.repository.airplane.datasource.AirPlanesRoomDataSource
 import com.example.flighttrackerappnew.data.repository.airplane.datasourceImpl.AirPlanesCacheDataSourceImpl
 import com.example.flighttrackerappnew.data.repository.airplane.datasourceImpl.AirPlanesRemoteDataSourceImpl
-import com.example.flighttrackerappnew.data.repository.airplane.datasourceImpl.AirPlanesRoomDataSourceImpl
 import com.example.flighttrackerappnew.data.repository.airports.AirPortsRepositoryImpl
 import com.example.flighttrackerappnew.data.repository.airports.datasource.AirPortsCacheDataSource
 import com.example.flighttrackerappnew.data.repository.airports.datasource.AirPortsRemoteDataSource
-import com.example.flighttrackerappnew.data.repository.airports.datasource.AirPortsRoomDataSource
 import com.example.flighttrackerappnew.data.repository.airports.datasourceImpl.AirPortsCacheDataSourceImpl
 import com.example.flighttrackerappnew.data.repository.airports.datasourceImpl.AirPortsRemoteDataSourceImpl
-import com.example.flighttrackerappnew.data.repository.airports.datasourceImpl.AirPortsRoomDataSourceImpl
 import com.example.flighttrackerappnew.data.repository.billing.BillingRepository
 import com.example.flighttrackerappnew.data.repository.billing.BillingRepository2
 import com.example.flighttrackerappnew.data.repository.cities.CitiesRepositoryImpl
 import com.example.flighttrackerappnew.data.repository.cities.datasource.CitiesCacheDataSource
 import com.example.flighttrackerappnew.data.repository.cities.datasource.CitiesRemoteDataSource
-import com.example.flighttrackerappnew.data.repository.cities.datasource.CitiesRoomDataSource
 import com.example.flighttrackerappnew.data.repository.cities.datasourceImpl.CitiesCacheDataSourceImpl
 import com.example.flighttrackerappnew.data.repository.cities.datasourceImpl.CitiesRemoteDataSourceImpl
-import com.example.flighttrackerappnew.data.repository.cities.datasourceImpl.CitiesRoomDataSourceImpl
 import com.example.flighttrackerappnew.data.repository.flight.LiveFlightRepositoryImpl
 import com.example.flighttrackerappnew.data.repository.flight.datasource.LiveFlightCacheDataSource
 import com.example.flighttrackerappnew.data.repository.flight.datasource.LiveFlightRemoteDataSource
@@ -132,21 +124,8 @@ val appModule = module {
     single { get<Retrofit>(named("aviationRetrofit")).create(AirPlanesService::class.java) }
     single { get<Retrofit>(named("aviationRetrofit")).create(FutureScheduleFlightService::class.java) }
 
-//    val apiKey = RemoteConfigManager.getString("api_key")
-
     single {
         OkHttpClient.Builder()
-//            .addInterceptor { chain ->
-//                val original = chain.request()
-//                val originalUrl = original.url
-//
-//                val newUrl = originalUrl.newBuilder()
-//                    .addQueryParameter("key", BuildConfig.API_KEY)
-//                    .build()
-//
-//                val newRequest = original.newBuilder().url(newUrl).build()
-//                chain.proceed(newRequest)
-//            }
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
@@ -160,17 +139,6 @@ val appModule = module {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-
-// For IP-API (separate client, no interceptor needed)
-//    single(named("ipRetrofit")) {
-//        Retrofit.Builder()
-//            .baseUrl("http://ip-api.com/") // no interceptor needed
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//    }
-
-// IP Service
-//    single { get<Retrofit>(named("ipRetrofit")).create(IpService::class.java) }
 
 
     single<LiveFlightRepository> {
@@ -192,31 +160,27 @@ val appModule = module {
     factory { MyGoogleMap() }
     single { MyGoogleMapRoute() }
     single { MyGoogleMapNearAirports() }
-    single<StaticAirLineRepository> { StaticAirLineRepositoryImpl(get(), get(), get()) }
+    single<StaticAirLineRepository> { StaticAirLineRepositoryImpl(get(), get()) }
     single<StaticAirLineRemoteDataSource> { StaticAirLineRemoteDataSourceImpl(get()) }
-    single<StaticAirLineRoomDataSource> { StaticAirLineRoomDataSourceImpl(get()) }
     single<StaticAirLineCacheDataSource> { StaticAirLineCacheDataSourceImpl() }
 
     single { GetAirPortsUseCase(get()) }
-    single<AirPortsRepository> { AirPortsRepositoryImpl(get(), get(), get()) }
-    single<AirPortsRoomDataSource> { AirPortsRoomDataSourceImpl(get()) }
+    single<AirPortsRepository> { AirPortsRepositoryImpl(get(), get()) }
     single<AirPortsCacheDataSource> { AirPortsCacheDataSourceImpl() }
     single<AirPortsRemoteDataSource> { AirPortsRemoteDataSourceImpl(get()) }
 
     single { GetCitiesUseCase(get()) }
-    single<CitiesRepository> { CitiesRepositoryImpl(get(), get(), get()) }
-    single<CitiesRoomDataSource> { CitiesRoomDataSourceImpl(get()) }
+    single<CitiesRepository> { CitiesRepositoryImpl(get(), get()) }
     single<CitiesRemoteDataSource> { CitiesRemoteDataSourceImpl(get()) }
     single<CitiesCacheDataSource> { CitiesCacheDataSourceImpl() }
 
     single { GetAirCraftUseCase(get()) }
-    single<AirCraftRepository> { AirCraftRepositoryImpl(get(), get(), get()) }
+    single<AirCraftRepository> { AirCraftRepositoryImpl(get(), get()) }
     single<AirPlanesRemoteDataSource> { AirPlanesRemoteDataSourceImpl(get()) }
-    single<AirPlanesRoomDataSource> { AirPlanesRoomDataSourceImpl(get()) }
     single<AirPlanesCacheDataSource> { AirPlanesCacheDataSourceImpl() }
 
     single { GetFutureScheduleFlightUseCase(get()) }
-    single<FutureScheduleFlightRepository> { FutureScheduleRepositoryImpl(get(),get()) }
+    single<FutureScheduleFlightRepository> { FutureScheduleRepositoryImpl(get(), get()) }
     single<FutureScheduleCacheDataSource> { FutureScheduleCacheDataSourceImpl() }
     single<FutureScheduleRemoteDataSource> { FutureScheduleRemoteDataSourceImpl(get()) }
 
