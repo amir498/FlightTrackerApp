@@ -99,7 +99,8 @@ class NearByActivity : BaseActivity<ActivityNearByBinding>(ActivityNearByBinding
                                 this@NearByActivity
                             )
                         }
-                        binding.include.distance.text = "${nearAirport.distance.toString().take(5)} km"
+                        binding.include.distance.text =
+                            "${nearAirport.distance.toString().take(5)} km"
                         binding.include.airportIataCode.text = nearAirport.codeIataAirport
                         binding.include.airportName.text = nearAirport.nameAirport
                         binding.include.countryName.text = nearAirport.nameCountry
@@ -196,12 +197,20 @@ class NearByActivity : BaseActivity<ActivityNearByBinding>(ActivityNearByBinding
 
     private fun observeLiveData() {
         viewModel.apply {
-            if (lat == null || lon == null){
+            if (lat == null || lon == null) {
                 val pair = getCurrentCountryLatLon(this@NearByActivity)
                 lat = pair?.first
                 lon = pair?.second
 
-                lat?.let { lon?.let { long -> getNearBy(it, long, RemoteConfigManager.getString("distance").toInt()) } }
+                lat?.let {
+                    lon?.let { long ->
+                        getNearBy(
+                            it,
+                            long,
+                            RemoteConfigManager.getString("distance").toInt()
+                        )
+                    }
+                }
             }
             nearByData.observe(this@NearByActivity) { result ->
                 when (result) {
@@ -210,25 +219,29 @@ class NearByActivity : BaseActivity<ActivityNearByBinding>(ActivityNearByBinding
                     }
 
                     is Resource.Success -> {
-                        nearbyAirports = result.data as ArrayList<NearByAirportsDataItems>
-                        if (nearbyAirports.isNotEmpty()) {
-                            loadBannerAd()
-                        }
-                        googleMap.moveCameraToCurrentLocation()
-                        googleMap.onCameraIdle { newVisibleBounds ->
-                            binding.pg.visible()
-                            drawMarkersJob?.cancel()
-                            drawMarkersJob = lifecycleScope.launch {
-                                delay(1000)
-                                setAirportsData(coroutineContext[Job]!!)
-                                binding.pg.invisible()
+                        try {
+                            nearbyAirports = result.data as ArrayList<NearByAirportsDataItems>
+                            if (nearbyAirports.isNotEmpty()) {
+                                loadBannerAd()
                             }
-                        }
-
-                        googleMap.setOnCameraMoveStartedListener { reason ->
-                            if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+                            googleMap.moveCameraToCurrentLocation()
+                            googleMap.onCameraIdle { newVisibleBounds ->
+                                binding.pg.visible()
                                 drawMarkersJob?.cancel()
+                                drawMarkersJob = lifecycleScope.launch {
+                                    delay(1000)
+                                    setAirportsData(coroutineContext[Job]!!)
+                                    binding.pg.invisible()
+                                }
                             }
+
+                            googleMap.setOnCameraMoveStartedListener { reason ->
+                                if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+                                    drawMarkersJob?.cancel()
+                                }
+                            }
+                        } catch (e: NullPointerException) {
+                            this@NearByActivity.showToast("No Data found")
                         }
                     }
 

@@ -141,14 +141,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     } else {
                         startActivity(
                             Intent(
-                                this@MainActivity, LiveMapFlightTrackerActivity::class.java
+                                this@MainActivity, LiveMapFlightTrackerLockedActivity::class.java
                             )
                         )
-//                        startActivity(
-//                            Intent(
-//                                this@MainActivity, LiveMapFlightTrackerLockedActivity::class.java
-//                            )
-//                        )
                     }
                 } else {
                     showDialog()
@@ -162,6 +157,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
                 clickCount += 1
                 InterstitialAdManager.loadInterstitialAd(
+                    onDismissedForcedCalled = false,
                     ignoreClickCount = false,
                     showLoadingScreenWithDelay = 0L,
                     showLoadingAsLoadAdRequestCalled = true,
@@ -187,6 +183,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 if (isFlightTrackerApiSuccess && isFlightScheduleApiSuccess) {
                     clickCount += 1
                     InterstitialAdManager.loadInterstitialAd(
+                        onDismissedForcedCalled = false,
                         ignoreClickCount = false,
                         showLoadingScreenWithDelay = 0L,
                         showLoadingAsLoadAdRequestCalled = true,
@@ -213,6 +210,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
                 clickCount += 1
                 InterstitialAdManager.loadInterstitialAd(
+                    onDismissedForcedCalled = false,
                     ignoreClickCount = false,
                     showLoadingScreenWithDelay = 0L,
                     showLoadingAsLoadAdRequestCalled = true,
@@ -238,6 +236,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
                 clickCount += 1
                 InterstitialAdManager.loadInterstitialAd(
+                    onDismissedForcedCalled = false,
                     ignoreClickCount = false,
                     showLoadingScreenWithDelay = 0L,
                     showLoadingAsLoadAdRequestCalled = true,
@@ -272,6 +271,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
                 clickCount += 1
                 InterstitialAdManager.loadInterstitialAd(
+                    onDismissedForcedCalled = false,
                     ignoreClickCount = false,
                     showLoadingScreenWithDelay = 0L,
                     showLoadingAsLoadAdRequestCalled = true,
@@ -300,6 +300,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 }
                 clickCount += 1
                 InterstitialAdManager.loadInterstitialAd(
+                    onDismissedForcedCalled = false,
                     ignoreClickCount = false,
                     showLoadingScreenWithDelay = 0L,
                     showLoadingAsLoadAdRequestCalled = true,

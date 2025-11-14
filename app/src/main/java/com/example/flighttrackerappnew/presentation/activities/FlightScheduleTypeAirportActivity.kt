@@ -106,6 +106,7 @@ class FlightScheduleTypeAirportActivity :
                 } else {
                     clickCount += 1
                     InterstitialAdManager.loadInterstitialAd(
+                        onDismissedForcedCalled = false,
                         ignoreClickCount = true,
                         showLoadingScreenWithDelay = 0L,
                         showLoadingAsLoadAdRequestCalled = true,

@@ -7,6 +7,7 @@ import com.example.flighttrackerappnew.data.api.AirportsService
 import com.example.flighttrackerappnew.data.api.CitiesService
 import com.example.flighttrackerappnew.data.api.FlightApiService
 import com.example.flighttrackerappnew.data.api.FlightSchedulesService
+import com.example.flighttrackerappnew.data.api.FlightSchedulesServiceForSpecificiataNo
 import com.example.flighttrackerappnew.data.api.FutureScheduleFlightService
 import com.example.flighttrackerappnew.data.api.NearbyService
 import com.example.flighttrackerappnew.data.api.StaticAirLineService
@@ -43,6 +44,9 @@ import com.example.flighttrackerappnew.data.repository.flightSchedule.dataSource
 import com.example.flighttrackerappnew.data.repository.flightSchedule.dataSource.FlightScheduleRemoteDataSource
 import com.example.flighttrackerappnew.data.repository.flightSchedule.dataSourceImpl.FlightScheduleCacheDataSourceImpl
 import com.example.flighttrackerappnew.data.repository.flightSchedule.dataSourceImpl.FlightScheduleRemoteDataSourceImpl
+import com.example.flighttrackerappnew.data.repository.flightScheduleForSpecificIataNo.FlightScheduleRepositoryForSpecificIataNoImpl
+import com.example.flighttrackerappnew.data.repository.flightScheduleForSpecificIataNo.dataSource.FlightScheduleRemoteDataSourceForSpecificIataNumber
+import com.example.flighttrackerappnew.data.repository.flightScheduleForSpecificIataNo.dataSourceImpl.FlightScheduleRemoteDataSourceForSpecificIataNumberImpl
 import com.example.flighttrackerappnew.data.repository.futureSchedule.FutureScheduleRepositoryImpl
 import com.example.flighttrackerappnew.data.repository.futureSchedule.dataSource.FutureScheduleCacheDataSource
 import com.example.flighttrackerappnew.data.repository.futureSchedule.dataSource.FutureScheduleRemoteDataSource
@@ -56,6 +60,7 @@ import com.example.flighttrackerappnew.data.repository.nearby.datasourceImpl.Nea
 import com.example.flighttrackerappnew.domain.repository.AirCraftRepository
 import com.example.flighttrackerappnew.domain.repository.AirPortsRepository
 import com.example.flighttrackerappnew.domain.repository.CitiesRepository
+import com.example.flighttrackerappnew.domain.repository.FlightScheduleForSpecificIataNoRepository
 import com.example.flighttrackerappnew.domain.repository.FlightScheduleRepository
 import com.example.flighttrackerappnew.domain.repository.FutureScheduleFlightRepository
 import com.example.flighttrackerappnew.domain.repository.LiveFlightRepository
@@ -66,6 +71,7 @@ import com.example.flighttrackerappnew.domain.usecase.BillingUseCase2
 import com.example.flighttrackerappnew.domain.usecase.GetAirCraftUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetAirPortsUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetCitiesUseCase
+import com.example.flighttrackerappnew.domain.usecase.GetFlightScheduleForSpecificIataNumberUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetFlightScheduleUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetFutureScheduleFlightUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetLiveFlightUseCase
@@ -118,6 +124,7 @@ val appModule = module {
     single { get<Retrofit>(named("aviationRetrofit")).create(FlightApiService::class.java) }
     single { get<Retrofit>(named("aviationRetrofit")).create(StaticAirLineService::class.java) }
     single { get<Retrofit>(named("aviationRetrofit")).create(FlightSchedulesService::class.java) }
+    single { get<Retrofit>(named("aviationRetrofit")).create(FlightSchedulesServiceForSpecificiataNo::class.java) }
     single { get<Retrofit>(named("aviationRetrofit")).create(AirportsService::class.java) }
     single { get<Retrofit>(named("aviationRetrofit")).create(NearbyService::class.java) }
     single { get<Retrofit>(named("aviationRetrofit")).create(CitiesService::class.java) }
@@ -184,12 +191,17 @@ val appModule = module {
     single<FutureScheduleCacheDataSource> { FutureScheduleCacheDataSourceImpl() }
     single<FutureScheduleRemoteDataSource> { FutureScheduleRemoteDataSourceImpl(get()) }
 
+    single { GetFlightScheduleForSpecificIataNumberUseCase(get()) }
+    single<FlightScheduleForSpecificIataNoRepository> { FlightScheduleRepositoryForSpecificIataNoImpl(get()) }
+    single<FlightScheduleRemoteDataSourceForSpecificIataNumber> { FlightScheduleRemoteDataSourceForSpecificIataNumberImpl(get()) }
+
     single<NearByAirPortsRepository> { NearByAirportsAirPortsRepositoryImpl(get(), get()) }
     single<NearByAirPortsCacheDataSource> { NearByAirPortsCacheDataSourceImpl() }
     single<NearByAirPortsRemoteDataSource> { NearByAirPortsRemoteDataSourceImpl(get()) }
     single { GetNearByAirPortsUseCase(get()) }
     single {
         FlightAppViewModel(
+            get(),
             get(),
             get(),
             get(),

@@ -41,8 +41,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         }
 
         config.startDiscountIfNeeded()
-
-//        startActivity(Intent(this,MainActivity::class.java))
     }
 
     private fun showPremiumScreen() {
@@ -69,6 +67,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
                 if (consentObtained) {
                     InterstitialAdManager.mInterstitialAd = null
                     InterstitialAdManager.loadInterstitialAd(
+                        onDismissedForcedCalled = false,
                         ignoreClickCount = true,
                         showLoadingScreenWithDelay = RemoteConfigManager.getNumber("showLoadingScreenWithDelay"),
                         showLoadingAsLoadAdRequestCalled = false,

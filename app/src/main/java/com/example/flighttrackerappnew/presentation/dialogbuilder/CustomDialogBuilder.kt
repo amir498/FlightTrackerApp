@@ -52,8 +52,7 @@ class CustomDialogBuilder(private val context: Context) {
             window?.setBackgroundDrawableResource(R.color.transparent)
         }
 
-
-        if (fullScreen){
+        if (fullScreen) {
             setDialogFullScreen(dialog)
         }
 
@@ -69,11 +68,15 @@ class CustomDialogBuilder(private val context: Context) {
             onCrossClick?.invoke(dialog)
         }
 
-        (context as? Activity)?.isFinishing?.let {
-            if (!it == true) {
-                dialog.show()
-            }
+        val activity = context as? Activity
+
+        if (activity != null &&
+            !activity.isFinishing &&
+            !activity.isDestroyed) {
+
+            dialog.show()
         }
+
         return dialog
     }
 

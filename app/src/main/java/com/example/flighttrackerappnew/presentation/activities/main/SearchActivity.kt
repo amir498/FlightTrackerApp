@@ -43,6 +43,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
             btnAirport.setOnClickListener {
                 clickCount += 1
                 loadInterstitialAd(
+                    onDismissedForcedCalled = false,
                     ignoreClickCount = false,
                     showLoadingScreenWithDelay = 0L,
                     showLoadingAsLoadAdRequestCalled = true,
@@ -66,6 +67,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
             btnAirlines.setOnClickListener {
                 clickCount += 1
                 loadInterstitialAd(
+                    onDismissedForcedCalled = false,
                     ignoreClickCount = false,
                     showLoadingScreenWithDelay = 0L,
                     showLoadingAsLoadAdRequestCalled = true,
@@ -89,6 +91,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
             btnAircraft.setOnClickListener {
                 clickCount += 1
                 loadInterstitialAd(
+                    onDismissedForcedCalled = false,
                     ignoreClickCount = false,
                     showLoadingScreenWithDelay = 0L,
                     showLoadingAsLoadAdRequestCalled = true,
@@ -112,6 +115,7 @@ class SearchActivity : BaseActivity<ActivitySearchBinding>(ActivitySearchBinding
             btnTailNumber.setOnClickListener {
                 clickCount += 1
                 loadInterstitialAd(
+                    onDismissedForcedCalled = false,
                     ignoreClickCount = false,
                     showLoadingScreenWithDelay = 0L,
                     showLoadingAsLoadAdRequestCalled = true,

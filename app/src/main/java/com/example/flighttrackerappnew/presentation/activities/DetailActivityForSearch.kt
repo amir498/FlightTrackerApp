@@ -20,9 +20,9 @@ import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvide
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import com.example.flighttrackerappnew.presentation.utils.FullDetailsFlightData
-import com.example.flighttrackerappnew.presentation.utils.extractTime
 import com.example.flighttrackerappnew.presentation.utils.formatIsoDate
 import com.example.flighttrackerappnew.presentation.utils.formatTo12HourTime
+import com.example.flighttrackerappnew.presentation.utils.getTimeDifference
 import com.example.flighttrackerappnew.presentation.utils.gone
 import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.showToast
@@ -285,10 +285,10 @@ class DetailActivityForSearch :
             depCityName.text = FullDetailsFlightData?.depCity
             arrCityName.text = FullDetailsFlightData?.arrCity
             tvAmericanAirlines.text = FullDetailsFlightData?.airlineName
-            depTime.text = FullDetailsFlightData?.scheduledDepTime?.extractTime()
-            arriTime.text = FullDetailsFlightData?.scheduledArrTime?.extractTime()
-            depActualTime.text = FullDetailsFlightData?.scheduledDepTime?.extractTime()
-            arrEstimatedTime.text = FullDetailsFlightData?.scheduledArrTime?.extractTime()
+            depTime.text = formatTo12HourTime(FullDetailsFlightData?.scheduledDepTime?: "N/A")
+            arriTime.text = formatTo12HourTime(FullDetailsFlightData?.scheduledArrTime?: "N/A")
+            depActualTime.text = formatTo12HourTime(FullDetailsFlightData?.actualDepTime?: "N/A")
+            arrEstimatedTime.text = formatTo12HourTime(FullDetailsFlightData?.estimatedArrTime?: "N/A")
             terminalValue.text = FullDetailsFlightData?.terminal
             GateNo.text = FullDetailsFlightData?.gate
             delayValue.text = formatTo12HourTime(FullDetailsFlightData?.delay ?: "N/A")
@@ -329,7 +329,10 @@ class DetailActivityForSearch :
             constructionNo.text = FullDetailsFlightData?.constructionNo ?: "N/A"
             IcaoAirLine.text = FullDetailsFlightData?.flightIcaoNo ?: "N/A"
             iataCodeAirline.text = FullDetailsFlightData?.flightIataNumber ?: "N/A"
-            discreteSeekBar.progress = 50
+            discreteSeekBar.progress = FullDetailsFlightData?.progress ?: 0
+            val arr = formatTo12HourTime(FullDetailsFlightData?.estimatedArrTime ?: "N/A")
+            time.text = getTimeDifference(arr)
+            tvActive.text = getTimeDifference(arr)
         }
     }
 

@@ -32,8 +32,9 @@ import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigMan
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
 import com.example.flighttrackerappnew.presentation.utils.FullDetailsFlightData
 import com.example.flighttrackerappnew.presentation.utils.formatTo12HourTime
-import com.example.flighttrackerappnew.presentation.utils.getFlightProgressPercent
+import com.example.flighttrackerappnew.presentation.utils.getFlightProgress
 import com.example.flighttrackerappnew.presentation.utils.invisible
+import com.example.flighttrackerappnew.presentation.utils.logDebug
 import com.example.flighttrackerappnew.presentation.utils.orNA
 import com.example.flighttrackerappnew.presentation.utils.showToast
 import com.example.flighttrackerappnew.presentation.utils.toFollowFlightData
@@ -77,23 +78,20 @@ class LiveMapFlightTrackerActivity :
     private val rewardedAd: RewardedAdManager by inject()
     private var isFollowFlight = false
     private val followLiveFlightDao: FollowLiveFlightDao by inject()
+    private var selectedFlightData: FlightDataItem? = null
+    private var selectedFlightScheduleData: FlightSchedulesItems? = null
 
     private lateinit var mBottomSheetBehaviour: BottomSheetBehavior<ConstraintLayout>
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         getBottomSheetReference()
         bottomSheetListener()
-        val runnable = Runnable {
-            getMarkerIcon()
-            observeLiveData()
-            initView()
-            viewListener()
-        }
-
-        handler.postDelayed(runnable, 1000)
+        getMarkerIcon()
+        observeLiveData()
+        initView()
+        viewListener()
         loadBannerAd()
         getFollowFlight()
     }
@@ -142,6 +140,37 @@ class LiveMapFlightTrackerActivity :
 
     private fun observeLiveData() {
         viewModel.apply {
+            scheduleFlightDataForSpecificIataNumber.observe(this@LiveMapFlightTrackerActivity) { result ->
+                when (result) {
+                    is Resource.Loading -> {
+                        selectedFlightScheduleData?.departure?.estimatedTime
+                    }
+
+                    is Resource.Success -> {
+                        try {
+                            selectedFlightScheduleData = result.data[0]
+                            binding.include.apply {
+                                depTime.text =
+                                    formatTo12HourTime(
+                                        selectedFlightScheduleData?.departure?.actualTime ?: "N/A"
+                                    )
+                                arriTime.text =
+                                    formatTo12HourTime(
+                                        selectedFlightScheduleData?.arrival?.estimatedTime ?: "N/A"
+                                    )
+                            }
+                            setFullDetailListData()
+                            binding.pg.invisible()
+                        } catch (e: IndexOutOfBoundsException) {
+                            e.printStackTrace()
+                        }
+                    }
+
+                    is Resource.Error -> {
+                        binding.pg.invisible()
+                    }
+                }
+            }
             followFlightData.observe(this@LiveMapFlightTrackerActivity) { result ->
                 followedFlightList = result
                 if (followedFlightList.any { it.flightNo == FullDetailsFlightData?.flightNo } == true) {
@@ -198,26 +227,10 @@ class LiveMapFlightTrackerActivity :
                     is Resource.Loading -> {}
 
                     is Resource.Success -> {
+                        liveFlight = result.data
                         getStaticAirLines()
                         getScheduleFlight()
-                        liveFlight = result.data
-                        googleMap.zoomAtCurrentLocation()
-
-                        googleMap.onCameraIdle { newVisibleBounds ->
-                            binding.pg.visible()
-                            drawMarkersJob?.cancel()
-                            drawMarkersJob = lifecycleScope.launch {
-                                delay(1000)
-                                setAirplanesData(coroutineContext[Job]!!)
-                                binding.pg.invisible()
-                            }
-                        }
-
-                        googleMap.setOnCameraMoveStartedListener { reason ->
-                            if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
-                                drawMarkersJob?.cancel()
-                            }
-                        }
+                        setLiveFlightData()
                     }
 
                     is Resource.Error -> {
@@ -254,6 +267,28 @@ class LiveMapFlightTrackerActivity :
                         this@LiveMapFlightTrackerActivity.showToast("Error: ${result.message}")
                     }
                 }
+            }
+        }
+    }
+
+    fun setLiveFlightData() {
+        handler.postDelayed({
+            googleMap.zoomAtCurrentLocation()
+            googleMap.onCameraIdle { newVisibleBounds ->
+                binding.pg.visible()
+                drawMarkersJob?.cancel()
+                drawMarkersJob = lifecycleScope.launch {
+                    delay(1000)
+                    setAirplanesData(coroutineContext[Job]!!)
+                    binding.pg.invisible()
+                }
+            }
+        }, 2000)
+
+
+        googleMap.setOnCameraMoveStartedListener { reason ->
+            if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+                drawMarkersJob?.cancel()
             }
         }
     }
@@ -330,9 +365,12 @@ class LiveMapFlightTrackerActivity :
 
             val visibleFlightIds =
                 visibleFlights?.mapNotNull { it.flight?.iataNumber }?.toSet() ?: emptySet()
-            val iterator = googleMap.getPlaneMarkers().iterator()
+            val iterator = googleMap.getPlaneMarkers().entries.iterator()
             while (iterator.hasNext()) {
-                val (id, marker) = iterator.next()
+                val entry = iterator.next()
+                val id = entry.key
+                val marker = entry.value
+
                 if (id !in visibleFlightIds) {
                     marker.remove()
                     iterator.remove()
@@ -447,7 +485,6 @@ class LiveMapFlightTrackerActivity :
                             arvAirport?.get(0),
                             airLinesList,
                             citiesList,
-                            scheduleFlightList,
                             airPlanesList
                         )
                     } catch (_: IndexOutOfBoundsException) {
@@ -466,7 +503,6 @@ class LiveMapFlightTrackerActivity :
         arvAirport: AirportsDataItems?,
         airLinesList: List<StaticAirLineItems>,
         citiesList: List<CitiesDataItems>,
-        scheduleFlightList: List<FlightSchedulesItems>,
         airPlanesList: List<AirPlaneItems>
     ) {
         mBottomSheetBehaviour.state = BottomSheetBehavior.STATE_EXPANDED
@@ -517,38 +553,33 @@ class LiveMapFlightTrackerActivity :
             depCityName.text = depCity?.nameCity ?: "N/A"
             val arrCity = citiesList.firstOrNull { it.codeIataCity == codeIataCityArr }
             arrCityName.text = arrCity?.nameCity ?: "N/A"
-            val scheduleFlight = scheduleFlightList.firstOrNull {
-                it.airline?.iataCode == flightData.airline?.iataCode
-            }
-            depTime.text = formatTo12HourTime(scheduleFlight?.departure?.actualTime ?: "N/A")
-            arriTime.text = formatTo12HourTime(scheduleFlight?.arrival?.estimatedTime ?: "N/A")
+            viewModel.getScheduleFlightForSpecificIataNumber(flightData.flight?.iataNumber.orNA())
         }
-
-        setFullDetailListData(flightData)
+        binding.pg.visible()
+        selectedFlightData = flightData
     }
 
-    private fun setFullDetailListData(flightData: FlightDataItem) {
+    private fun setFullDetailListData() {
         var fullArrivalFlightDataDetails: FullDetailFlightData? = null
 
         val arrAirport = airportsDataList.firstOrNull {
-            it.codeIataAirport == flightData.arrival?.iataCode
-        }
-
-        val airPlane = airPlanesList.firstOrNull {
-            it.codeIataAirline == flightData.airline?.iataCode
+            it.codeIataAirport == selectedFlightData?.arrival?.iataCode
         }
 
         val depAirport = airportsDataList.firstOrNull {
-            it.codeIataAirport == flightData.departure?.iataCode
+            it.codeIataAirport == selectedFlightData?.departure?.iataCode
         }
 
-        val scheduleFlight = scheduleFlightList.firstOrNull {
-            it.airline?.iataCode == flightData.airline?.iataCode
+        val airPlane = airPlanesList.firstOrNull {
+            it.codeIataAirline == selectedFlightData?.airline?.iataCode
         }
+
+        logDebug("MY--TAGS", selectedFlightScheduleData?.departure?.actualTime.toString())
+        logDebug("MY--TAGS", selectedFlightScheduleData?.arrival?.estimatedTime.toString())
         val progress =
-            getFlightProgressPercent(
-                binding.include.depTime.text.toString().orNA(),
-                binding.include.arriTime.text.toString().orNA()
+            getFlightProgress(
+                selectedFlightScheduleData?.departure?.actualTime.toString().orNA(),
+                selectedFlightScheduleData?.arrival?.estimatedTime.toString().orNA()
             )
         fullArrivalFlightDataDetails = FullDetailFlightData(
             flightNo = binding.include.flightNum.text.toString().orNA(),
@@ -560,25 +591,27 @@ class LiveMapFlightTrackerActivity :
             arrCity = binding.include.arrCityName.text.toString().orNA(),
             nameAirport = depAirport?.nameAirport.orNA(),
             callSign = binding.include.callSign.text.toString().orNA(),
-            scheduledArrTime = binding.include.arriTime.text.toString().orNA(),
-            scheduledDepTime = binding.include.depTime.text.toString().orNA(),
-            actualDepTime = binding.include.depTime.text.toString().orNA(),
-            estimatedArrTime = binding.include.arriTime.text.toString().orNA(),
-            flightIataNumber = scheduleFlight?.flight?.iataNumber.orNA(),
+            scheduledArrTime = selectedFlightScheduleData?.arrival?.scheduledTime.toString().orNA(),
+            scheduledDepTime = selectedFlightScheduleData?.departure?.scheduledTime.toString().orNA(),
+            actualDepTime = selectedFlightScheduleData?.departure?.actualTime.toString().orNA(),
+            actualArrTime = selectedFlightScheduleData?.arrival?.actualTime.toString().orNA(),
+            estimatedArrTime = selectedFlightScheduleData?.arrival?.estimatedTime.toString().orNA(),
+            estimatedDepTime = selectedFlightScheduleData?.departure?.estimatedTime.toString().orNA(),
+            flightIataNumber = selectedFlightScheduleData?.flight?.iataNumber.orNA(),
             airlineName = binding.include.airlineName.text.toString().orNA(),
-            flightIcaoNo = scheduleFlight?.arrival?.terminal.orNA(),
-            terminal = scheduleFlight?.arrival?.terminal.orNA(),
-            gate = scheduleFlight?.arrival?.gate.orNA(),
-            delay = scheduleFlight?.arrival?.delay?.toString().orNA(),
-            scheduled = flightData.geography?.latitude?.toString().orNA(),
-            altitude = flightData.geography?.altitude?.toString().orNA(),
-            direction = flightData.geography?.direction?.toString().orNA(),
-            latitude = flightData.geography?.latitude?.toString().orNA(),
-            longitude = flightData.geography?.longitude?.toString().orNA(),
-            hSpeed = flightData.speed?.vspeed?.toString().orNA(),
-            vSpeed = flightData.speed?.horizontal?.toString().orNA(),
-            status = flightData.status.orNA(),
-            squawk = flightData.system?.squawk.orNA(),
+            flightIcaoNo = selectedFlightScheduleData?.arrival?.terminal.orNA(),
+            terminal = selectedFlightScheduleData?.arrival?.terminal.orNA(),
+            gate = selectedFlightScheduleData?.arrival?.gate.orNA(),
+            delay = selectedFlightScheduleData?.arrival?.delay?.toString().orNA(),
+            scheduled = selectedFlightData?.geography?.latitude?.toString().orNA(),
+            altitude = selectedFlightData?.geography?.altitude?.toString().orNA(),
+            direction = selectedFlightData?.geography?.direction?.toString().orNA(),
+            latitude = selectedFlightData?.geography?.latitude?.toString().orNA(),
+            longitude = selectedFlightData?.geography?.longitude?.toString().orNA(),
+            hSpeed = selectedFlightData?.speed?.vspeed?.toString().orNA(),
+            vSpeed = selectedFlightData?.speed?.horizontal?.toString().orNA(),
+            status = selectedFlightData?.status.orNA(),
+            squawk = selectedFlightData?.system?.squawk.orNA(),
             modelName = airPlane?.productionLine.orNA(),
             modelCode = airPlane?.modelCode.orNA(),
             airCraftType = airPlane?.enginesType.orNA(),
@@ -601,6 +634,8 @@ class LiveMapFlightTrackerActivity :
             regDate = airPlane?.registrationDate.orNA(),
             progress = progress
         )
+
+        binding.include.discreteSeekBar.progress = progress
 
         FullDetailsFlightData = fullArrivalFlightDataDetails
     }

@@ -43,6 +43,7 @@ class MapStyleActivity : BaseActivity<ActivityMapStyleBinding>(ActivityMapStyleB
                     finish()
                 } else {
                     InterstitialAdManager.loadInterstitialAd(
+                        onDismissedForcedCalled = false,
                         ignoreClickCount = true,
                         showLoadingScreenWithDelay = 0L,
                         showLoadingAsLoadAdRequestCalled = true,

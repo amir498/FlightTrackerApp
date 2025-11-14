@@ -20,6 +20,7 @@ import com.example.flighttrackerappnew.data.model.schedulesFlight.FlightSchedule
 import com.example.flighttrackerappnew.domain.usecase.GetAirCraftUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetAirPortsUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetCitiesUseCase
+import com.example.flighttrackerappnew.domain.usecase.GetFlightScheduleForSpecificIataNumberUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetFlightScheduleUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetFutureScheduleFlightUseCase
 import com.example.flighttrackerappnew.domain.usecase.GetLiveFlightUseCase
@@ -36,6 +37,7 @@ class FlightAppViewModel(
     private val getLiveFlightUseCase: GetLiveFlightUseCase,
     private val getStaticAirLineUseCase: GetStaticAirLineUseCase,
     private val getFlightScheduleUseCase: GetFlightScheduleUseCase,
+    private val getFlightScheduleForSpecificIataNumberUseCase: GetFlightScheduleForSpecificIataNumberUseCase,
     private val getAirPortsUseCase: GetAirPortsUseCase,
     private val getNearByAirPortsUseCase: GetNearByAirPortsUseCase,
     private val getCitiesUseCase: GetCitiesUseCase,
@@ -104,6 +106,17 @@ class FlightAppViewModel(
             _scheduleFlightData.postValue(Resource.Loading)
             val result = getFlightScheduleUseCase.execute()
             _scheduleFlightData.postValue(result)
+        }
+    }
+
+    private val _scheduleFlightDataForSpecificIataNumber = MutableLiveData<Resource<List<FlightSchedulesItems>>>()
+    val scheduleFlightDataForSpecificIataNumber: LiveData<Resource<List<FlightSchedulesItems>>> get() = _scheduleFlightDataForSpecificIataNumber
+
+    fun getScheduleFlightForSpecificIataNumber(iataNo: String) {
+        viewModelScope.launch {
+            _scheduleFlightDataForSpecificIataNumber.postValue(Resource.Loading)
+            val result = getFlightScheduleForSpecificIataNumberUseCase.execute(iataNo)
+            _scheduleFlightDataForSpecificIataNumber.postValue(result)
         }
     }
 

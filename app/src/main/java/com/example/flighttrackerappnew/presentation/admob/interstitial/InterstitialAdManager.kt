@@ -2,12 +2,14 @@ package com.example.flighttrackerappnew.presentation.admob.interstitial
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.SplashActivity
+import com.example.flighttrackerappnew.presentation.activities.main.MainActivity
 import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.utils.canRequestAd
@@ -33,6 +35,7 @@ object InterstitialAdManager : KoinComponent {
     private val config: Config by inject()
 
     fun loadInterstitialAd(
+        onDismissedForcedCalled: Boolean = false,
         ignoreClickCount: Boolean,
         showLoadingScreenWithDelay: Number,
         showLoadingAsLoadAdRequestCalled: Boolean = false,
@@ -45,6 +48,10 @@ object InterstitialAdManager : KoinComponent {
         onAdDismissed: (() -> Unit)?,
         onStartLoadingAd: () -> Unit = {}
     ) {
+        if (onDismissedForcedCalled) {
+            activity.startActivity(Intent(activity, MainActivity::class.java))
+            return
+        }
         if (!config.isPremiumUser) {
             this.showWhenReady = showWhenReady
             if (activity.canRequestAd()) {
@@ -93,64 +100,64 @@ object InterstitialAdManager : KoinComponent {
         onAdDismissed: (() -> Unit)?,
         onStartLoadingAd: () -> Unit
     ) {
-            if (activity.isNetworkAvailable() && isInterstitialEnabled) {
-                if (mInterstitialAd == null) {
-                    if (showLoadingAsLoadAdRequestCalled) {
-                        dialog = showDialogForAd(activity)
-                    }
-                    onStartLoadingAd.invoke()
-                    this@InterstitialAdManager.onAdDismissed = onAdDismissed
-                    val adRequestBuilder = AdRequest.Builder()
-                    val adRequest = adRequestBuilder.build()
-                    InterstitialAd.load(
-                        activity,
-                        adUnitId,
-                        adRequest,
-                        object : InterstitialAdLoadCallback() {
-                            override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                                Log.d("AD-TAG", "onAdLoaded: True")
-                                mInterstitialAd = interstitialAd
-                                mInterstitialAd?.setImmersiveMode(true)
-                                setupFullScreenContentCallback()
-                                if (this@InterstitialAdManager.showWhenReady) {
-                                    this@InterstitialAdManager.showWhenReady = false
-                                    timeoutRunnable?.let {
-                                        handler.removeCallbacks(
-                                            it
-                                        )
-                                    }
-                                    timeoutRunnable = null
-                                    showAd(
-                                        interstitialLoadingScreenShowTime = interstitialLoadingScreenShowTime,
-                                        showLoadingScreenAsLoadAdRequestCalled = showLoadingAsLoadAdRequestCalled,
-                                        activity = activity,
-                                        showLoadingScreenWithDelay = showLoadingScreenWithDelay,
-                                        onAdDismissed = onAdDismissed
+        if (activity.isNetworkAvailable() && isInterstitialEnabled) {
+            if (mInterstitialAd == null) {
+                if (showLoadingAsLoadAdRequestCalled) {
+                    dialog = showDialogForAd(activity)
+                }
+                onStartLoadingAd.invoke()
+                this@InterstitialAdManager.onAdDismissed = onAdDismissed
+                val adRequestBuilder = AdRequest.Builder()
+                val adRequest = adRequestBuilder.build()
+                InterstitialAd.load(
+                    activity,
+                    adUnitId,
+                    adRequest,
+                    object : InterstitialAdLoadCallback() {
+                        override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                            Log.d("AD-TAG", "onAdLoaded: True")
+                            mInterstitialAd = interstitialAd
+                            mInterstitialAd?.setImmersiveMode(true)
+                            setupFullScreenContentCallback()
+                            if (this@InterstitialAdManager.showWhenReady) {
+                                this@InterstitialAdManager.showWhenReady = false
+                                timeoutRunnable?.let {
+                                    handler.removeCallbacks(
+                                        it
                                     )
                                 }
-                            }
-
-                            override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                                Log.d(
-                                    "AD-TAG",
-                                    "onAdFailedToLoad Interstitial loadAdError :${loadAdError.message} "
+                                timeoutRunnable = null
+                                showAd(
+                                    interstitialLoadingScreenShowTime = interstitialLoadingScreenShowTime,
+                                    showLoadingScreenAsLoadAdRequestCalled = showLoadingAsLoadAdRequestCalled,
+                                    activity = activity,
+                                    showLoadingScreenWithDelay = showLoadingScreenWithDelay,
+                                    onAdDismissed = onAdDismissed
                                 )
-                                finishFlow()
                             }
-                        })
-                    if (showWhenReady) {
-                        adLoadingTimeOut?.let { timeout ->
-                            timeoutRunnable = Runnable {
-                                this@InterstitialAdManager.showWhenReady = false
-                                this@InterstitialAdManager.onAdDismissed?.invoke()
-                            }
-                            handler.postDelayed(timeoutRunnable!!, timeout)
                         }
+
+                        override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                            Log.d(
+                                "AD-TAG",
+                                "onAdFailedToLoad Interstitial loadAdError :${loadAdError.message} "
+                            )
+                            finishFlow()
+                        }
+                    })
+                if (showWhenReady) {
+                    adLoadingTimeOut?.let { timeout ->
+                        timeoutRunnable = Runnable {
+                            this@InterstitialAdManager.showWhenReady = false
+                            this@InterstitialAdManager.onAdDismissed?.invoke()
+                        }
+                        handler.postDelayed(timeoutRunnable!!, timeout)
                     }
                 }
-            } else {
-                onAdDismissed?.invoke()
             }
+        } else {
+            onAdDismissed?.invoke()
+        }
     }
 
     fun showAd(

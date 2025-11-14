@@ -16,7 +16,6 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
-import java.util.concurrent.TimeUnit
 
 fun formatTo12HourTime(input: String): String {
     return try {
@@ -25,6 +24,41 @@ fun formatTo12HourTime(input: String): String {
         val date: Date = inputFormat.parse(input)!!
         outputFormat.format(date)
     } catch (_: Exception) {
+        "N/A"
+    }
+}
+
+fun getTimeDifference(endTime: String): String {
+    return try {
+        val timeFormat = SimpleDateFormat("h:mm a", Locale.US)
+
+        val end = timeFormat.parse(endTime) ?: return "N/A"
+
+        val nowCalendar = Calendar.getInstance()
+        val endCalendar = Calendar.getInstance()
+
+        endCalendar.set(Calendar.HOUR_OF_DAY, end.hours)
+        endCalendar.set(Calendar.MINUTE, end.minutes)
+        endCalendar.set(Calendar.SECOND, 0)
+        endCalendar.set(Calendar.MILLISECOND, 0)
+
+        if (endCalendar.timeInMillis < nowCalendar.timeInMillis) {
+            endCalendar.add(Calendar.DAY_OF_YEAR, 1)
+        }
+
+        val diffMillis = endCalendar.timeInMillis - nowCalendar.timeInMillis
+
+        val seconds = diffMillis / 1000
+        val minutes = (seconds / 60) % 60
+        val hours = seconds / 3600
+
+        return when {
+            hours > 0 -> "$hours hour${if (hours > 1) "s" else ""}"
+            minutes > 0 -> "$minutes minute${if (minutes > 1) "s" else ""}"
+            else -> "$seconds second${if (seconds > 1) "s" else ""}"
+        }
+
+    } catch (e: Exception) {
         "N/A"
     }
 }
@@ -53,72 +87,68 @@ fun getCurrentCountryLatLon(context: Context): Pair<Double, Double>? {
     }
 }
 
-fun getFlightProgressPercent(dep: String, arr: String): Int {
-    if (dep == "N/A" || arr == "N/A") return 0
-
-    val baseDate = "01/01/1970"
-    val fullFormat = SimpleDateFormat("MM/dd/yyyy hh:mm a", Locale.getDefault())
-    fullFormat.isLenient = false
-
+fun getFlightProgress(startTime: String, endTime: String): Int {
     return try {
-        val depTime = fullFormat.parse("$baseDate $dep") ?: return 0
-        var arrTime = fullFormat.parse("$baseDate $arr") ?: return 0
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US)
+
+        val startDate = inputFormat.parse(startTime) ?: return 0
+        val endDate = inputFormat.parse(endTime) ?: return 0
         val now = Date()
 
-        if (arrTime.before(depTime)) {
-            val calendar = Calendar.getInstance()
-            calendar.time = arrTime
-            calendar.add(Calendar.DAY_OF_MONTH, 1)
-            arrTime = calendar.time
-        }
+        val startMs = startDate.time
+        val endMs = endDate.time
+        val nowMs = now.time
 
-        if (now.time >= arrTime.time) return 100
+        if (nowMs <= startMs) return 0          // flight not started
+        if (nowMs >= endMs) return 100          // flight completed
 
-        val totalDuration = arrTime.time - depTime.time
-        val elapsed = now.time - depTime.time
+        val total = endMs - startMs
+        val passed = nowMs - startMs
 
-        if (totalDuration <= 0) return 0
-        if (elapsed <= 0) return 0
+        return ((passed.toDouble() / total.toDouble()) * 100)
+            .toInt()
+            .coerceIn(0, 100)
 
-        val progress = (elapsed.toDouble() / totalDuration) * 100
-        progress.coerceIn(0.0, 100.0).toInt()
-
-    } catch (_: Exception) {
+    } catch (e: Exception) {
         0
     }
 }
 
-fun getTimeDifference(dep: String, arr: String): String {
-    if (dep == "N/A" || arr == "N/A") return "N/A"
 
-    val format = SimpleDateFormat("hh:mm a", Locale.getDefault())
-    format.isLenient = false
-
-    return try {
-        val depTime = format.parse(dep)
-        val arrTime = format.parse(arr)
-
-        if (depTime == null || arrTime == null) return "N/A"
-
-        var diff = arrTime.time - depTime.time
-
-        if (diff < 0) diff += TimeUnit.DAYS.toMillis(1)
-
-        val hours = TimeUnit.MILLISECONDS.toHours(diff)
-        val minutes = TimeUnit.MILLISECONDS.toMinutes(diff) % 60
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(diff) % 60
-
-        when {
-            hours > 0 && minutes > 0 -> "$hours hrs $minutes mins"
-            hours > 0 -> "$hours hrs"
-            minutes > 0 -> "$minutes mins"
-            else -> "$seconds secs"
-        }
-
-    } catch (_: Exception) {
-        "N/A"
-    }
-}
+//fun getFlightProgressPercent(dep: String, arr: String): Int {
+//    if (dep == "N/A" || arr == "N/A") return 0
+//
+//    val baseDate = "01/01/1970"
+//    val fullFormat = SimpleDateFormat("MM/dd/yyyy hh:mm a", Locale.getDefault())
+//    fullFormat.isLenient = false
+//
+//    return try {
+//        val depTime = fullFormat.parse("$baseDate $dep") ?: return 0
+//        var arrTime = fullFormat.parse("$baseDate $arr") ?: return 0
+//        val now = Date()
+//
+//        if (arrTime.before(depTime)) {
+//            val calendar = Calendar.getInstance()
+//            calendar.time = arrTime
+//            calendar.add(Calendar.DAY_OF_MONTH, 1)
+//            arrTime = calendar.time
+//        }
+//
+//        if (now.time >= arrTime.time) return 100
+//
+//        val totalDuration = arrTime.time - depTime.time
+//        val elapsed = now.time - depTime.time
+//
+//        if (totalDuration <= 0) return 0
+//        if (elapsed <= 0) return 0
+//
+//        val progress = (elapsed.toDouble() / totalDuration) * 100
+//        progress.coerceIn(0.0, 100.0).toInt()
+//
+//    } catch (_: Exception) {
+//        0
+//    }
+//}
 
 fun formatIsoDate(input: String): String {
     try {
@@ -179,7 +209,9 @@ fun FavFlightData.toFullDetailData(): FullDetailFlightData {
         scheduledArrTime = scheduledArrTime,
         scheduledDepTime = scheduledDepTime,
         actualDepTime = actualDepTime,
+        actualArrTime = actualDepTime,
         estimatedArrTime = estimatedArrTime,
+        estimatedDepTime = estimatedDepTime,
         flightIataNumber = flightIataNumber,
         airlineName = airlineName,
         flightIcaoNo = flightIcaoNo,
@@ -235,7 +267,9 @@ fun FollowFlightData.toFullDetail(): FullDetailFlightData {
         scheduledArrTime = scheduledArrTime,
         scheduledDepTime = scheduledDepTime,
         actualDepTime = actualDepTime,
+        actualArrTime = actualArrTime,
         estimatedArrTime = estimatedArrTime,
+        estimatedDepTime = estimatedArrTime.toString().orNA(),
         flightIataNumber = flightIataNumber,
         airlineName = airlineName,
         flightIcaoNo = flightIcaoNo,
@@ -291,7 +325,9 @@ fun FullDetailFlightData.toFollowFlightData(): FollowFlightData {
         scheduledArrTime = scheduledArrTime,
         scheduledDepTime = scheduledDepTime,
         actualDepTime = actualDepTime,
+        actualArrTime = actualDepTime,
         estimatedArrTime = estimatedArrTime,
+        estimatedDepTime = estimatedArrTime,
         flightIataNumber = flightIataNumber,
         airlineName = airlineName,
         flightIcaoNo = flightIcaoNo,
@@ -347,7 +383,9 @@ fun FullDetailFlightData.toFavFlightData(): FavFlightData {
         scheduledArrTime = scheduledArrTime,
         scheduledDepTime = scheduledDepTime,
         actualDepTime = actualDepTime,
+        actualArrTime = actualDepTime,
         estimatedArrTime = estimatedArrTime,
+        estimatedDepTime = estimatedDepTime,
         flightIataNumber = flightIataNumber,
         airlineName = airlineName,
         flightIcaoNo = flightIcaoNo,
