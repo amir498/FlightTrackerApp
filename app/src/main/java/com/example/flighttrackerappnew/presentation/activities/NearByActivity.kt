@@ -35,6 +35,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -270,7 +271,9 @@ class NearByActivity : BaseActivity<ActivityNearByBinding>(ActivityNearByBinding
                 binding.pg.visible()
                 drawMarkersJob?.cancel()
                 drawMarkersJob = lifecycleScope.launch {
+                    delay(1000)
                     setAirportsData(coroutineContext[Job]!!)
+                    delay(700)
                     binding.pg.invisible()
                 }
             }

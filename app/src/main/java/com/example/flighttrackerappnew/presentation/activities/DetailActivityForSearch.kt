@@ -150,12 +150,17 @@ class DetailActivityForSearch :
     private fun viewListener() {
         binding.apply {
             conRoute.setOnClickListener {
-                val selectedFlight =
-                    flights.filter { FullDetailsFlightData?.flightNo == it.flight?.iataNumber }[0]
+                val selectedFlight = flights.firstOrNull {
+                    FullDetailsFlightData?.flightNo == it.flight?.iataNumber
+                }
+                if (selectedFlight == null) {
+                    showToast("Flight not found")
+                    return@setOnClickListener
+                }
                 val depAirport =
-                    airportsDataList?.filter { it.codeIataAirport == selectedFlight?.departure?.iataCode } as ArrayList<AirportsDataItems>?
+                    airportsDataList?.filter { it.codeIataAirport == selectedFlight.departure?.iataCode } as ArrayList<AirportsDataItems>?
                 val arvAirport =
-                    airportsDataList?.filter { it.codeIataAirport == selectedFlight?.arrival?.iataCode } as ArrayList<AirportsDataItems>?
+                    airportsDataList?.filter { it.codeIataAirport == selectedFlight.arrival?.iataCode } as ArrayList<AirportsDataItems>?
 
                 if (depAirport != null && arvAirport != null) {
                     if (config.isPremiumUser) {

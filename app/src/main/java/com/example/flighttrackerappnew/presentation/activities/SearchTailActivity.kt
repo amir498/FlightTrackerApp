@@ -207,8 +207,12 @@ class SearchTailActivity :
         binding.recyclerView.adapter = searchTailAdapter
 
         lifecycleScope.launch(Dispatchers.IO) {
-            delay(1000)
-            if (matchingAirplanes.isEmpty()) {
+            delay(500)
+            if (matchingAirplanes == null) {
+                binding.pg.visible()
+                return@launch
+            }
+            if (matchingAirplanes?.isEmpty() == true) {
                 withContext(Dispatchers.Main) {
                     binding.conPlaceHolder.visible()
                     binding.recyclerView.invisible()
@@ -219,7 +223,7 @@ class SearchTailActivity :
                     binding.conPlaceHolder.invisible()
                     binding.recyclerView.visible()
                     loadBannerAd()
-                    searchTailAdapter?.setList(matchingAirplanes)
+                    searchTailAdapter?.setList(matchingAirplanes!!)
                     searchTailAdapter?.setListener { tailData: AirPlaneItems? ->
                         searchedDataTitle =
                             ContextCompat.getString(this@SearchTailActivity, R.string.tail_number)
@@ -433,21 +437,25 @@ class SearchTailActivity :
             tvAirports.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?, start: Int, count: Int, after: Int
-                ) {
-                }
+                ) {}
 
                 override fun onTextChanged(
                     s: CharSequence?, start: Int, before: Int, count: Int
-                ) {
-                }
+                ) {}
 
                 override fun afterTextChanged(s: Editable?) {
                     val text = s.toString()
-                    val filterList = matchingAirplanes.filter {
+                    val filterList = matchingAirplanes?.filter {
                         it.numberRegistration?.lowercase()?.startsWith(text.lowercase()) == true
                     }
-
-                    searchTailAdapter?.setList(filterList)
+                    if (filterList != null) {
+                        searchTailAdapter?.setList(filterList)
+                        binding.conPlaceHolder.apply {
+                            if(filterList.isEmpty()) visible() else invisible()
+                        }
+                    } else {
+                        binding.conPlaceHolder.visible()
+                    }
                 }
             })
         }

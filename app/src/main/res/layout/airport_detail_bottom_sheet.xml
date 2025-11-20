@@ -87,7 +87,7 @@
         android:paddingStart="@dimen/_10sdp"
         android:paddingTop="@dimen/_2sdp"
         android:paddingEnd="@dimen/_10sdp"
-        android:maxLength="7"
+        android:maxLength="10"
         android:maxLines="1"
         android:paddingBottom="@dimen/_2sdp"
         android:text="@string/_13_km"

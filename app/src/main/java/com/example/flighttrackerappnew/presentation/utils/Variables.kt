@@ -35,4 +35,4 @@ var isAirLineApiSuccess = false
 var isAirPortApiSuccess = false
 var isFromAirportOrAirline = false
 var selectedLiveFlightData: FullDetailFlightData? = null
-var matchingAirplanes: List<AirPlaneItems> = emptyList()
+var matchingAirplanes: List<AirPlaneItems>? = null
