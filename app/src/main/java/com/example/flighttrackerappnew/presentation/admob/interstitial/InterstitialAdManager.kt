@@ -52,7 +52,7 @@ object InterstitialAdManager : KoinComponent {
             activity.startActivity(Intent(activity, MainActivity::class.java))
             return
         }
-        if (!config.isPremiumUser) {
+        if (!config.isPremiumUser && activity.isNetworkAvailable() && isInterstitialEnabled && mInterstitialAd == null) {
             this.showWhenReady = showWhenReady
             if (activity.canRequestAd()) {
                 if (clickCount % 2 == 0 || ignoreClickCount) {
@@ -62,7 +62,6 @@ object InterstitialAdManager : KoinComponent {
                         showWhenReady = showWhenReady,
                         activity = activity,
                         adUnitId = adUnitId,
-                        isInterstitialEnabled = isInterstitialEnabled,
                         adLoadingTimeOut = adLoadingTimeOut,
                         showLoadingScreenWithDelay = showLoadingScreenWithDelay.toLong(),
                         onAdDismissed,
@@ -75,8 +74,18 @@ object InterstitialAdManager : KoinComponent {
                 onAdDismissed?.invoke()
             }
         } else {
+            if (mInterstitialAd != null) {
+                showAd(
+                    interstitialLoadingScreenShowTime = interstitialLoadingScreenShowTime,
+                    showLoadingScreenAsLoadAdRequestCalled = showLoadingAsLoadAdRequestCalled,
+                    activity = activity,
+                    showLoadingScreenWithDelay = showLoadingScreenWithDelay.toLong(),
+                    onAdDismissed = onAdDismissed
+                )
+                return
+            }
             val delay: Long = if (activity is SplashActivity) {
-                5000
+                2000
             } else {
                 0
             }
@@ -94,69 +103,62 @@ object InterstitialAdManager : KoinComponent {
         showWhenReady: Boolean,
         activity: AppCompatActivity,
         adUnitId: String,
-        isInterstitialEnabled: Boolean,
         adLoadingTimeOut: Long? = null,
         showLoadingScreenWithDelay: Long,
         onAdDismissed: (() -> Unit)?,
         onStartLoadingAd: () -> Unit
     ) {
-        if (activity.isNetworkAvailable() && isInterstitialEnabled) {
-            if (mInterstitialAd == null) {
-                if (showLoadingAsLoadAdRequestCalled) {
-                    dialog = showDialogForAd(activity)
-                }
-                onStartLoadingAd.invoke()
-                this@InterstitialAdManager.onAdDismissed = onAdDismissed
-                val adRequestBuilder = AdRequest.Builder()
-                val adRequest = adRequestBuilder.build()
-                InterstitialAd.load(
-                    activity,
-                    adUnitId,
-                    adRequest,
-                    object : InterstitialAdLoadCallback() {
-                        override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                            Log.d("AD-TAG", "onAdLoaded: True")
-                            mInterstitialAd = interstitialAd
-                            mInterstitialAd?.setImmersiveMode(true)
-                            setupFullScreenContentCallback()
-                            if (this@InterstitialAdManager.showWhenReady) {
-                                this@InterstitialAdManager.showWhenReady = false
-                                timeoutRunnable?.let {
-                                    handler.removeCallbacks(
-                                        it
-                                    )
-                                }
-                                timeoutRunnable = null
-                                showAd(
-                                    interstitialLoadingScreenShowTime = interstitialLoadingScreenShowTime,
-                                    showLoadingScreenAsLoadAdRequestCalled = showLoadingAsLoadAdRequestCalled,
-                                    activity = activity,
-                                    showLoadingScreenWithDelay = showLoadingScreenWithDelay,
-                                    onAdDismissed = onAdDismissed
-                                )
-                            }
-                        }
-
-                        override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                            Log.d(
-                                "AD-TAG",
-                                "onAdFailedToLoad Interstitial loadAdError :${loadAdError.message} "
+        if (showLoadingAsLoadAdRequestCalled) {
+            dialog = showDialogForAd(activity)
+        }
+        onStartLoadingAd.invoke()
+        this@InterstitialAdManager.onAdDismissed = onAdDismissed
+        val adRequestBuilder = AdRequest.Builder()
+        val adRequest = adRequestBuilder.build()
+        InterstitialAd.load(
+            activity,
+            adUnitId,
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    Log.d("AD-TAG", "onAdLoaded: True")
+                    mInterstitialAd = interstitialAd
+                    mInterstitialAd?.setImmersiveMode(true)
+                    setupFullScreenContentCallback()
+                    if (this@InterstitialAdManager.showWhenReady) {
+                        this@InterstitialAdManager.showWhenReady = false
+                        timeoutRunnable?.let {
+                            handler.removeCallbacks(
+                                it
                             )
-                            finishFlow()
                         }
-                    })
-                if (showWhenReady) {
-                    adLoadingTimeOut?.let { timeout ->
-                        timeoutRunnable = Runnable {
-                            this@InterstitialAdManager.showWhenReady = false
-                            this@InterstitialAdManager.onAdDismissed?.invoke()
-                        }
-                        handler.postDelayed(timeoutRunnable!!, timeout)
+                        timeoutRunnable = null
+                        showAd(
+                            interstitialLoadingScreenShowTime = interstitialLoadingScreenShowTime,
+                            showLoadingScreenAsLoadAdRequestCalled = showLoadingAsLoadAdRequestCalled,
+                            activity = activity,
+                            showLoadingScreenWithDelay = showLoadingScreenWithDelay,
+                            onAdDismissed = onAdDismissed
+                        )
                     }
                 }
+
+                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                    Log.d(
+                        "AD-TAG",
+                        "onAdFailedToLoad Interstitial loadAdError :${loadAdError.message} "
+                    )
+                    finishFlow()
+                }
+            })
+        if (showWhenReady) {
+            adLoadingTimeOut?.let { timeout ->
+                timeoutRunnable = Runnable {
+                    this@InterstitialAdManager.showWhenReady = false
+                    this@InterstitialAdManager.onAdDismissed?.invoke()
+                }
+                handler.postDelayed(timeoutRunnable!!, timeout)
             }
-        } else {
-            onAdDismissed?.invoke()
         }
     }
 

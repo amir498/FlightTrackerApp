@@ -55,8 +55,8 @@ class PremiumActivity : BaseActivity<ActivityPremiumBinding>(ActivityPremiumBind
             tvAgree.setStyledSpan(
                 getString(R.string.by_subscribing_you_agree_to_our_terms_of_use_and_privacy_policy),
                 listOf("Terms of Use", "Privacy Policy"),
-                R.style.sfb14s,
-                R.style.sfr14s,
+               targetStyle =  R.style.sfb14s,
+               defaultStyle =  R.style.sfr14s,
                 underline = true,
                 onClickListeners = listOf(
                     { openWebBrowser(TERM_OF_SERVICE) },

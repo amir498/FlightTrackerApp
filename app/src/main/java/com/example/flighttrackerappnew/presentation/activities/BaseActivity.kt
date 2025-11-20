@@ -25,7 +25,6 @@ abstract class BaseActivity<BINDING : ViewBinding>(private val bindingInflater: 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         app = application as FlightApp
         binding = bindingInflater(layoutInflater)
         enableEdgeToEdge()
