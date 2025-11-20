@@ -162,7 +162,7 @@ class StarredFlightActivity :
         if (REWARDED_FAV) {
             rewardedAd.loadAndShowRewardedAd(
                 this,
-                app.getString(R.string.REWARDED_FAV),
+                getString(R.string.REWARDED_FAV),
                 onRewardEarned = {
                     startActivity(Intent(this, DetailActivityForSearch::class.java))
 

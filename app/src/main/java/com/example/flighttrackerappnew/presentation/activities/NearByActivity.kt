@@ -1,8 +1,11 @@
 package com.example.flighttrackerappnew.presentation.activities
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.graphics.Canvas
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
@@ -12,6 +15,7 @@ import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.nearby.NearByAirportsDataItems
 import com.example.flighttrackerappnew.databinding.ActivityNearByBinding
 import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_NEARBy_AIRPORT
+import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
 import com.example.flighttrackerappnew.presentation.googleMap.MyGoogleMapNearAirports
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
@@ -31,7 +35,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -156,6 +159,38 @@ class NearByActivity : BaseActivity<ActivityNearByBinding>(ActivityNearByBinding
         }
     }
 
+    private var dialog: Dialog? = null
+
+    private fun showDialog() {
+        if (dialog == null) {
+            dialog = CustomDialogBuilder(this).setLayout(R.layout.dialog_retry_bearby_airport).setCancelable(false)
+                .setPositiveClickListener {
+                    binding.pg.visible()
+                    it.dismiss()
+                    getNearbyAirport()
+                    dialog = null
+                }.setNegativeClickListener {
+                    it.dismiss()
+                    dialog = null
+                }.show()
+        }
+    }
+
+    private fun getNearbyAirport() {
+        val pair = getCurrentCountryLatLon(this)
+        lat = pair?.first
+        lon = pair?.second
+        lat?.let { lat ->
+            lon?.let { lon ->
+                lifecycleScope.launch(Dispatchers.IO) {
+                    viewModel.getNearBy(
+                        lat, lon, RemoteConfigManager.getString("distance").toInt()
+                    )
+                }
+            }
+        }
+    }
+
     private suspend fun setAirportsData(currentJob: Job) {
         val visibleBounds = withContext(Dispatchers.Main) {
             googleMap.getVisibleBounds()
@@ -174,14 +209,17 @@ class NearByActivity : BaseActivity<ActivityNearByBinding>(ActivityNearByBinding
         val visibleAirportIds = visibleAirports.mapNotNull { it.codeIataAirport }.toSet()
 
         withContext(Dispatchers.Main) {
-            val iterator = googleMap.airportMarkers.entries.iterator()
-            while (iterator.hasNext()) {
-                val (iataCode, marker) = iterator.next()
-                if (iataCode !in visibleAirportIds) {
-                    marker.remove()
-                    iterator.remove()
+            synchronized(lock) {
+                val iterator = googleMap.airportMarkers.entries.iterator()
+                while (iterator.hasNext()) {
+                    val (iataCode, marker) = iterator.next()
+                    if (iataCode !in visibleAirportIds) {
+                        marker.remove()
+                        iterator.remove()
+                    }
                 }
             }
+
             visibleAirports.forEach { airport ->
                 currentJob.ensureActive()
                 val lat = airport.latitudeAirport ?: return@forEach
@@ -194,24 +232,9 @@ class NearByActivity : BaseActivity<ActivityNearByBinding>(ActivityNearByBinding
             }
         }
     }
-
+    private val lock = Any()
     private fun observeLiveData() {
         viewModel.apply {
-            if (lat == null || lon == null) {
-                val pair = getCurrentCountryLatLon(this@NearByActivity)
-                lat = pair?.first
-                lon = pair?.second
-
-                lat?.let {
-                    lon?.let { long ->
-                        getNearBy(
-                            it,
-                            long,
-                            RemoteConfigManager.getString("distance").toInt()
-                        )
-                    }
-                }
-            }
             nearByData.observe(this@NearByActivity) { result ->
                 when (result) {
                     is Resource.Loading -> {
@@ -224,32 +247,38 @@ class NearByActivity : BaseActivity<ActivityNearByBinding>(ActivityNearByBinding
                             if (nearbyAirports.isNotEmpty()) {
                                 loadBannerAd()
                             }
-                            googleMap.moveCameraToCurrentLocation()
-                            googleMap.onCameraIdle { newVisibleBounds ->
-                                binding.pg.visible()
-                                drawMarkersJob?.cancel()
-                                drawMarkersJob = lifecycleScope.launch {
-                                    delay(1000)
-                                    setAirportsData(coroutineContext[Job]!!)
-                                    binding.pg.invisible()
-                                }
-                            }
-
-                            googleMap.setOnCameraMoveStartedListener { reason ->
-                                if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
-                                    drawMarkersJob?.cancel()
-                                }
-                            }
-                        } catch (e: NullPointerException) {
+                            setLiveFlightData()
+                        } catch (_: NullPointerException) {
                             this@NearByActivity.showToast("No Data found")
                         }
                     }
 
                     is Resource.Error -> {
                         binding.pg.invisible()
+                        showDialog()
                         this@NearByActivity.showToast(result.message)
                     }
                 }
+            }
+        }
+    }
+
+    fun setLiveFlightData() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            googleMap.moveCameraToCurrentLocation()
+            googleMap.onCameraIdle { newVisibleBounds ->
+                binding.pg.visible()
+                drawMarkersJob?.cancel()
+                drawMarkersJob = lifecycleScope.launch {
+                    setAirportsData(coroutineContext[Job]!!)
+                    binding.pg.invisible()
+                }
+            }
+        }, 2000)
+
+        googleMap.setOnCameraMoveStartedListener { reason ->
+            if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
+                drawMarkersJob?.cancel()
             }
         }
     }

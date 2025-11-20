@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.example.flighttrackerappnew.R
-import com.example.flighttrackerappnew.databinding.ActivityAirportSearchBinding
+import com.example.flighttrackerappnew.databinding.ActivitySearchedBinding
 import com.example.flighttrackerappnew.presentation.adapter.AirportSearchPagerAdapter
 import com.example.flighttrackerappnew.presentation.fragments.ArrivalFlightFragment
 import com.example.flighttrackerappnew.presentation.fragments.DepartureFlightFragment
@@ -17,8 +17,8 @@ import com.example.flighttrackerappnew.presentation.utils.searchedDataTitle
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-class AirportSearchActivity :
-    BaseActivity<ActivityAirportSearchBinding>(ActivityAirportSearchBinding::inflate) {
+class SearchedActivity :
+    BaseActivity<ActivitySearchedBinding>(ActivitySearchedBinding::inflate) {
     private lateinit var adapter: AirportSearchPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,7 +87,6 @@ class AirportSearchActivity :
                 super.onPageScrollStateChanged(state)
             }
         })
-
     }
 
     private fun setTabWithViewpager() {

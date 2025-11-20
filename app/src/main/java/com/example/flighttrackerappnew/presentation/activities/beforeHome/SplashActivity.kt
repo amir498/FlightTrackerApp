@@ -28,7 +28,6 @@ import org.koin.android.ext.android.inject
 class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {
 
     private var adLoaded: Boolean = false
-    private val viewModel: FlightAppViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,30 +111,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding
         }
     }
 
-    private fun getLongLatFirst() {
-        val pair = getCurrentCountryLatLon(this)
-        lat = pair?.first
-        lon = pair?.second
-        lat?.let { lon?.let { it1 -> getAllApiCall(it, it1) } }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (isNetworkAvailable()) {
-            getLongLatFirst()
-        }
-    }
-
-    fun getAllApiCall(lat: Double, lon: Double) {
-        val distanceStr = RemoteConfigManager.getString("distance")
-        val distance = distanceStr.toIntOrNull() ?: DEFAULT_DISTANCE
-
-        viewModel.getAllData(lat, lon, distance)
-    }
-
     private fun checkInternetConnection() {
         if (isNetworkAvailable()) {
-            getLongLatFirst()
             if (!config.isPremiumUser) {
                 loadAd()
             }

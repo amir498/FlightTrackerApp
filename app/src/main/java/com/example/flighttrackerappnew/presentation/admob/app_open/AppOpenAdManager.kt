@@ -29,33 +29,41 @@ object AppOpenAdManager {
     private fun loadAd(
         context: Activity, adId: String
     ) {
-            if (appOpenAd == null && !isLoading) {
-                isLoading = true
-                val dialog = showDialogForAd(context)
-                val adRequest = AdRequest.Builder().build()
-                AppOpenAd.load(
-                    context,
-                    adId,
-                    adRequest,
-                    object : AppOpenAd.AppOpenAdLoadCallback() {
-                        override fun onAdLoaded(ad: AppOpenAd) {
-                            appOpenAd = ad
-                            isLoading = false
-                            setupFullScreenContentCallback()
-                            showAppOpenAd(context)
-                            Handler(Looper.getMainLooper()).postDelayed(
-                                {
-                                    dialog.dismiss()
-                                }, 400
-                            )
-                        }
+        if (appOpenAd == null && !isLoading) {
+            isLoading = true
+            val dialog = showDialogForAd(context)
+            val adRequest = AdRequest.Builder().build()
+            AppOpenAd.load(
+                context,
+                adId,
+                adRequest,
+                object : AppOpenAd.AppOpenAdLoadCallback() {
+                    override fun onAdLoaded(ad: AppOpenAd) {
+                        appOpenAd = ad
+                        isLoading = false
+                        setupFullScreenContentCallback()
+                        showAppOpenAd(context)
+                        Handler(Looper.getMainLooper()).postDelayed(
+                            {
+                                safeDismiss(dialog, context)
+                            }, 400
+                        )
+                    }
 
-                        override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                            dialog.dismiss()
-                            isLoading = false
-                            appOpenAd = null
-                        }
-                    })
+                    override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                        safeDismiss(dialog, context)
+                        isLoading = false
+                        appOpenAd = null
+                    }
+                })
+        }
+    }
+
+    private fun safeDismiss(dialog: Dialog, activity: Activity?) {
+        if (activity == null || activity.isFinishing || activity.isDestroyed) return
+        try {
+            if (dialog.isShowing) dialog.dismiss()
+        } catch (_: Exception) {
         }
     }
 

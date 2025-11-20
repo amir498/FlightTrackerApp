@@ -16,13 +16,21 @@ import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvide
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_2_LANGUAGE_SCREEN1
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_OnBoarding1
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
+import com.example.flighttrackerappnew.presentation.utils.DEFAULT_DISTANCE
 import com.example.flighttrackerappnew.presentation.utils.IS_FROM_SETTING_ACTIVITY
+import com.example.flighttrackerappnew.presentation.utils.getCurrentCountryLatLon
 import com.example.flighttrackerappnew.presentation.utils.isFirstPremiumFlow
+import com.example.flighttrackerappnew.presentation.utils.isNetworkAvailable
+import com.example.flighttrackerappnew.presentation.utils.lat
+import com.example.flighttrackerappnew.presentation.utils.lon
 import com.example.flighttrackerappnew.presentation.utils.setZoomClickEffect
 import com.example.flighttrackerappnew.presentation.utils.visible
+import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
+import org.koin.android.ext.android.inject
 
 class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageBinding::inflate) {
     private lateinit var adapter: LanguageActivityAdapter
+    private val viewModel: FlightAppViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +44,20 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
         showAd()
     }
 
+    private fun getLongLatFirst() {
+        val pair = getCurrentCountryLatLon(this)
+        lat = pair?.first
+        lon = pair?.second
+        lat?.let { lon?.let { it1 -> getAllApiCall(it, it1) } }
+    }
+
+    fun getAllApiCall(lat: Double, lon: Double) {
+        val distanceStr = RemoteConfigManager.getString("distance")
+        val distance = distanceStr.toIntOrNull() ?: DEFAULT_DISTANCE
+
+        viewModel.getAllData(lat, lon, distance)
+    }
+
     private fun showAd() {
         native_1_LANGUAGE_SCREEN1.showNativeAd(
             adGroup = native_1_LANGUAGE_SCREEN1,
@@ -47,6 +69,10 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
 
     override fun onResume() {
         super.onResume()
+        if (isNetworkAvailable()) {
+            getLongLatFirst()
+        }
+
         native_2_LANGUAGE_SCREEN1.loadNativeAd(
             this@LanguageActivity,
             RemoteConfigManager.getBoolean("native_2_LANGUAGE_SCREEN1")

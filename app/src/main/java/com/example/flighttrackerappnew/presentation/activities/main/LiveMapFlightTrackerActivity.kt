@@ -285,7 +285,6 @@ class LiveMapFlightTrackerActivity :
             }
         }, 2000)
 
-
         googleMap.setOnCameraMoveStartedListener { reason ->
             if (reason == GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE) {
                 drawMarkersJob?.cancel()

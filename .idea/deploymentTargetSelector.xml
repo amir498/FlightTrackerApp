@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="Flight_Tracker_App_new.app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-11-04T10:51:31.440526400Z">
+        <DropdownSelection timestamp="2025-11-20T06:12:13.982229Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="PhysicalDevice" identifier="serial=080293722L006935" />

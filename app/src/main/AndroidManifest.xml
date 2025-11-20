@@ -78,7 +78,7 @@
             android:name=".presentation.activities.SearchAircraftActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.activities.AirportSearchActivity"
+            android:name=".presentation.activities.SearchedActivity"
             android:exported="true" />
         <activity
             android:name=".presentation.activities.SearchAirportActivity"

@@ -113,6 +113,7 @@
     <string name="plane_class">Plane Class</string>
     <string name="n_a">N/A</string>
     <string name="jet">Jet</string>
+    <string name="landed">Landed</string>
     <string name="_2">2</string>
     <string name="_1260">1260</string>
     <string name="_77">77</string>
@@ -252,6 +253,8 @@
     <string name="loading_data">Loading Data...</string>
     <string name="cancel">Cancel</string>
     <string name="something_went_wrong_while_loading_live_flight_information_tap_retry_to_refresh_and_try_again">Something went wrong while loading live flight information. Tap Retry to refresh and try again.</string>
+    <string name="something_went_wrong_while_loading_nearby_airport_information_tap_retry_to_refresh_and_try_again">Something went wrong while loading nearby airport information. Tap Retry to refresh and try again.</string>
+    <string name="something_went_wrong_while_loading_information_tap_retry_to_refresh_and_try_again">Something went wrong while loading information. Tap Retry to refresh and try again.</string>
     <string name="flight_data_unavailable">Flight Data Unavailable</string>
     <string name="most_popular_plan">Most Popular Plan</string>
     <string name="save">Save</string>

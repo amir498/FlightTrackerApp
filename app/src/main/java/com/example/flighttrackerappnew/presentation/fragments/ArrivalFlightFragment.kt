@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.fulldetails.FullDetailFlightData
 import com.example.flighttrackerappnew.databinding.FragmentArrivalFlightBinding
-import com.example.flighttrackerappnew.presentation.activities.AirportSearchActivity
+import com.example.flighttrackerappnew.presentation.activities.SearchedActivity
 import com.example.flighttrackerappnew.presentation.activities.BaseActivity
 import com.example.flighttrackerappnew.presentation.activities.DetailActivityForSearch
 import com.example.flighttrackerappnew.presentation.activities.premium.PremiumActivity
@@ -67,9 +67,9 @@ class ArrivalFlightFragment : Fragment() {
 
     fun checkData() {
         if (arrivalData.isEmpty()) {
-            (activity as AirportSearchActivity).binding.AirportName.invisible()
+            (activity as SearchedActivity).binding.AirportName.invisible()
         } else {
-            (activity as AirportSearchActivity).binding.AirportName.visible()
+            (activity as SearchedActivity).binding.AirportName.visible()
         }
     }
 
@@ -79,7 +79,7 @@ class ArrivalFlightFragment : Fragment() {
             if (arrivalData.isEmpty()) {
                 binding.conPlaceholder.visible()
                 binding.pg.invisible()
-                (activity as AirportSearchActivity).binding.AirportName.invisible()
+                (activity as SearchedActivity).binding.AirportName.invisible()
             } else {
                 if (!isFromAirportOrAirline && !config.isPremiumUser) {
                     loadAdForTail()
@@ -107,7 +107,7 @@ class ArrivalFlightFragment : Fragment() {
                 } catch (e: IndexOutOfBoundsException) {
                     e.printStackTrace()
                 }
-                (activity as AirportSearchActivity).setAirportName()
+                (activity as SearchedActivity).setAirportName()
             }
         }
     }
@@ -163,15 +163,16 @@ class ArrivalFlightFragment : Fragment() {
         val rewardedArrival =
             RemoteConfigManager.getBoolean("REWARDED_ARRIVAL")
         if (rewardedArrival) {
-            val app = (requireActivity() as? BaseActivity<*>)?.app
-            app?.let {
+            activity?.let { act ->
                 rewardedAd.loadAndShowRewardedAd(
-                    requireActivity(),
-                    app.getString(R.string.REWARDED_ARRIVAL),
+                    act,
+                    getString(R.string.REWARDED_ARRIVAL),
                     onRewardEarned = {
-                        startActivity(Intent(requireContext(), DetailActivityForSearch::class.java))
+                        val ctx = context ?: return@loadAndShowRewardedAd
+                        startActivity(Intent(ctx, DetailActivityForSearch::class.java))
                     }, {
-                        startActivity(Intent(requireContext(), DetailActivityForSearch::class.java))
+                        val ctx = context ?: return@loadAndShowRewardedAd
+                        startActivity(Intent(ctx, DetailActivityForSearch::class.java))
                     }
                 )
             }
@@ -202,6 +203,6 @@ class ArrivalFlightFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         searchedDataSubTitle = arrivalData.getOrNull(0)?.airlineName ?: "N/A"
-        (activity as AirportSearchActivity).setAirportName()
+        (activity as SearchedActivity).setAirportName()
     }
 }

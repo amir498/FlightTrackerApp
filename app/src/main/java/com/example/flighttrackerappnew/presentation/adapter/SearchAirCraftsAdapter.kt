@@ -14,9 +14,11 @@ class SearchAirCraftsAdapter : RecyclerView.Adapter<SearchAirCraftsAdapter.Searc
     private var listener: SearchAircraftListener? = null
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setList(list: List<FlightDataItem>) {
-        flightData = ArrayList(list)
-        notifyDataSetChanged()
+    fun setList(list: List<FlightDataItem>?) {
+        list?.let {
+            flightData = ArrayList(it)
+            notifyDataSetChanged()
+        }
     }
 
     fun setListener(searchAircraftListener: SearchAircraftListener) {

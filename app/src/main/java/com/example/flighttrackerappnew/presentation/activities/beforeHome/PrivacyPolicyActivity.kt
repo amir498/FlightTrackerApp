@@ -28,7 +28,6 @@ class PrivacyPolicyActivity :
         super.onCreate(savedInstanceState)
 
         viewListener()
-
         makeString()
         loadAd()
     }

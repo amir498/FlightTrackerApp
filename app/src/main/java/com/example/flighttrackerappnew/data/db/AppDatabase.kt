@@ -30,7 +30,7 @@ import com.example.flighttrackerappnew.data.model.tracking.TrackedDataItem
         FutureScheduleItem::class,
         FavFlightData::class,
     ],
-    version = 3,
+    version = 5,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

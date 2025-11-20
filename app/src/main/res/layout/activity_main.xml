@@ -9,18 +9,6 @@
     android:scrollbars="none"
     tools:context=".presentation.activities.main.MainActivity">
 
-    <!--    <ProgressBar-->
-    <!--        android:id="@+id/pg"-->
-    <!--        android:elevation="@dimen/_10sdp"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:visibility="invisible"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-    <!--        />-->
-
     <ImageView
         android:id="@+id/ivTransparent"
         android:layout_width="match_parent"
@@ -220,10 +208,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/btnLiveMapFlightTracker"
                 app:layout_constraintStart_toStartOf="@+id/btnLiveMapFlightTracker"
-                app:layout_constraintTop_toBottomOf="@+id/btnLiveMapFlightTracker">
-
-                <include layout="@layout/shimmer_native_ad_home_screen" />
-            </FrameLayout>
+                app:layout_constraintTop_toBottomOf="@+id/btnLiveMapFlightTracker"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/btnSearchNow"

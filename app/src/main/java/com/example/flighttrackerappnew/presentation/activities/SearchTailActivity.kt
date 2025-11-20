@@ -47,7 +47,7 @@ class SearchTailActivity :
     BaseActivity<ActivitySeacrhTailBinding>(ActivitySeacrhTailBinding::inflate) {
 
     private var citiesList = listOf<CitiesDataItems>()
-    private lateinit var liveFlight: List<FlightDataItem>
+    private var liveFlight: List<FlightDataItem>? = null
     private var scheduleFlightList = listOf<FlightSchedulesItems>()
     private val viewModel: FlightAppViewModel by inject()
     private var airportList = listOf<AirportsDataItems>()
@@ -225,7 +225,7 @@ class SearchTailActivity :
                             ContextCompat.getString(this@SearchTailActivity, R.string.tail_number)
                         startActivity(
                             Intent(
-                                this@SearchTailActivity, AirportSearchActivity::class.java
+                                this@SearchTailActivity, SearchedActivity::class.java
                             )
                         )
                         tailData?.let {
@@ -249,13 +249,13 @@ class SearchTailActivity :
 
     fun getArrivalFlightDataFromTailNumber(tailData: AirPlaneItems): ArrayList<FullDetailFlightData> {
 
-        val arrivalFlightList = liveFlight.filter {
+        val arrivalFlightList = liveFlight?.filter {
             it.aircraft?.regNumber == tailData.numberRegistration
         }
 
         val arrivalFlightData = ArrayList<FullDetailFlightData>()
 
-        arrivalFlightList.forEach { arrFlight ->
+        arrivalFlightList?.forEach { arrFlight ->
             val arrAirport = airportList.firstOrNull {
                 it.codeIataAirport == arrFlight.arrival?.iataCode
             }
@@ -339,11 +339,11 @@ class SearchTailActivity :
     }
 
     fun getDepartureFlightDataFromTailNumber(tailData: AirPlaneItems): ArrayList<FullDetailFlightData> {
-        val departureFlightList: List<FlightDataItem> =
-            liveFlight.filter { it.aircraft?.regNumber == tailData.numberRegistration }
+        val departureFlightList: List<FlightDataItem>? =
+            liveFlight?.filter { it.aircraft?.regNumber == tailData.numberRegistration }
 
         val departureFlightData = ArrayList<FullDetailFlightData>()
-        departureFlightList.forEach { depFlight ->
+        departureFlightList?.forEach { depFlight ->
 
             val arrAirport = airportList.firstOrNull {
                 it.codeIataAirport == depFlight.arrival?.iataCode

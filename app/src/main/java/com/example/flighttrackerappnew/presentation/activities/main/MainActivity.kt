@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.RenderMode
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.airplane.AirPlaneItems
@@ -557,21 +556,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         lat?.let { lat ->
             lon?.let { lon ->
                 if (isFlightTrackerApiSuccess) {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        viewModel.getScheduleFlight()
-                    }
+                    viewModel.getScheduleFlight()
                 } else if (isFlightScheduleApiSuccess) {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        viewModel.getLiveFlight(
-                            lat, lon, RemoteConfigManager.getString("distance").toInt()
-                        )
-                    }
+                    viewModel.getLiveFlight(
+                        lat, lon, RemoteConfigManager.getString("distance").toInt()
+                    )
                 } else {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        viewModel.getDynamicApiData(
-                            lat, lon, RemoteConfigManager.getString("distance").toInt()
-                        )
-                    }
+                    viewModel.getDynamicApiData(
+                        lat, lon, RemoteConfigManager.getString("distance").toInt()
+                    )
                 }
             }
         }

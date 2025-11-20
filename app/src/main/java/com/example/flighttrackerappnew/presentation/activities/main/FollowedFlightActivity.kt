@@ -122,7 +122,7 @@ class FollowedFlightActivity : BaseActivity<ActivityFollowedFlightBinding>(Activ
         if (REWARDED_FOLLOW) {
             rewardedAd.loadAndShowRewardedAd(
                 this,
-                app.getString(R.string.REWARDED_ARRIVAL),
+                getString(R.string.REWARDED_ARRIVAL),
                 onRewardEarned = {
                     startActivity(Intent(this, DetailActivityForSearch::class.java))
                 }, {

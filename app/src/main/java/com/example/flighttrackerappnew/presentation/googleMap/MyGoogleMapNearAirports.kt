@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.util.concurrent.ConcurrentHashMap
 
 class MyGoogleMapNearAirports : OnMapReadyCallback, KoinComponent {
     private var mMap: GoogleMap? = null
@@ -95,7 +96,7 @@ class MyGoogleMapNearAirports : OnMapReadyCallback, KoinComponent {
     fun getVisibleBounds(): LatLngBounds? {
         return mMap?.projection?.visibleRegion?.latLngBounds
     }
-    val airportMarkers = mutableMapOf<String, Marker>()
+    val airportMarkers: MutableMap<String, Marker> = ConcurrentHashMap()
     fun addAirportMarker(
         latitude: Double,
         longitude: Double,

@@ -1,5 +1,6 @@
 package com.example.flighttrackerappnew.presentation.activities
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -17,7 +18,10 @@ import com.example.flighttrackerappnew.data.model.schedulesFlight.FlightSchedule
 import com.example.flighttrackerappnew.databinding.ActivitySearchAircraftBinding
 import com.example.flighttrackerappnew.presentation.adapter.SearchAirCraftsAdapter
 import com.example.flighttrackerappnew.presentation.admob.banner.BannerAdProvider.BANNER_SEARCH_AIRCRAFT
+import com.example.flighttrackerappnew.presentation.dialogbuilder.CustomDialogBuilder
+import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.example.flighttrackerappnew.presentation.sealedClasses.Resource
+import com.example.flighttrackerappnew.presentation.utils.getCurrentCountryLatLon
 import com.example.flighttrackerappnew.presentation.utils.invisible
 import com.example.flighttrackerappnew.presentation.utils.isAirCraftApiSuccess
 import com.example.flighttrackerappnew.presentation.utils.isAirPortApiSuccess
@@ -25,6 +29,8 @@ import com.example.flighttrackerappnew.presentation.utils.isCitiesApiSuccess
 import com.example.flighttrackerappnew.presentation.utils.isFlightScheduleApiSuccess
 import com.example.flighttrackerappnew.presentation.utils.isFlightTrackerApiSuccess
 import com.example.flighttrackerappnew.presentation.utils.isFromAirportOrAirline
+import com.example.flighttrackerappnew.presentation.utils.lat
+import com.example.flighttrackerappnew.presentation.utils.lon
 import com.example.flighttrackerappnew.presentation.utils.manageKeyboardAndSystemUI
 import com.example.flighttrackerappnew.presentation.utils.orNA
 import com.example.flighttrackerappnew.presentation.utils.searchedDataTitle
@@ -39,7 +45,7 @@ import org.koin.android.ext.android.inject
 class SearchAircraftActivity :
     BaseActivity<ActivitySearchAircraftBinding>(ActivitySearchAircraftBinding::inflate) {
     private var citiesList = listOf<CitiesDataItems>()
-    private lateinit var liveFlight: List<FlightDataItem>
+    private var liveFlight: List<FlightDataItem>? = null
     private var scheduleFlightList = listOf<FlightSchedulesItems>()
     private var aircraftSearchAdapter: SearchAirCraftsAdapter? = null
     private val viewModel: FlightAppViewModel by inject()
@@ -69,6 +75,7 @@ class SearchAircraftActivity :
 
                     is Resource.Error -> {
                         isCitiesApiSuccess = false
+                        showDialog()
                     }
                 }
             }
@@ -81,10 +88,12 @@ class SearchAircraftActivity :
                     is Resource.Success -> {
                         isFlightTrackerApiSuccess = true
                         liveFlight = result.data.filterNot { it.flight?.iataNumber == "XXD" }
+                        setLayout()
                     }
 
                     is Resource.Error -> {
                         isFlightTrackerApiSuccess = false
+                        showDialog()
                     }
                 }
             }
@@ -101,6 +110,7 @@ class SearchAircraftActivity :
 
                     is Resource.Error -> {
                         isFlightScheduleApiSuccess = false
+                        showDialog()
                     }
                 }
             }
@@ -117,6 +127,7 @@ class SearchAircraftActivity :
 
                     is Resource.Error -> {
                         isAirCraftApiSuccess = false
+                        showDialog()
                     }
                 }
             }
@@ -130,16 +141,58 @@ class SearchAircraftActivity :
                     is Resource.Success -> {
                         airportList = result.data
                         isAirPortApiSuccess = true
-                        setLayout()
                     }
 
                     is Resource.Error -> {
                         isAirPortApiSuccess = false
                         showToast("No Airport Data found")
                         Log.d("MY----TAG", "observeLiveData:No Airport Data found")
+                        showDialog()
                     }
                 }
             }
+        }
+    }
+
+    private var dialog: Dialog? = null
+
+    private fun showDialog() {
+        if (dialog == null) {
+            dialog =
+                CustomDialogBuilder(this).setLayout(R.layout.dialog_retry_data).setCancelable(false)
+                    .setPositiveClickListener {
+                        it.dismiss()
+                        dialog = null
+                        if (!isAirPortApiSuccess) {
+                            viewModel.getAirPorts()
+                        }
+                        if (!isCitiesApiSuccess) {
+                            viewModel.getCities()
+                        }
+                        if (!isFlightScheduleApiSuccess) {
+                            viewModel.getScheduleFlight()
+                        }
+                        if (!isAirCraftApiSuccess) {
+                            viewModel.getAirCraft()
+                        }
+                        if (isAirPortApiSuccess) {
+                            val pair = getCurrentCountryLatLon(this)
+                            lat = pair?.first
+                            lon = pair?.second
+                            lat?.let { lat ->
+                                lon?.let { lon ->
+                                    viewModel.getLiveFlight(
+                                        lat,
+                                        lon,
+                                        RemoteConfigManager.getString("distance").toInt()
+                                    )
+                                }
+                            }
+                        }
+                    }.setNegativeClickListener {
+                        it.dismiss()
+                        dialog = null
+                    }.show()
         }
     }
 
@@ -147,12 +200,14 @@ class SearchAircraftActivity :
         aircraftSearchAdapter = SearchAirCraftsAdapter()
         binding.recyclerView.adapter = aircraftSearchAdapter
         aircraftSearchAdapter?.let {
-            if (liveFlight.isNotEmpty()) {
+            if (liveFlight?.isNotEmpty() == true) {
                 loadBannerAd()
             } else {
-                binding.recyclerView.invisible()
-                binding.ivSearchFlightSchedule.visible()
-                binding.findHistory.visible()
+                binding.apply {
+                    recyclerView.invisible()
+                    ivSearchFlightSchedule.visible()
+                    findHistory.visible()
+                }
             }
             it.setList(liveFlight)
             it.setListener { liveFlight ->
@@ -163,12 +218,20 @@ class SearchAircraftActivity :
                 startActivity(
                     Intent(
                         this@SearchAircraftActivity,
-                        AirportSearchActivity::class.java
+                        SearchedActivity::class.java
                     )
                 )
                 lifecycleScope.launch(Dispatchers.IO) {
-                    viewModel.arrivalFlightData.postValue(getArrivalFlightDataFromAircraft(liveFlight))
-                    viewModel.departureFlightData.postValue(getDepartureFlightDataFromAircraft(liveFlight))
+                    viewModel.arrivalFlightData.postValue(
+                        getArrivalFlightDataFromAircraft(
+                            liveFlight
+                        )
+                    )
+                    viewModel.departureFlightData.postValue(
+                        getDepartureFlightDataFromAircraft(
+                            liveFlight
+                        )
+                    )
                 }
             }
         }
@@ -370,18 +433,20 @@ class SearchAircraftActivity :
                     start: Int,
                     count: Int,
                     after: Int
-                ) {}
+                ) {
+                }
 
                 override fun onTextChanged(
                     s: CharSequence?,
                     start: Int,
                     before: Int,
                     count: Int
-                ) {}
+                ) {
+                }
 
                 override fun afterTextChanged(s: Editable?) {
                     val text = s.toString()
-                    val filterList = liveFlight.filter {
+                    val filterList = liveFlight?.filter {
                         it.flight?.iataNumber?.lowercase()?.startsWith(text.lowercase()) == true
                     }
 
@@ -390,4 +455,5 @@ class SearchAircraftActivity :
             })
         }
     }
+
 }

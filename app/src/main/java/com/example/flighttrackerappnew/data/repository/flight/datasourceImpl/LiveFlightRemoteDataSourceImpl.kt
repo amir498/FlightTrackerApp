@@ -1,10 +1,9 @@
 package com.example.flighttrackerappnew.data.repository.flight.datasourceImpl
 
 import android.util.Log
-import com.example.flighttrackerappnew.data.repository.futureSchedule.FutureScheduleItemTypeToken
-import com.example.flighttrackerappnew.data.repository.flight.LiveScheduleItemTypeToken
 import com.example.flighttrackerappnew.data.api.FlightApiService
 import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
+import com.example.flighttrackerappnew.data.repository.flight.LiveScheduleItemTypeToken
 import com.example.flighttrackerappnew.data.repository.flight.datasource.LiveFlightRemoteDataSource
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager
 import com.google.gson.Gson
@@ -23,7 +22,10 @@ class LiveFlightRemoteDataSourceImpl(
         longitude: Double,
         distance: Int
     ): List<FlightDataItem> {
-
+        Log.d("MY--55--TAG", "getLiveFlightData:$latitude ")
+        Log.d("MY--55--TAG", "getLiveFlightData:$longitude ")
+        Log.d("MY--55--TAG", "getLiveFlightData:$distance ")
+        Log.d("MY--55--TAG", "getLiveFlightData:$apiKey ")
         val response = flightApiService.getFlights(latitude, longitude, distance, apiKey)
 
         if (response.isSuccessful) {

@@ -36,7 +36,6 @@ import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewMode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import kotlin.collections.contains
 
 class SearchAirportActivity :
     BaseActivity<ActivitySearchAirportBinding>(ActivitySearchAirportBinding::inflate) {
@@ -182,14 +181,7 @@ class SearchAirportActivity :
     }
 
     private fun setLayout() {
-        val airportIataCodes: Set<String> = buildSet {
-            liveFlight.mapNotNullTo(this) { it.arrival?.iataCode?.lowercase() }
-        }
-        val matchedAirports = airportList.filter { airport ->
-            airport.codeIataAirport?.lowercase() in airportIataCodes
-        }
-
-        if (matchedAirports.isNotEmpty()) {
+        if (airportList.isNotEmpty()) {
             loadBannerAd()
         } else {
             binding.recyclerView.invisible()
@@ -198,12 +190,12 @@ class SearchAirportActivity :
         }
 
         binding.recyclerView.adapter = searchAirportAdapter
-        searchAirportAdapter.setList(matchedAirports)
+        searchAirportAdapter.setList(airportList)
         searchAirportAdapter.setListener { airPortDetail ->
             searchedDataTitle = ContextCompat.getString(this@SearchAirportActivity, R.string.airport_search)
             startActivity(Intent(
                 this@SearchAirportActivity,
-                AirportSearchActivity::class.java
+                SearchedActivity::class.java
             ))
 
             lifecycleScope.launch(Dispatchers.IO) {
@@ -227,7 +219,7 @@ class SearchAirportActivity :
 
         departureFlightList.forEach { depFlight ->
             val arrAirport = airportList.firstOrNull {
-                it.codeIataAirport == depFlight.departure?.iataCode
+                it.codeIataAirport == depFlight.arrival?.iataCode
             }
 
             val depAirport = airportList.firstOrNull {
@@ -309,12 +301,6 @@ class SearchAirportActivity :
     }
 
     fun getArrivalFlightDataFromAirport(airPortDetail: AirportsDataItems): ArrayList<FullDetailFlightData> {
-        logDebug("asjdnan",airPortDetail.toString())
-        logDebug("asjdnan",liveFlight.size.toString())
-        logDebug("asjdnan",airportList.size.toString())
-        logDebug("asjdnan",citiesList.size.toString())
-        logDebug("asjdnan",airCraft.size.toString())
-        logDebug("asjdnan",scheduleFlightList.size.toString())
         val arrivalFlightList = liveFlight.filter {
             it.arrival?.iataCode == airPortDetail.codeIataAirport
         }

@@ -247,7 +247,7 @@ fun FavFlightData.toFullDetailData(): FullDetailFlightData {
         airPlaneIataCode = airPlaneIataCode,
         engineCount = engineCount,
         regDate = regDate,
-        progress = progress,
+        progress = this@toFullDetailData.progress,
         type = type
     )
 }
@@ -305,7 +305,7 @@ fun FollowFlightData.toFullDetail(): FullDetailFlightData {
         airPlaneIataCode = airPlaneIataCode,
         engineCount = engineCount,
         regDate = regDate,
-        progress = progress,
+        progress = this@toFullDetail.progress,
         type = type
     )
 }

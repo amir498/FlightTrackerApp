@@ -49,15 +49,17 @@ class FlightAppViewModel(
     private val _liveFlightData = MutableLiveData<Resource<List<FlightDataItem>>>()
     val liveFlightData: LiveData<Resource<List<FlightDataItem>>> get() = _liveFlightData
 
-    suspend fun getLiveFlight(latitude: Double, longitude: Double, distance: Int) {
-        _liveFlightData.postValue(Resource.Loading)
-        val result = getLiveFlightUseCase.execute(latitude, longitude, distance)
-        _liveFlightData.postValue(result)
+    fun getLiveFlight(latitude: Double, longitude: Double, distance: Int) {
+        viewModelScope.launch {
+            _liveFlightData.postValue(Resource.Loading)
+            val result = getLiveFlightUseCase.execute(latitude, longitude, distance)
+            _liveFlightData.postValue(result)
+        }
     }
 
     fun getAllData(lat: Double, long: Double, distance: Int) {
         getDynamicApiData(lat, long, distance)
-        getStaticApiData()
+        getStaticApiData(lat,long,distance)
         getOtherAppDataFromRoomDb()
     }
 
@@ -68,12 +70,13 @@ class FlightAppViewModel(
         }
     }
 
-    private fun getStaticApiData() {
+    private fun getStaticApiData(lat: Double, long: Double, distance: Int) {
         viewModelScope.launch {
             async(Dispatchers.IO) { getCities() }
             async(Dispatchers.IO) { getAirCraft() }
             async(Dispatchers.IO) { getStaticAirLines() }
             async(Dispatchers.IO) { getAirPorts() }
+            async(Dispatchers.IO) { getNearBy(lat,long,distance) }
         }
     }
 

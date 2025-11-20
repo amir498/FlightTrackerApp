@@ -42,7 +42,7 @@ class SearchAirLinesActivity :
     BaseActivity<ActivitySearchAirLinesBinding>(ActivitySearchAirLinesBinding::inflate) {
 
     private var citiesList = listOf<CitiesDataItems>()
-    private lateinit var liveFlight: List<FlightDataItem>
+    private var liveFlight: List<FlightDataItem>? = null
     private var scheduleFlightList = listOf<FlightSchedulesItems>()
     private val viewModel: FlightAppViewModel by inject()
     private var airportList = listOf<AirportsDataItems>()
@@ -213,7 +213,7 @@ class SearchAirLinesActivity :
             startActivity(
                 Intent(
                     this@SearchAirLinesActivity,
-                    AirportSearchActivity::class.java
+                    SearchedActivity::class.java
                 )
             )
             lifecycleScope.launch(Dispatchers.IO) {
@@ -238,12 +238,12 @@ class SearchAirLinesActivity :
     }
 
     fun getArrivalFlightDataFromAirLine(airLineDetail: StaticAirLineItems): ArrayList<FullDetailFlightData> {
-        val arrivalFlightList: List<FlightDataItem> = liveFlight.filter {
+        val arrivalFlightList: List<FlightDataItem>? = liveFlight?.filter {
             it.airline?.iataCode == airLineDetail.codeIataAirline && it.status == "en-route"
         }
 
         val arrivalFlightData = ArrayList<FullDetailFlightData>()
-        arrivalFlightList.forEach { arrFlight ->
+        arrivalFlightList?.forEach { arrFlight ->
             val arrAirport =
                 airportList.firstOrNull { it.codeIataAirport == arrFlight.arrival?.iataCode }
             val depAirport =
@@ -325,11 +325,11 @@ class SearchAirLinesActivity :
     }
 
     fun getDepartureFlightDataFromAirline(airLineDetail: StaticAirLineItems): ArrayList<FullDetailFlightData> {
-        val departureFlightList: List<FlightDataItem> =
-            liveFlight.filter { it.airline?.iataCode == airLineDetail.codeIataAirline }
+        val departureFlightList: List<FlightDataItem>? =
+            liveFlight?.filter { it.airline?.iataCode == airLineDetail.codeIataAirline }
 
         val departureFlightData = ArrayList<FullDetailFlightData>()
-        departureFlightList.forEach { depFlight ->
+        departureFlightList?.forEach { depFlight ->
             val arrAirport = airportList.firstOrNull {
                 it.codeIataAirport == depFlight.arrival?.iataCode
             }

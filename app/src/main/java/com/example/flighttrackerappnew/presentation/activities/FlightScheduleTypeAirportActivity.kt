@@ -58,7 +58,6 @@ class FlightScheduleTypeAirportActivity :
                 consArrival.background = ContextCompat.getDrawable(
                     this@FlightScheduleTypeAirportActivity,
                     R.drawable.search_airport_s_tab_bg
-
                 )
                 tvFollow.setTextColor(
                     ContextCompat.getColor(
