@@ -35,7 +35,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/ob3json" />
+                app:lottie_rawRes="@raw/ob3json"
+                />
 
             <TextView
                 style="@style/sfb19p"

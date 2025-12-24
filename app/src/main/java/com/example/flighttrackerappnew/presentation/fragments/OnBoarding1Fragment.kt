@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.airbnb.lottie.LottieCompositionFactory
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.FragmentOnBoarding1Binding
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.OnBoardingActivity
@@ -57,7 +58,7 @@ class OnBoarding1Fragment : Fragment() {
                     adGroup = native_OnBoarding1,
                     frameLayout = binding.flAdplaceholder,
                     adLayout = R.layout.native_ad_layout_view_with_media,
-                    activity =  requireActivity() as AppCompatActivity
+                    activity = requireActivity() as AppCompatActivity
                 )
             } else {
                 navTop.visible()

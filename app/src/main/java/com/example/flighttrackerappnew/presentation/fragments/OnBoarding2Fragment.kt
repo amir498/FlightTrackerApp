@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.airbnb.lottie.LottieCompositionFactory
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.databinding.FragmentOnBoarding2Binding
 import com.example.flighttrackerappnew.presentation.activities.beforeHome.OnBoardingActivity
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.NATIVE_WELCOME
+import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_OnBoarding1
 import com.example.flighttrackerappnew.presentation.admob.native.NativeAdProvider.native_OnBoarding2
 import com.example.flighttrackerappnew.presentation.helper.Config
 import com.example.flighttrackerappnew.presentation.remoteconfig.RemoteConfigManager

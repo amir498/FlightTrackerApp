@@ -35,7 +35,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/ob1json" />
+                app:lottie_rawRes="@raw/ob1json"
+                />
 
             <TextView
                 style="@style/sfb19p"
@@ -50,9 +51,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     </ScrollView>
-
 
     <ImageView
         android:id="@+id/onb1_dots"

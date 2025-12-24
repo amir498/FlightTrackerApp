@@ -3,6 +3,7 @@ package com.example.flighttrackerappnew.presentation.activities.beforeHome
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.LanguageDataList
 import com.example.flighttrackerappnew.databinding.ActivityLanguageBinding
@@ -26,6 +27,8 @@ import com.example.flighttrackerappnew.presentation.utils.lon
 import com.example.flighttrackerappnew.presentation.utils.setZoomClickEffect
 import com.example.flighttrackerappnew.presentation.utils.visible
 import com.example.flighttrackerappnew.presentation.viewmodels.FlightAppViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageBinding::inflate) {
@@ -55,7 +58,9 @@ class LanguageActivity : BaseActivity<ActivityLanguageBinding>(ActivityLanguageB
         val distanceStr = RemoteConfigManager.getString("distance")
         val distance = distanceStr.toIntOrNull() ?: DEFAULT_DISTANCE
 
-        viewModel.getAllData(lat, lon, distance)
+        lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.getAllData(lat, lon, distance)
+        }
     }
 
     private fun showAd() {

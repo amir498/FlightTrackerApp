@@ -43,7 +43,6 @@ class LanguageActivity2 :
                 adLayout = R.layout.native_ad_layout_view_with_media,
                 activity = this@LanguageActivity2
             )
-
         }
     }
 

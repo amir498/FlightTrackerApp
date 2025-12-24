@@ -62,12 +62,12 @@ class OnBoarding6Fragment : Fragment() {
         )
     }
 
-    private fun showAd(){
+    private fun showAd() {
         native_OnBoarding6.showNativeAd(
             adGroup = native_OnBoarding6,
             frameLayout = binding.flAdplaceholder,
             adLayout = R.layout.native_ad_layout_view_with_media,
-          activity =   requireActivity() as AppCompatActivity
+            activity = requireActivity() as AppCompatActivity
         )
     }
 

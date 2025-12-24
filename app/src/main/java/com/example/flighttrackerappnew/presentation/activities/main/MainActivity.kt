@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import com.airbnb.lottie.RenderMode
+import com.bumptech.glide.Glide
 import com.example.flighttrackerappnew.R
 import com.example.flighttrackerappnew.data.model.airplane.AirPlaneItems
 import com.example.flighttrackerappnew.data.model.flight.FlightDataItem
@@ -64,8 +65,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         viewListener()
         observeLiveData()
         onBackPress()
+        setImages()
 
         binding.ivAirplaneHome.renderMode = RenderMode.HARDWARE
+    }
+
+    private fun setImages() {
+        binding.apply {
+            Glide.with(this@MainActivity).load(R.drawable.iv_globe_live_flight_tracker).into(binding.ivGlobeLiveFlightTracker)
+        }
     }
 
     private fun loadAd() {
@@ -140,7 +148,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     } else {
                         startActivity(
                             Intent(
-                                this@MainActivity, LiveMapFlightTrackerLockedActivity::class.java
+                                this@MainActivity, LiveMapFlightTrackerActivity::class.java
                             )
                         )
                     }
@@ -221,7 +229,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     adLoadingTimeOut = RemoteConfigManager.getNumber("Interstitial_time_out"),
                     {
                         startActivity(Intent(this@MainActivity, NearByActivity::class.java))
-
                     },
                     {
 
